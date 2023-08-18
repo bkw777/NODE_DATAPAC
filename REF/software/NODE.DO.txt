@@ -1,0 +1,10 @@
+NODE.DO is NODE.BAS with the leading and trailing junk removed such that it may be loaded by a bootstrapper like `dl -b` or `tsend.ps1`
+
+dlplus
+  $ dl -v -b NODE.DO
+
+tsend.ps1
+  C:\Users\...> .\tsend.ps1 -file NODE.DO
+
+pdd.sh
+  $ pdd bootstrap NODE.DO
