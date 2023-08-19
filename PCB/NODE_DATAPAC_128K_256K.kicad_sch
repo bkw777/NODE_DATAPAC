@@ -1611,7 +1611,6 @@
   (no_connect (at 59.69 158.75) (uuid 42adf9cc-b933-404b-ab12-9225522329b9))
   (no_connect (at 53.34 109.22) (uuid 4e43fcd6-06d9-431a-9dc0-c63d3e054779))
   (no_connect (at 139.7 219.71) (uuid 56268c2c-6702-48ef-a944-72c0f919ce2b))
-  (no_connect (at 53.34 60.96) (uuid 572ccc9d-8896-4550-aebe-a2f7872c7134))
   (no_connect (at 165.1 219.71) (uuid 6a811ad7-d84d-4e8e-92c8-db649d58b446))
   (no_connect (at 107.95 198.12) (uuid 6c339913-25c2-4774-a3b7-29a3ce1d5ec4))
   (no_connect (at 40.64 91.44) (uuid 6cc545eb-bb7f-4f21-81d1-e485f6991d0d))
@@ -3840,7 +3839,7 @@
     (property "Datasheet" "" (at 222.25 247.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid e89dd36d-904a-4ea2-9cbd-bfc009fa53ce))
+    (pin "1" (uuid d52cb790-1464-4d0d-b215-367d400e84e7))
     (instances
       (project "NODE_DATAPAC_128K_256K"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
@@ -3927,6 +3926,31 @@
     )
   )
 
+  (symbol (lib_id "power:GND") (at 254 234.95 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 0b94efb5-ca72-470c-9335-21dae2a6d98d)
+    (property "Reference" "#PWR041" (at 254 241.3 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GND" (at 254 238.76 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 254 234.95 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 254 234.95 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 182d1847-b014-4d0c-a287-d2820091c8ce))
+    (instances
+      (project "NODE_DATAPAC_128K_256K"
+        (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+          (reference "#PWR041") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "power:GND") (at 53.34 104.14 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 176ebc42-86ac-4c9a-b6e9-c71aa0b4664e)
@@ -3967,7 +3991,7 @@
     (property "Datasheet" "" (at 228.6 232.41 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 0c73f5c4-0b99-4dd5-993a-312ffa07f5d9))
+    (pin "1" (uuid 9221e093-719a-4d70-8b42-d5eaeca2a96e))
     (instances
       (project "NODE_DATAPAC_128K_256K"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
@@ -4389,6 +4413,31 @@
     )
   )
 
+  (symbol (lib_id "power:VBUS") (at 53.34 60.96 270) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 4685daab-4628-469d-954e-948b3b352613)
+    (property "Reference" "#PWR042" (at 49.53 60.96 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "VBUS" (at 58.42 60.96 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 53.34 60.96 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 53.34 60.96 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 79cc594e-bedf-4ef0-b088-0f20817ae7fa))
+    (instances
+      (project "NODE_DATAPAC_128K_256K"
+        (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+          (reference "#PWR042") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "power:VMEM") (at 152.4 123.19 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 4a02a196-eab9-4412-abcf-e5f222fcf872)
@@ -4646,6 +4695,31 @@
     )
   )
 
+  (symbol (lib_id "power:VMEM") (at 245.11 234.95 180) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 73a09376-1379-43db-b6c9-ac7b0a9f2f4e)
+    (property "Reference" "#PWR021" (at 245.11 231.14 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "VMEM" (at 245.11 238.76 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 245.11 234.95 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 245.11 234.95 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 60556dac-35fd-4c6e-9240-77488e2615cf))
+    (instances
+      (project "NODE_DATAPAC_128K_256K"
+        (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+          (reference "#PWR021") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "power:VBUS") (at 139.7 224.79 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 7ba9c900-a61a-425a-a44b-ad9bd1dc06b9)
@@ -4731,6 +4805,31 @@
       (project "NODE_DATAPAC_128K_256K"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "U2") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:TestPoint") (at 254 234.95 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 8458a578-3680-498c-940a-2bda8429a6b2)
+    (property "Reference" "TP6" (at 254 229.87 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "VMEM-" (at 254 228.6 0)
+      (effects (font (size 1.27 1.27)) (justify bottom))
+    )
+    (property "Footprint" "000_LOCAL:TP_THT_pwr" (at 259.08 234.95 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 259.08 234.95 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid f1c27071-b584-42cf-a010-1386fd147dc5))
+    (instances
+      (project "NODE_DATAPAC_128K_256K"
+        (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+          (reference "TP6") (unit 1)
         )
       )
     )
@@ -5105,7 +5204,7 @@
     (property "Datasheet" "~" (at 228.6 232.41 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 428a1724-cec4-4ff3-b17e-e1d2a4d2fdf5))
+    (pin "1" (uuid cd2740b5-423a-494b-b176-3fb2adcd05a3))
     (instances
       (project "NODE_DATAPAC_128K_256K"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
@@ -5414,6 +5513,31 @@
       (project "NODE_DATAPAC_128K_256K"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "U5") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:TestPoint") (at 245.11 234.95 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid e289dfda-48de-4959-af17-bc6292399a0c)
+    (property "Reference" "TP5" (at 245.11 229.87 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "VMEM+" (at 245.11 228.6 0)
+      (effects (font (size 1.27 1.27)) (justify bottom))
+    )
+    (property "Footprint" "000_LOCAL:TP_THT_pwr" (at 250.19 234.95 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 250.19 234.95 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 49c8ef99-76b1-4611-bea2-248dfca4a224))
+    (instances
+      (project "NODE_DATAPAC_128K_256K"
+        (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+          (reference "TP5") (unit 1)
         )
       )
     )
