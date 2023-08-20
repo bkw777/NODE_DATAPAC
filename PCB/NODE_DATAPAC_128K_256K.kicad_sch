@@ -3456,6 +3456,11 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 8e57edd7-c6d2-476d-9c58-d0d9e6f44e8c)
   )
+  (text "74161 NC INPUTS\nYes really no connection to GND\nor VCC or anything else!\nSN74HC161N datasheet does\ngive the standard rule:\n\"All unused inputs of the device\nmust be held at VCC or GND\""
+    (at 17.78 241.3 0)
+    (effects (font (size 1.27 1.27)) (justify left bottom))
+    (uuid a3005faf-24d4-4bf3-a69b-d77321072ec3)
+  )
   (text "ORIGINAL PARTS (all same on 2 units)\n\nU1 U2 U3      SN74HC161N    Texas Instruments\nU4 U5         SN74HC138N    Texas Instruments\nU6            74HC374N      Philips\nU7 U8 U9 U10  P51256SL-10   Intel\nD1            1N4148\nBT1           PMB3.6B       Plainview Batteries\nR1            200\nR2            5.1k\nR3            240k"
     (at 139.7 279.4 0)
     (effects (font (face "Ubuntu Mono") (size 1.27 1.27)) (justify left bottom))
