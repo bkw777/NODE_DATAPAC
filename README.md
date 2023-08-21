@@ -11,17 +11,10 @@ Copies of most of the stuff above are in [REF/software](REF/software)
 
 TLDR: Install RAMDSK.CO (for 200) or RAM100.CO (for 100/102) to use the hardware, and what you get is one or two 128K ram disks.
 
-Originally these were shipped with an option rom from NODE, which I do not have.  
-RAMDSK is claimed to provide all or almost all the same functionality, and even NODE themselves eventually licensed RAMDSK from Paul Globman and included a copy with each unit. It's unclear if this was in addition to their own original rom, or fully replacing it.
-
-The only other significant software using this device seems to be [XOS](http://www.club100.org/library/libpg.html), also from Paul Globman, which is sort of an OS for the Model 200. XOS does not require a RAMPAC or DATAPAC, but apparently makes good use of one if present.
-
-I have not tried XOS yet. The connector on the DATAPAC does NOT actually fit in a 200 without cutting the opening around the bus connector on the 200 wider, so I need to make an adapter using a plug that fits first, like this [cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable#Good_Cable).
-
-From the top of that same page with the DVI cables above, the 3-part cable that also supports the Model 100, the Model 100 part of that kit also works to connect this 102/200 version of DATAPAC on a Model 100. (this is tested)
-
 ![](REF/NODE_DATAPAC_128K_256K_1.jpg)
 ![](REF/NODE_DATAPAC_128K_256K_2.jpg)
+![](REF/NODE_DATAPAC_128K_256K_3.jpg)
+![](REF/NODE_DATAPAC_128K_256K_4.jpg)
 ![](PCB/NODE_DATAPAC_128K_256K.svg)
 ![](PCB/NODE_DATAPAC_128K_256K_clone_top.jpg)
 ![](PCB/NODE_DATAPAC_128K_256K_clone_bottom.jpg)
@@ -35,4 +28,35 @@ I will make a seperate PCB to make actual changes like a different battery solut
 
 Maybe I will also make an exact copy pcb too just for historical reference. Or as exact as I can know from the parts that are visible. It would only need a few minor adjustments and would not need any ongoing updates to be kept in sync with the main version.
 
-No one makes a battery like the original any more. There is a standard battery that would be a drop-in replacement in mose cases, but does not fit in this device. (not without straining the pcb and bending the enclosure slightly out of shape, but it's close enough that the screws can still be installed, so it's not obvious that this is actually too big and should not be used). The best option I have found so far is a FL3/V80H, ie: 3 V80H cells in a flat in-line pack. It fits perfectly in the space next to the ribbon cable. It needs to be secured with hot glue or foam mounting tape, and I would also add some kind of support under the pcb in the center, like a blob of hot glue or a self-adhesive rubber or vynil foot, etc. Something to prevent the pcb from bowing downwards. The pcb only has screws on the ends, with a long thin pcb unsupported in between. The original batter is located right next to one of the screw posts, and so is supported well enough. But with a bettery mounted in the middle of that pcb, it will flex a lot whenever it is bumped, like just from setting the unit down on a table.
+## Battery
+No one makes a battery like the original any more. There is a standard battery that would be a drop-in replacement in mose cases, but does not fit in this device.
+
+The best option I have found so far is a FL3/V80H, ie: 3 V80H cells in a flat in-line pack. It fits perfectly in the space next to the ribbon cable. It needs to be secured with hot glue or foam mounting tape.
+![](REF/new_battery_placement.jpg)
+Pic shows 3/V65H but that is just the high-temperature version of the same cell because it's what I already had.  
+Not shown wired up, but the two pins connected together to the diode & resistor are the positive, and the single pin next to the chip is the negative.  
+Also the connector these packs sometimes come with is JST-ZH aka 1.5mm, so the ideal solution would be to install a male 2-pin JST-ZH extension lead, and then you can replace the battery in the future without even having to solder again.
+
+I would also add some kind of support underneath the pcb in the center, like a blob of hot glue or a self-adhesive rubber or vynil foot, etc. Even a piece of folded paper or cardboard. Anything insulating. Something to prevent the pcb from bowing downwards.  
+The pcb is only supported on the very ends, with the long narrow pcb unsupported in between. The original batter is located right next to one of the screw posts, and so is supported well enough.  
+But with the weight of a battery added to the existing weight of the chips in the middle of this long norrow unsupported pcb, even normal small bumps like just setting the unit down on a table will flex the pcb.
+
+## Software
+Originally these were shipped with an option rom from NODE, which I do not have.  
+RAMDSK is claimed to provide all or almost all the same functionality, and even NODE themselves eventually licensed RAMDSK from Paul Globman and included a copy with each unit. It's unclear if this was in addition to their own original rom, or fully replacing it.
+
+The only other significant software using this device seems to be [XOS](http://www.club100.org/library/libpg.html), also from Paul Globman, which is sort of an OS for the Model 200. XOS does not require a RAMPAC or DATAPAC, but apparently makes good use of one if present.
+I have not tried XOS yet.
+
+## Model compatibility
+The case says for Model 102/200, however...
+
+### Model 200
+The connector on the DATAPAC does NOT actually fit in a 200 without cutting the opening around the bus connector on the 200 wider
+![](REF/does_not_fit_model_200.jpg)
+
+The only connector that fits in a 200 is a solder-type box header like used in this [cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable#Good_Cable).
+
+### Model 100
+This unit actually works on Modle 100 too. It needs an adapter cable but the cable is simple.
+From the top of that page with the Disk/Video Interface cables above, the Model 100 part of the [3-part cable](http://tandy.wiki/Disk/Video_Interface:_Cable#Good_Cable) works for this too. Just the Model 100 part, not the full cable with all 3 parts connected.
