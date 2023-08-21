@@ -2,10 +2,21 @@
 
 The NODE Systems DATAPAC and RAMPAC were a popular ram expansion peripheral for TRS-80 / TANDY Models 100, 102, & 200 computers.
 
+RAMPAC was a later device that apparently functioned exactly the same as DATAPAC, just in a different, smaller form factor and probably using different parts inside.
+
+This schematic and PCB documents the DATAPAC. If I ever aquire a RAMPAC, I'll add that.
+
 Some disorganized [INFO](http://tandy.wiki/NODE_DATAPAC) mostly gathered from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG).  
 Copies of most of the stuff above are in [REF/software](REF/software)  
 
 TLDR: Install RAMDSK.CO (for 200) or RAM100.CO (for 100/102) to use the hardware.
+
+Originally these were shipped with an option rom from NODE, which I do not have.  
+RAMDSK is claimed to provide all or almost all the same functionality, and even NODE themselves eventually licensed RAMDSK from Paul Globman and included a copy with each unit. It's unclear if this was in addition to their own original rom, or fully replacing it.
+
+The only other significant software using this device seems to be [XOS](http://www.club100.org/library/libpg.html), also from Paul Globman, which is sort of an OS for the Model 200. XOS does not require a RAMPAC or DATAPAC, but apparently makes good use of one if present.
+
+I have not tried XOS yet. The connector on the DATAPAC does NOT actually fit in a 200 without cutting the opening around the bus connector on the 200 wider, so I need to make an adapter using a plug that fits first, like this [cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable#Good_Cable)
 
 ![](REF/NODE_DATAPAC_128K_256K_1.jpg)
 ![](REF/NODE_DATAPAC_128K_256K_2.jpg)
