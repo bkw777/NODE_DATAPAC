@@ -9,7 +9,7 @@ This schematic and PCB documents the DATAPAC. If I ever aquire a RAMPAC, I'll ad
 Some disorganized [INFO](http://tandy.wiki/NODE_DATAPAC) mostly gathered from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG).  
 Copies of most of the stuff above are in [REF/software](REF/software)  
 
-TLDR: Install RAMDSK.CO (for 200) or RAM100.CO (for 100/102) to use the hardware.
+TLDR: Install RAMDSK.CO (for 200) or RAM100.CO (for 100/102) to use the hardware, and what you get is one or two 128K ram disks.
 
 Originally these were shipped with an option rom from NODE, which I do not have.  
 RAMDSK is claimed to provide all or almost all the same functionality, and even NODE themselves eventually licensed RAMDSK from Paul Globman and included a copy with each unit. It's unclear if this was in addition to their own original rom, or fully replacing it.
@@ -34,3 +34,5 @@ I guess one possible actual use for this pcb might be if you had a DATAPAC that 
 I will make a seperate PCB to make actual changes like a different battery solution, not to mention maybe entirely different chips eventually.
 
 Maybe I will also make an exact copy pcb too just for historical reference. Or as exact as I can know from the parts that are visible. It would only need a few minor adjustments and would not need any ongoing updates to be kept in sync with the main version.
+
+No one makes a battery like the original any more. There is a standard battery that would be a drop-in replacement in mose cases, but does not fit in this device. (not without straining the pcb and bending the enclosure slightly out of shape, but it's close enough that the screws can still be installed, so it's not obvious that this is actually too big and should not be used). The best option I have found so far is a FL3/V80H, ie: 3 V80H cells in a flat in-line pack. It fits perfectly in the space next to the ribbon cable. It needs to be secured with hot glue or foam mounting tape, and I would also add some kind of support under the pcb in the center, like a blob of hot glue or a self-adhesive rubber or vynil foot, etc. Something to prevent the pcb from bowing downwards. The pcb only has screws on the ends, with a long thin pcb unsupported in between. The original batter is located right next to one of the screw posts, and so is supported well enough. But with a bettery mounted in the middle of that pcb, it will flex a lot whenever it is bumped, like just from setting the unit down on a table.
