@@ -26,6 +26,20 @@
   (pad "1" thru_hole circle (at -5 9.1) (size 3 3) (drill 1.2) (layers "*.Cu" "*.Mask") (tstamp e78591f4-5d39-4c8b-b369-19ac1acebb4e))
   (pad "1" thru_hole circle (at 5 9.1) (size 3 3) (drill 1.2) (layers "*.Cu" "*.Mask") (tstamp 64b663cc-6655-4da2-a85c-5f4fee291e28))
   (pad "2" thru_hole circle (at 0 -9.1) (size 3 3) (drill 1.2) (layers "*.Cu" "*.Mask") (tstamp 5af54c2c-779a-43c9-914d-eed2711c07f3))
+  (zone (net 0) (net_name "") (layer "F.Cu") (tstamp dfccf2b4-3d1b-4b3d-a28d-a2a8245a3089) (hatch edge 0.5)
+    (connect_pads (clearance 0))
+    (min_thickness 0.25) (filled_areas_thickness no)
+    (keepout (tracks allowed) (vias allowed) (pads allowed) (copperpour not_allowed) (footprints allowed))
+    (fill (thermal_gap 0.5) (thermal_bridge_width 0.5))
+    (polygon
+      (pts
+        (xy -8.509 11.684)
+        (xy -8.509 6.477)
+        (xy 8.509 6.477)
+        (xy 8.509 11.684)
+      )
+    )
+  )
   (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/PMB3.6B.step"
     (offset (xyz 0 0 0))
     (scale (xyz 1 1 1))
