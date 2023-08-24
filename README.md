@@ -49,10 +49,13 @@ NODE Systems themselves used to perform an update to older units to replace the 
 
 You can do that same mod today very easily. A standard CR2032 holder can be soldered right into the same holes where the original NiCD cell is, and the 200 ohm resistor needs to be removed and replaced with a diode (any kind, another 1N4148 is perfect). with the stripe away from the battery (same orientation as the other diode right next to it).
 I don't know what the actual mod was that NODE did, but this mod should give about 4 years on a new CR2032.
+
 BEFORE
 ![](PCB/NODE_DATAPAC_256K_batt_mod_before.jpg)
+
 AFTER
 ![](PCB/NODE_DATAPAC_256K_batt_mod_after.jpg)
+
 STEPS
 ![](PCB/NODE_DATAPAC_256K_batt_mod_01.jpg)
 ![](PCB/NODE_DATAPAC_256K_batt_mod_02.jpg)
@@ -61,6 +64,7 @@ STEPS
 
 
 If you wish to keep using a rechargeable battery, then a suitable option is FL3/V80H. That is 3 16x5.8mm NiMH button cells in a flat in-line pack with wire leads. It fits perfectly in the space next to the ribbon cable. It needs to be secured with hot glue or foam mounting tape, and connected with wires run to the original battery location.
+
 ![](REF/fl3v80h_placement.jpg)
 
 
