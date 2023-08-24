@@ -16,7 +16,7 @@ TLDR: Install RAMDSK.CO (for 200) or RAM100.CO (for 100/102) to use the hardware
 ![](REF/NODE_DATAPAC_256K_3.jpg)
 ![](REF/NODE_DATAPAC_256K_4.jpg)
 
-###Original Schematic & PCB
+### Original Schematic & PCB
 This is a new drawing but aims to reflect the original actual device as exactly as possible.  
 The both the schematic and the pcb are exactly like the real original, warts and all.  
 ![](PCB/NODE_DATAPAC_256K_historical.svg)
@@ -31,7 +31,7 @@ The real PCB has no silkscreen. This image below has silkscreen added to show wh
 ![](PCB/NODE_DATAPAC_256K_historical_top_annotated.jpg)
 
 
-###New Schematic & PCB
+### New Schematic & PCB
 This aims to be a functional replacement and will change over time to use newer parts.  
 This design currently still uses all the same chips as the original, and just changes the battery connections, adds decoupling caps,
 and silkscreen.  
