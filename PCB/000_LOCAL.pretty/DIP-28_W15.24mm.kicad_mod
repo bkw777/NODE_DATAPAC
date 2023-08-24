@@ -78,4 +78,9 @@
     (scale (xyz 1 1 1))
     (rotate (xyz 0 0 0))
   )
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/DIP-28-bent-pin-20.step"
+    (offset (xyz 0 0 3.3))
+    (scale (xyz 1 1 1))
+    (rotate (xyz 0 0 0))
+  )
 )

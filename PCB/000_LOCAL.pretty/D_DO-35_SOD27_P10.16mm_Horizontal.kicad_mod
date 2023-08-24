@@ -69,8 +69,13 @@
     (stroke (width 0.1) (type solid)) (layer "F.Fab") (tstamp da78a4e4-9cb7-4143-add1-dd3dfe55c06f))
   (pad "1" thru_hole roundrect (at 0 0) (size 1.6 1.6) (drill 0.8) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.25) (tstamp e14b80b3-9789-4140-a6ac-a3978dddfada))
   (pad "2" thru_hole oval (at 10.16 0) (size 1.6 1.6) (drill 0.8) (layers "*.Cu" "*.Mask") (tstamp e0f9792d-c50c-499f-8493-1b8364a97ea8))
-  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/D_DO-35_SOD27_P10.16mm_Horizontal.step"
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/D_DO-35_SOD27_P10.16mm_Horizontal.step" hide
     (offset (xyz 0 0 0))
+    (scale (xyz 1 1 1))
+    (rotate (xyz 0 0 0))
+  )
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/DO-35-40.step"
+    (offset (xyz 5.08 0 0))
     (scale (xyz 1 1 1))
     (rotate (xyz 0 0 0))
   )

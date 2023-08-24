@@ -9,41 +9,64 @@ This schematic and PCB documents the DATAPAC. If I ever aquire a RAMPAC, I'll ad
 Some disorganized [INFO](http://tandy.wiki/NODE_DATAPAC) mostly gathered from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG).  
 Copies of most of the stuff above are in [REF/software](REF/software)  
 
-TLDR: Install RAMDSK.CO (for 200) or RAM100.CO (for 100/102) to use the hardware, and what you get is one or two 128K ram disks.
+TLDR: Install RAMDSK.CO (for 200) or RAM100.CO (for 100/102) to use the hardware, and what you get is a 128K or 256K ram disk.
 
-![](REF/NODE_DATAPAC_128K_256K_1.jpg)
-![](REF/NODE_DATAPAC_128K_256K_2.jpg)
-![](REF/NODE_DATAPAC_128K_256K_3.jpg)
-![](REF/NODE_DATAPAC_128K_256K_4.jpg)
-![](PCB/NODE_DATAPAC_128K_256K.svg)
-![](PCB/NODE_DATAPAC_128K_256K_clone_top.jpg)
-![](PCB/NODE_DATAPAC_128K_256K_clone_bottom.jpg)
-![](PCB/NODE_DATAPAC_128K_256K_clone.jpg)
+![](REF/NODE_DATAPAC_256K_1.jpg)
+![](REF/NODE_DATAPAC_256K_2.jpg)
+![](REF/NODE_DATAPAC_256K_3.jpg)
+![](REF/NODE_DATAPAC_256K_4.jpg)
 
-The PCB is not an *exact* copy of the original. I could not stop myself from a few minor cleanups, even though this is really meant to be more documentation of the original than recipe to build a new one. Also some traces are hidden under chips and would have had to be guessed anyway unless I was willing to violate the original artifact to desolder all the chips just to get a full view of the pcb. It is electrically all the same connections, and the layout is almost the same (one chip is moved about 1 or 2 mm to make some traces neater), and still includes the original battery footprint even though you can not buy a battery like that any more and have to solder wires to to some other kind of battery.
+###Original Schematic & PCB
+This is a new drawing but aims to reflect the original actual device as exactly as possible.  
+The both the schematic and the pcb are exactly like the real original, warts and all.  
+![](PCB/NODE_DATAPAC_256K_historical.svg)
 
-I guess one possible actual use for this pcb might be if you had a DATAPAC that has a damaged pcb from battery corrosion or something, you could have any pcb manufacturer make one of these and transfer all the parts from the original to this. It uses all the same parts in the same locations, just transplant them 1 to 1. Except remember, this is not actually tested yet.
+PCB TOP
+![](PCB/NODE_DATAPAC_256K_historical_top.jpg)
 
-I will make a seperate PCB to make actual changes like a different battery solution, not to mention maybe entirely different chips eventually.
+PCB BOTTOM
+![](PCB/NODE_DATAPAC_256K_historical_bottom.jpg)
 
-Maybe I will also make an exact copy pcb too just for historical reference. Or as exact as I can know from the parts that are visible. It would only need a few minor adjustments and would not need any ongoing updates to be kept in sync with the main version.
+The real PCB has no silkscreen. This image below has silkscreen added to show where the components from the schematic go.
+![](PCB/NODE_DATAPAC_256K_historical_top_annotated.jpg)
+
+
+###New Schematic & PCB
+This aims to be a functional replacement and will change over time to use newer parts.  
+This design currently still uses all the same chips as the original, and just changes the battery connections, adds decoupling caps,
+and silkscreen.  
+Next TODO: Change the BUS connection to use a removable cable, and flip the pinout so that the computer end of the cable can use a connector that actually fits in a 200.
+![](PCB/NODE_DATAPAC_256K_bkw0.svg)
+![](PCB/NODE_DATAPAC_256K_bkw0_top.jpg)
+![](PCB/NODE_DATAPAC_256K_bkw0_bottom.jpg)
+![](PCB/NODE_DATAPAC_256K_bkw0_1x.jpg)
+![](PCB/NODE_DATAPAC_256K_bkw0_2x.jpg)
 
 ## Battery
-No one makes a battery like the original any more. There is a standard battery that would be a drop-in replacement in mose cases, but does not fit in this device.
+The original battery is no longer made. The modern replacement is almost 2mm taller and does not fit inside the enclosure.
 
-The best option I have found so far is a FL3/V80H, ie: 3 V80H cells in a flat in-line pack. It fits perfectly in the space next to the ribbon cable. It needs to be secured with hot glue or foam mounting tape.
-![](REF/new_battery_placement.jpg)
-Pic shows 3/V65H but that is just the high-temperature version of the same cell because it's what I already had.  
-Not shown wired up, but the two pins connected together to the diode & resistor are the positive, and the single pin next to the chip is the negative.  
-Also the connector these packs sometimes come with is JST-ZH aka 1.5mm, so the ideal solution would be to install a male 2-pin JST-ZH extension lead, and then you can replace the battery in the future without even having to solder again.
+NODE Systems themselves used to perform an update to older units to replace the original rechargeable NiCD cell with a non-rechargeable lithium cell which was supposed to last about 5 years.
 
-I would also add some kind of support underneath the pcb in the center, like a blob of hot glue or a self-adhesive rubber or vynil foot, etc. Even a piece of folded paper or cardboard. Anything insulating. Something to prevent the pcb from bowing downwards.  
-The pcb is only supported on the very ends, with the long narrow pcb unsupported in between. The original batter is located right next to one of the screw posts, and so is supported well enough.  
-But with the weight of a battery added to the existing weight of the chips in the middle of this long norrow unsupported pcb, even normal small bumps like just setting the unit down on a table will flex the pcb.
+You can do that same mod today very easily. A standard CR2032 holder can be soldered right into the same holes where the original NiCD cell is, and the 200 ohm resistor needs to be removed and replaced with a diode (any kind, another 1N4148 is perfect). with the stripe away from the battery (same orientation as the other diode right next to it).
+I don't know what the actual mod was that NODE did, but this mod should give about 4 years on a new CR2032.
+BEFORE
+![](PCB/NODE_DATAPAC_256K_batt_mod_before.jpg)
+AFTER
+![](PCB/NODE_DATAPAC_256K_batt_mod_after.jpg)
+STEPS
+![](PCB/NODE_DATAPAC_256K_batt_mod_01.jpg)
+![](PCB/NODE_DATAPAC_256K_batt_mod_02.jpg)
+![](PCB/NODE_DATAPAC_256K_batt_mod_03.jpg)
+![](PCB/NODE_DATAPAC_256K_batt_mod_04.jpg)
+
+
+If you wish to keep using a rechargeable battery, then a suitable option is FL3/V80H. That is 3 16x5.8mm NiMH button cells in a flat in-line pack with wire leads. It fits perfectly in the space next to the ribbon cable. It needs to be secured with hot glue or foam mounting tape, and connected with wires run to the original battery location.
+![](REF/fl3v80h_placement.jpg)
+
 
 ## Software
 Originally these were shipped with an option rom from NODE, which I do not have.  
-RAMDSK is claimed to provide all or almost all the same functionality, and even NODE themselves eventually licensed RAMDSK from Paul Globman and included a copy with each unit. It's unclear if this was in addition to their own original rom, or fully replacing it.
+RAMDSK is purported to provide all or almost all of the same functionality, and even NODE themselves eventually licensed RAMDSK from Paul Globman and included a copy with each unit. It's unclear if this was in addition to their own original rom, or fully replacing it.
 
 The only other significant software using this device seems to be [XOS](http://www.club100.org/library/libpg.html), also from Paul Globman, which is sort of an OS for the Model 200. XOS does not require a RAMPAC or DATAPAC, but apparently makes good use of one if present.
 I have not tried XOS yet.
@@ -52,11 +75,11 @@ I have not tried XOS yet.
 The case says for Model 102/200, however...
 
 ### Model 200
-The connector on the DATAPAC does NOT actually fit in a 200 without cutting the opening around the bus connector on the 200 wider
+The connector on the DATAPAC does NOT actually fit in a 200 without cutting the opening around the bus connector on the 200 wider.
 ![](REF/does_not_fit_model_200.jpg)
 
 The only connector that fits in a 200 is a solder-type box header like used in this [cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable#Good_Cable).
 
 ### Model 100
-This unit actually works on Modle 100 too. It needs an adapter cable but the cable is simple.
+This device actually works on Modle 100 too. It needs an adapter cable but the cable is simple.
 From the top of that page with the Disk/Video Interface cables above, the Model 100 part of the [3-part cable](http://tandy.wiki/Disk/Video_Interface:_Cable#Good_Cable) works for this too. Just the Model 100 part, not the full cable with all 3 parts connected.
