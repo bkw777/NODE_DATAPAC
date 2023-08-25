@@ -23,7 +23,8 @@ No other parts or changes are needed.
 
 ### Original Schematic & PCB
 This is a new drawing but aims to reflect the original actual device as exactly as possible.  
-The both the schematic and the pcb are exactly like the real original, warts and all.  
+Both the schematic and the pcb are exactly like the real original, warts and all.  
+It's meant to be a form of documentation or reference describing the original hardware as it was.  
 ![](PCB/NODE_DATAPAC_256K_historical.svg)
 
 PCB TOP
@@ -38,9 +39,9 @@ The real PCB has no silkscreen. This image has silkscreen added to show where th
 
 ### New Schematic & PCB
 This aims to be a functional replacement and will change over time to use newer parts.  
-This design currently still uses all the same chips as the original, and just changes the battery connections, adds decoupling caps,
+Currently still uses the same main chips as the original, re-routes many of the traces, changes the battery connections to support current options, adds decoupling caps,
 and silkscreen.  
-Next TODO: Change the BUS connection to use a removable cable, and flip the pinout so that the computer end of the cable can use a connector that actually fits in a 200.
+Pending TODO items: Change the BUS connection to use a removable cable, and flip the pinout so that the computer end of the cable can use a connector that actually fits in a 200.
 ![](PCB/NODE_DATAPAC_256K_bkw0.svg)
 ![](PCB/NODE_DATAPAC_256K_bkw0_top.jpg)
 ![](PCB/NODE_DATAPAC_256K_bkw0_bottom.jpg)
@@ -52,8 +53,8 @@ The original battery is no longer made. The modern replacement is almost 2mm tal
 
 NODE Systems themselves used to perform an update to older units to replace the original rechargeable NiCD cell with a non-rechargeable lithium cell which was supposed to last about 5 years.
 
-You can do that same mod today very easily. A standard CR2032 holder can be soldered right into the same holes where the original NiCD cell went, and the 200 ohm resistor needs to be removed and replaced with a diode (any kind will do, another 1N4148 is perfect), with the stripe pointing away from the battery (same orientation as the other diode right next to it).
-I don't know what the specific mod was that NODE did, but this mod should give at least 3, almost 4 years on a new CR2032.
+The change is simple and easy, and the parts are common. You just remove the old battery and the 200 ohm resistor, and replace them with a CR2032 holder and a diode. That's it. Both parts fit and solder right in the same locations where the old parts came out. Point the diode stripe away from the battery, just like the other diode that is right there next to it. Any kind of diode will do. Another 1N4148 like the other one that's already there is perfect.
+This should give about 4 years of memory.
 
 BEFORE
 ![](PCB/NODE_DATAPAC_256K_batt_mod_before.jpg)
