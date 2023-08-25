@@ -11,9 +11,10 @@ Copies of most of the stuff above are in [REF/software](REF/software)
 
 TLDR: To use the hardware, install RAMDSK.CO for Model 200, or RAM100.CO for Model 100/102, and what you get is a 128K or 256K ram disk.
 
-The enclosure printing says 256K, and the cicuit is all there to support 256K, but my 2 units only had 128K installed.  
+The enclosure printing says 256K, and the circuit is all there to support 256K, but my 2 units only had 128K installed.  
 There are footprints on the PCB for 4 x 32K sram chips, for a total of 128K.  
-To get 256K, a 2nd set of 4 chips are piggybacked on top of the first 4, except with pin 20 bent out and connected to a via on the pcb instead of the chip below.
+To get 256K, a 2nd set of 4 chips are piggybacked on top of the first 4, except with pin 20 bent out and connected to a via on the pcb instead of the chip below.  
+No other parts or changes are needed.
 
 ![](REF/NODE_DATAPAC_256K_1.jpg)
 ![](REF/NODE_DATAPAC_256K_2.jpg)
