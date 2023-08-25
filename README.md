@@ -45,8 +45,8 @@ Pending TODO items: Change the BUS connection to use a removable cable, and flip
 ![](PCB/NODE_DATAPAC_256K_bkw0.svg)
 ![](PCB/NODE_DATAPAC_256K_bkw0_top.jpg)
 ![](PCB/NODE_DATAPAC_256K_bkw0_bottom.jpg)
-![](PCB/NODE_DATAPAC_256K_bkw0_1x.jpg)
-![](PCB/NODE_DATAPAC_256K_bkw0_2x.jpg)
+![](PCB/NODE_DATAPAC_256K_bkw0_1.jpg)
+![](PCB/NODE_DATAPAC_256K_bkw0_2.jpg)
 
 ## Battery
 The original battery is no longer made. The modern replacement is almost 2mm taller and does not fit inside the enclosure.
