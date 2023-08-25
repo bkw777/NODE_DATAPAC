@@ -2,14 +2,18 @@
 
 The NODE Systems DATAPAC and RAMPAC were a popular ram disk peripheral for TRS-80 / TANDY Models 100, 102, & 200 computers.
 
-RAMPAC was a later device that apparently functioned exactly the same as DATAPAC, just in a different, smaller form factor and probably using different parts inside.
+RAMPAC was a later device that apparently functioned exactly the same as DATAPAC, just in a different, smaller form factor.
 
 This schematic and PCB documents the DATAPAC. If I ever aquire a RAMPAC, I'll add that.
 
-Some disorganized [INFO](http://tandy.wiki/NODE_DATAPAC) mostly gathered from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG).  
+Here is some disorganized [INFO](http://tandy.wiki/NODE_DATAPAC) mostly gathered from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG).  
 Copies of most of the stuff above are in [REF/software](REF/software)  
 
-TLDR: Install RAMDSK.CO (for 200) or RAM100.CO (for 100/102) to use the hardware, and what you get is a 128K or 256K ram disk.
+TLDR: To use the hardware, install RAMDSK.CO for Model 200, or RAM100.CO for Model 100/102, and what you get is a 128K or 256K ram disk.
+
+The enclosure printing says 256K, and the cicuit is all there to support 256K, but my 2 units only had 128K installed.  
+There are footprints on the PCB for 4 x 32K sram chips, for a total of 128K.  
+To get 256K, a 2nd set of 4 chips are piggybacked on top of the first 4, except with pin 20 bent out and connected to a via on the pcb instead of the chip below.
 
 ![](REF/NODE_DATAPAC_256K_1.jpg)
 ![](REF/NODE_DATAPAC_256K_2.jpg)
@@ -27,7 +31,7 @@ PCB TOP
 PCB BOTTOM
 ![](PCB/NODE_DATAPAC_256K_historical_bottom.jpg)
 
-The real PCB has no silkscreen. This image below has silkscreen added to show where the components from the schematic go.
+The real PCB has no silkscreen. This image has silkscreen added to show where the components from the schematic go.
 ![](PCB/NODE_DATAPAC_256K_historical_top_annotated.jpg)
 
 
@@ -47,8 +51,8 @@ The original battery is no longer made. The modern replacement is almost 2mm tal
 
 NODE Systems themselves used to perform an update to older units to replace the original rechargeable NiCD cell with a non-rechargeable lithium cell which was supposed to last about 5 years.
 
-You can do that same mod today very easily. A standard CR2032 holder can be soldered right into the same holes where the original NiCD cell is, and the 200 ohm resistor needs to be removed and replaced with a diode (any kind, another 1N4148 is perfect). with the stripe away from the battery (same orientation as the other diode right next to it).
-I don't know what the actual mod was that NODE did, but this mod should give about 4 years on a new CR2032.
+You can do that same mod today very easily. A standard CR2032 holder can be soldered right into the same holes where the original NiCD cell went, and the 200 ohm resistor needs to be removed and replaced with a diode (any kind will do, another 1N4148 is perfect), with the stripe pointing away from the battery (same orientation as the other diode right next to it).
+I don't know what the specific mod was that NODE did, but this mod should give at least 3, almost 4 years on a new CR2032.
 
 BEFORE
 ![](PCB/NODE_DATAPAC_256K_batt_mod_before.jpg)
@@ -85,5 +89,5 @@ The connector on the DATAPAC does NOT actually fit in a 200 without cutting the 
 The only connector that fits in a 200 is a solder-type box header like used in this [cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable#Good_Cable).
 
 ### Model 100
-This device actually works on Modle 100 too. It needs an adapter cable but the cable is simple.
+This device actually works on Model 100 too. It needs an adapter cable but the cable is simple.
 From the top of that page with the Disk/Video Interface cables above, the Model 100 part of the [3-part cable](http://tandy.wiki/Disk/Video_Interface:_Cable#Good_Cable) works for this too. Just the Model 100 part, not the full cable with all 3 parts connected.
