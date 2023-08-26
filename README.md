@@ -88,26 +88,22 @@ RAMDSK is purported to provide all or almost all of the same functionality as NO
 Even the rom calls from the option rom have equivalents in RAMDSK, though at different addresses.  
 (One thing RAMDSK does not do which the original option rom did, is re-create the user manual text file as part of the Format function.)  
 
-The only other significant software using this device seems to be [XOS-C](http://www.club100.org/library/libpg.html), also from Paul Globman, which is sort of an OS for the Model 200. XOS does not require a RAMPAC or DATAPAC, but apparently makes good use of one if present.  
-I have not tried XOS-C yet.
+The only other significant software using this device seems to be [XOS-C](http://www.club100.org/library/libpg.html), which is sort of an OS for the Model 200. XOS does not require a RAMPAC or DATAPAC, but apparently makes good use of one if present. For instance, you can keep just a single copy of RAMDSK.CO in bank 3, yet be able to use it from any bank.  
+I have not tried XOS-C yet, this is just from reading the description.
 
-Some things culled from the M100SIG archive and Club100.org are collected in [software](software)  
+Some software culled from the M100SIG archive and Club100 are collected in [software](software)  
 
 ## Model compatibility
-Apparently these were only ever supported on models 100, 102, 200. (No NEC or Olivetti, etc)
-
-The cases on my units both say "Model 102/200", however...
+Apparently only Models 100, 102, & 200 were ever supported. (No NEC or Olivetti, etc)
 
 ### Model 200
-The connector on the DATAPAC does NOT actually fit in a Model 200 without cutting the opening wider around the bus connector.  
+The connector on the DATAPAC does not actually fit in a Model 200 without cutting the opening wider around the bus connector on the 200.  
 ![](REF/does_not_fit_model_200.jpg)
 
 The only connector that fits in a 200 without hacking on the 200s case is a solder-type IDC box header like [this](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SBH11-PBPC-D20-ST-BK/1990068),
  which could be soldered back to back with the female version like [this](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SFH11-PBPC-D20-ST-BK/1990093),
  to make an adapter to allow connecting to a 200 without having to damage the 200's case.
 
-Crimp-on versions of that connector are too wide to fit in the 200's opening.
-
 ### Model 100
-This "102/200" version actually works on Model 100 too. It needs an adapter cable, but the cable is simple. It's just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
+This "102/200" version actually works on Model 100 also. It needs an adapter cable, but the cable is simple. It's just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
 The Model 100 part of this [3-part cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable) is exactly the same thing.
