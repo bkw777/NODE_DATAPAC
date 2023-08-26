@@ -38,7 +38,7 @@ The real PCB has no silkscreen. This image has silkscreen added to show where th
 
 ### New Schematic & PCB
 This aims to be a functional replacement and will change over time to use newer parts.  
-Currently still uses all the same main chips as the original. Changes so far are that many of the traces are rerouted, battery connections to support current battery options, decoupling caps, ground pours, silkscreen.  
+Currently still uses all the same main chips as the original. Changes so far are that many of the traces are rerouted, coin cell battery, decoupling caps, ground pours, silkscreen.  
 Pending TODO items: Change the BUS connection to use a removable cable, and flip the pinout so that the computer end of the cable can use a connector that actually fits in a 200.
 ![](PCB/NODE_DATAPAC_256K_bkw0.svg)
 ![](PCB/NODE_DATAPAC_256K_bkw0_top.jpg)
