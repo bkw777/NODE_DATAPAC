@@ -1,7 +1,7 @@
 (footprint "BH-25x-x" (version 20221018) (generator pcbnew)
   (layer "F.Cu")
   (attr through_hole)
-  (fp_text reference "REF**" (at 0 -0.5 unlocked) (layer "F.SilkS")
+  (fp_text reference "REF**" (at 13.335 5.715 unlocked) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
     (tstamp 344df63f-8981-4f3c-aac2-88baf1f87fb8)
   )
@@ -12,10 +12,6 @@
   (fp_text user "-" (at -5 0 unlocked) (layer "F.SilkS")
       (effects (font (size 2 2) (thickness 0.15)))
     (tstamp 442da887-be6a-4a93-af22-3ddfe84c4176)
-  )
-  (fp_text user "CR2032" (at 0 3 unlocked) (layer "F.SilkS")
-      (effects (font (size 1 1) (thickness 0.15)))
-    (tstamp 7a6479e5-36b4-43e7-88f7-8fcd443146d6)
   )
   (fp_text user "+" (at 9 0 unlocked) (layer "F.SilkS")
       (effects (font (size 2 2) (thickness 0.15)))
@@ -31,12 +27,7 @@
     (stroke (width 0.1) (type default)) (layer "F.SilkS") (tstamp 915d06a2-6da9-493c-9734-ac44565939b8))
   (pad "1" thru_hole circle (at 12 0) (size 2 2) (drill 1) (layers "*.Cu" "*.Mask") (tstamp 03242dcb-ebc4-497c-9889-171318a5034c))
   (pad "2" thru_hole circle (at -8 0) (size 2 2) (drill 1) (layers "*.Cu" "*.Mask") (tstamp f883ebb9-3d4a-4f21-a605-5f0ffebb033d))
-  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/KLS5-CR2032-01 battery holder.stp" hide
-    (offset (xyz 0 0 0))
-    (scale (xyz 1 1 1))
-    (rotate (xyz 0 0 180))
-  )
-  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CH224-2032LF.step"
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/BH-25-C.step"
     (offset (xyz 0 0 0))
     (scale (xyz 1 1 1))
     (rotate (xyz 0 0 -90))
