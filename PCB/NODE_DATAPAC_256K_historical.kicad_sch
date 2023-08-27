@@ -3317,6 +3317,10 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 4b428bd8-179e-4a61-8b68-f3dc5c366d72)
   )
+  (text "ON" (at 139.7 143.51 0)
+    (effects (font (size 1.27 1.27)) (justify right bottom))
+    (uuid 4ce5db3d-12b9-449c-bd18-78f554333da9)
+  )
   (text "~{RESET}" (at 53.34 99.06 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 4d5d9e57-51a9-4ec4-9b6e-624f79806dab)
@@ -3333,7 +3337,7 @@
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 5d8b3e44-3c83-4505-b8bf-23189d262a80)
   )
-  (text "set A10-A17 from bus AD0-AD7 at block-start\nlatch the rest of the time\n"
+  (text "Set A10-A17 from bus AD0-AD7 at block-start,\nlatch the rest of the time.\n"
     (at 68.58 86.36 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 65403d3b-4c63-4d3d-bf3b-871c11cd2fd7)
