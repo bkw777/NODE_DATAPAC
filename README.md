@@ -24,27 +24,27 @@ No other parts or changes are needed.
 This is a new drawing but aims to reflect the original actual device as exactly as possible.  
 Both the schematic and the pcb are exactly like the real original, warts and all.  
 It's meant to be a form of documentation or reference describing the original hardware as it was.  
-![](PCB/NODE_DATAPAC_256K_historical.svg)
+![](PCB/out/NODE_DATAPAC_256K_historical.svg)
 
 PCB TOP
-![](PCB/NODE_DATAPAC_256K_historical_top.jpg)
+![](PCB/out/NODE_DATAPAC_256K_historical_top.jpg)
 
 PCB BOTTOM
-![](PCB/NODE_DATAPAC_256K_historical_bottom.jpg)
+![](PCB/out/NODE_DATAPAC_256K_historical_bottom.jpg)
 
 The real PCB has no silkscreen. This image has silkscreen added to show where the components from the schematic go.
-![](PCB/NODE_DATAPAC_256K_historical_top_annotated.jpg)
+![](PCB/out/NODE_DATAPAC_256K_historical_top_annotated.jpg)
 
 
 ### New Schematic & PCB
 This aims to be a functional replacement and will change over time to use newer parts.  
 Currently still uses all the same main chips as the original. Changes so far are that many of the traces are rerouted, coin cell battery, decoupling caps, ground pours, silkscreen.  
 Pending TODO items: Change the BUS connection to use a removable cable, and flip the pinout so that the computer end of the cable can use a connector that actually fits in a 200.
-![](PCB/NODE_DATAPAC_256K_bkw0.svg)
-![](PCB/NODE_DATAPAC_256K_bkw0_top.jpg)
-![](PCB/NODE_DATAPAC_256K_bkw0_bottom.jpg)
-![](PCB/NODE_DATAPAC_256K_bkw0_1.jpg)
-![](PCB/NODE_DATAPAC_256K_bkw0_2.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw0.svg)
+![](PCB/out/NODE_DATAPAC_256K_bkw0_top.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw0_bottom.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw0_1.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw0_2.jpg)
 
 ## Battery
 The original battery is no longer made. The modern replacement is almost 2mm taller and does not fit inside the enclosure.
@@ -56,16 +56,16 @@ This should give about 4 years of memory.
 (The original battery may have only lasted a number of months according to a review in the archives. So the coin cell mod is definitely an improvement as well as being available.)
 
 BEFORE
-![](PCB/NODE_DATAPAC_256K_batt_mod_before.jpg)
+![](PCB/out/NODE_DATAPAC_256K_batt_mod_before.jpg)
 
 AFTER
-![](PCB/NODE_DATAPAC_256K_batt_mod_after.jpg)
+![](PCB/out/NODE_DATAPAC_256K_batt_mod_after.jpg)
 
 STEPS
-![](PCB/NODE_DATAPAC_256K_batt_mod_01.jpg)
-![](PCB/NODE_DATAPAC_256K_batt_mod_02.jpg)
-![](PCB/NODE_DATAPAC_256K_batt_mod_03.jpg)
-![](PCB/NODE_DATAPAC_256K_batt_mod_04.jpg)
+![](PCB/out/NODE_DATAPAC_256K_batt_mod_01.jpg)
+![](PCB/out/NODE_DATAPAC_256K_batt_mod_02.jpg)
+![](PCB/out/NODE_DATAPAC_256K_batt_mod_03.jpg)
+![](PCB/out/NODE_DATAPAC_256K_batt_mod_04.jpg)
 
 
 If you wish to keep using a rechargeable battery, then a suitable option is FL3/V80H. That is 3 16x5.8mm NiMH button cells in a flat in-line pack with wire leads. It fits perfectly in the space next to the ribbon cable. It needs to be secured with hot glue or foam mounting tape, and connected with wires run to the original battery location.  
@@ -107,3 +107,29 @@ The only connector that fits in a 200 without hacking on the 200s case is a sold
 ### Model 100
 This "102/200" version actually works on Model 100 also. It needs an adapter cable, but the cable is simple. It's just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
 The Model 100 part of this [3-part cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable) is exactly the same thing.
+
+## Theory of Operation
+I am still piecing this together. This is only my hazy guess at how it works so far:
+
+U1-U3 form a 0-1023 counter, setting local sram address bits I have tentatively named A0-A9. We'll call this the byte counter.
+
+U6 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches that setting, ignoring the bus except when triggered to set a new address.
+
+BUS_A8, BUS_A9, Y0, and /A from the bus combine to produce two signals which I am tentatively calling /BLOCK and /BYTE.
+
+Each time /BYTE is pulsed:
+
+* The byte counter is advanced by 1 (A0-A9 are changed to the new address).
+
+* All sram are disabled during the transition.
+
+Each time /BLOCK is pulsed low and then back up, it does 2 things:
+
+* U6 updates A10-A17 from bus AD0-AD7. 5 of those bits are used directly as A10-A14 going to all SRAM chips, and 3 A15-A17 are used indirectly to activate only 1 of the 8 chips. The end result is the same as the same 8 address lines going to a single larger chip. The rest of the time while /BLOCK is not low (or not transitioning from low to high) the local address lines are held latched in the last set state. They don't change with bus changes except when /BLOCK pulses low.
+
+* The byte counter is reset to 0.
+
+So the device appears to operate in 1k blocks, where the host computer gives 1 of 256 possible "block-start" addresses, then reads up to 1024 bytes, one at a time. Each time the host reads a byte, the counter advances itself and the next read will get the next byte. So the host does not set the address for each byte like with normal direct ram.  
+The device is actually acting a bit like a disk even though it has no brains or firmware, in that the host sets a starting address and then reads a stream of bytes.
+
+I do not yet know how the host computer side of the process works.
