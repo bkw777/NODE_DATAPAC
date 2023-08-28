@@ -129,3 +129,8 @@ So the device appears to operate in 1k blocks, where the host computer gives 1 o
 The device is actually acting a bit like a disk even though it has no brains or firmware, in that the host sets a starting address and then reads a stream of bytes.
 
 I do not yet know how the host computer side of the process works.
+
+# WIP
+* Replace all the THT parts with SMT parts  
+* Replace the 3to8 decoder and 8 32k chips with a single 256k or 512k chip  
+![](PCB/out/NODE_DATAPAC_256K_bkw1.svg)
