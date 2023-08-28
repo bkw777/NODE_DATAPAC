@@ -134,3 +134,5 @@ I do not yet know how the host computer side of the process works.
 * Replace all the THT parts with SMT parts  
 * Replace the 3to8 decoder and 8 32k chips with a single 256k or 512k chip  
 ![](PCB/out/NODE_DATAPAC_256K_bkw1.svg)
+![](PCB/out/NODE_DATAPAC_256K_bkw1_1.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw1_2.jpg)
