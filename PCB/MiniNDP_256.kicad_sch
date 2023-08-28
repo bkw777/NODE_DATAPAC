@@ -5,11 +5,11 @@
   (paper "A3")
 
   (title_block
-    (title "NODE DATAPAC 256K bkw0")
-    (date "2023-08-23")
-    (rev "004")
+    (title "MiniNDP_256")
+    (date "2023-08-28")
+    (rev "001")
     (company "Brian K. White - b.kenyon.w@gmail.com")
-    (comment 1 "Schematic re-created from manual examination of physical units, not yet proven.")
+    (comment 1 "Work-alike of NODE DATAPAC 256k")
   )
 
   (lib_symbols
@@ -1607,9 +1607,6 @@
   (junction (at 139.7 118.11) (diameter 0) (color 0 0 0 0)
     (uuid ac67ec6f-8126-462b-a847-cfdfbbedb929)
   )
-  (junction (at 330.2 152.4) (diameter 0) (color 0 0 0 0)
-    (uuid d871ced3-95d8-49c6-a225-b30b6807bc6b)
-  )
   (junction (at 165.1 203.2) (diameter 0) (color 0 0 0 0)
     (uuid d9426471-5b2f-42ee-ad09-a0677c8cd84f)
   )
@@ -1618,6 +1615,9 @@
   )
   (junction (at 133.35 185.42) (diameter 0) (color 0 0 0 0)
     (uuid dc51ab3d-2d61-4ca9-bba2-817c35d24477)
+  )
+  (junction (at 213.36 260.35) (diameter 0) (color 0 0 0 0)
+    (uuid ebf0f406-9c31-40cf-85d3-194d7afc98d6)
   )
   (junction (at 146.05 101.6) (diameter 0) (color 0 0 0 0)
     (uuid fa3f5d3e-c8bc-4d01-b51d-ba8f61e36fa0)
@@ -2002,10 +2002,6 @@
     (stroke (width 0) (type default))
     (uuid 17b49472-7599-4402-ac69-cc8bc6070c18)
   )
-  (wire (pts (xy 336.55 120.65) (xy 330.2 120.65))
-    (stroke (width 0) (type default))
-    (uuid 17b66a3c-aff8-4a39-9c78-3c0e3a0dadca)
-  )
   (wire (pts (xy 203.2 147.32) (xy 245.11 147.32))
     (stroke (width 0) (type default))
     (uuid 1a307b00-cfb8-4232-96ec-e51f8af55471)
@@ -2150,10 +2146,6 @@
   (wire (pts (xy 146.05 101.6) (xy 146.05 123.19))
     (stroke (width 0) (type default))
     (uuid 42d999c1-ebce-4a7e-8d41-e0ad3b3a99a7)
-  )
-  (wire (pts (xy 336.55 152.4) (xy 336.55 120.65))
-    (stroke (width 0) (type default))
-    (uuid 4573f1cd-4a72-4ecc-8cdd-506f2ecd726c)
   )
   (wire (pts (xy 294.64 85.09) (xy 304.8 85.09))
     (stroke (width 0) (type default))
@@ -2349,10 +2341,6 @@
     (uuid 777e044d-d5ae-46e0-a4b2-58015a1f7921)
   )
 
-  (wire (pts (xy 330.2 154.94) (xy 330.2 152.4))
-    (stroke (width 0) (type default))
-    (uuid 7b72ddb4-a30c-46a4-808b-3ffe57eb1d0d)
-  )
   (wire (pts (xy 294.64 82.55) (xy 304.8 82.55))
     (stroke (width 0) (type default))
     (uuid 7e97824d-4535-4410-a33e-beb7c75c0fe2)
@@ -2391,10 +2379,6 @@
     (uuid 88f9fb46-4df4-4389-81f5-6ade6c2655fc)
   )
 
-  (wire (pts (xy 330.2 152.4) (xy 336.55 152.4))
-    (stroke (width 0) (type default))
-    (uuid 894c7e4d-5e8a-460a-ad58-1c306cf6c657)
-  )
   (wire (pts (xy 171.45 91.44) (xy 177.8 91.44))
     (stroke (width 0) (type default))
     (uuid 8a040b16-c41f-43df-9150-36262cae2a0f)
@@ -2759,7 +2743,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 023f56f7-e937-4a03-a989-a2e3039cbb76)
   )
-  (text "SYSTEM BUS connection here is using the standard pin numbering for the connector,\nNOT the odd/even swapped numbering from the TANDY Model 102 & 200 manuals.\nExample, RAM_RST is actually on pin 38, but the TANDY 102 & 200 manuals call it pin 37.\n"
+  (text "SYSTEM BUS connection is using STANDARD pin numbering for the connector,\nNOT the odd<>even swapped numbering from the TANDY Model 102 & 200 manuals.\nExample, RAM_RST is actually on pin 38, but the TANDY 102 & 200 manuals call it pin 37.\n"
     (at 63.5 215.9 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 0a4123b9-f309-4bd8-b43b-77e5ec988a53)
@@ -2768,7 +2752,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 0d7cc9d0-fec7-4047-9d5c-044cf2b6b34f)
   )
-  (text "+5VDC" (at 92.71 139.7 0)
+  (text "+5VDC" (at 81.28 140.97 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 0f1ca496-c440-4f39-85c0-08c3d4aed79d)
   )
@@ -2804,16 +2788,12 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 38727469-5f02-4ae7-b762-7fbe3f1c8e23)
   )
-  (text "ON" (at 332.74 156.21 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 3a3915e1-3e01-40d9-882e-f9f0cd6b45c3)
-  )
   (text "ENT" (at 156.21 73.66 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 40773b0b-9018-44f9-8f26-2566dbec46e3)
   )
-  (text "\nA 256Kx8 SRAM (AS6C2008A) is optimal, but those are rare now.\nU6 shows the pinout for AS6C2008A, but AS6C4008 is also compatible,\neven though the pinout is different.\n\nWith AS6C4008 installed:\nPin 6 is A17, high at all times, essentially inert,\npin 9 is A18, receiving/returning the A17 data,\nresulting in the same outward functionality.\n\nThe fast-disable-on-disconnect behavior to protect data from bus power-down\ntransition via vbus-CE2-5.1k-gnd is also still there, just in the form of\nswitching away to a never-used address space rather than disabling the chip.\n"
-    (at 279.4 248.92 0)
+  (text "\nAS6C2008A is optimal, but AS6C4008 is also compatible.\n\nWith AS6C4008 installed:\nPin 6 is A17, high at all times, essentially inert,\npin 9 is A18, receiving/returning the A17 data,\nresulting in the same outward functionality.\n"
+    (at 279.4 52.07 0)
     (effects (font (size 2 2)) (justify left bottom))
     (uuid 480ddb82-2da9-4db4-bd33-aaec37694477)
   )
@@ -2842,17 +2822,21 @@
     (uuid 71efb70f-0916-457c-a396-51de1fcebeab)
   )
   (text "AS6C2008A (256Kx8)\nor AS6C4008 (512Kx8)\nor equivalents"
-    (at 300.99 66.04 0)
+    (at 300.99 71.12 0)
     (effects (font (size 2 2)) (justify left bottom))
     (uuid 75a71062-f19d-4bb3-8eed-98f6072cba39)
   )
-  (text "(A17)" (at 318.77 121.92 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
+  (text "(A17)" (at 323.85 121.92 0)
+    (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 7b175426-305e-4585-8dd7-ba7ab2f6f472)
   )
   (text "~{LOAD}" (at 154.94 68.58 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 8af2afde-cdd5-449a-885f-3857c8ea4acc)
+  )
+  (text "+3VDC" (at 237.49 262.89 0)
+    (effects (font (size 1.27 1.27)) (justify left bottom))
+    (uuid 8ca8985b-883c-4e50-84d4-b7baf6193c69)
   )
   (text "S0" (at 109.22 172.72 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
@@ -3289,7 +3273,7 @@
     (pin "7" (uuid fc625daf-3b32-46cf-a872-21c229100bd4))
     (pin "9" (uuid 3d16c4b3-88d6-4400-9216-4a0447a3ee69))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "U6") (unit 1)
         )
@@ -3320,7 +3304,7 @@
     (pin "1" (uuid 4b51cd14-80a7-4c56-b60d-b3c40adc4bc7))
     (pin "2" (uuid 377bb2f6-022e-458c-91b0-b11ae7278682))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "C2") (unit 1)
         )
@@ -3345,7 +3329,7 @@
     )
     (pin "1" (uuid 6fc3712d-9474-4768-bb98-7a513567df7f))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR021") (unit 1)
         )
@@ -3370,7 +3354,7 @@
     )
     (pin "1" (uuid d5d91828-bff6-424a-a626-afdfc256235d))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR043") (unit 1)
         )
@@ -3395,7 +3379,7 @@
     )
     (pin "1" (uuid 7a957f3d-162d-4045-82ba-428786bc603c))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR08") (unit 1)
         )
@@ -3418,9 +3402,9 @@
     (property "Datasheet" "" (at 317.5 172.72 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid ef445605-0872-4d66-9bdd-93a1c5cbb629))
+    (pin "1" (uuid 3f643a0f-5ae4-4fed-bf12-73a8e30cecbc))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR023") (unit 1)
         )
@@ -3452,7 +3436,7 @@
     (pin "2" (uuid aa515b98-d901-4106-9a81-71b66b675e31))
     (pin "3" (uuid 75542987-ee6c-4bb8-8fc0-7e69eefe8c8a))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "D1") (unit 1)
         )
@@ -3477,7 +3461,7 @@
     )
     (pin "1" (uuid a5ab891c-b917-43b0-9e2c-54d494eca572))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR010") (unit 1)
         )
@@ -3502,7 +3486,7 @@
     )
     (pin "1" (uuid a3cc51ed-8c52-496e-a371-b46110362732))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR01") (unit 1)
         )
@@ -3510,24 +3494,24 @@
     )
   )
 
-  (symbol (lib_id "power:VBUS") (at 330.2 152.4 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+  (symbol (lib_id "power:VBUS") (at 330.2 120.65 270) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
     (uuid 263123a4-fdbb-45d1-b1e8-071fd90d0b52)
-    (property "Reference" "#PWR024" (at 330.2 156.21 0)
+    (property "Reference" "#PWR024" (at 326.39 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "VBUS" (at 330.2 147.32 0)
-      (effects (font (size 1.27 1.27)))
+    (property "Value" "VBUS" (at 332.74 120.65 90)
+      (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 330.2 152.4 0)
+    (property "Footprint" "" (at 330.2 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (at 330.2 152.4 0)
+    (property "Datasheet" "" (at 330.2 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid a47372e4-eef5-4032-94f0-bdabffdf12be))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR024") (unit 1)
         )
@@ -3571,7 +3555,7 @@
     (pin "8" (uuid 28c17693-7bc9-4834-8720-632d1e0adb2e))
     (pin "9" (uuid 0ba09039-b750-4a6c-acef-9aa5f1e94e4f))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "U5") (unit 1)
         )
@@ -3597,7 +3581,7 @@
     (pin "1" (uuid 232ddd8f-b11f-4328-8fe3-841032e49442))
     (pin "2" (uuid 25f71d60-5a36-4edb-a4c6-11e735acc34e))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "BT1") (unit 1)
         )
@@ -3622,7 +3606,7 @@
     )
     (pin "1" (uuid 1b212b80-b68c-4ccc-8fe1-25f40e3a56bc))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR048") (unit 1)
         )
@@ -3647,7 +3631,7 @@
     )
     (pin "1" (uuid c7acb256-7c68-4bc2-a465-3f6231edcf1d))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR035") (unit 1)
         )
@@ -3672,7 +3656,7 @@
     )
     (pin "1" (uuid 2a9ed21d-d05f-4ac1-8d91-ccd3e8b84455))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR025") (unit 1)
         )
@@ -3697,7 +3681,7 @@
     )
     (pin "1" (uuid 191170b9-94ec-4385-98b7-ef0e08555504))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR022") (unit 1)
         )
@@ -3722,7 +3706,7 @@
     )
     (pin "1" (uuid 3e49fb31-e5b6-41ab-97da-1992ca5a3505))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR05") (unit 1)
         )
@@ -3747,7 +3731,7 @@
     )
     (pin "1" (uuid 5b4a4157-62d9-4565-a93c-dbaaedbf7274))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR054") (unit 1)
         )
@@ -3772,7 +3756,7 @@
     )
     (pin "1" (uuid 609a5862-1580-4c89-9806-7bcdb12c3480))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR012") (unit 1)
         )
@@ -3802,7 +3786,7 @@
     )
     (pin "1" (uuid d4a82991-186a-4961-8125-3504755de971))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR037") (unit 1)
         )
@@ -3827,7 +3811,7 @@
     )
     (pin "1" (uuid 454376bd-7d46-4efb-8f1b-17da32969994))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR034") (unit 1)
         )
@@ -3852,7 +3836,7 @@
     )
     (pin "1" (uuid 48975caf-0e62-4cbf-8a95-6fb0f1cb1d36))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#FLG01") (unit 1)
         )
@@ -3877,7 +3861,7 @@
     )
     (pin "1" (uuid 8a6e4cf4-0f4f-4625-ba06-bdb60b345c48))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR058") (unit 1)
         )
@@ -3902,7 +3886,7 @@
     )
     (pin "1" (uuid a0db02fa-d6aa-40d6-9e53-c131f7e9a133))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR019") (unit 1)
         )
@@ -3942,7 +3926,7 @@
     (pin "8" (uuid ccd5601e-00c3-460a-b539-1fa59aace02b))
     (pin "9" (uuid 95e19466-b486-4611-9a86-33307e97c890))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "U3") (unit 1)
         )
@@ -3967,7 +3951,7 @@
     )
     (pin "1" (uuid fb33f04a-591b-4431-8533-d56253134e18))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR07") (unit 1)
         )
@@ -3992,7 +3976,7 @@
     )
     (pin "1" (uuid ef16f4a1-00c0-46a6-a3f9-e337d1df12a8))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR042") (unit 1)
         )
@@ -4017,7 +4001,7 @@
     )
     (pin "1" (uuid e58c8d9a-e600-4761-897c-f3dcceb2aa0f))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR057") (unit 1)
         )
@@ -4047,7 +4031,7 @@
     )
     (pin "1" (uuid 977fa74d-469e-4257-9e0a-5f55d4951449))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR03") (unit 1)
         )
@@ -4087,7 +4071,7 @@
     (pin "8" (uuid 78ac0b68-15c8-4f21-a085-cc0ad9b57c38))
     (pin "9" (uuid af486399-e876-4cbc-8579-4432738cd535))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "U1") (unit 1)
         )
@@ -4112,7 +4096,7 @@
     )
     (pin "1" (uuid 837750e9-ee44-4794-b93b-8bb98e22aaed))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR055") (unit 1)
         )
@@ -4152,7 +4136,7 @@
     (pin "8" (uuid b48f7de5-03c7-438b-af8b-a51a9e81bf7c))
     (pin "9" (uuid 9d551aaa-7518-4a44-bc11-545c7f29943b))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "U4") (unit 1)
         )
@@ -4177,7 +4161,7 @@
     )
     (pin "1" (uuid 66fe48a7-5743-4019-8241-6b31a945bb19))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR049") (unit 1)
         )
@@ -4185,39 +4169,13 @@
     )
   )
 
-  (symbol (lib_id "000_LOCAL:R") (at 330.2 157.48 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 63bed1bc-78ef-4e3a-80d6-b37ef8255f1f)
-    (property "Reference" "R1" (at 328.93 156.21 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-    )
-    (property "Value" "5.1k" (at 328.93 158.75 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-    )
-    (property "Footprint" "000_LOCAL:R_0805" (at 330.2 157.48 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 330.2 157.48 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid d21cbaf2-e70d-4280-96f3-83ce18d200b0))
-    (pin "2" (uuid ef30d2ff-441d-4e22-8a9a-d6914c812929))
-    (instances
-      (project "NODE_DATAPAC_256K_bkw1"
-        (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-          (reference "R1") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_name "BAV70_1") (lib_id "000_LOCAL:BAV70") (at 133.35 193.04 270) (unit 1)
+  (symbol (lib_name "BAV70_1") (lib_id "000_LOCAL:BAV70") (at 133.35 193.04 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 696aaaff-995c-43fd-8c21-f948f8476faf)
-    (property "Reference" "D2" (at 135.89 194.31 90)
+    (property "Reference" "D2" (at 135.89 191.77 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "BAV70" (at 135.89 191.77 90)
+    (property "Value" "BAV70" (at 135.89 194.31 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "000_LOCAL:SOT-23" (at 133.35 193.04 0)
@@ -4230,7 +4188,7 @@
     (pin "2" (uuid b6050bdd-5fd9-4eef-8c1b-1da2065c9eef))
     (pin "3" (uuid 77888ac1-9806-45fe-a4b2-1090c8b19e8d))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "D2") (unit 1)
         )
@@ -4256,7 +4214,7 @@
     (pin "1" (uuid a24433c4-d13a-4077-bfca-8b7bb14bdfb6))
     (pin "2" (uuid 4632670b-2acc-4f2f-a89c-b85b65ee5088))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "C3") (unit 1)
         )
@@ -4281,7 +4239,7 @@
     )
     (pin "1" (uuid ada06cc6-c935-4971-95bc-58d0c410ae1e))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#FLG03") (unit 1)
         )
@@ -4321,7 +4279,7 @@
     (pin "8" (uuid 4d9e919c-a214-46d9-b697-5420eeb424de))
     (pin "9" (uuid a7c202bc-e993-4001-a3e9-e0d456a42035))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "U2") (unit 1)
         )
@@ -4335,7 +4293,7 @@
     (property "Reference" "U7" (at 323.85 173.99 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "74LVC1G32" (at 323.85 176.53 0)
+    (property "Value" "741G32" (at 323.85 176.53 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "000_LOCAL:SOT-353_SC-70-5" (at 317.5 182.88 0)
@@ -4344,15 +4302,40 @@
     (property "Datasheet" "datasheets/74LVC1G32.pdf" (at 317.5 182.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid c3a4b52a-593f-42c4-aded-1cb6cc20020d))
-    (pin "2" (uuid 517b93d5-20fd-4baf-a1bd-f4c41ac37e28))
-    (pin "3" (uuid 841d4640-d834-4cfb-a14a-eeaa3b243790))
-    (pin "4" (uuid 63911b19-cd4e-4415-ba95-0d7cf7de1748))
-    (pin "5" (uuid b282ab7f-132d-4419-a520-1ad3df9e3b7d))
+    (pin "1" (uuid 52771731-40b2-4266-aed7-9aa48cee452d))
+    (pin "2" (uuid 8b955596-ba89-4b59-83a6-5dfd04bccffc))
+    (pin "3" (uuid b5a0a538-a019-483b-af4a-9238248adc29))
+    (pin "4" (uuid ddb87e4a-bc8c-4261-abaf-128e5501e88b))
+    (pin "5" (uuid 289ee284-eae3-42f6-96a2-d581bbada83e))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "U7") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GND") (at 213.36 267.97 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 8542b514-6817-43ce-a751-06ffeaec7c26)
+    (property "Reference" "#PWR013" (at 213.36 274.32 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GND" (at 213.36 273.05 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 213.36 267.97 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 213.36 267.97 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid be4c5c24-5277-416e-b51f-2ade13038ac3))
+    (instances
+      (project "MiniNDP_256"
+        (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+          (reference "#PWR013") (unit 1)
         )
       )
     )
@@ -4375,7 +4358,7 @@
     )
     (pin "1" (uuid 8ce5cb47-5e37-4fa3-985f-fc85e4e3cdca))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR044") (unit 1)
         )
@@ -4400,7 +4383,7 @@
     )
     (pin "1" (uuid a6116b33-1d3b-4d93-91a5-761ca5219d28))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR06") (unit 1)
         )
@@ -4425,7 +4408,7 @@
     )
     (pin "1" (uuid 497945dd-7eb5-481c-80e8-c45ace291225))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR014") (unit 1)
         )
@@ -4451,7 +4434,7 @@
     (pin "1" (uuid 63b764db-f129-4d7a-9ef9-bf9ec827a2cb))
     (pin "2" (uuid d8febc1f-05ca-45f7-91cb-9aa4565a7408))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "C5") (unit 1)
         )
@@ -4476,7 +4459,7 @@
     )
     (pin "1" (uuid d965d4c8-96c1-4c05-a1d6-0ba3c5d0cd66))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR036") (unit 1)
         )
@@ -4501,9 +4484,35 @@
     )
     (pin "1" (uuid 0422eeda-ddf0-4e3b-a55a-b08b1de57d12))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR038") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "000_LOCAL:C") (at 213.36 264.16 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid a235b312-56d7-406f-8953-33db58e62b9e)
+    (property "Reference" "C6" (at 213.36 261.62 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "47u" (at 213.36 266.7 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "000_LOCAL:C_1206" (at 214.3252 267.97 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 213.36 264.16 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 45312ed9-b661-4942-889b-9d7cf2313ac4))
+    (pin "2" (uuid 4d1513b1-07d9-43de-89aa-816898045482))
+    (instances
+      (project "MiniNDP_256"
+        (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+          (reference "C6") (unit 1)
         )
       )
     )
@@ -4526,7 +4535,7 @@
     )
     (pin "1" (uuid 8703438c-56a1-4817-9978-f6ab4762bc70))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR020") (unit 1)
         )
@@ -4552,7 +4561,7 @@
     (pin "1" (uuid a9962460-8e3b-41e5-a49d-45e84f679da0))
     (pin "2" (uuid 665aabd3-489d-4023-9882-c294f1bd1e48))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "R2") (unit 1)
         )
@@ -4577,7 +4586,7 @@
     )
     (pin "1" (uuid d9014ac5-cef4-4ade-bee9-08192e67ca80))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR04") (unit 1)
         )
@@ -4602,7 +4611,7 @@
     )
     (pin "1" (uuid baae4d96-9431-4f4f-8e9e-4af3f7e308b1))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR041") (unit 1)
         )
@@ -4627,7 +4636,7 @@
     )
     (pin "1" (uuid dc11478e-5273-479f-993f-3eb6f62cba0a))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#FLG02") (unit 1)
         )
@@ -4652,7 +4661,7 @@
     )
     (pin "1" (uuid 7ab85355-eba9-4ba8-a2f5-707f407bb4bd))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR09") (unit 1)
         )
@@ -4677,7 +4686,7 @@
     )
     (pin "1" (uuid 1f1c303b-6225-44bb-a7d3-38aaa4ca70c5))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR02") (unit 1)
         )
@@ -4702,7 +4711,7 @@
     )
     (pin "1" (uuid 35903afb-41ae-4e5b-876b-bb35de5a39c5))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR018") (unit 1)
         )
@@ -4766,7 +4775,7 @@
     (pin "8" (uuid 5a218f96-4a3f-4f25-b921-dd454e904cb2))
     (pin "9" (uuid 05c98795-9af9-490e-b37f-916ec239b552))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "J1") (unit 1)
         )
@@ -4791,7 +4800,7 @@
     )
     (pin "1" (uuid f5532876-46be-4f06-885e-c7915accc435))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR051") (unit 1)
         )
@@ -4816,7 +4825,7 @@
     )
     (pin "1" (uuid fcba3277-d0fa-4a1f-8966-a8614807597c))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR032") (unit 1)
         )
@@ -4841,7 +4850,7 @@
     )
     (pin "1" (uuid c477a8c5-33a6-4eb4-8b8f-14ac579bc2b0))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR053") (unit 1)
         )
@@ -4866,7 +4875,7 @@
     )
     (pin "1" (uuid d02a9207-8c9b-4108-b952-a1a350a69cc5))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR056") (unit 1)
         )
@@ -4889,9 +4898,9 @@
     (property "Datasheet" "" (at 317.5 193.04 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid cebcc0ac-e45d-4e36-b866-c0036907e577))
+    (pin "1" (uuid df4391f6-27b2-49f4-8a0c-80d0212b6b18))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR015") (unit 1)
         )
@@ -4921,7 +4930,7 @@
     )
     (pin "1" (uuid 16b31d36-2a6d-453e-a514-4604e01065eb))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR046") (unit 1)
         )
@@ -4946,7 +4955,7 @@
     )
     (pin "1" (uuid 7801d1ea-7d63-474e-9963-85b15baf3c3c))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR033") (unit 1)
         )
@@ -4971,7 +4980,7 @@
     )
     (pin "1" (uuid 8b63e40c-adc8-4be5-a45f-bece32923dd1))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR050") (unit 1)
         )
@@ -4996,7 +5005,7 @@
     )
     (pin "1" (uuid 913cdf8a-64ca-4e1a-9aa3-ab02d35d0abd))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR045") (unit 1)
         )
@@ -5021,7 +5030,7 @@
     )
     (pin "1" (uuid 89ff023f-0bd4-435a-8a0e-e7aff3e0f076))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR017") (unit 1)
         )
@@ -5046,7 +5055,7 @@
     )
     (pin "1" (uuid 0ea18a8f-e4c7-427b-a689-0691d8276403))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR011") (unit 1)
         )
@@ -5072,7 +5081,7 @@
     (pin "1" (uuid 7290b837-59c0-4ec6-b7a3-56db0b56cdc7))
     (pin "2" (uuid 7dbf4109-26a5-420b-86b0-78062f3b0e6e))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "C1") (unit 1)
         )
@@ -5097,7 +5106,7 @@
     )
     (pin "1" (uuid 39931005-6633-46cc-a253-e28e38f008b7))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR047") (unit 1)
         )
@@ -5123,7 +5132,7 @@
     (pin "1" (uuid 4cc447ec-03a8-4dd5-a18a-ee696a86d5f4))
     (pin "2" (uuid c82cfb48-a134-476a-85f5-57572dde0a02))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "C4") (unit 1)
         )
@@ -5148,7 +5157,7 @@
     )
     (pin "1" (uuid 012a0185-4e3e-4345-a04e-0977d2d30e46))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR039") (unit 1)
         )
@@ -5173,34 +5182,9 @@
     )
     (pin "1" (uuid 0b5ab585-6281-411f-8ea6-fa79374013a5))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR052") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:GND") (at 330.2 160.02 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid f6f13008-118e-4da4-987d-5c0f44af383f)
-    (property "Reference" "#PWR013" (at 330.2 166.37 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GND" (at 330.2 165.1 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "" (at 330.2 160.02 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 330.2 160.02 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 62e183e7-d9aa-4e3a-9146-350bb070a194))
-    (instances
-      (project "NODE_DATAPAC_256K_bkw1"
-        (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-          (reference "#PWR013") (unit 1)
         )
       )
     )
@@ -5223,7 +5207,7 @@
     )
     (pin "1" (uuid 4bbab5d7-304f-4c5f-9003-69de66d88bec))
     (instances
-      (project "NODE_DATAPAC_256K_bkw1"
+      (project "MiniNDP_256"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
           (reference "#PWR016") (unit 1)
         )
