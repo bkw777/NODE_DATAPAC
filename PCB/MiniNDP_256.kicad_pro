@@ -55,12 +55,7 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [
-        "silk_over_copper|165701833|70897500|922e1185-ea90-4253-85ef-5948be798286|00000000-0000-0000-0000-000000000000",
-        "silk_over_copper|165783754|92457500|b0fd7f38-af67-4f9c-b24a-247ba1533ac7|00000000-0000-0000-0000-000000000000",
-        "silk_over_copper|172018167|70897500|c7780f63-0391-49a1-9a60-15ef1b2d6f90|00000000-0000-0000-0000-000000000000",
-        "silk_over_copper|172018167|92457500|b2c03d91-a72e-4519-9265-a0cf18ae0dd3|00000000-0000-0000-0000-000000000000"
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -422,7 +417,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "NODE_DATAPAC_256K_bkw1.kicad_pro",
+    "filename": "MiniNDP_256.kicad_pro",
     "version": 1
   },
   "net_settings": {
