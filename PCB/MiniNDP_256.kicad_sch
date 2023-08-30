@@ -3548,7 +3548,7 @@
     (property "Reference" "BT1" (at 162.56 182.88 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "CR2032" (at 162.56 185.42 0)
+    (property "Value" "Keystone_3034" (at 165.1 185.42 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "000_LOCAL:CR2032_holder_Keystone_3034" (at 156.21 182.626 90)
