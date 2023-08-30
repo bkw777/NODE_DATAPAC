@@ -20,9 +20,8 @@ No other parts or changes are needed.
 ![](REF/NODE_DATAPAC_256K_3.jpg)
 ![](REF/NODE_DATAPAC_256K_4.jpg)
 
-### Original Schematic & PCB
+## Reproduction Schematic & PCB
 This is a new drawing but aims to reflect the original actual device as exactly as possible.  
-Both the schematic and the pcb are exactly like the real original, warts and all.  
 It's meant to be a form of documentation or reference describing the original hardware as it was.  
 ![](PCB/out/NODE_DATAPAC_256K_historical.svg)
 
@@ -36,7 +35,8 @@ The real PCB has no silkscreen. This image has silkscreen added to show where th
 ![](PCB/out/NODE_DATAPAC_256K_historical_top_annotated.jpg)
 
 
-### New Schematic & PCB
+<!-- 
+## New Schematic & PCB
 This aims to be a functional replacement and will change over time to use newer parts.  
 Currently still uses all the same main chips as the original. Changes so far are that many of the traces are rerouted, coin cell battery, decoupling caps, ground pours, silkscreen.  
 Pending TODO items: Change the BUS connection to use a removable cable, and flip the pinout so that the computer end of the cable can use a connector that actually fits in a 200.
@@ -45,6 +45,7 @@ Pending TODO items: Change the BUS connection to use a removable cable, and flip
 ![](PCB/out/NODE_DATAPAC_256K_bkw0_bottom.jpg)
 ![](PCB/out/NODE_DATAPAC_256K_bkw0_1.jpg)
 ![](PCB/out/NODE_DATAPAC_256K_bkw0_2.jpg)
+-->
 
 ## Battery
 The original battery is no longer made. The modern replacement is almost 2mm taller and does not fit inside the enclosure.
@@ -111,28 +112,34 @@ The Model 100 part of this [3-part cable for the Disk/Video Interface](http://ta
 ## Theory of Operation
 I am still piecing this together. This is only my hazy guess at how it works so far:
 
-U1-U3 form a 0-1023 counter, setting local sram address bits I am tentatively calling A0-A9. We'll call this the byte counter.
+U1-U3 form a 0-1023 counter, setting local sram address bits A0-A9. We'll call this the byte counter.
 
-U6 sets local sram address bits I am tentatively calling A10-A17 from the bus AD0-AD7, and latches that setting, ignoring the bus except when triggered to get a new address.
+U6 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches that setting, ignoring the bus except when triggered to get a new address.
 
-BUS_A8, BUS_A9, Y0, and /A from the bus combine to produce two signals which I am tentatively calling /BLOCK and /BYTE.
+BUS_A8, BUS_A9, Y0, and /A from the bus combine to produce two signals which I am calling /BLOCK and /BYTE.
 
 Each time /BYTE is pulsed:
-* The byte counter is advanced by 1 (A0-A9 are changed to the new address).
+* The byte counter is advanced by 1 (A0-A9 are changed to the next address).
+
 * All sram are disabled during the transition.
 
 Each time /BLOCK is pulsed low and then back up, it does 2 things:
-* U6 updates A10-A17 from bus AD0-AD7. 5 of those bits are used directly as A10-A14 going to all SRAM chips, and 3 A15-A17 are used indirectly to activate only 1 of the 8 chips. The end result is the same as the same 8 address lines going to a single larger chip. The rest of the time while /BLOCK is not low (or not transitioning from low to high) the local address lines are held latched in the last set state. They don't change with bus changes except when /BLOCK pulses low.
+* U6 updates A10-A17 from bus AD0-AD7.  
+  5 of those bits are used directly as A10-A14 going to all SRAM chips,  
+  3 bits A15-A17 are used indirectly to select 1 of the 8 chips.  
+  The end result is the same as if all 8 address lines went to a single larger chip.
+
 * The byte counter is reset to 0.
 
-So the device appears to operate in 1k blocks, where the host computer gives 1 of 256 possible "block-start" addresses, then reads up to 1024 bytes, one at a time. Each time the host reads a byte, the counter advances itself and the next read will get the next byte. So the host does not set the address for each byte like with normal direct ram.  
-The device is actually acting a bit like a disk even though it has no brains or firmware, in that the host sets a starting address and then reads a stream of bytes.
+So the device appears to operate in 1k blocks, where the host computer gives 1 of 256 possible "block-start" addresses, then reads or writes up to 1024 bytes, one at a time. Each time the host accesses a byte, the counter advances itself and the next read/write will get the next byte.  
+The device is actually acting a bit like a disk even though it has no brains or firmware.
 
-I do not yet know how the host computer side of the process works.
+I do not yet know how the software side of the process works.
 
 # WIP: "MiniNDP"
 * Replace all the THT parts with SMT parts  
 * Replace the 8 32k chips and chip-select decoder with a single 256k or 512k chip  
+* 
 ![](PCB/out/MiniNDP_256.svg)
 ![](PCB/out/MiniNDP_256_top.jpg)
 ![](PCB/out/MiniNDP_256_bottom.jpg)
