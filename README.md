@@ -154,12 +154,14 @@ All the caps are optional. The original DATAPAC seems to work fine without any. 
 D2 is copied from a user mod found on a DATAPAC. It appears to prevent a battery drain on the host computer while the DATAPAC is left connected to the host while the host is turned off. R1 does the job of pulling RAM_RST/SLEEP high whenever needed, so it's not required to rely on the host to drive it high. The pullup is actually even weaker on the original unit, 240k, and the original modded unit works fine, so even the weak pullup is still fast enough to disable sram even during the rapid on/off during data transfers when the sram need to be disabled briefly between each byte address change. If the original unit works with 240k ohm, then 200k will only be faster and safer. However, to more strictly replicate the original DATAPAC circuit if you wanted, you could omit D2 and short D2 pads 2 & 3 with a solder blob.  
 
 BT1 is shown using a CR2032 holder. This is thin, but still the tallest/thickest thing on the board.  
-If you wanted the card to be even thinner & more even, you could substitute a CR2016 holder.  
-A CR2032 gives over 7.5 years of memory. (200mAh to reach 2.4v / 3uA)  
-A CR2016 gives about 3 years of memory. (80mAh to reach 2.4v / 3uA)  
-Equivalent part numbers for holders that fit the same solder footprint:  
-For CR2032: Keystone 3034, TE/Linx BAT-HLD-001, Adam Tech BH-67, MPD BK-912  
-For CR2016: Keystone 3029, TE/Linx BAT-HLD-002  
+If you wanted the card to be even thinner & more even, you could substitute the CR2032 holder with a CR2016 holder or even a CR2012 holder.  
+A CR2032 gives 7.5 years of memory. (200mAh to reach 2.4v / 3uA)  
+A CR2016 gives 3 years of memory. (80mAh to reach 2.4v / 3uA)  
+A CR2012 gives 2 years of memory. (50mAh to reach 2.4v / 3uA)  
+Part numbers for different size holders that fit the same solder footprint:  
+For CR2032: Keystone 3034, TE/Linx BAT-HLD-001-SMT, Adam Tech BH-67, MPD BK-912  (4.1mm tall)  
+For CR2016: TE/Linx BAT-HLD-002-SMT  (2.8mm tall)  
+For CR2012: Keystone 3028 (1.7mm tall)
 
 The SRAM is shown using a 256Kx8 part. This is the ideal part since it's a 256K device and no ram is wasted, but 256Kx8 5v parallel sram are uncommon today. It is an uncommon in-between size, where both 128k and 512k are more commonly manufactured. AS6C2008A are still made new, and can be ordered in individual quantities from Mouser, but for instance DigiKey only sells them in bulk. That is a single manufacturer and a single retailer, not counting ebay.  
 But AS6C4008 is more available. Both DigiKey and Mouser sell them new in individual quantities. There are also a few other manufacturers still making similar parts, though not available in individual quantities. 512Kx8 are basically more available than 256Kx8.  
@@ -173,3 +175,5 @@ For the 512K part, there is no A version. AS6C4008 is 5v tolerant.
 ![](PCB/out/MiniNDP_256_bottom.jpg)
 ![](PCB/out/MiniNDP_256_1.jpg)
 ![](PCB/out/MiniNDP_256_2.jpg)
+![](PCB/out/MiniNDP_256_CR2032.jpg)
+![](PCB/out/MiniNDP_256_CR2012.jpg)

@@ -1,4 +1,4 @@
-(footprint "CR2032_holder_Keystone_3034" (version 20221018) (generator pcbnew)
+(footprint "Keystone_3028_3034" (version 20221018) (generator pcbnew)
   (layer "F.Cu")
   (descr "Keystone 3034 SMD battery holder for 2020, 2025 and 2032 coincell batteries. http://www.keyelco.com/product-pdf.cfm?p=798")
   (tags "Keystone type 3034 coin cell retainer")
@@ -7,7 +7,7 @@
       (effects (font (size 1 1) (thickness 0.15)))
     (tstamp 7f4fce36-65d5-4725-a9c8-2e95dffe23c4)
   )
-  (fp_text value "CR2032_holder_Keystone_3034" (at 0 11.5) (layer "F.Fab")
+  (fp_text value "Keystone_3028_3034" (at 0 11.5) (layer "F.Fab")
       (effects (font (size 1 1) (thickness 0.15)))
     (tstamp 1e3057dc-3f72-49a1-aedf-6093aa935886)
   )
@@ -109,9 +109,29 @@
     (scale (xyz 1 1 1))
     (rotate (xyz 0 0 0))
   )
-  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2032.step"
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2016_holder_BAT-HLD-002-SMT.STEP" hide
+    (offset (xyz 0 0 0))
+    (scale (xyz 1 1 1))
+    (rotate (xyz -90 0 0))
+  )
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2012_holder_Keystone_3028.step" hide
+    (offset (xyz 0 0 0))
+    (scale (xyz 1 1 1))
+    (rotate (xyz 0 0 90))
+  )
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2012_blank.step" hide
+    (offset (xyz 0 0 1.2))
+    (scale (xyz 1 1 1))
+    (rotate (xyz 180 0 0))
+  )
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2016_blank.step" hide
+    (offset (xyz 0 0 1.6))
+    (scale (xyz 1 1 1))
+    (rotate (xyz 180 0 0))
+  )
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2032_blank.step"
     (offset (xyz 0 0 3.2))
     (scale (xyz 1 1 1))
-    (rotate (xyz 90 0 0))
+    (rotate (xyz 180 0 0))
   )
 )
