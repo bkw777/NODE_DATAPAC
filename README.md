@@ -136,10 +136,38 @@ The device is actually acting a bit like a disk even though it has no brains or 
 
 I do not yet know how the software side of the process works.
 
-# WIP: "MiniNDP"
-* Replace all the THT parts with SMT parts  
-* Replace the 8 32k chips and chip-select decoder with a single 256k or 512k chip  
-* 
+# MiniNDP
+Not yet tested.  
+
+Works the same as DATAPAC (hopefully), just with a single 256k (or 512k) SRAM and all SMT parts, and directly attached instead of connected by a cable.  
+
+Height is only 34mm. The top edge stops about 8.5mm below the top surface of a Model 200, and stands about 6.5mm above the top surface of a Model 102.  
+
+The connector fits in a Model 200 without having to modify the 200.  
+
+Works on Model 100 with the same adapter cable described above.  
+
+All the caps are optional. The original DATAPAC seems to work fine without any. However:  
+* C1 provides about 15 seconds of battery-change time, even assuming the battery has already almost died and is down to 2.3v when removed.  
+* C6 would add to the battery-change time too, but the purpose of C6 is to keep VBUS alive and keep all the chips stable on disconnect, and let the RAM_RST/SLEEP pullup disable the SRAM. I don't know if this is a good or bad idea, or merely harmless but pointless. The original DATAPAC includes a very strong pulldown (5.1k) against VBUS on an active-high enable pin on the 3-8 decoder that disables all 8 sram chips fast if VBUS is disconnected. The new circuit doesn't have that. There is an active-high enable pin on the 256k sram that could be wired up the same way, but that pin is just an un-used address line on the 512k chip, and there is no equivalent active-high enable pin on the 512k chip. So the circuit is desgned to just let RAM_RST/SLEEP take care of disabling the sram on disconnect. This also saves one full milliamp of continuous current drain on the host's batteries while connected to the host.  
+
+D2 is copied from a user mod found on a DATAPAC. It appears to prevent a battery drain on the host computer while the DATAPAC is left connected to the host while the host is turned off. R1 does the job of pulling RAM_RST/SLEEP high whenever needed, so it's not required to rely on the host to drive it high. The pullup is actually even weaker on the original unit, 240k, and the original modded unit works fine, so even the weak pullup is still fast enough to disable sram even during the rapid on/off during data transfers when the sram need to be disabled briefly between each byte address change. If the original unit works with 240k ohm, then 200k will only be faster and safer. However, to more strictly replicate the original DATAPAC circuit if you wanted, you could omit D2 and short D2 pads 2 & 3 with a solder blob.  
+
+BT1 is shown using a CR2032 holder. This is thin, but still the tallest/thickest thing on the board.  
+If you wanted the card to be even thinner & more even, you could substitute a CR2016 holder.  
+A CR2032 gives over 7.5 years of memory. (200mAh to reach 2.4v / 3uA)  
+A CR2016 gives about 3 years of memory. (80mAh to reach 2.4v / 3uA)  
+Equivalent part numbers for holders that fit the same solder footprint:  
+For CR2032: Keystone 3034, TE/Linx BAT-HLD-001, Adam Tech BH-67, MPD BK-912  
+For CR2016: Keystone 3029, TE/Linx BAT-HLD-002  
+
+The SRAM is shown using a 256Kx8 part. This is the ideal part since it's a 256K device and no ram is wasted, but 256Kx8 5v parallel sram are uncommon today. It is an uncommon in-between size, where both 128k and 512k are more commonly manufactured. AS6C2008A are still made new, and can be ordered in individual quantities from Mouser, but for instance DigiKey only sells them in bulk. That is a single manufacturer and a single retailer, not counting ebay.  
+But AS6C4008 is more available. Both DigiKey and Mouser sell them new in individual quantities. There are also a few other manufacturers still making similar parts, though not available in individual quantities. 512Kx8 are basically more available than 256Kx8.  
+To allow the drop-in use of either a 256K or 512K part, the active-high CE2 pin on the 256K part is not used to enable or disable the chip, only the active-low /CE1. CE2 is tied to VMEM, making it no-op on the 256K part.  
+The 512K part has no active-high CE2 pin. That pin is instead an extra address line, which is also effectively no-op by being tied to VMEM.  
+So either 256Kx8 (AS6C2008A) or 512Kx8 (AS6C4008) may be dropped in place and work the same.  
+For the 256K part, note that it must specifically be AS6C2008A and not AS6C2008. Only the A version is 5v tolerant.  
+For the 512K part, there is no A version. AS6C4008 is 5v tolerant.  
 ![](PCB/out/MiniNDP_256.svg)
 ![](PCB/out/MiniNDP_256_top.jpg)
 ![](PCB/out/MiniNDP_256_bottom.jpg)
