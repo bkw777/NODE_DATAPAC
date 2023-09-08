@@ -40,11 +40,11 @@ The real PCB has no silkscreen. This image has silkscreen added to show where th
 This aims to be a functional replacement and will change over time to use newer parts.  
 Currently still uses all the same main chips as the original. Changes so far are that many of the traces are rerouted, coin cell battery, decoupling caps, ground pours, silkscreen.  
 Pending TODO items: Change the BUS connection to use a removable cable, and flip the pinout so that the computer end of the cable can use a connector that actually fits in a 200.
-![](PCB/out/NODE_DATAPAC_256K_bkw0.svg)
-![](PCB/out/NODE_DATAPAC_256K_bkw0_top.jpg)
-![](PCB/out/NODE_DATAPAC_256K_bkw0_bottom.jpg)
-![](PCB/out/NODE_DATAPAC_256K_bkw0_1.jpg)
-![](PCB/out/NODE_DATAPAC_256K_bkw0_2.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw.svg)
+![](PCB/out/NODE_DATAPAC_256K_bkw.top.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw.bottom.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw.f.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw.b.jpg)
 -->
 
 ## Battery

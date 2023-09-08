@@ -32,9 +32,9 @@
     (scale (xyz 1 1 1))
     (rotate (xyz 0 0 -90))
   )
-  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2032.step" hide
-    (offset (xyz 0 0 5.68))
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2032_blank.step"
+    (offset (xyz 0 0 5.679999994))
     (scale (xyz 1 1 1))
-    (rotate (xyz 90 0 0))
+    (rotate (xyz 180 0 0))
   )
 )
