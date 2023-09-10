@@ -171,9 +171,9 @@ So either 256Kx8 (AS6C2008A) or 512Kx8 (AS6C4008) may be dropped in place and wo
 For the 256K part, note that it must specifically be AS6C2008A and not AS6C2008. Only the A version is 5v tolerant.  
 For the 512K part, there is no A version. AS6C4008 is 5v tolerant.  
 ![](PCB/out/MiniNDP_256.svg)
-![](PCB/out/MiniNDP_256_top.jpg)
-![](PCB/out/MiniNDP_256_bottom.jpg)
-![](PCB/out/MiniNDP_256_1.jpg)
-![](PCB/out/MiniNDP_256_2.jpg)
+![](PCB/out/MiniNDP_256.top.jpg)
+![](PCB/out/MiniNDP_256.bottom.jpg)
+![](PCB/out/MiniNDP_256.f.jpg)
+![](PCB/out/MiniNDP_256.b.jpg)
 ![](PCB/out/MiniNDP_256_CR2032.jpg)
 ![](PCB/out/MiniNDP_256_CR2012.jpg)

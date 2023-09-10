@@ -55,12 +55,7 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [
-        "courtyards_overlap|179446440|91020290|0a2b9568-6fab-402c-ba5e-94a37404b9c1|c26c0160-6f7c-42e6-9117-12bfa7f31f52",
-        "silk_over_copper|123910000|113920798|fc34fb36-d816-4f60-8bb4-50745ab3c25b|00000000-0000-0000-0000-000000000000",
-        "silk_over_copper|124662833|113738654|8e45625e-ee29-403c-998d-06d6d6085ba5|00000000-0000-0000-0000-000000000000",
-        "silk_over_copper|179990000|113842414|e76bc2f6-872c-45bb-8728-22f72839235a|00000000-0000-0000-0000-000000000000"
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -97,7 +92,7 @@
         "pth_inside_courtyard": "ignore",
         "shorting_items": "error",
         "silk_edge_clearance": "warning",
-        "silk_over_copper": "warning",
+        "silk_over_copper": "ignore",
         "silk_overlap": "warning",
         "skew_out_of_range": "error",
         "solder_mask_bridge": "error",
@@ -195,6 +190,14 @@
         {
           "diameter": 0.6,
           "drill": 0.4
+        },
+        {
+          "diameter": 1.0,
+          "drill": 0.6
+        },
+        {
+          "diameter": 2.0,
+          "drill": 1.0
         }
       ],
       "zones_allow_external_fillets": false

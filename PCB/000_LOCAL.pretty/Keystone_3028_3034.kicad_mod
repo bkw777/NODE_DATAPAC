@@ -3,12 +3,12 @@
   (descr "Keystone 3034 SMD battery holder for 2020, 2025 and 2032 coincell batteries. http://www.keyelco.com/product-pdf.cfm?p=798")
   (tags "Keystone type 3034 coin cell retainer")
   (attr smd)
-  (fp_text reference "REF**" (at 0 -11.5) (layer "F.SilkS")
-      (effects (font (size 1 1) (thickness 0.15)))
+  (fp_text reference "REF**" (at -6.55 -8.35 180) (layer "F.SilkS")
+      (effects (font (size 0.8 0.8) (thickness 0.1)))
     (tstamp 7f4fce36-65d5-4725-a9c8-2e95dffe23c4)
   )
-  (fp_text value "Keystone_3028_3034" (at 0 11.5) (layer "F.Fab")
-      (effects (font (size 1 1) (thickness 0.15)))
+  (fp_text value "Keystone_3028_3034" (at 0 -9.8 unlocked) (layer "F.SilkS")
+      (effects (font (size 0.8 0.8) (thickness 0.1)))
     (tstamp 1e3057dc-3f72-49a1-aedf-6093aa935886)
   )
   (fp_text user "${REFERENCE}" (at 0 -2.9) (layer "F.Fab")
@@ -101,10 +101,10 @@
     (stroke (width 0.1) (type solid)) (layer "F.Fab") (tstamp 4cf883da-9a29-4ccc-af0c-157676d65fbf))
   (fp_arc (start 9.180727 7.528882) (mid 7.868698 8.760067) (end 6.1 8.43)
     (stroke (width 0.1) (type solid)) (layer "F.Fab") (tstamp b12f615f-544e-4bc5-910c-5bfd6de7561e))
-  (pad "1" smd roundrect (at -11.525 0) (size 2.35 6.35) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.25) (tstamp a378d747-29cc-440a-bf7b-c8c3abeba343))
-  (pad "1" smd roundrect (at 11.525 0) (size 2.35 6.35) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.25) (tstamp 2c6bb5b5-cbe9-4165-aaf4-0c1ef8cbeaf0))
-  (pad "2" smd circle (at 0 0) (size 17.8 17.8) (layers "F.Cu" "F.Mask") (tstamp fe10758f-f843-45c9-81f4-37d94d7ea2f3))
-  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2032_holder_Keystone_3034.step"
+  (pad "1" smd oval (at -11.35 0) (size 2 6.6) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp bfec4b17-32d6-4a17-b2d8-8c6d7552df27))
+  (pad "1" smd oval (at 11.35 0) (size 2 6.6) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 7bd5ad36-74e8-443e-8720-63a369d07ded))
+  (pad "2" smd circle (at 0 0) (size 18 18) (layers "F.Cu" "F.Mask") (tstamp fe10758f-f843-45c9-81f4-37d94d7ea2f3))
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2032_holder_Keystone_3034.step" hide
     (offset (xyz 0 0 0))
     (scale (xyz 1 1 1))
     (rotate (xyz 0 0 0))
@@ -114,12 +114,12 @@
     (scale (xyz 1 1 1))
     (rotate (xyz -90 0 0))
   )
-  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2012_holder_Keystone_3028.step" hide
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2012_holder_Keystone_3028.step"
     (offset (xyz 0 0 0))
     (scale (xyz 1 1 1))
     (rotate (xyz 0 0 90))
   )
-  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2012_blank.step" hide
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2012_blank.step"
     (offset (xyz 0 0 1.2))
     (scale (xyz 1 1 1))
     (rotate (xyz 180 0 0))
@@ -129,7 +129,7 @@
     (scale (xyz 1 1 1))
     (rotate (xyz 180 0 0))
   )
-  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2032_blank.step"
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2032_blank.step" hide
     (offset (xyz 0 0 3.2))
     (scale (xyz 1 1 1))
     (rotate (xyz 180 0 0))

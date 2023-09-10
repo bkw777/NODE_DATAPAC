@@ -3,7 +3,7 @@
   (descr "Circular Fiducial, 0.75mm bare copper, 1.5mm soldermask opening (Level B)")
   (tags "fiducial")
   (zone_connect 0)
-  (attr smd)
+  (attr board_only exclude_from_pos_files exclude_from_bom)
   (fp_text reference "REF**" (at 0 -2) (layer "F.SilkS") hide
       (effects (font (size 1 1) (thickness 0.15)))
     (tstamp 14fed1b2-45a0-4e95-90f2-21a998a1e644)
