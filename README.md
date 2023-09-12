@@ -165,6 +165,10 @@ The 512K part has no active-high CE2 pin. That pin is instead an extra address l
 So either 256Kx8 (AS6C2008A) or 512Kx8 (AS6C4008) may be dropped in place and work the same.  
 For the 256K part, note that it must specifically be AS6C2008A and not AS6C2008. Only the A version is 5v tolerant.  
 For the 512K part, there is no A version. AS6C4008 is 5v tolerant.  
+
+BOM [DigiKey](https://www.digikey.com/short/tcw74bfw)  
+<!-- PCB [PCBWAY]() --> For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY is a bit expensive for ENIG. JLCPCB and Elecrow are cheaper. OSHPark is always ENIG.
+
 ![](PCB/out/MiniNDP_256.svg)
 ![](PCB/out/MiniNDP_256.top.jpg)
 ![](PCB/out/MiniNDP_256.bottom.jpg)
