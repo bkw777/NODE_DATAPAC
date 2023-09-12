@@ -172,5 +172,5 @@ For the 512K part, there is no A version. AS6C4008 is 5v tolerant.
 ![](PCB/out/MiniNDP_256.b.jpg)
 ![](PCB/out/MiniNDP_256_CR2032.jpg)
 ![](PCB/out/MiniNDP_256_CR2012.jpg)
-![](ref/MiniNDP_on_102)
-![](ref/MiniNDP_on_200)
+![](REF/MiniNDP_on_102)
+![](REF/MiniNDP_on_200)
