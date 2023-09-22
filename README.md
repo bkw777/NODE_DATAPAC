@@ -112,9 +112,9 @@ The Model 100 part of this [3-part cable for the Disk/Video Interface](http://ta
 ## Theory of Operation
 I am still piecing this together. This is only my hazy guess at how it works so far:
 
-U1-U3 form a 0-1023 counter, setting local sram address bits A0-A9. We'll call this the byte counter.
+The 3 74x161 form a 0-1023 counter, setting local sram address bits A0-A9. We'll call this the byte counter.
 
-U6 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches that setting, ignoring the bus except when triggered to get a new address.
+The 74x374 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches that setting, ignoring the bus except when triggered to get a new address.
 
 BUS_A8, BUS_A9, Y0, and /A from the bus combine to produce two signals which I am calling /BLOCK and /BYTE.
 
@@ -124,7 +124,7 @@ Each time /BYTE is pulsed:
 * All sram are disabled during the transition.
 
 Each time /BLOCK is pulsed low and then back up, it does 2 things:
-* U6 updates A10-A17 from bus AD0-AD7.  
+* 74x374 updates A10-A17 from bus AD0-AD7.  
   5 of those bits are used directly as A10-A14 going to all SRAM chips,  
   3 bits A15-A17 are used indirectly to select 1 of the 8 chips.  
   The end result is the same as if all 8 address lines went to a single larger chip.
@@ -150,23 +150,19 @@ The diode on RAM_RST is copied from a user mod found on a DATAPAC. It appears to
 
 BT1 is shown using a CR2032 holder. This is thin, but still the tallest/thickest thing on the board.  
 If you wanted the card to be even thinner and more even, you could substitute the CR2032 holder with a CR2016 holder or even a CR2012 holder.  
-A CR2032 gives 7.5 years of memory. (200mAh to reach 2.4v / 3uA)  
-A CR2016 gives 3 years of memory. (80mAh to reach 2.4v / 3uA)  
-A CR2012 gives 2 years of memory. (50mAh to reach 2.4v / 3uA)  
-Part numbers for different size holders that fit the same solder footprint:  
-For CR2032: Keystone 3034, TE/Linx BAT-HLD-001-SMT, Adam Tech BH-67, MPD BK-912  (4.1mm tall)  
-For CR2016: TE/Linx BAT-HLD-002-SMT  (2.8mm tall)  
-For CR2012: Keystone 3028 (1.7mm tall) (you can actually stuff a 2016 into this holder)
+|cell size|estimated life|holders that fit the footprint|height|notes|
+|---|---|---|---|---|
+|CR2032|7.5 years|Keystone 3034, TE/Linx BAT-HLD-001-SMT, Adam Tech BH-67, MPD BK-912|4.1mm||
+|CR2016|3 years|TE/Linx BAT-HLD-002-SMT|2.8mm|can also hold CR2025|
+|CR2012|2 years|Keystone 3028|1.7mm|you can actually stuff a CR2016 into this holder just fine|
 
-The SRAM is shown using a 256Kx8 part. This is the ideal part since it's a 256K device and no ram is wasted, but 256Kx8 5v parallel sram are uncommon today. It is an uncommon in-between size, where both 128k and 512k are more commonly manufactured. AS6C2008A are still made new, and can be ordered in individual quantities from Mouser, but for instance DigiKey only sells them in bulk. That is a single manufacturer and a single retailer, not counting ebay.  
-But AS6C4008 is more available. Both DigiKey and Mouser sell them new in individual quantities. There are also a few other manufacturers still making similar parts, though not available in individual quantities. 512Kx8 are basically more available than 256Kx8.  
-To allow the drop-in use of either a 256K or 512K part, the active-high CE2 pin on the 256K part is not used to enable or disable the chip, only the active-low /CE1. CE2 is tied to VMEM, making it no-op on the 256K part.  
-The 512K part has no active-high CE2 pin. That pin is instead an extra address line, which is also effectively no-op by being tied to VMEM.  
-So either 256Kx8 (AS6C2008A) or 512Kx8 (AS6C4008) may be dropped in place and work the same.  
-For the 256K part, note that it must specifically be AS6C2008A and not AS6C2008. Only the A version is 5v tolerant.  
-For the 512K part, there is no A version. AS6C4008 is 5v tolerant.  
+A 256Kx8 SRAM is ideal, but 512Kx8 are more available, so the circuit and pcb are designed to also accept a 512Kx8 SRAM in the same footprint with no changes needed.  
+To allow the drop-in use of either a 256Kx8 or 512Kx8 part, the active-high CE2 pin on the 256Kx8 is hardwired high and not used to enable/disable the chip.  
+That pin is an address line on a 512Kx8 part. So, tying the pin high makes it a no-op in both cases, and makes both parts act like a 256Kx8 that only has a single /CE pin.  
+For the 256Kx8 part, note that it must specifically be AS6C2008A and not AS6C2008. Only the A version is 5v tolerant.  
+For the 512Kx8 part, there is no A version. AS6C4008 is 5v tolerant.  
 
-BOM [DigiKey](https://www.digikey.com/short/tcw74bfw)  
+BOM [DigiKey](https://www.digikey.com/short/mnw5t9fd)  
 <!-- PCB [PCBWAY]() --> For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY is a bit expensive for ENIG. JLCPCB and Elecrow are cheaper. OSHPark is always ENIG.
 
 ![](PCB/out/MiniNDP_256.svg)
@@ -174,7 +170,15 @@ BOM [DigiKey](https://www.digikey.com/short/tcw74bfw)
 ![](PCB/out/MiniNDP_256.bottom.jpg)
 ![](PCB/out/MiniNDP_256.f.jpg)
 ![](PCB/out/MiniNDP_256.b.jpg)
+
+CR2032 height
 ![](PCB/out/MiniNDP_256_CR2032.jpg)
+
+CR2016 height (nominally a CR2012 holder, but can take a CR2016)
 ![](PCB/out/MiniNDP_256_CR2012.jpg)
+
+Installed on a TANDY 102
 ![](REF/MiniNDP_on_102.jpg)
+
+Installed on a TANDY 200
 ![](REF/MiniNDP_on_200.jpg)
