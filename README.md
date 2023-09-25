@@ -144,7 +144,7 @@ The connector fits in a Model 200 without having to modify the 200.
 Works on Model 100 with the same adapter cable described above.  
 
 All the caps are optional. The original DATAPAC has no caps and works fine.  
-The 100u caps provide a few minutes of battery-change time.
+C2 provides a few minutes of life without a battery.
 
 The diode on RAM_RST is copied from a user mod found on a DATAPAC. It appears to be intended to prevent a battery drain on the host computer while the DATAPAC is left connected to the host while the host is turned off. R1 does the job of pulling RAM_RST/SLEEP high whenever needed, so it's not required to rely on the host to drive it high.
 
