@@ -6,8 +6,8 @@
 
   (title_block
     (title "MiniNDP 256")
-    (date "2023-09-24")
-    (rev "007")
+    (date "2023-09-25")
+    (rev "008")
     (company "Brian K. White - b.kenyon.w@gmail.com")
     (comment 1 "Work-alike of NODE DATAPAC 256k")
   )
@@ -3034,7 +3034,7 @@
     (property "Footprint" "000_LOCAL:CP_EIA-6032-28" (at 70.8152 186.69 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 69.85 182.88 0)
+    (property "Datasheet" "datasheets/TAJ.pdf" (at 69.85 182.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 6dff6ebd-242c-494b-9526-a392d7e761b4))
