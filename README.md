@@ -148,13 +148,11 @@ The 100u caps provide a few minutes of battery-change time.
 
 The diode on RAM_RST is copied from a user mod found on a DATAPAC. It appears to be intended to prevent a battery drain on the host computer while the DATAPAC is left connected to the host while the host is turned off. R1 does the job of pulling RAM_RST/SLEEP high whenever needed, so it's not required to rely on the host to drive it high.
 
-BT1 is shown using a CR2032 holder. This is thin, but still the tallest/thickest thing on the board.  
-If you wanted the card to be even thinner and more even, you could substitute the CR2032 holder with a CR2016 holder or even a CR2012 holder.  
-|cell size|estimated life|holders that fit the footprint|height|notes|
+You can optionally make a thinner, flatter card by replacing BT1 and C2 with lower profile (and lower capacity) alternatives. The battery life and battery-change time will both be reduced.  
+|BATTERY|estimated life|holders that fit the footprint|height|C2|
 |---|---|---|---|---|
-|CR2032|7.5 years|Keystone 3034, TE/Linx BAT-HLD-001-SMT, Adam Tech BH-67, MPD BK-912|4.1mm||
-|CR2016|3 years|TE/Linx BAT-HLD-002-SMT|2.8mm|can also hold CR2025|
-|CR2012|2 years|Keystone 3028|1.7mm|you can actually stuff a CR2016 into this holder just fine|
+|CR2032|7.5 years|Keystone 3034<br>TE/Linx BAT-HLD-001-SMT<br>Adam Tech BH-67<br>MPD BK-912|4.1mm|TAJC227K010RNJ - 6032-28 220u 10v|
+|CR2016|3 years|Keystone 3028|1.7mm|TLJW157M010R0200 - 6032-15 150u 10v|
 
 A 256Kx8 SRAM is ideal, but 512Kx8 are more available, so the circuit and pcb are designed to also accept a 512Kx8 SRAM in the same footprint with no changes needed.  
 To allow the drop-in use of either a 256Kx8 or 512Kx8 part, the active-high CE2 pin on the 256Kx8 is hardwired high and not used to enable/disable the chip.  
