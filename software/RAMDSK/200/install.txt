@@ -1,0 +1,11 @@
+If you have a TPDD client like TS-DOS, just copy RAM200.CO
+
+If you need to bootstrap:
+
+Windows, using https://github.com/bkw777/tsend
+
+  C:> tsend.ps1 -file RAM200.DO
+
+Mac or Linux, using https://github.com/bkw777/dlplus
+
+  $ dl -v -b RAM200.DO
