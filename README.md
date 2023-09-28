@@ -83,19 +83,27 @@ A few of those documents indicate that the device shipped with the user manual p
 ## Software
 The "driver" software for the device is [RAMDSK](software/RAMDSK/)
 
-Originally these shipped with an option rom from NODE, which does not seem to be archived anywhere.  
+Originally these shipped with an option rom from NODE (Written by Travelling Software), which does not seem to be archived anywhere.  
 
 RAMDSK is purported to provide all or almost all of the same functionality as NODEs rom, and even NODE themselves later licensed RAMDSK and included a copy with each unit. It's unclear if this was in addition to their original rom, or fully replacing it.  
 Even the rom calls from the option rom have equivalents in RAMDSK, though at different addresses.  
-(One thing RAMDSK does not do which the original option rom did, is re-create the user manual text file as part of the Format function.)  
+One thing RAMDSK does not do which the original option rom did, is re-create the user manual text file as part of the Format function.
 
-The only other significant software using this device seems to be [XOS-C](http://www.club100.org/library/libpg.html), which is sort of an OS for the Model 200. XOS does not require a RAMPAC or DATAPAC, but apparently makes good use of one if present. For instance, you can keep just a single copy of RAMDSK.CO in bank 3, yet be able to use it from any bank.  
-I have not tried XOS-C yet, this is just from reading the description.
+The only other significant software using this device seems to be [XOS](http://www.club100.org/library/libpg.html), which is sort of an OS for the Model 200. XOS does not require a RAMPAC or DATAPAC, but apparently makes good use of one if present. For instance, you can keep just a single copy of RAMDSK.CO in bank 3, yet be able to use it from any bank.  
+I have not tried XOS yet, this is just from reading the description.
 
 Some software culled from the M100SIG archive and Club100 are collected in [software](software)  
+Much of that software actually requires the original rom, which is not available. Some of that could possibly be converted to work with RAMDSK instead of the rom, by translating the call addresses, per the RAMDSK.TIP file.
+
+The few documents we do have mention a BOOT program that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start, but that file does not seem to be archived anywhere.
+
+Currently the only way to get RAMDSK installed is to copy it via any of the normal ways. BASIC loader, TPDD, cassette.
+The quickest way to go from scratch is the bootstrap directions in [software/RAMDSK/100/install.txt](software/RAMDSK/100/install.txt) or [software/RAMDSK/200/install.txt](software/RAMDSK/200/install.txt), which uses a bootstrapper program to feed a loader program into BASIC.
 
 ## Model compatibility
 Apparently only Models 100, 102, & 200 were ever supported. (No NEC or Olivetti, etc)
+
+There is no reason the device can't work on any of the other machines, merely the software was never written for or ported to them.
 
 ### Model 200
 The connector on the DATAPAC does not actually fit in a Model 200 without cutting the opening wider around the bus connector on the 200.  
