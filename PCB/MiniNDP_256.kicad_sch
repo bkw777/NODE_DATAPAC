@@ -2623,8 +2623,8 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid b03f17b6-6547-4706-9b82-a27a0386a9d2)
   )
-  (text "Each ~{BLOCK} pulse resets A0-A9 to 0, and\nsets A10-A17 from AD0-AD7 from the bus. (0-255)\n\nEach ~{BYTE} pulse increments A0-A9 by 1. (0-1023)\n"
-    (at 36.83 35.56 0)
+  (text "Each ~{BLOCK} pulse low sets A0-A9 to 0 and\nsets A10-A17 from AD0-AD7 from the bus while low,\nand holds A10-A17 latched while high.\n\nEach ~{BYTE} pulse low enables SRAM for read or write while low,\nthen disables SRAM and increments A0-A9 by 1 on returning high.\n"
+    (at 22.86 34.29 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid c18ee738-97eb-4395-988f-70ec05925c40)
   )

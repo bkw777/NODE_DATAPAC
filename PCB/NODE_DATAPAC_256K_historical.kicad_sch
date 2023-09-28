@@ -3284,7 +3284,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 0f1ca496-c440-4f39-85c0-08c3d4aed79d)
   )
-  (text " BUS  | U1-U3 | U5 | U6\n      |       |    |\nA8 A9 | ~{MR} CP | ~{CS} | Cp\n0  0  |    *  |    | *\n1  0  | *  *  |    |\n0  1  |    *  |    | *\n1  1  |       | *  | *\n\n*=active high or low\n\nU1-U3  address advance counter\nU5     en/disable all sram\nU6     bus buffer clk"
+  (text " BUS  | U1-U3 | U5 | U6\n      |       |    |\nA8 A9 | ~{MR} CP | ~{CS} | Cp\n0  0  |    *  |    | *\n1  0  | *  *  |    |\n0  1  |    *  |    | *\n1  1  |       | *  | *\n\n*=active, whether high or low\n\nU1-U3  byte address reset/increment\nU5     enable/disable sram\nU6     block address copy/latch"
     (at 24.13 208.28 0)
     (effects (font (face "Ubuntu Mono") (size 1.27 1.27)) (justify left bottom))
     (uuid 1700fac4-e2c0-48f5-a2cb-6c9cbaf05649)
@@ -3337,16 +3337,11 @@
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 5d8b3e44-3c83-4505-b8bf-23189d262a80)
   )
-  (text "Set A10-A17 from bus AD0-AD7 at block-start,\nlatch the rest of the time.\n"
-    (at 68.58 86.36 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 65403d3b-4c63-4d3d-bf3b-871c11cd2fd7)
-  )
   (text "~{ALE}" (at 40.64 93.98 0)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 65b6d371-3239-4b88-a347-2eec1905a6e3)
   )
-  (text "Each ~{BLOCK} pulse updates local A10-A17 from BUS AD0-AD7 and resets the byte counter to 0.\n\nEach ~{BYTE} pulse disables SRAM, advances the byte counter by 1, and sets local A0-A9.\n\n8 bits from the bus = 256 possible block-start addresses from the bus.\n10 bits byte counter = 1k per block."
+  (text "Each ~{BLOCK} pulse low sets A0-A9 to 0 and sets A10-A17 from bus AD0-AD7 while low, and holds A10-A17 latched while high.\n\nEach ~{BYTE} pulse low enables SRAM for read or write while low, then disables SRAM and advances A0-A9 by 1 on returning high.\n\nA0-A9 = 10 bit byte address = 1024 bytes per block\nA10-A17 = 8 bit block address = 256 blocks\n"
     (at 25.4 279.4 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 6d00ff9a-33c9-4ffa-8b9c-5333511fed3e)
@@ -3368,10 +3363,6 @@
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 9155767e-c825-4109-a79a-6fa57d544bc1)
   )
-  (text "disable sram during address change" (at 104.14 148.59 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 94268b93-f27f-4f1b-97b8-134aa3b21560)
-  )
   (text "A13" (at 53.34 81.28 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 96d9e008-779e-482c-b1a1-3ca631a93d53)
@@ -3380,7 +3371,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid a6be3495-9d2b-4227-aca8-fcfd2971e392)
   )
-  (text "SYSTEM BUS connection here is using the non-standard pin numbering from the TANDY Model 102 & 200 manuals.\nEven and odd rows are swapped compared to standard for the connector. ex: The connectors pin 1 mark goes to pin 2 here."
+  (text "This SYSTEM BUS symbol is using technically wrong pin numbering to match the TANDY Model 102 & 200 manuals.\nPin 2 here is really pin 1 on the connector, pin 37 here is really pin 38 on the connector and so on."
     (at 17.78 24.13 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid c58c3d18-7278-412d-a9c0-50cf41cfed11)
