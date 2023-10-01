@@ -157,10 +157,10 @@ C2 provides a few minutes of life without a battery.
 The diode on RAM_RST is copied from a user mod found on a DATAPAC. It appears to be intended to prevent a battery drain on the host computer while the DATAPAC is left connected to the host while the host is turned off. R1 does the job of pulling RAM_RST/SLEEP high whenever needed, so it's not required to rely on the host to drive it high.
 
 You can optionally make a thinner, flatter card by replacing BT1 and C2 with lower profile (and lower capacity) alternatives. The battery life and battery-change time will both be reduced.  
-|BATTERY|estimated life|holders that fit the footprint|height|C2|
+|BATTERY|estimated life|holders that fit the footprint|height|C2 Capacitor|
 |---|---|---|---|---|
-|CR2032|7.5 years|Keystone 3034<br>TE/Linx BAT-HLD-001-SMT<br>Adam Tech BH-67<br>MPD BK-912|4.1mm|TAJC227K010RNJ - 6032-28 220u 10v|
-|CR2016|3 years|Keystone 3028|1.7mm|TLJW157M010R0200 - 6032-15 150u 10v|
+|CR2032|7.5 years|Keystone 3034<br>TE/Linx BAT-HLD-001-SMT<br>Adam Tech BH-67<br>MPD BK-912|4.1mm|[TAJC227K010RNJ](https://www.digikey.com/en/products/detail/kyocera-avx/TAJC227K010RNJ/1833766?s=N4IgTCBcDaICoEEBSBhMYDsBpADARhwCUA5JEAXQF8g) - 6032-28 220u 10v|
+|CR2016|3 years|Keystone 3028|1.7mm|[TLJW157M010R0200](https://www.digikey.com/en/products/detail/kyocera-avx/TLJW157M010R0200/929982?s=N4IgTCBcDaICoBkBSB1AjAVgOwFkAMaeASnmHniALoC%2BQA) - 6032-15 150u 10v|
 
 A 256Kx8 SRAM is ideal, but 512Kx8 are more available, so the circuit and pcb are designed to also accept a 512Kx8 SRAM in the same footprint with no changes needed.  
 To allow the drop-in use of either a 256Kx8 or 512Kx8 part, the active-high CE2 pin on the 256Kx8 is hardwired high and not used to enable/disable the chip.  
@@ -168,7 +168,7 @@ That pin is an address line on a 512Kx8 part. So, tying the pin high makes it a 
 For the 256Kx8 part, note that it must specifically be AS6C2008A and not AS6C2008. Only the A version is 5v tolerant.  
 For the 512Kx8 part, there is no A version. AS6C4008 is 5v tolerant.  
 
-BOM [DigiKey](https://www.digikey.com/short/40415rbf)  
+BOM [DigiKey](https://www.digikey.com/short/5rf5qqq7)  
 <!-- PCB [PCBWAY]() --> For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY is a bit expensive for ENIG. JLCPCB and Elecrow are cheaper. OSHPark is always ENIG.
 
 ![](PCB/out/MiniNDP_256.svg)
@@ -180,8 +180,8 @@ BOM [DigiKey](https://www.digikey.com/short/40415rbf)
 CR2032 height
 ![](PCB/out/MiniNDP_256_CR2032.jpg)
 
-CR2016 height (nominally a CR2012 holder, but can take a CR2016)
-![](PCB/out/MiniNDP_256_CR2012.jpg)
+CR2016 height (nominally a CR2012 holder, but can take a CR2016)  
+![](PCB/out/MiniNDP_256_CR2016.jpg)
 
 Installed on a TANDY 102
 ![](REF/MiniNDP_on_102.jpg)

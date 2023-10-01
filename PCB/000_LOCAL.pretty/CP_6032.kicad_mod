@@ -1,4 +1,4 @@
-(footprint "CP_EIA-6032-28" (version 20221018) (generator pcbnew)
+(footprint "CP_6032" (version 20221018) (generator pcbnew)
   (layer "F.Cu")
   (descr "Tantalum Capacitor SMD Kemet-C (6032-28 Metric), IPC_7351 nominal, (Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf), generated with kicad-footprint-generator")
   (tags "capacitor tantalum")
@@ -7,7 +7,7 @@
       (effects (font (size 0.8 0.8) (thickness 0.1)))
     (tstamp b755b3e9-109b-47e0-b242-a1333a014898)
   )
-  (fp_text value "CP_EIA-6032-28" (at 0 2.55) (layer "F.SilkS")
+  (fp_text value "CP_6032" (at 0 2.55) (layer "F.SilkS")
       (effects (font (size 0.8 0.8) (thickness 0.1)))
     (tstamp 732acf70-bd21-41a9-aecf-66ce7856fe28)
   )
@@ -41,7 +41,12 @@
     (stroke (width 0.1) (type solid)) (layer "F.Fab") (tstamp 9af5840e-6c5b-4a6a-91f3-cfb363bbb87d))
   (pad "1" smd roundrect (at -2.4625 0) (size 2.075 2.35) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.120482) (tstamp cd88f2ab-d9ba-4631-bbe4-e598967370ec))
   (pad "2" smd roundrect (at 2.4625 0) (size 2.075 2.35) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.120482) (tstamp c3b7b76d-6c93-4bba-bdef-e2b39cbcff4a))
-  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CP_EIA-6032-28.step"
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CP_6032-28.step"
+    (offset (xyz 0 0 0))
+    (scale (xyz 1 1 1))
+    (rotate (xyz 0 0 0))
+  )
+  (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CP_6032-15.step" hide
     (offset (xyz 0 0 0))
     (scale (xyz 1 1 1))
     (rotate (xyz 0 0 0))
