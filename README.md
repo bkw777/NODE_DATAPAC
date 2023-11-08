@@ -194,4 +194,4 @@ Installed on a TANDY 200
 ![](REF/MiniNDP_on_200.jpg)
 
 FD Singelton's slip cover
-![](REF/MiniNDP_FD_Sigleton_slip_cover.jpg)
+![](REF/MiniNDP_FD_Singleton_slip_cover.jpg)
