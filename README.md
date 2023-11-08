@@ -173,7 +173,7 @@ PCB [OSHPark](https://oshpark.com/shared_projects/81zI8Ibg), [PCBWAY](https://ww
 
 For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.
 
-For an enclosure, I have an idea for a design, but haven't drawn it up yet, meanwhile, FD Singleton has already designed a 3d-printable [slip cover](enclosure) that looks like it works pretty well.
+For an enclosure, I have an idea for a design, but haven't drawn it up yet, meanwhile, F.D. Singleton has already designed a 3d-printable [slip cover](enclosure) that looks like it works pretty well.
 
 ![](PCB/out/MiniNDP_256.svg)
 ![](PCB/out/MiniNDP_256.top.jpg)
@@ -193,5 +193,5 @@ Installed on a TANDY 102
 Installed on a TANDY 200
 ![](REF/MiniNDP_on_200.jpg)
 
-FD Singelton's slip cover
-![](REF/MiniNDP_FD_Singleton_slip_cover.jpg)
+F.D. Singelton's slip cover
+![](REF/MiniNDP_FDS_slip_cover.jpg)
