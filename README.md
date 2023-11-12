@@ -168,7 +168,7 @@ That pin is an address line on a 512Kx8 part. So, tying the pin high makes it a 
 For the 256Kx8 part, note that it must specifically be AS6C2008A and not AS6C2008. Only the A version is 5v tolerant.  
 For the 512Kx8 part, there is no A version. AS6C4008 is 5v tolerant.  
 
-BOM [DigiKey](https://www.digikey.com/short/b3j0pm49), [Mouser](https://www.mouser.com/ProjectManager/ProjectDetail.aspx?AccessID=3535282dda) 
+BOM [DigiKey](https://www.digikey.com/short/fz7n5pv0), [Mouser](https://www.mouser.com/ProjectManager/ProjectDetail.aspx?AccessID=3535282dda) 
 PCB [OSHPark](https://oshpark.com/shared_projects/6kkAVQTq), [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html)  
 
 For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.
