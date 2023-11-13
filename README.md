@@ -95,14 +95,11 @@ Apparently only Models 100, 102, & 200 were ever supported. (No NEC or Olivetti,
 There is no reason the device can't work on any of the other machines, merely the software was never ported to them.
 
 ### Model 200
-The connector on the DATAPAC does not actually fit in a Model 200 without cutting the opening wider around the bus connector on the 200.  
-![](REF/does_not_fit_model_200.jpg)
+The connector on the DATAPAC [does not actually fit in a Model 200](REF/does_not_fit_model_200.jpg) without cutting the opening wider around the bus connector on the 200.
 
-The only connector that fits in a 200 without hacking on the 200s case is a solder-type IDC box header like [this](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SBH11-PBPC-D20-ST-BK/1990068),
- which could be soldered back to back with the female version like [this](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SFH11-PBPC-D20-ST-BK/1990093),
- to make an adapter to allow connecting to a 200 without having to damage the 200's case.  
-<!-- ![](REF/T200_adapter.jpg)  
-![](REF/T200_adapter_installed.jpg)  -->
+The only connector that fits in a 200 without hacking on the 200s case is a [solder-type 2x20 male box header](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SBH11-PBPC-D20-ST-BK/1990068),
+ which could be soldered back to back with the [female version](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SFH11-PBPC-D20-ST-BK/1990093),
+ to make an [adapter](REF/T200_adapter.jpg) to allow [connecting to a 200](REF/T200_adapter_installed.jpg) without having to damage the 200's case.
 
 ### Model 100
 This "102/200" version actually works on Model 100 also. It needs an adapter cable, but the cable is simple. It's just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
