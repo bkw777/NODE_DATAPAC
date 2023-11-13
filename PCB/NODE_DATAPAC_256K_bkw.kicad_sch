@@ -3502,11 +3502,6 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 37418ba7-fb6a-44ce-ab58-dce2655aeabb)
   )
-  (text " BUS  | U1-U3 | U5 | U6\n      |       |    |\nA8 A9 | ~{MR} CP | ~{CS} | Cp\n0  0  |    *  |    | *\n1  0  | *  *  |    |\n0  1  |    *  |    | *\n1  1  |       | *  | *\n\n*=active, whether high or low\n\nU1-U3  byte address increment\nU5     enable/disable sram\nU6     block address latch"
-    (at 30.48 208.28 0)
-    (effects (font (face "Bitstream Vera Sans Mono") (size 1.27 1.27)) (justify left bottom))
-    (uuid 3846a072-04e7-47bf-ac39-5d277e2eefd1)
-  )
   (text "NC" (at 59.69 106.68 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 38727469-5f02-4ae7-b762-7fbe3f1c8e23)
