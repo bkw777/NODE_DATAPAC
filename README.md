@@ -8,12 +8,12 @@ This schematic and PCB documents the DATAPAC. If I ever aquire a RAMPAC, I'll ad
 
 Here is some disorganized [INFO](software/) mostly gathered from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [club100](http://www.club100.org).
 
-TLDR: To use the hardware, install [RAMDSK.CO](software/RAMDSK/), and what you get is a 128K or 256K ram disk.
+TLDR: To use the hardware, install [RAMDSK.CO](software/RAMDSK/), and what you get is a 256K ram disk.
 
-The enclosure printing says 256K, and the circuit is all there to support 256K, but my 2 units only had 128K installed.  
-There are footprints on the PCB for 4 x 32K sram chips, for a total of 128K.  
-To get 256K, a 2nd set of 4 chips are piggybacked on top of the first 4, with only pin 20 bent out and connected to the pcb instead of to the chip below.  
-No other parts or changes are needed.
+The printing on the enclosure says 256K, and the circuit is all there to support 256K, but my 2 units only had 128K installed.  
+There are footprints on the PCB for only 4 32K sram chips, for a total of 128K.  
+To get 256K, a 2nd set of chips are piggybacked on top of the first 4, each with pin 20 bent out and connected to the pcb instead of to the chip below, and all other pins connected to the chip below.  
+No other parts or changes are needed. I have verified this by doing it.
 
 ![](REF/NODE_DATAPAC_256K_1.jpg)
 ![](REF/NODE_DATAPAC_256K_2.jpg)
@@ -33,19 +33,6 @@ PCB BOTTOM
 
 The real PCB has no silkscreen. This image has silkscreen added to show where the components from the schematic go.
 ![](PCB/out/NODE_DATAPAC_256K_historical_top_annotated.jpg)
-
-
-<!-- 
-## New Schematic & PCB
-This aims to be a functional replacement and will change over time to use newer parts.  
-Currently still uses all the same main chips as the original. Changes so far are that many of the traces are rerouted, coin cell battery, decoupling caps, ground pours, silkscreen.  
-Pending TODO items: Change the BUS connection to use a removable cable, and flip the pinout so that the computer end of the cable can use a connector that actually fits in a 200.
-![](PCB/out/NODE_DATAPAC_256K_bkw.svg)
-![](PCB/out/NODE_DATAPAC_256K_bkw.top.jpg)
-![](PCB/out/NODE_DATAPAC_256K_bkw.bottom.jpg)
-![](PCB/out/NODE_DATAPAC_256K_bkw.f.jpg)
-![](PCB/out/NODE_DATAPAC_256K_bkw.b.jpg)
--->
 
 ## Battery
 The original battery is no longer made. The modern replacement is almost 2mm taller and does not fit inside the enclosure.
@@ -78,7 +65,7 @@ The original manual does not seem to be scanned or archived anywhere.
 All we have today is a few bits of info from discussions in the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and Paul Globmans software on [club100](http://www.club100.org/library/libpg.html).  
 Some of these are collected [here](software).
 
-A few of those documents indicate that the device shipped with the user manual pre-loaded onto the DATAPAC as an 11.7K text file, along with at least one BASIC program, and the Format function in the option rom would also re-create this file.
+A few of those documents indicate that the device originally shipped with the user manual pre-loaded onto the DATAPAC as a 12K text file, along with at least one BASIC program, and the Format function in the option rom would also re-create this file.
 
 ## Software
 The "driver" software for the device is [RAMDSK](software/RAMDSK/)
@@ -89,11 +76,13 @@ RAMDSK is purported to provide all or almost all of the same functionality as NO
 Even the rom calls from the option rom have equivalents in RAMDSK, though at different addresses.  
 One thing RAMDSK does not do which the original option rom did, is re-create the user manual text file as part of the Format function.
 
+The "Bank" button in the later versions of RAMDSK is for the later versions of the hardware that could have 384K or 512K. It has no effect on a 128K or 256K unit.  
+
 The only other significant software using this device seems to be [XOS](http://www.club100.org/library/libpg.html), which is sort of an OS for the Model 200. XOS does not require a RAMPAC or DATAPAC, but apparently makes good use of one if present. For instance, you can keep just a single copy of RAMDSK.CO in bank 3, yet be able to use it from any bank.  
 I have not tried XOS yet, this is just from reading the description.
 
 Some software culled from the M100SIG archive and Club100 are collected in [software](software)  
-Much of that software actually requires the original rom, which is not available. Some of that could possibly be converted to work with RAMDSK instead of the rom, by translating the call addresses, per the RAMDSK.TIP file.
+Much of that software actually requires the original option rom, which is not available. Some of that could possibly be converted to work with RAMDSK instead of the rom, by translating the call addresses, per the RAMDSK.TIP file.
 
 The few documents we do have mention a BOOT program that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start, but that file does not seem to be archived anywhere.
 
@@ -103,7 +92,7 @@ The quickest way to go from scratch is the bootstrap directions in [software/RAM
 ## Model compatibility
 Apparently only Models 100, 102, & 200 were ever supported. (No NEC or Olivetti, etc)
 
-There is no reason the device can't work on any of the other machines, merely the software was never written for or ported to them.
+There is no reason the device can't work on any of the other machines, merely the software was never ported to them.
 
 ### Model 200
 The connector on the DATAPAC does not actually fit in a Model 200 without cutting the opening wider around the bus connector on the 200.  
@@ -111,67 +100,74 @@ The connector on the DATAPAC does not actually fit in a Model 200 without cuttin
 
 The only connector that fits in a 200 without hacking on the 200s case is a solder-type IDC box header like [this](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SBH11-PBPC-D20-ST-BK/1990068),
  which could be soldered back to back with the female version like [this](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SFH11-PBPC-D20-ST-BK/1990093),
- to make an adapter to allow connecting to a 200 without having to damage the 200's case.
+ to make an adapter to allow connecting to a 200 without having to damage the 200's case.  
+<!-- ![](REF/T200_adapter.jpg)  
+![](REF/T200_adapter_installed.jpg)  -->
 
 ### Model 100
 This "102/200" version actually works on Model 100 also. It needs an adapter cable, but the cable is simple. It's just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
 The Model 100 part of this [3-part cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable) is exactly the same thing.
 
 ## Theory of Operation
-I am still piecing this together. This is only my hazy guess at how it works so far:
+This only describes the hardware. I don't yet know how the software works.
 
 The 3 74x161 form a 0-1023 counter, setting local sram address bits A0-A9. We'll call this the byte counter.
 
 The 74x374 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches that setting, ignoring the bus except when triggered to get a new address.
 
-BUS_A8, BUS_A9, Y0, and /A from the bus combine to produce two signals which I am calling /BLOCK and /BYTE.
+4 lines from the system bus, A8, A9, /Y0, and (A), combine to produce two signals which I am calling /BLOCK and /BYTE.
 
-Each time /BYTE is pulsed:
-* The byte counter is advanced by 1 (A0-A9 are changed to the next address).
+Each time /BLOCK goes low it sets SRAM A0-A9 to 0 and copies BUS AD0-AD7 to SRAM A10-A17,
+then holds A10-A17 latched while /BLOCK is high.
 
-* All sram are disabled during the transition.
+Each time /BYTE goes low it enables SRAM for read or write while low,
+then when /BYTE goes high it disables SRAM and increments A0-A9 by 1.
 
-Each time /BLOCK is pulsed low and then back up, it does 2 things:
-* 74x374 updates A10-A17 from bus AD0-AD7.  
-  5 of those bits are used directly as A10-A14 going to all SRAM chips,  
-  3 bits A15-A17 are used indirectly to select 1 of the 8 chips.  
-  The end result is the same as if all 8 address lines went to a single larger chip.
+So the device operate in 1k blocks, where the host computer gives 1 of 256 possible "block-start" addresses, then reads or writes up to 1024 bytes, one at a time. Each time the host accesses a byte, the counter advances itself and the next read or write will operate on the next byte.
+The device actually does operate like a disk even though it has no brains or firmware.
 
-* The byte counter is reset to 0.
-
-So the device appears to operate in 1k blocks, where the host computer gives 1 of 256 possible "block-start" addresses, then reads or writes up to 1024 bytes, one at a time. Each time the host accesses a byte, the counter advances itself and the next read/write will get the next byte.  
-The device is actually acting a bit like a disk even though it has no brains or firmware.
-
-I do not yet know how the software side of the process works.
+<!-- 
+## New Replacement PCB
+Uses all the same through-hole parts, fits in the original enclosure, improves the trace routing a little, for example moving that VCC line away from that screw head, gnd traces replaced by pours, thicker and all the same size vcc lines, decoupling caps, silkscreen.  
+There is not much reason to build this instead of a MiniNDP. Even if you had an original DATAPAC that was corroded by the battery, it would be easier and more history-preserving to just repair the corroded traces with bodge wires since all the parts are so big and simple.
+![](PCB/out/NODE_DATAPAC_256K_bkw.svg)
+![](PCB/out/NODE_DATAPAC_256K_bkw.top.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw.bottom.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw.f.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw.b.jpg)
+-->
 
 # MiniNDP
-Works the same as DATAPAC, just with a single 256k (or 512k) SRAM and all SMT parts, and directly attached instead of connected by a cable.  
+Functions the same as DATAPAC. Essentially the same circuit, just with a single 256k ram chip instead of 8 32k chips, surface mount parts instead of through hole, and directly attached instead of connected by a cable.
 
 The connector fits in a Model 200 without having to modify the 200.  
 
-Works on Model 100 with the same adapter cable described above.  
+Also works on Model 100 with the same adapter cable described above.  
 
 All the caps are optional. The original DATAPAC has no caps and works fine.  
-C2 provides a few minutes of life without a battery.
+C2 provides a few minutes of life without a battery so you can change the battery without losing data.
 
-The diode on RAM_RST is copied from a user mod found on a DATAPAC. It appears to be intended to prevent a battery drain on the host computer while the DATAPAC is left connected to the host while the host is turned off. R1 does the job of pulling RAM_RST/SLEEP high whenever needed, so it's not required to rely on the host to drive it high.
+The diode on RAMRST is copied from a user mod found on a DATAPAC. It appears to be intended to prevent a battery drain on the host computer while the DATAPAC is left connected to the host while the host is turned off.
 
-You can optionally make a thinner, flatter card by replacing BT1 and C2 with lower profile (and lower capacity) alternatives. The battery life and battery-change time will both be reduced.  
+You can optionally make a thinner card by replacing BT1 and C2 with lower profile (and lower capacity) alternatives.  
 |BATTERY|estimated life|holders that fit the footprint|height|C2 Capacitor|
 |---|---|---|---|---|
 |CR2032|7.5 years|Keystone 3034<br>TE/Linx BAT-HLD-001-SMT<br>Adam Tech BH-67<br>MPD BK-912|4.1mm|[TAJC227K010RNJ](https://www.digikey.com/en/products/detail/kyocera-avx/TAJC227K010RNJ/1833766?s=N4IgTCBcDaICoEEBSBhMYDsBpADARhwCUA5JEAXQF8g) - 6032-28 220u 10v|
 |CR2016|3 years|Keystone 3028|1.7mm|[TLJW157M010R0200](https://www.digikey.com/en/products/detail/kyocera-avx/TLJW157M010R0200/929982?s=N4IgTCBcDaICoBkBSB1AjAVgOwFkAMaeASnmHniALoC%2BQA) - 6032-15 150u 10v|
 
 A 256Kx8 SRAM is ideal, but 512Kx8 are more available, so the circuit and pcb are designed to also accept a 512Kx8 SRAM in the same footprint with no changes needed.  
+
 To allow the drop-in use of either a 256Kx8 or 512Kx8 part, the active-high CE2 pin on the 256Kx8 is hardwired high and not used to enable/disable the chip.  
-That pin is an address line on a 512Kx8 part. So, tying the pin high makes it a no-op in both cases, and makes both parts act like a 256Kx8 that only has a single /CE pin.  
+On the 512Kx8 part that pin is an address line. So, tying the pin high makes it a no-op in both cases, and makes both parts act like a 256Kx8 that only has a single /CE pin.  
 For the 256Kx8 part, note that it must specifically be AS6C2008A and not AS6C2008. Only the A version is 5v tolerant.  
 For the 512Kx8 part, there is no A version. AS6C4008 is 5v tolerant.  
+The DigiKey cart below has AS6C4008, and the Mouser cart has AS6C2008A.
 
 BOM [DigiKey](https://www.digikey.com/short/fz7n5pv0), [Mouser](https://www.mouser.com/ProjectManager/ProjectDetail.aspx?AccessID=3535282dda) 
 PCB [OSHPark](https://oshpark.com/shared_projects/6kkAVQTq), [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html)  
 
-For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.
+For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.  
+<!-- For Elecrow, just upload the gerber zip from [releases](../../releases/) -->
 
 For an enclosure, I have an idea for a design, but haven't drawn it up yet, meanwhile, F.D. Singleton has already designed a 3d-printable [slip cover](enclosure) that looks like it works pretty well.
 
