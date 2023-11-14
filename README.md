@@ -142,17 +142,17 @@ The connector fits in a Model 200 without having to modify the 200.
 Also works on Model 100 with the same adapter cable described above.  
 
 All the caps are optional. The original DATAPAC has no caps and works fine.  
-C2 provides a few minutes of life without a battery so you can change the battery without losing data.
+C1 provides a few minutes of life without a battery so you can change the battery without losing data.
 
 The diode on RAMRST is copied from a user mod found on a DATAPAC. It appears to be intended to prevent a battery drain on the host computer while the DATAPAC is left connected to the host while the host is turned off.
 
-You can optionally make a thinner card by replacing BT1 and C2 with lower profile (and lower capacity) alternatives.  
-|BATTERY|estimated life|holders that fit the footprint|height|C2 Capacitor|
+You can optionally make a thinner card by replacing BT1 and C1 with lower profile (and lower capacity) alternatives.  
+|BATTERY|estimated life|holders that fit the footprint|height|C1 Capacitor|
 |---|---|---|---|---|
 |CR2032|7.5 years|Keystone 3034<br>TE/Linx BAT-HLD-001-SMT<br>Adam Tech BH-67<br>MPD BK-912|4.1mm|[TAJC227K010RNJ](https://www.digikey.com/en/products/detail/kyocera-avx/TAJC227K010RNJ/1833766?s=N4IgTCBcDaICoEEBSBhMYDsBpADARhwCUA5JEAXQF8g) - 6032-28 220u 10v|
 |CR2016|3 years|Keystone 3028|1.7mm|[TLJW157M010R0200](https://www.digikey.com/en/products/detail/kyocera-avx/TLJW157M010R0200/929982?s=N4IgTCBcDaICoBkBSB1AjAVgOwFkAMaeASnmHniALoC%2BQA) - 6032-15 150u 10v|
 
-A 256Kx8 SRAM is ideal, but 512Kx8 are more available, so the circuit and pcb are designed to also accept a 512Kx8 SRAM in the same footprint with no changes needed.  
+A 256Kx8 SRAM is ideal, but 512Kx8 are more readily available, so the circuit and pcb are designed to also accept a 512Kx8 SRAM in the same footprint with no changes needed.  
 
 To allow the drop-in use of either a 256Kx8 or 512Kx8 part, the active-high CE2 pin on the 256Kx8 is hardwired high and not used to enable/disable the chip.  
 On the 512Kx8 part that pin is an address line. So, tying the pin high makes it a no-op in both cases, and makes both parts act like a 256Kx8 that only has a single /CE pin.  
