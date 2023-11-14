@@ -160,11 +160,10 @@ For the 256Kx8 part, note that it must specifically be AS6C2008A and not AS6C200
 For the 512Kx8 part, there is no A version. AS6C4008 is 5v tolerant.  
 The DigiKey cart below has AS6C4008, and the Mouser cart has AS6C2008A.
 
-BOM [DigiKey](https://www.digikey.com/short/fz7n5pv0), [Mouser](https://www.mouser.com/ProjectManager/ProjectDetail.aspx?AccessID=3535282dda) 
-PCB [OSHPark](https://oshpark.com/shared_projects/6kkAVQTq), [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html)  
+BOM [DigiKey](https://www.digikey.com/short/fz7n5pv0), [Mouser](https://www.mouser.com/ProjectManager/ProjectDetail.aspx?AccessID=3535282dda)  
+PCB [OSHPark](https://oshpark.com/shared_projects/6kkAVQTq), [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html), or for anyone else there is a gerber zip in [releases](../../releases/)
 
 For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.  
-<!-- For Elecrow, just upload the gerber zip from [releases](../../releases/) -->
 
 For an enclosure, I have an idea for a design, but haven't drawn it up yet, meanwhile, F.D. Singleton has already designed a 3d-printable [slip cover](enclosure) that looks like it works pretty well.
 
