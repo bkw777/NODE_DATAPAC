@@ -787,11 +787,11 @@
       )
     )
   )
-  (symbol "AS6C4008_TSOP-I_sTSOP" (in_bom yes) (on_board yes)
+  (symbol "AS6C4008_TSOP" (in_bom yes) (on_board yes)
     (property "Reference" "U" (at -10.16 23.495 0)
       (effects (font (size 1.27 1.27)) (justify left bottom))
     )
-    (property "Value" "AS6C4008_TSOP-I_sTSOP" (at 2.54 23.495 0)
+    (property "Value" "AS6C4008_TSOP" (at 2.54 23.495 0)
       (effects (font (size 1.27 1.27)) (justify left bottom))
     )
     (property "Footprint" "000_LOCAL:TSOP32-dual" (at 0 0 0)
@@ -809,7 +809,7 @@
     (property "ki_fp_filters" "DIP*W15.24mm* SSOP*11.305x20.495mm*P1.27mm*" (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (symbol "AS6C4008_TSOP-I_sTSOP_0_0"
+    (symbol "AS6C4008_TSOP_0_0"
       (pin power_in line (at 0 -30.48 90) (length 2.54)
         (name "GND" (effects (font (size 1.27 1.27))))
         (number "24" (effects (font (size 1.27 1.27))))
@@ -819,13 +819,13 @@
         (number "8" (effects (font (size 1.27 1.27))))
       )
     )
-    (symbol "AS6C4008_TSOP-I_sTSOP_0_1"
+    (symbol "AS6C4008_TSOP_0_1"
       (rectangle (start -10.16 22.86) (end 10.16 -27.94)
         (stroke (width 0.254) (type default))
         (fill (type background))
       )
     )
-    (symbol "AS6C4008_TSOP-I_sTSOP_1_1"
+    (symbol "AS6C4008_TSOP_1_1"
       (pin input line (at -12.7 -7.62 0) (length 2.54)
         (name "A11" (effects (font (size 1.27 1.27))))
         (number "1" (effects (font (size 1.27 1.27))))

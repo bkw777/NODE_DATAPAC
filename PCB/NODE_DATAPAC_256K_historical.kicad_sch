@@ -3292,6 +3292,11 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 0f1ca496-c440-4f39-85c0-08c3d4aed79d)
   )
+  (text "BUS	BUS\nA8	A9	   ~{BLOCK} ~{BYTE}\n0	0	->  1	 1  ---\n1	0	->  0	 1  SET BLOCK #\n0	1	->  1	 1  ---\n1	1	->  1	 0  READ/WRITE BYTE\n"
+    (at 19.05 259.08 0)
+    (effects (font (face "KiCad Font") (size 1.27 1.27)) (justify left bottom))
+    (uuid 144e876a-bf2f-45e7-971b-2e6eeb792b20)
+  )
   (text "S1" (at 53.34 93.98 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 2abbb227-b241-4ee2-b6c9-7847e6cd67c1)
@@ -3344,8 +3349,8 @@
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 65b6d371-3239-4b88-a347-2eec1905a6e3)
   )
-  (text "Each ~{BLOCK} pulse low sets A0-A9 to 0 and sets A10-A17 from bus AD0-AD7 while low, and holds A10-A17 latched while high.\n\nEach ~{BYTE} pulse low enables SRAM for read or write while low, then disables SRAM and advances A0-A9 by 1 on returning high.\n\nA0-A9 = 10 bit byte address = 1024 bytes per block\nA10-A17 = 8 bit block address = 256 blocks\n"
-    (at 25.4 279.4 0)
+  (text "Each ~{BLOCK} pulse low sets A0-A9 to 0 and sets A10-A17 from bus AD0-AD7 while low, then holds A10-A17 latched while high.\n\nEach ~{BYTE} pulse low enables SRAM for read or write while low, then disables SRAM and advances A0-A9 by 1 on returning high.\n\nA0-A9 = 10 bit byte address = 1024 bytes per block\nA10-A17 = 8 bit block address = 256 blocks\n"
+    (at 19.05 278.13 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 6d00ff9a-33c9-4ffa-8b9c-5333511fed3e)
   )
