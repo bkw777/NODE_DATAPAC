@@ -3251,7 +3251,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 93528b34-b6ba-4769-86a4-fe75db0048a2)
   )
-  (label "BANK" (at 69.85 54.61 0) (fields_autoplaced)
+  (label "~{BANK}" (at 69.85 54.61 0) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 9afc44f0-8aed-4853-8c4e-2e302df3c27f)
   )
@@ -3371,7 +3371,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid d747f7a4-853e-47fb-92b7-1e63a10a6169)
   )
-  (label "BANK" (at 165.1 77.47 180) (fields_autoplaced)
+  (label "~{BANK}" (at 165.1 77.47 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid d8d8852f-3a2b-4778-b7ec-cd8553efe02c)
   )
@@ -4855,11 +4855,11 @@
     (property "Datasheet" "datasheets/74LVC1G32.pdf" (at 228.6 147.32 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 12b08663-058c-4539-a19d-24c7f96cb684))
-    (pin "5" (uuid cf4f7b69-16f3-463f-bc15-44927c90bb24))
-    (pin "3" (uuid 09a187b7-78ff-46b3-b3d7-e76d13802506))
-    (pin "2" (uuid ae5e6475-b7f6-4dbc-87f9-9eeb97b426c6))
-    (pin "4" (uuid 7ff0d87c-3cd7-4c60-a48f-bdbbec9d710d))
+    (pin "1" (uuid 12b08663-058c-4539-a19d-24c7f96cb685))
+    (pin "5" (uuid cf4f7b69-16f3-463f-bc15-44927c90bb25))
+    (pin "3" (uuid 09a187b7-78ff-46b3-b3d7-e76d13802507))
+    (pin "2" (uuid ae5e6475-b7f6-4dbc-87f9-9eeb97b426c7))
+    (pin "4" (uuid 7ff0d87c-3cd7-4c60-a48f-bdbbec9d710e))
     (instances
       (project "MiniNDP_512"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
@@ -5199,11 +5199,11 @@
     (property "Datasheet" "datasheets/1G08.pdf" (at 105.41 182.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "3" (uuid 986b1fe1-4eae-4d83-92cf-75de3b5d4aa0))
-    (pin "1" (uuid 11d8d349-e894-4e3d-b48f-d9195e6eb873))
-    (pin "2" (uuid 730e3f36-be68-4f9e-9c8a-88bcd6a47d4e))
-    (pin "5" (uuid 56831d56-cd88-419b-928a-8d62624ebb3c))
-    (pin "4" (uuid 1af60c56-3727-4513-8d25-1bf5a5a48b36))
+    (pin "3" (uuid 986b1fe1-4eae-4d83-92cf-75de3b5d4aa1))
+    (pin "1" (uuid 11d8d349-e894-4e3d-b48f-d9195e6eb874))
+    (pin "2" (uuid 730e3f36-be68-4f9e-9c8a-88bcd6a47d4f))
+    (pin "5" (uuid 56831d56-cd88-419b-928a-8d62624ebb3d))
+    (pin "4" (uuid 1af60c56-3727-4513-8d25-1bf5a5a48b37))
     (instances
       (project "MiniNDP_512"
         (path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
