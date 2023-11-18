@@ -467,7 +467,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "out/MiniNDP_512.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
