@@ -165,7 +165,9 @@ PCB [OSHPark](https://oshpark.com/shared_projects/sDavLUEu), [PCBWAY](https://ww
 
 For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.  
 
-For an enclosure, I have an idea for a design, but haven't drawn it up yet, meanwhile, F.D. Singleton has already designed a 3d-printable [slip cover](enclosure) that looks like it works pretty well.
+There are a few options for an [enclosure](enclosure).  
+There is OpenSCAD source and exported STL for a snap-on cover, with both a thick version for a card with CR2032 holder, and a thin version for a card with a CR2016 holder and thinner C1 cap.  
+There is also an STL for a slip cover style by F. D. Singleton.
 
 ![](PCB/out/MiniNDP_256.svg)
 ![](PCB/out/MiniNDP_256.top.jpg)
@@ -184,6 +186,3 @@ Installed on a TANDY 102
 
 Installed on a TANDY 200
 ![](REF/MiniNDP_on_200.jpg)
-
-F.D. Singelton's slip cover
-![](REF/MiniNDP_FDS_slip_cover.jpg)
