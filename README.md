@@ -161,12 +161,13 @@ For the 512Kx8 part, there is no A version. AS6C4008 is 5v tolerant.
 The DigiKey cart below has AS6C4008, and the Mouser cart has AS6C2008A.
 
 BOM [DigiKey](https://www.digikey.com/short/fz7n5pv0), [Mouser](https://www.mouser.com/ProjectManager/ProjectDetail.aspx?AccessID=3535282dda)  
+<!-- 512k BOM https://www.digikey.com/short/91p30ntd -->
 PCB [OSHPark](https://oshpark.com/shared_projects/sDavLUEu), [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html), or for anyone else there is a gerber zip in [releases](../../releases/)
 
 For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.  
 
 There are a few options for an [enclosure](enclosure).  
-There is OpenSCAD source and exported STL for a snap-on cover, with both a thick version for a card with CR2032 holder, and a thin version for a card with a CR2016 holder and thinner C1 cap.  
+There is OpenSCAD source and exported STL for a snap-on cover, with both a thick version for a card with CR2032 holder, and a thin version for a card with a CR2016 holder.  
 There is also an STL for a slip cover style by F. D. Singleton.
 
 ![](PCB/out/MiniNDP_256.svg)

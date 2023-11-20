@@ -225,12 +225,12 @@
       (net 71 "Net-(C1-Pad1)") (pintype "passive") (tstamp 2a62cd8c-8b64-4627-b7fc-1b92595237cd))
     (pad "2" smd roundrect (at 2.4625 0 180) (size 2.075 2.35) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.1204819277)
       (net 1 "GND") (pintype "passive") (tstamp d2deb075-a4d5-4120-aa06-e20587b18321))
-    (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CP_6032-28.step" hide
+    (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CP_6032-28.step"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
-    (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CP_6032-15.step"
+    (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CP_6032-15.step" hide
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
@@ -1287,7 +1287,7 @@
       (net 44 "/BATT+") (pinfunction "+") (pintype "passive") (tstamp ad7a580e-6ace-4646-80f4-8cef76e527dd))
     (pad "2" smd circle (at 0 0 90) (size 18 18) (layers "F.Cu" "F.Mask")
       (net 1 "GND") (pinfunction "-") (pintype "passive") (tstamp 4bbc9857-8b8b-4e63-a207-bb359b56b050))
-    (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2032_holder_Keystone_3034.step" hide
+    (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2032_holder_Keystone_3034.step"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
@@ -1297,7 +1297,7 @@
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
     )
-    (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2012_holder_Keystone_3028.step"
+    (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2012_holder_Keystone_3028.step" hide
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 90))
@@ -1307,12 +1307,12 @@
       (scale (xyz 1 1 1))
       (rotate (xyz 180 0 0))
     )
-    (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2016_blank.step"
+    (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2016_blank.step" hide
       (offset (xyz 0 0 1.6))
       (scale (xyz 1 1 1))
       (rotate (xyz 180 0 0))
     )
-    (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2032_blank.step" hide
+    (model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/CR2032_blank.step"
       (offset (xyz 0 0 3.2))
       (scale (xyz 1 1 1))
       (rotate (xyz 180 0 0))
