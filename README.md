@@ -187,3 +187,28 @@ Installed on a TANDY 102
 
 Installed on a TANDY 200
 ![](REF/MiniNDP_on_200.jpg)
+
+# MiniNDP 512
+2-bank 512k version.
+
+The implementation of the original 512k device is unknown at this time. We know they existed, but I don't have one to examine to see how it worked.
+
+This is deduced from watching the bus traffic with a logic analyser while pressing the `Bank` button in RAM100.CO, with an original real Node Systems 256k unit connected.  
+
+512k is supported by adding BUS_A10 to the normal /BLOCK operation. During /BLOCK, in addition to copying AD0-AD7 to A10-A17 and latching it until the next /BLOCK op, also BUS_A10 is copied to A18 and latched the same way. The end result is that /BLOCK with BUS_A10 low at the time accesses bank 0, and /BLOCK with BUS_A10 high accesses bank 1.  
+
+A breadboard prototype of this is WORKING. The pcb is not tested yet but pending.
+
+![](REF/MiniNDP_512.breadboard.jpg)
+
+The board also still supports 256k and 128k. If you want to install a 256k or 128k chip, just omit U8 (the 1G79), and instead short U8 pads 4 & 5 together with solder (those 2 pads are modified to be a solder-jumper for this purpose).  
+U8 is the flipflop to set A18 from BUS_A10 and latch it. Shorting pin 4 to 5 hardwires A18 to VBUS, and A18 is connected to pin 6 on the SRAM, which is CE2 on the 256k and 128k parts.)
+
+BOM [DigiKey](https://www.digikey.com/short/q4mh3b52)
+
+![](PCB/out/MiniNDP_512.svg)
+![](PCB/out/MiniNDP_512.top.jpg)
+![](PCB/out/MiniNDP_512.bottom.jpg)
+![](PCB/out/MiniNDP_512.f.jpg)
+![](PCB/out/MiniNDP_512.b.jpg)
+
