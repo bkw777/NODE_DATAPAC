@@ -3714,7 +3714,7 @@
     (property "Reference" "JP1" (at 91.44 26.67 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "256k" (at 96.52 27.94 0)
+    (property "Value" "256k" (at 91.44 24.13 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "000_LOCAL:SolderJumper-2_Open 0.65mm" (at 91.44 29.21 0)
