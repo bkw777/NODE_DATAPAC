@@ -106,7 +106,7 @@ This "102/200" version actually works on Model 100 also. It needs an adapter cab
 [The Model 100 part](https://github.com/bkw777/TRS-80_Disk_Video_Interface_Cable/blob/main/README.md#part-3---model-100-adapter) of this [3-part cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable) is exactly the same thing.
 
 ## Theory of Operation
-This only describes the hardware. I don't yet know how the software works.
+This only describes the low level hardware. I don't yet know how the software works or how the data is structured on the device.
 
 The 3 74x161 form a 0-1023 counter, setting local sram address bits A0-A9. We'll call this the byte counter.
 
@@ -120,8 +120,13 @@ then holds A10-A17 latched while /BLOCK is high.
 Each time /BYTE goes low it enables SRAM for read or write while low,
 then when /BYTE goes high it disables SRAM and increments A0-A9 by 1.
 
-So the device operate in 1k blocks, where the host computer gives 1 of 256 possible "block-start" addresses, then reads or writes up to 1024 bytes, one at a time. Each time the host accesses a byte, the counter advances itself and the next read or write will operate on the next byte.
+So the device operates in 1k blocks, where the host computer gives 1 of 256 possible "block-start" addresses, then reads or writes up to 1024 bytes, one at a time. Each time the host accesses a byte, the counter advances itself and the next read or write will operate on the next byte.
 The device actually does operate like a disk even though it has no brains or firmware.
+
+Later versions of RAMPAC were offered with 384k or 512k by adding a second bank of 128k or 256k, and later versions of RAMDSK.CO know how to access it.
+
+The extra 256k is controlled by the state of address line A10 during a /BLOCK operation.  
+/BLOCK with A10 low accesses bank0 (the default), /BLOCK with A10 high accesses bank1.
 
 <!-- 
 ## New Replacement PCB
@@ -135,14 +140,14 @@ There is not much reason to build this instead of a MiniNDP. Even if you had an 
 -->
 
 # MiniNDP
-Functions the same as DATAPAC. Essentially the same circuit, just with a single 256k ram chip instead of 8 32k chips, surface mount parts instead of through hole, and directly attached instead of connected by a cable.
+
+Functions the same as DATAPAC. Essentially the same circuit, just with a single 128k to 512k ram chip instead of 4 or 8 32k chips, surface mount parts instead of through hole, and directly attached instead of connected by a cable.
+
+Provides the second bank of 256k that later versions of RAMDSK supports, for a total of 512k. 
 
 The connector fits in a Model 200 without having to modify the 200.  
 
 Also works on Model 100 with the same adapter cable described above.  
-
-All the caps are optional. The original DATAPAC has no caps and works fine.  
-C1 provides a few minutes of life without a battery so you can change the battery without losing data.
 
 The diode on RAMRST is copied from a user mod found on a DATAPAC. It appears to be intended to prevent a battery drain on the host computer while the DATAPAC is left connected to the host while the host is turned off.
 
@@ -152,17 +157,8 @@ You can optionally make a thinner card by replacing BT1 and C1 with lower profil
 |CR2032|7.5 years|Keystone 3034<br>TE/Linx BAT-HLD-001-SMT<br>Adam Tech BH-67<br>MPD BK-912|4.1mm|[TAJC227K010RNJ](https://www.digikey.com/en/products/detail/kyocera-avx/TAJC227K010RNJ/1833766?s=N4IgTCBcDaICoEEBSBhMYDsBpADARhwCUA5JEAXQF8g) - 6032-28 220u 10v|
 |CR2016|3 years|Keystone 3028|1.7mm|[TLJW157M010R0200](https://www.digikey.com/en/products/detail/kyocera-avx/TLJW157M010R0200/929982?s=N4IgTCBcDaICoBkBSB1AjAVgOwFkAMaeASnmHniALoC%2BQA) - 6032-15 150u 10v|
 
-A 256Kx8 SRAM is ideal, but 512Kx8 are more readily available, so the circuit and pcb are designed to also accept a 512Kx8 SRAM in the same footprint with no changes needed.  
-
-To allow the drop-in use of either a 256Kx8 or 512Kx8 part, the active-high CE2 pin on the 256Kx8 is hardwired high and not used to enable/disable the chip.  
-On the 512Kx8 part that pin is an address line. So, tying the pin high makes it a no-op in both cases, and makes both parts act like a 256Kx8 that only has a single /CE pin.  
-For the 256Kx8 part, note that it must specifically be AS6C2008A and not AS6C2008. Only the A version is 5v tolerant.  
-For the 512Kx8 part, there is no A version. AS6C4008 is 5v tolerant.  
-The DigiKey cart below has AS6C4008, and the Mouser cart has AS6C2008A.
-
-BOM [DigiKey](https://www.digikey.com/short/fz7n5pv0), [Mouser](https://www.mouser.com/ProjectManager/ProjectDetail.aspx?AccessID=3535282dda)  
-<!-- 512k BOM https://www.digikey.com/short/91p30ntd -->
-PCB [OSHPark](https://oshpark.com/shared_projects/sDavLUEu), [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html), or for anyone else there is a gerber zip in [releases](../../releases/)
+BOM [DigiKey](https://www.digikey.com/short/q4mh3b52)
+PCB <!-- [OSHPark](https://oshpark.com/shared_projects/), -->[PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html), or for anyone else there is a gerber zip in [releases](../../releases/)
 
 For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.  
 
@@ -170,11 +166,11 @@ There are a few options for an [enclosure](enclosure).
 There is OpenSCAD source and exported STL for a snap-on cover, with both a thick version for a card with CR2032 holder, and a thin version for a card with a CR2016 holder.  
 There is also an STL for a slip cover style by F. D. Singleton.
 
-![](PCB/out/MiniNDP_256.svg)
-![](PCB/out/MiniNDP_256.top.jpg)
-![](PCB/out/MiniNDP_256.bottom.jpg)
-![](PCB/out/MiniNDP_256.f.jpg)
-![](PCB/out/MiniNDP_256.b.jpg)
+![](PCB/out/MiniNDP_512.svg)
+![](PCB/out/MiniNDP_512.top.jpg)
+![](PCB/out/MiniNDP_512.bottom.jpg)
+![](PCB/out/MiniNDP_512.f.jpg)
+![](PCB/out/MiniNDP_512.b.jpg)
 
 CR2032 height
 ![](PCB/out/MiniNDP_256_CR2032.jpg)
@@ -188,27 +184,7 @@ Installed on a TANDY 102
 Installed on a TANDY 200
 ![](REF/MiniNDP_on_200.jpg)
 
-# MiniNDP 512
-2-bank 512k version.
-
-The implementation of the original 512k device is unknown at this time. We know they existed, but I don't have one to examine to see how it worked.
-
-This is deduced from watching the bus traffic with a logic analyser while pressing the `Bank` button in RAM100.CO, with an original real Node Systems 256k unit connected.  
-
-512k is supported by adding BUS_A10 to the normal /BLOCK operation. During /BLOCK, in addition to copying AD0-AD7 to A10-A17 and latching it until the next /BLOCK op, also BUS_A10 is copied to A18 and latched the same way. The end result is that /BLOCK with BUS_A10 low at the time accesses bank 0, and /BLOCK with BUS_A10 high accesses bank 1.  
-
-A breadboard prototype of this is WORKING. The pcb is not tested yet but pending.
-
-![](REF/MiniNDP_512.breadboard.jpg)
-
-The board also still supports 256k and 128k. If you want to install a 256k or 128k chip, just omit U8 (the 1G79), and instead short U8 pads 4 & 5 together with solder (those 2 pads are modified to be a solder-jumper for this purpose).  
-U8 is the flipflop to set A18 from BUS_A10 and latch it. Shorting pin 4 to 5 hardwires A18 to VBUS, and A18 is connected to pin 6 on the SRAM, which is CE2 on the 256k and 128k parts.)
-
-BOM [DigiKey](https://www.digikey.com/short/q4mh3b52)
-
-![](PCB/out/MiniNDP_512.svg)
-![](PCB/out/MiniNDP_512.top.jpg)
-![](PCB/out/MiniNDP_512.bottom.jpg)
-![](PCB/out/MiniNDP_512.f.jpg)
-![](PCB/out/MiniNDP_512.b.jpg)
+The board also still supports 256k and 128k. If you want to install a 256k (AS6C2008A) 
+or 128k (AS6C1008) chip, omit the U8 part (the 1G79), and instead short U8 pads 4 & 5 together with solder (those 2 pads are modified to be a solder-jumper for this purpose).  
+U8 is the flipflop to set A18 from BUS_A10 and latch it during /BLOCK operations along with AD0-AD7. Shorting pin 4 to 5 hardwires A18 to VBUS, and A18 is connected to pin 6 on the SRAM, which is CE2 on the 256k and 128k parts.)
 
