@@ -188,5 +188,11 @@ Installed on a TANDY 102
 Installed on a TANDY 200
 ![](REF/MiniNDP_on_200.jpg)
 
+![](REF/MiniNDP_and_cover.jpg)
+![](REF/MiniNDP_and_cover.back.jpg)
+![](REF/MiniNDP_and_cover.assembled.jpg)
+![](REF/MiniNDP_bank0.jpg)
+![](REF/MiniNDP_bank1.jpg)
+
 The 512k board also still supports 256k and 128k. There is no real reason to do this now but if you wanted to install a 256k (AS6C2008A) 
 or 128k (AS6C1008) SRAM, omit the U8 part (the 1G79), and instead short U8 pads 4 & 5 together with solder. Those two pads are modified to also be a solder-jumper for this purpose.
