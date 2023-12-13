@@ -3239,7 +3239,7 @@
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 6d3d03a2-fb03-4ed7-afbc-5908a36e9a80)
   )
-  (text "/----- BUS -----\\\n(A)	~{YO}   A8   A9  A10  ->  ~{BLOCK} ~{BYTE}\nL	X	X	X	X		X	  X\nX	H	X	X	X		X	  X\nX	X	L	X	X		X	  X\nH	L	H	L	L	->  L	  H  Select BLOCK # from BANK0\nH	L	H	L	H	->  L	  H  Select BLOCK # from BANK1\nH	L	H	H	L	->  H	  L  READ/WRITE BYTE\nH	L	H	H	H		X	  X\n\nEach ~{BLOCK} pulse low: sets A0-A9 to 0,\nsets A10-A17 from AD0-AD7, sets A18 from BUS_A10,\nthen holds A10-A18 latched while high.\n\nEach ~{BYTE} pulse low: enables SRAM for read or write while low,\nthen disables SRAM and increments A0-A9 by 1 on returning high.\n\n~{BLOCK} with BUS_A10 low selects BANK0.\n~{BLOCK} with BUS_A10 high selects BANK1."
+  (text "/----- BUS -----\\\n(A)	~{YO}   A8   A9  A10  ->  ~{BLOCK} ~{BYTE}\nL	X	X	X	X		X	  X\nX	H	X	X	X		X	  X\nX	X	L	X	X		X	  X\nH	L	H	L	L	->  L	  H  Select BLOCK # from BANK0\nH	L	H	L	H	->  L	  H  Select BLOCK # from BANK1\nH	L	H	H	X	->  H	  L  READ/WRITE BYTE\n\nEach ~{BLOCK} pulse low: sets A0-A9 to 0,\nsets A10-A17 from AD0-AD7, sets A18 from BUS_A10,\nthen holds A10-A18 latched while high.\n\nEach ~{BYTE} pulse low: enables SRAM for read or write while low,\nthen disables SRAM and increments A0-A9 by 1 on returning high.\n\n~{BLOCK} with BUS_A10 low selects BANK0.\n~{BLOCK} with BUS_A10 high selects BANK1."
     (at 16.51 194.31 0)
     (effects (font (face "KiCad Font") (size 1 1)) (justify left bottom))
     (uuid 7bdfac22-8b8d-4c32-a066-9203bfd6d6b9)
