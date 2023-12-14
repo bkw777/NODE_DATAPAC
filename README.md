@@ -89,6 +89,64 @@ The few documents we do have mention a BOOT program that could be manually typed
 Currently the only way to get RAMDSK installed is to copy it via any of the normal ways to copy any other .CO file. Create a BASIC loader with co2ba or similar, TPDD, cassette.
 The quickest way to go from scratch if you don't already have a TPDD emulator and TS-DOS set up is the bootstrap directions in [software/RAMDSK/100/install.txt](software/RAMDSK/100/install.txt) or [software/RAMDSK/200/install.txt](software/RAMDSK/200/install.txt), which uses a bootstrapper program on a pc to feed a loader program into BASIC.
 
+### Using RAMDSK
+The Bank button switches between 2 banks of 256K, and is only functional on RAMPAC or MiniNDP that has more than 256K installed.
+
+[It seems to be fairly easy for the first byte to get corrupted](software/RAMPAC.001)  
+I have had it happen a bunch of times already myself.  
+Don't Panic(tm)  
+You could do the manual BASIC one-liner from that document, but RAMDSK has a first-byte-fixer built-in.  
+If you get the dreaded "Format?" prompt, just answer "N" and then it will prompt "Fix?" ,and you answer "Y" to that, and your files will be back.
+
+### Accessing the hardware directly from BASIC
+There are three operations you can do with the device.
+
+#### select a bank# & block#
+`OUT 129,n`  Select block# **n** (0-255) in bank 0  
+`OUT 133,n`  Select block# **n** (0-255) in bank 1
+
+#### read a byte
+`INP(131)`   Read the byte at the current byte position.
+
+The first read after selecting a block# reads byte #0 from that block.  
+The byte position advances by one after each read, so the next read will get byte #1, then byte #2, etc up to 1024.
+
+#### write a byte
+`OUT 131,v`  Write the value **v** (0-255) at the current byte position.
+
+The first write after selecting a block# writes to byte #0 of that block.  
+The byte position advances by one after each write, so the next write will write to byte #1, then byte #2, etc up to 1024.
+
+There is only one byte-position counter for both read and write. The counter advances the same whether you read or write. If you read 10 bytes and then write 10 bytes without selecting a block# in between, you will read bytes 0-9 and the write bytes 10-19.
+
+#### examples
+
+Select bank 0 block 0  
+`OUT129,0`
+
+read a byte, which will be byte #0 of this block  
+`INP(131)`
+
+Read and print the ascii of all the bytes in bank 0 block 1  
+This will be the first block of actual file data for the first file (also with some file/block metadata like the filename and probably some kind of linked list block pointers).  
+
+```
+10 OUT 129,1
+20 FOR I=0 TO 1023
+30 PRINT CHR$(INP(131));
+40 NEXT
+```
+
+Do the same but in bank 1  
+change line 10 to:  
+`10 OUT 133,1`
+
+Manually repair the first two bytes of block 0 to mark the bank as being formatted without touching any of the data  
+`OUT129,0:OUT131,64:OUT131,4`
+
+Selects bank0 block0, writes 64 to byte #0, writes 4 to byte #1  
+You usually don't need to do this manually because RAMDSK.CO can do it for you.
+
 ## Model compatibility
 Apparently only Models 100, 102, & 200 were ever supported. (No NEC or Olivetti, etc)
 
