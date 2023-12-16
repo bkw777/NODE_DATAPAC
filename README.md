@@ -94,11 +94,11 @@ The quickest way to go from scratch if you don't already have a TPDD emulator an
 Once you have RAMDSK installed, if you use it to save a copy to the RAMPAC as the very first file after a fresh format, then you can re-install RAMDSK from the RAMPAC after a cold reset by manually typing in this BASIC program [RBOOT.DO](software/RAMDSK/RBOOT.DO):
 ```
 0'RAMDSK bootstrap - 2023-12-15 Brian K. White
-1 CLEAR0,61000 :OUT 129,2 :FOR N=0 TO 9 :B=INP(131) :NEXT
+1 CLEAR 0,61000 :OUT 129,2 :FOR N=0 TO 9 :B=INP(131) :NEXT
 2 GOSUB 6 :S=N :GOSUB 6 :L=N :E=S+L :GOSUB 6 :X=N
 3 N=S+1007 :FOR A=S TO E :B=INP(131) :POKE A,B
 4 IF A=N THEN OUT 129,1
-5 ?"."; :NEXT :?"type CLEAR 0,"S":NEW" :SAVEM"RAMDSK",S,E,X
+5 ?"."; :NEXT :?"type CLEAR 0,"S":NEW" :SAVEM "RAMDSK",S,E,X
 6 N=INP(131) :N=N+INP(131)*256 :RETURN
 ```
 
