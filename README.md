@@ -94,15 +94,23 @@ The quickest way to go from scratch if you don't already have a TPDD emulator an
 Once you have RAMDSK installed, if you use it to save a copy to the RAMPAC as the very first file after a fresh format, then you can re-install RAMDSK from the RAMPAC after a cold reset by manually typing in this BASIC program [RBOOT.DO](software/RAMDSK/RBOOT.DO):
 ```
 0'RAMDSK bootstrap - 2023-12-15 Brian K. White
-1 CLEAR0,MAXRAM:OUT 129,2:FORI=0TO9:B=INP(131):NEXT
-2 GOSUB 10:S=I:GOSUB 10:L=I:E=S+L:GOSUB 10:X=I
-3 N=S+1007:FORA=STOE:B=INP(131):POKEA,B:?".";
+1 CLEAR0,61000 :OUT 129,2 :FOR N=0 TO 9 :B=INP(131) :NEXT
+2 GOSUB 6 :S=N :GOSUB 6 :L=N :E=S+L :GOSUB 6 :X=N
+3 N=S+1007 :FOR A=S TO E :B=INP(131) :POKE A,B
 4 IF A=N THEN OUT 129,1
-5 NEXT
-6 ?"type CLEAR 0,"S
-7 SAVEM"RAMDSK.CO",S,E,X:END
-10 I=INP(131):I=I+INP(131)*256:RETURN
+5 ?"."; :NEXT :?"type CLEAR 0,"S":NEW" :SAVEM"RAMDSK",S,E,X
+6 N=INP(131) :N=N+INP(131)*256 :RETURN
 ```
+
+You don't have to type in line 0 of course.  
+And for the shortest possible version to type in, replace line 5 with this:  
+`5 NEXT :CALL X`  
+This will immediately run the program rather than SAVEM it.  
+Use the running instance to load a copy of RAMDSK.CO from the RAMPAC to RAM.  
+If you do it this way, you will want to manually adjust HIMEM afterwards to recover a few hundred bytes of wasted space caused by the `CLEAR0,61000`.  
+After exiting RAMDSK, do `LOADM "RAMDSK"` just to view the start address  
+(with the current version of RAM100.CO on a 100, it happens to be 61558),  
+then do `CLEAR 0,61558:NEW`.
 
 This is not the original "BOOT" program mentioned in a few of the archived docs.  
 This is my best attempt at doing the same thing from scratch.
