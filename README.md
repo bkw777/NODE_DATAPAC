@@ -68,6 +68,7 @@ Some of these are collected [here](software).
 A few of those documents say that the device originally shipped with the user manual pre-loaded onto the DATAPAC as a 12K text file, along with at least one BASIC program, and the Format function in the option rom would also re-create this file.
 
 ## Software
+### RAMDSK.CO
 The "driver" software for the device is [RAMDSK](software/RAMDSK/)
 
 Originally these shipped with an option rom from NODE (Written by Travelling Software), which does not seem to be archived anywhere. Today all we have left is RAMDSK.
@@ -89,6 +90,33 @@ The few documents we do have mention a BOOT program that could be manually typed
 Currently the only way to get RAMDSK installed is to copy it via any of the normal ways to copy any other .CO file. Create a BASIC loader with co2ba or similar, TPDD, cassette.
 The quickest way to go from scratch if you don't already have a TPDD emulator and TS-DOS set up is the bootstrap directions in [software/RAMDSK/100/install.txt](software/RAMDSK/100/install.txt) or [software/RAMDSK/200/install.txt](software/RAMDSK/200/install.txt), which uses a bootstrapper program on a pc to feed a loader program into BASIC.
 
+### RBOOT.DO
+Once you have RAMDSK installed, if you use it to save a copy to the RAMPAC as the very first file after a fresh format, then you can re-install RAMDSK from the RAMPAC after a cold reset by manually typing in this BASIC program [RBOOT.DO](software/RAMDSK/RBOOT.DO):
+```
+0'RAMDSK bootstrap - 2023-12-15 Brian K. White
+1 CLEAR0,MAXRAM:OUT 129,2:FORI=0TO9:B=INP(131):NEXT
+2 GOSUB 10:S=I:GOSUB 10:L=I:E=S+L:GOSUB 10:X=I
+3 N=S+1007:FORA=STOE:B=INP(131):POKEA,B:?".";
+4 IF A=N THEN OUT 129,1
+5 NEXT
+6 ?"type CLEAR 0,"S
+7 SAVEM"RAMDSK.CO",S,E,X:END
+10 I=INP(131):I=I+INP(131)*256:RETURN
+```
+
+This is not the original "BOOT" program mentioned in a few of the archived docs.  
+This is my best attempt at doing the same thing from scratch.
+
+### RPI.BA
+I've written a small "RAMPAC inspector" [RPI.BA](software/RPI) to view the raw data from anywhere on the device.
+There are already old apps for that, but they are large, include machine language or require the original option rom or RAMDSK.CO, don't support 512k, etc.  
+For instance [RD.BA](Rampac_Diagnostic) can not even be loaded in one piece even on a freshly reset 32k machine, and does not support banks, or the model 200.  
+So this is small, does not use any machine code, and supports 512k.  
+Everything is in BASIC and the whole program is short.
+
+The ascii display mode (press F2 to toggle hex/ascii) displays the non-printing control characters as their respective CTRL code in inverse video.
+For example NUL appears as `@` in reverse video. So every byte still takes a single cell of the display.
+
 ### Using RAMDSK
 The Bank button switches between 2 banks of 256K, and is only functional on RAMPAC or MiniNDP that has more than 256K installed.
 
@@ -106,18 +134,20 @@ There are three operations you can do with the device.
 `OUT 133,n`  Select block# **n** (0-255) in bank 1
 
 #### read a byte
-`INP(131)`   Read the byte at the current byte position.
+`INP(131)`   Read the byte at the current byte position
 
 The first read after selecting a block# reads byte #0 from that block.  
 The byte position advances by one after each read, so the next read will get byte #1, then byte #2, etc up to 1024.
 
 #### write a byte
-`OUT 131,v`  Write the value **v** (0-255) at the current byte position.
+`OUT 131,n`  Write the value **n** (0-255) at the current byte position
 
 The first write after selecting a block# writes to byte #0 of that block.  
 The byte position advances by one after each write, so the next write will write to byte #1, then byte #2, etc up to 1024.
 
 There is only one byte-position counter for both read and write. The counter advances the same whether you read or write. If you read 10 bytes and then write 10 bytes without selecting a block# in between, you will read bytes 0-9 and the write bytes 10-19.
+
+Since the device only operates on single byte values, it's a little more efficient to use integer variables with the % suffix, ie, use B%=INP(131) instead of B=INP(131) etc.
 
 #### examples
 
