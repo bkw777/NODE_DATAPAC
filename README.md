@@ -68,7 +68,7 @@ Some of these are collected [here](software).
 A few of those documents say that the device originally shipped with the user manual pre-loaded onto the DATAPAC as a 12K text file, along with at least one BASIC program, and the Format function in the option rom would also re-create this file.
 
 ## Software
-### RAMDSK.CO
+### RAMDSK
 The "driver" software for the device is [RAMDSK](software/RAMDSK/)
 
 Originally these shipped with an option rom from NODE (Written by Travelling Software), which does not seem to be archived anywhere. Today all we have left is RAMDSK.
@@ -88,42 +88,51 @@ Much of that software actually requires the original option rom, which is not av
 The few documents we do have mention a BOOT program that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start, but that program does not seem to be archived anywhere.
 
 Currently the only way to get RAMDSK installed is to copy it via any of the normal ways to copy any other .CO file. Create a BASIC loader with co2ba or similar, TPDD, cassette.
-The quickest way to go from scratch if you don't already have a TPDD emulator and TS-DOS set up is the bootstrap directions in [software/RAMDSK/100/install.txt](software/RAMDSK/100/install.txt) or [software/RAMDSK/200/install.txt](software/RAMDSK/200/install.txt), which uses a bootstrapper program on a pc to feed a loader program into BASIC.
+The quickest way to go from scratch if you don't already have a TPDD emulator and TS-DOS set up is the bootstrap directions in [software/RAMDSK/RAM100/install.txt](software/RAMDSK/RAM100/install.txt) or [software/RAMDSK/RAM200/install.txt](software/RAMDSK/RAM200/install.txt), which uses a bootstrapper program on a pc to feed a loader program into BASIC.
 
-### RBOOT.DO
-Once you have RAMDSK installed, if you use it to save a copy to the RAMPAC as the very first file after a fresh format, then you can re-install RAMDSK from the RAMPAC after a cold reset by manually typing in this BASIC program [RBOOT.DO](software/RAMDSK/RBOOT.DO):
+### RBOOT
+Once you have RAMDSK installed, if you use it to save a copy to the RAMPAC as the very first file after a fresh format, then you can re-install RAMDSK from the RAMPAC after a cold reset by manually typing in a short BASIC program.  
+These RBOOT for 100 and 200 are meant to be as small as possible since you have to manually type them in, so they don't have any frills like a progress display or summary message.  
+They don't print anything while running. When they are done, just exit BASIC and there should be a copy of RAMDSK.CO installed, and it should be immediately ready to use without needing to LOADM or CLEAR.
+
+#### RBOOT for Model 100
+[software/RAMDSK/RAM100/RBOOT.DO](software/RAMDSK/RAM100/RBOOT.DO) uses pre-computed values and only works for this exact RAMDSK binary [software/RAMDSK/RAM100/RAM100.CO](software/RAMDSK/RAM100/RAM100.CO).  
 ```
-0'RAMDSK bootstrap - 2023-12-15 Brian K. White
-1 CLEAR 0,61000 :OUT 129,2 :FOR N=0 TO 9 :B=INP(131) :NEXT
-2 GOSUB 6 :S=N :GOSUB 6 :L=N :E=S+L :GOSUB 6 :X=N
-3 N=S+1007 :FOR A=S TO E :B=INP(131) :POKE A,B
-4 IF A=N THEN OUT 129,1
-5 ?"."; :NEXT :?"type CLEAR 0,"S":NEW" :SAVEM "RAMDSK",S,E,X
+1 CLEAR0,61558:S=61558:E=62957
+2 OUT129,2:FORJ=0TO15:K=INP(131):NEXT
+3 J=S:K=S+1007:GOSUB5:OUT129,1:J=K+1
+4 K=E:GOSUB5:SAVEM"RAMDSK",S,E,S:END
+5 FORA=JTOK:POKEA,INP(131):NEXT:RETURN
+```
+
+#### RBOOT for Model 200
+[software/RAMDSK/RAM200/RBOOT.DO](software/RAMDSK/RAM200/RBOOT.DO) uses pre-computed values and only works for this exact RAMDSK binary [software/RAMDSK/RAM200/RAM200.CO](software/RAMDSK/RAM200/RAM200.CO).  
+```
+1 CLEAR0,59715:S=59715:E=61101
+2 OUT129,2:FORJ=0TO15:K=INP(131):NEXT
+3 J=S:K=S+1007:GOSUB5:OUT129,1:J=K+1
+4 K=E:GOSUB5:SAVEM"RAMDSK",S,E,S:END
+5 FORA=JTOK:POKEA,INP(131):NEXT:RETURN
+```
+
+#### Generic RBOOT
+Just for reference, here is a slightly larger but more flexible and generic version.  
+[software/RAMDSK/RBOOT.DO](software/RAMDSK/RBOOT.DO)  
+* Reads the .CO header bytes to get the necessary address values from the file itself  
+* Should work on any binary that fits in the first 2 blocks (slightly uner 2k)  
+* Should work on both Model 100 and 200 without changes  
+* Has progress display  
+* Prints a message at the end with a CLEAR command that you have to manually type to complete the install  
+```
+1 CLEAR0,59000 :OUT129,2 :FORA=0TO9 :N=INP(131) :NEXT
+2 GOSUB6 :S=N :GOSUB6 :L=N :GOSUB6 :X=N
+3 N=S+1007 :E=S+L-1 :FORA=STOE :?".";
+4 POKEA,INP(131) :IF A=N THEN OUT129,1
+5 NEXT :?"type CLEAR 0,"S":NEW" :SAVEM"RAMDSK",S,E,X:END
 6 N=INP(131) :N=N+INP(131)*256 :RETURN
 ```
 
-You don't have to type in line 0 of course.  
-And for the shortest possible version to type in, replace line 5 with this:  
-`5 NEXT :CALL X`  
-This will immediately run the program rather than SAVEM it.  
-Use the running instance to load a copy of RAMDSK.CO from the RAMPAC to RAM.  
-If you do it this way, you will want to manually adjust HIMEM afterwards to recover a few hundred bytes of wasted space caused by the `CLEAR0,61000`.  
-After exiting RAMDSK, do `LOADM "RAMDSK"` just to view the start address  
-(with the current version of RAM100.CO on a 100, it happens to be 61558),  
-then do `CLEAR 0,61558:NEW`.
-
-This is not the original "BOOT" program mentioned in a few of the archived docs.  
-This is my best attempt at doing the same thing from scratch.
-
-### RPI.BA
-I've written a small "RAMPAC inspector" [RPI.BA](software/RPI) to view the raw data from anywhere on the device.
-There are already old apps for that, but they are large, include machine language or require the original option rom or RAMDSK.CO, don't support 512k, etc.  
-For instance [RD.BA](Rampac_Diagnostic) can not even be loaded in one piece even on a freshly reset 32k machine, and does not support banks, or the model 200.  
-So this is small, does not use any machine code, and supports 512k.  
-Everything is in BASIC and the whole program is short.
-
-The ascii display mode (press F2 to toggle hex/ascii) displays the non-printing control characters as their respective CTRL code in inverse video.
-For example NUL appears as `@` in reverse video. So every byte still takes a single cell of the display.
+None of these are the actual original "BOOT" program mentioned in the archives. That original file that was shipped pre-loaded on DATAPAC & RAMPAC units is lost now unless/until someone finds a copy.  
 
 ### Using RAMDSK
 The Bank button switches between 2 banks of 256K, and is only functional on RAMPAC or MiniNDP that has more than 256K installed.
@@ -134,28 +143,34 @@ Don't Panic(tm)
 You could do the manual BASIC one-liner from that document, but RAMDSK has a first-byte-fixer built-in.  
 If you get the dreaded "Format?" prompt, just answer "N" and then it will prompt "Fix?" ,and you answer "Y" to that, and your files will be back.
 
-### Accessing the hardware directly from BASIC
-There are three operations you can do with the device.
+### BASIC
+How to access the hardware directly from BASIC.
 
-#### select a bank# & block#
+There are two low level operations that you use to access the device,  
+BLOCK and BYTE, and each of those has two variations, for four total ops.
+
+#### Select a BLOCK from BANK 0
 `OUT 129,n`  Select block# **n** (0-255) in bank 0  
+
+#### Select a BLOCK from BANK 1
 `OUT 133,n`  Select block# **n** (0-255) in bank 1
 
-#### read a byte
+#### Read a BYTE
 `INP(131)`   Read the byte at the current byte position
 
 The first read after selecting a block# reads byte #0 from that block.  
 The byte position advances by one after each read, so the next read will get byte #1, then byte #2, etc up to 1024.
 
-#### write a byte
+#### Write a BYTE
 `OUT 131,n`  Write the value **n** (0-255) at the current byte position
 
-The first write after selecting a block# writes to byte #0 of that block.  
-The byte position advances by one after each write, so the next write will write to byte #1, then byte #2, etc up to 1024.
+The first read or write after selecting a block# applies to byte #0 of that block.  
+The byte position advances by one after each read or write, so the next read or write will be byte #1, then byte #2, etc up to 1024.  
+And actually, it's not "up to 1024", it wraps around to 0 of the same block again if you keep reading or writing more than 1024 times without selecting some other block.
 
-There is only one byte-position counter for both read and write. The counter advances the same whether you read or write. If you read 10 bytes and then write 10 bytes without selecting a block# in between, you will read bytes 0-9 and the write bytes 10-19.
+There is only one byte-position counter that applies the same to reads and writes. The counter advances the same whether you read or write, so you could actually mix reads and writes. If you read 10 bytes and then write 10 bytes, you will read bytes 0-9 and the write bytes 10-19.
 
-Since the device only operates on single byte values, it's a little more efficient to use integer variables with the % suffix, ie, use B%=INP(131) instead of B=INP(131) etc.
+Since the device only operates on single byte values, it's a little more efficient to use integer variables with the % suffix, ie, use B%=INP(131) instead of B=INP(131) etc where possible.
 
 #### examples
 
@@ -185,6 +200,15 @@ Manually repair the first two bytes of block 0 to mark the bank as being formatt
 Selects bank0 block0, writes 64 to byte #0, writes 4 to byte #1  
 You usually don't need to do this manually because RAMDSK.CO can do it for you.
 
+### RPI.BA
+Here is a small "RAMPAC inspector" [RPI.BA](software/RPI) to view the raw data from anywhere on the device.  
+There are already old apps for that like N-DKTR and RD, but they are large, include machine language or require the original option rom or RAMDSK.CO, don't support 512k, etc.  
+For instance [RD.BA](Rampac_Diagnostic) can not even be loaded in one piece even on a freshly reset 32k machine, and does not support banks, or the model 200.  
+So this does not use any machine code, supports 512k, and everything is in BASIC and the whole program is short.
+
+The ascii display mode (press F2 to toggle hex/ascii) displays the non-printing control characters as their respective CTRL code in inverse video.  
+For example NUL appears as `@` in reverse video. So every byte still takes a single cell of the display.
+
 ## Model compatibility
 Apparently only Models 100, 102, & 200 were ever supported. (No NEC or Olivetti, etc)
 
@@ -202,11 +226,9 @@ The case says "102/200", but it actually works on Model 100 also. It needs an ad
 [The Model 100 part](https://github.com/bkw777/TRS-80_Disk_Video_Interface_Cable/blob/main/README.md#part-3---model-100-adapter) of this [3-part cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable) is exactly the same thing.
 
 ## Theory of Operation
-This only describes the low level hardware. I don't yet know how the software works or how the data is structured on the device.
+The three HC161 chips form a 0-1023 counter, setting local sram address bits A0-A9. We'll call this the byte or byte-position counter.
 
-The three HC161 chips form a 0-1023 counter, setting local sram address bits A0-A9. We'll call this the byte counter.
-
-The HC374 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches that setting, ignoring the bus except when triggered to latch a new address.
+The HC374 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches and holds that address on its outputs until triggered to update to a new address.
 
 Four lines from the system bus: A8, A9, /Y0, and (A), combine to produce two signals which I am calling /BLOCK and /BYTE.
 
@@ -223,10 +245,12 @@ The device actually does operate like a disk even though it has no brains or fir
 
 Later versions of RAMPAC were offered with 384k or 512k by adding a second bank of 128k or 256k, and later versions of RAMDSK.CO know how to access it.
 
-The extra 256K is accessed by the state of address line A10 during a BLOCK op.  
+The extra 256K is accessed by the state of BUS address line A10 during a BLOCK op.  
 BLOCK with BUS_A10 low accesses bank0, BLOCK with BUS_A10 high accesses bank1.  
 The state of BUS_A10 is essentially copied to the SRAM A18 address line and latched during BLOCK ops along with A10-A17, like adding a 9th bit to the HC374.  
-I don't have a RAMPAC. This was deduced from watching what RAM100.CO tries to do on the system bus, and tested with a breadboard circuit and finally MiniNDP below.
+
+The extra bank 512k operation is just deduced from watching what RAMDSK.CO tries to do on the system bus when you press the Bank button, then the theory tested with a breadboard circuit, and finally with MiniNDP below, which actually works with RAMDSK.  
+MiniNDP probably does not implement the circuit the same way that the RAMPAC did.
 
 <!-- 
 ## New Replacement PCB
@@ -241,7 +265,7 @@ There is not much reason to build this instead of a MiniNDP. Even if you had an 
 
 # MiniNDP
 
-Functions the same as DATAPAC. Essentially the same circuit, just with a single 512k ram chip instead of 8 32k chips, surface mount parts instead of through hole, and directly attached instead of connected by a cable.
+Functions the same as DATAPAC / RAMPAC. Essentially the same circuit, just with a single 512k ram chip instead of 8 32k chips, surface mount parts instead of through hole, and directly attached instead of connected by a cable.
 
 Provides the second bank of 256k like RAMPAC, for a total of 512k.
 

@@ -1,0 +1,21 @@
+If you have a TPDD client like TS-DOS, just copy RAM100.CO
+
+To bootstrap from a PC:
+
+Windows, using https://github.com/bkw777/tsend
+
+  C:> tsend.ps1 -file RAM100.DO
+
+Mac/Linux, using https://github.com/bkw777/dlplus
+
+  $ dl -v -b RAM100.DO
+
+
+--- Re-install from the RAMPAC itself after a cold reset ---
+
+If you have a RAMPAC with a copy of RAM100.CO on it,
+and a Model 100/102 that is wiped from a cold reset,
+you can manually type-in RBOOT.DO to reinstall RAMDSK from the RAMPAC.
+
+RAM100.CO (or RAMDSK.CO, the name doesn't matter) must be the first file
+saved to the RAMPAC after a format.
