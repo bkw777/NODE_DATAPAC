@@ -158,9 +158,6 @@ BLOCK and BYTE, and each of those has two variations, for four total ops.
 #### Read a BYTE
 `INP(131)`   Read the byte at the current byte position
 
-The first read after selecting a block# reads byte #0 from that block.  
-The byte position advances by one after each read, so the next read will get byte #1, then byte #2, etc up to 1024.
-
 #### Write a BYTE
 `OUT 131,n`  Write the value **n** (0-255) at the current byte position
 
