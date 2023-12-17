@@ -1,6 +1,7 @@
 0' Basic RAMPAC inspector
 0' * Display raw data from anywhere on a DATAPAC / RAMPAC
 0' * Supports both banks on 512k units
+0' * Runs on both Model 100 and 200
 0' * Does not require any option rom or RAMDSK.CO
 0' * Does not contain any machine code or call any
 0' RAMPAC Inspector - 2023-12-15 Brian K. White
@@ -44,5 +45,5 @@
 3600 '
 3700 '
 3799 RETURN
-3800 ' --- exit
+3800 ' exit
 3810 MENU

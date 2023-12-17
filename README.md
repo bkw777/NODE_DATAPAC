@@ -201,7 +201,7 @@ You usually don't need to do this manually because RAMDSK.CO can do it for you.
 Here is a small "RAMPAC inspector" [RPI.BA](software/RPI) to view the raw data from anywhere on the device.  
 There are already old apps for that like N-DKTR and RD, but they are large, include machine language or require the original option rom or RAMDSK.CO, don't support 512k, etc.  
 For instance [RD.BA](Rampac_Diagnostic) can not even be loaded in one piece even on a freshly reset 32k machine, and does not support banks, or the model 200.  
-So this does not use any machine code, supports 512k, and everything is in BASIC and the whole program is short.
+So this does not use any machine code, everything is in BASIC, supports banks/512k, runs on both model 100 and 200, and is relatively small.
 
 The ascii display mode (press F2 to toggle hex/ascii) displays the non-printing control characters as their respective CTRL code in inverse video.  
 For example NUL appears as `@` in reverse video. So every byte still takes a single cell of the display.
