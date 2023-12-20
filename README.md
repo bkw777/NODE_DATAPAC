@@ -162,22 +162,26 @@ There are two low level that you use to access the device,
 BLOCK and BYTE, and each of those has two variations, for four total ops.
 
 Select a BLOCK from BANK 0  
-`OUT 129,n`  Select block# **n** (0-255) in bank 0  
+`OUT 129,n`  
+Selects block# **n** (0-255) in bank 0, and resets the byte position to 0.
 
 Select a BLOCK from BANK 1  
-`OUT 133,n`  Select block# **n** (0-255) in bank 1
+`OUT 133,n`  
+Selects block# **n** (0-255) in bank 1, and resets the byte position to 0.
 
 Read a BYTE  
-`INP(131)`   Read the byte at the current byte position
+`INP(131)`  
+Reads the byte at the current byte position, and advances the byte position by one.
 
 Write a BYTE  
-`OUT 131,n`  Write the value **n** (0-255) at the current byte position
+`OUT 131,n`  
+Writes the value **n** (0-255) at the current byte position, and advances the byte position bye one.
 
 The first read or write after selecting a block# applies to byte #0 of that block.  
 The byte position advances by one after each read or write, so the next read or write will be byte #1, then byte #2, etc up to 1024.  
 And actually, it's not "up to 1024", it wraps around to 0 of the same block again if you keep reading or writing more than 1024 times without selecting some other block.
 
-Since the device only operates on single byte values, it's a little more efficient to use integer variables with the % suffix, ie, use B%=INP(131) instead of B=INP(131) etc where possible.
+Since the device can only read or write a single byte at a time, it's most efficient to use integer variables with the % suffix, ie, use B%=INP(131) instead of B=INP(131) etc where possible.
 
 The general sequence is always:  
 1 - select a bank+block  
@@ -195,11 +199,10 @@ Select bank 0 block 0
 read a byte, which will be byte #0 of this block  
 `INP(131)`
 
-Read and print the ascii of all the bytes in bank 0 block 1  
-This will be the first block of actual file data for the first file (also with some file/block metadata like the filename and probably some kind of linked list block pointers).  
-
+Read and print the ascii of all the bytes in bank 0 block 2.  
+(this will mess up the display from control bytes if there is a binary .CO file in this block)
 ```
-10 OUT 129,1
+10 OUT 129,2
 20 FOR I=0 TO 1023
 30 PRINT CHR$(INP(131));
 40 NEXT
@@ -207,14 +210,16 @@ This will be the first block of actual file data for the first file (also with s
 
 Do the same but in bank 1  
 change line 10 to:  
-`10 OUT 133,1`
+`10 OUT 133,2`
 
-Manually repair the first two bytes of block 0 to mark the bank as being formatted without touching any of the data  
+Manually repair the first two bytes of block 0 to mark the bank as being formatted without touching any of the data.  
+This means:  
+* Select bank0 block0
+* write one byte, value 64
+* write one byte, value 4
 `OUT129,0:OUT131,64:OUT131,4`
 
-Selects bank0 block0, writes 64 to byte0, writes 4 to byte1  
-You usually don't need to do this manually because RAMDSK.CO can do it for you.
-
+(BTW you usually don't need to do that manually because RAMDSK.CO will do it for you if you just answer "Y" at the "Fix?" prompt.)
 
 ## RAMDSK
 The "driver" software for the device is [RAMDSK](software/RAMDSK/)
