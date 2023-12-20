@@ -96,7 +96,7 @@ One thing RAMDSK does not do which the original option rom did, is re-create the
 
 #### Installing RAMDSK
 Archived docs mention an 8 line BASIC program called BOOT that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start.  
-That program does not seem to be archived anywhere, so in it's place there is `RBOOT.DO` and `bootstrap.bas` below which are new.  
+That program does not seem to be archived anywhere, so in it's place there is `RBOOT.DO` and `BOOT2K.DO` below which are new.  
 This only works after a copy of RAMDSK has been copied to the RAMPAC.
 
 To get RAMDSK installed the first time, just copy it to the portable via any of the normal ways to install any .CO file.  
