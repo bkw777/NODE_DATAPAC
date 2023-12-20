@@ -100,7 +100,7 @@ Once you have RAMDSK installed, if you use it to save a copy to the RAMPAC as th
 1 CLEAR0,61558:T=61558:E=62957:OUT129,2
 2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
 3 POKEA,INP(131):IFA=T+1007THENOUT129,1
-4 ?".";:NEXT:SAVEM"RAMDSK",T,E,T
+4 ?".";:NEXT:SAVEM"RAM100",T,E,T
 ```
 
 #### RBOOT for Model 200
@@ -109,7 +109,7 @@ Once you have RAMDSK installed, if you use it to save a copy to the RAMPAC as th
 1 CLEAR0,59715:T=59715:E=61101:OUT129,2
 2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
 3 POKEA,INP(131):IFA=T+1007THENOUT129,1
-4 ?".";:NEXT:SAVEM"RAMDSK",T,E,T
+4 ?".";:NEXT:SAVEM"RAM200",T,E,T
 ```
 
 #### Generic bootstrap
