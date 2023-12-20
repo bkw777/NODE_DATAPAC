@@ -175,7 +175,7 @@ Reads the byte at the current byte position, and advances the byte position by o
 
 Write a BYTE  
 `OUT 131,n`  
-Writes the value **n** (0-255) at the current byte position, and advances the byte position bye one.
+Writes the value **n** (0-255) to the current byte position, and advances the byte position by one.
 
 The first read or write after selecting a block# applies to byte #0 of that block.  
 The byte position advances by one after each read or write, so the next read or write will be byte #1, then byte #2, etc up to 1024.  
