@@ -158,19 +158,19 @@ How to access the hardware from BASIC.
 See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP)
 
 ### Low level direct access using only BASIC
-There are two low level that you use to access the device,   
+There are two low level that you use to access the device,  
 BLOCK and BYTE, and each of those has two variations, for four total ops.
 
-Select a BLOCK from BANK 0
+Select a BLOCK from BANK 0  
 `OUT 129,n`  Select block# **n** (0-255) in bank 0  
 
-Select a BLOCK from BANK 1
+Select a BLOCK from BANK 1  
 `OUT 133,n`  Select block# **n** (0-255) in bank 1
 
-Read a BYTE
+Read a BYTE  
 `INP(131)`   Read the byte at the current byte position
 
-Write a BYTE
+Write a BYTE  
 `OUT 131,n`  Write the value **n** (0-255) at the current byte position
 
 The first read or write after selecting a block# applies to byte #0 of that block.  
