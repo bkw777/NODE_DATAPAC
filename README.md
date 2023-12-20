@@ -212,10 +212,12 @@ Do the same but in bank 1
 change line 10 to:  
 `10 OUT 133,2`
 
-Manually repair the first two bytes of block 0 to mark the bank as being formatted without touching any of the data. This means:  
+Manually repair the first two bytes of block 0 to mark the bank as being formatted without touching any of the data.  
+This means:
 1. Select bank0 block0  
 2. write one byte, value 64  
-3. write one byte, value 4  
+3. write one byte, value 4
+
 `OUT129,0:OUT131,64:OUT131,4`
 
 (BTW you usually don't need to do that manually because RAMDSK.CO will do it for you if you just answer "Y" at the "Fix?" prompt.)
