@@ -92,44 +92,43 @@ The quickest way to go from scratch if you don't already have a TPDD emulator an
 
 ### RBOOT
 Once you have RAMDSK installed, if you use it to save a copy to the RAMPAC as the very first file after a fresh format, then you can re-install RAMDSK from the RAMPAC after a cold reset by manually typing in a short BASIC program.  
-These RBOOT for 100 and 200 are meant to be as small as possible since you have to manually type them in, so they don't have any frills like a progress display or summary message.  
-They don't print anything while running. When they are done, just exit BASIC and there should be a copy of RAMDSK.CO installed, and it should be immediately ready to use without needing to LOADM or CLEAR.
+(these are optimized to be the least amount of typing possible, not the most efficient code possible)
 
 #### RBOOT for Model 100
-[software/RAMDSK/RAM100/RBOOT.DO](software/RAMDSK/RAM100/RBOOT.DO) uses pre-computed values and only works for this exact RAMDSK binary [software/RAMDSK/RAM100/RAM100.CO](software/RAMDSK/RAM100/RAM100.CO).  
+[software/RAMDSK/RAM100/RBOOT.DO](software/RAMDSK/RAM100/RBOOT.DO) for [software/RAMDSK/RAM100/RAM100.CO](software/RAMDSK/RAM100/RAM100.CO)
 ```
-1 CLEAR0,61558:S=61558:E=62957
-2 OUT129,2:FORJ=0TO15:K=INP(131):NEXT
-3 J=S:K=S+1007:GOSUB5:OUT129,1:J=K+1
-4 K=E:GOSUB5:SAVEM"RAMDSK",S,E,S:END
-5 FORA=JTOK:POKEA,INP(131):NEXT:RETURN
+1 CLEAR0,61558:T=61558:E=62957:OUT129,2
+2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
+3 POKEA,INP(131):IFA=T+1007THENOUT129,1
+4 ?".";:NEXT:SAVEM"RAMDSK",T,E,T
 ```
 
 #### RBOOT for Model 200
-[software/RAMDSK/RAM200/RBOOT.DO](software/RAMDSK/RAM200/RBOOT.DO) uses pre-computed values and only works for this exact RAMDSK binary [software/RAMDSK/RAM200/RAM200.CO](software/RAMDSK/RAM200/RAM200.CO).  
+[software/RAMDSK/RAM200/RBOOT.DO](software/RAMDSK/RAM200/RBOOT.DO) for [software/RAMDSK/RAM200/RAM200.CO](software/RAMDSK/RAM200/RAM200.CO)
 ```
-1 CLEAR0,59715:S=59715:E=61101
-2 OUT129,2:FORJ=0TO15:K=INP(131):NEXT
-3 J=S:K=S+1007:GOSUB5:OUT129,1:J=K+1
-4 K=E:GOSUB5:SAVEM"RAMDSK",S,E,S:END
-5 FORA=JTOK:POKEA,INP(131):NEXT:RETURN
+1 CLEAR0,59715:T=59715:E=61101:OUT129,2
+2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
+3 POKEA,INP(131):IFA=T+1007THENOUT129,1
+4 ?".";:NEXT:SAVEM"RAMDSK",T,E,T
 ```
 
 #### Generic RBOOT
-Just for reference, here is a slightly larger but more flexible and generic version.  
-[software/RAMDSK/RBOOT.DO](software/RAMDSK/RBOOT.DO)  
-* Reads the .CO header bytes to get the necessary address values from the file itself  
-* Should work on any binary that fits in the first 2 blocks (slightly uner 2k)  
-* Should work on both Model 100 and 200 without changes  
+Just for reference, here is a larger but more flexible and generic version.  
+* Reads the filename and address values from the file itself  
+* Works on any binary that fits in the first 2 blocks (slightly uner 2k)  
+* Works on both Model 100 and 200 without changes  
 * Has progress display  
 * Prints a message at the end with a CLEAR command that you have to manually type to complete the install  
+[software/RAMDSK/RBOOT.DO](software/RAMDSK/RBOOT.DO) for any binary
 ```
-1 CLEAR0,59000 :OUT129,2 :FORA=0TO9 :N=INP(131) :NEXT
-2 GOSUB6 :S=N :GOSUB6 :L=N :GOSUB6 :X=N
-3 N=S+1007 :E=S+L-1 :FORA=STOE :?".";
-4 POKEA,INP(131) :IF A=N THEN OUT129,1
-5 NEXT :?"type CLEAR 0,"S":NEW" :SAVEM"RAMDSK",S,E,X:END
-6 N=INP(131) :N=N+INP(131)*256 :RETURN
+1 CLEAR32,59000:CLS:P=131:OUT129,2
+2 FORA=0TO9:F$=F$+CHR$(INP(P)):NEXT
+3 GOSUB8:T=N:GOSUB8:E=T+N-1:GOSUB8:X=N
+4 F$=LEFT$(F$,6):N=T+1007:FORA=TTOE
+5 ?@0,A:POKEA,INP(P):IFA=NTHENOUT129,1
+6 NEXT:?@0,"Installed "F$:?"Type:"
+7 ?"CLEAR 0,"T":NEW":SAVEMF$,T,E,X:END
+8 N=INP(P):N=N+INP(P)*256:RETURN
 ```
 
 None of these are the actual original "BOOT" program mentioned in the archives. That original file that was shipped pre-loaded on DATAPAC & RAMPAC units is lost now unless/until someone finds a copy.  
