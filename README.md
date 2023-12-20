@@ -1,4 +1,4 @@
-# Reproduction of Node Systems DATAPAC
+# NODE Systems DATAPAC
 
 The NODE Systems DATAPAC was a popular ram disk peripheral for TRS-80 / TANDY Models 100, 102, & 200 computers.
 
@@ -20,6 +20,38 @@ No other parts or changes are needed to upgrade an existing 128k unit to 256k.
 ![](REF/NODE_DATAPAC_256K_3.jpg)
 ![](REF/NODE_DATAPAC_256K_4.jpg)
 
+# Table of Contents
+* [Documentation](#documentation)
+* [Hardware](#hardware)
+  * [Reproduction Schematic & PCB](#reproduction-schematic--pcb)
+  * [Theory of Operation](#theory-of-operation)
+  * [Battery](#battery)
+  * [Model Compatibility](#model-compatibility)
+* [Software](#software)
+  * [BASIC](#basic)
+  * [RAMDSK](#ramdsk)
+    * [Installation](#installing-ramdsk)
+    * [Usage](#using-ramdsk)
+  * [RAMPAC Inspector](#rpiba)
+  * [XOS](#xos)
+* [MiniNDP](#minindp)
+  * [PCB & BOM](#minindp-pcb--bom)
+  * [Enclosure](#minindp-enclosure)
+
+# Documentation
+The original manual does not seem to be scanned or archived anywhere.
+
+All we have today is a few bits of info from discussions in the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and Paul Globmans software on [club100](http://www.club100.org/library/libpg.html).  
+Some of these are collected [here](software).
+
+A few of those documents say that the device originally shipped with the user manual pre-loaded onto the DATAPAC as a 12k text file, along with at least one BASIC program.  
+If/when the battery died in the device and all data was lost, the Format operation in the option rom would also re-create the text file.  
+
+Neither the option rom nor the text file are archived anywhere that I have been able to find yet.
+
+If anyone has a RAMPAC, they probably also have the option rom, and the original manual could be recovered from that. Maybe one will turn up some day.
+
+# Hardware
 ## Reproduction Schematic & PCB
 This is a new drawing but aims to reflect the original actual device as exactly as possible.  
 It's meant to be a form of documentation or reference describing the original hardware as it was.  
@@ -35,6 +67,33 @@ PCB BOTTOM
 
 The original PCB has no silkscreen. This image has silkscreen added to show where the components from the schematic go.
 ![](PCB/out/NODE_DATAPAC_256K_historical_top_annotated.jpg)
+
+## Theory of Operation
+The three HC161 chips form a 0-1023 counter, setting local sram address bits A0-A9. We'll call this the byte or byte-position counter.
+
+The HC374 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches and holds that address on its outputs until triggered to update to a new address.
+
+Four lines from the system bus: A8, A9, /Y0, and (A), combine to produce two signals which I am calling /BLOCK and /BYTE.
+
+Each time /BLOCK goes low it sets SRAM A0-A9 to 0 and copies BUS AD0-AD7 to SRAM A10-A17,
+then holds A10-A17 latched while /BLOCK is high.  
+Call this a BLOCK op.
+
+Each time /BYTE goes low it enables SRAM for read or write while low,
+then when /BYTE goes high it disables SRAM and increments A0-A9 by 1.
+Call this a BYTE op.
+
+So the device provides up to 256 blocks of 1k bytes each. The host computer does a BLOCK op to select a block number from 0-255, then does a BYTE op to read or write a byte of data at byte #0 in the block, then repeats the BYTE op 1023 more times to read or write all 1024 bytes in the block.  
+The device actually does operate like a disk even though it has no brains or firmware.
+
+Later versions of RAMPAC were offered with 384k or 512k by adding a second bank of 128k or 256k, and later versions of RAMDSK.CO know how to access it.
+
+The extra 256K is accessed by the state of BUS address line A10 during a BLOCK op.  
+BLOCK with BUS_A10 low accesses bank0, BLOCK with BUS_A10 high accesses bank1.  
+The state of BUS_A10 is essentially copied to the SRAM A18 address line and latched during BLOCK ops along with A10-A17, like adding a 9th bit to the HC374.  
+
+The 512k 2-bank operation is just deduced from watching what RAMDSK does on the system bus when you press the Bank button, then the theory tested with a breadboard circuit, and finally with MiniNDP below.  
+MiniNDP actually works with RAMDSK, but probably does not implement the circuit the same way that the RAMPAC did.
 
 ## Battery
 The original battery is no longer made, and the modern cross-reference is almost 2mm taller and does not fit inside the enclosure.
@@ -64,20 +123,25 @@ If you wish to keep using a rechargeable battery, then a suitable option is FL3/
 The charging circuit is utterly basic, so do not connect any other type of battery except NiCD or NiMH.  
 You can use any cell form factor and any larger or smaller mAh capacity, but must be 3-cell 3.6v NiCD or NiMH chemistry.
 
-## Documentation
-The original manual does not seem to be scanned or archived anywhere.
+## Model compatibility
+Only Models 100, 102, & 200 were ever supported.
 
-All we have today is a few bits of info from discussions in the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and Paul Globmans software on [club100](http://www.club100.org/library/libpg.html).  
-Some of these are collected [here](software).
+The device is probably hardware compatible with the Olivetti M-10 and Kyotronic KC-85, though RAMDSK was never ported to them.
 
-A few of those documents say that the device originally shipped with the user manual pre-loaded onto the DATAPAC as a 12k text file, along with at least one BASIC program.  
-If/when the battery died in the device and all data was lost, the Format operation in the option rom would also re-create the text file.  
+The device is not compatible with the NEC PC-8201/PC-8300 at all.
 
-Neither the option rom nor the text file are archived anywhere that I have been able to find yet.
+### Model 200
+The connector on the DATAPAC [does not actually fit in a Model 200](REF/does_not_fit_model_200.jpg) without cutting the opening wider around the bus connector on the 200.
 
-If anyone has a RAMPAC, they probably also have the option rom, and the original manual could be recovered from that. Maybe one will turn up some day.
+The only connector that fits in a 200 without hacking on the 200s case is a [solder-type 2x20 male box header](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SBH11-PBPC-D20-ST-BK/1990068),
+ which could be soldered back to back with the [female version](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SFH11-PBPC-D20-ST-BK/1990093),
+ to make an [adapter](REF/T200_adapter.jpg) to allow [connecting to a 200](REF/T200_adapter_installed.jpg) without having to damage the 200's case.
 
-## Software
+### Model 100
+The case says "102/200", but it actually works on Model 100 also. It needs an adapter cable, but the cable is simple. It's just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
+[The Model 100 part](https://github.com/bkw777/TRS-80_Disk_Video_Interface_Cable/blob/main/README.md#part-3---model-100-adapter) of this [3-part cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable) is exactly the same thing.
+
+# Software
 
 Originally these shipped with an option rom from NODE (written by Travelling Software), which does not seem to be archived anywhere.  
 Later, each unit was also shipped with a copy of RAMDSK licensed from Paul Globman.
@@ -87,14 +151,79 @@ Today all we have is RAMDSK, but it claims to do everything that the option rom 
 Some software culled from the M100SIG archive and Club100 are collected here in the [software](software) directory.  
 Much of that software actually requires the original option rom, which is not available. Some of that could possibly be converted to work with RAMDSK instead of the rom by translating the call addresses per the RAMDSK.TIP file.
 
-### RAMDSK
+## BASIC
+How to access the hardware from BASIC.
+
+### High level file operations using CALLable machine language routines
+See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP)
+
+### Low level direct access using only BASIC
+There are two low level that you use to access the device,   
+BLOCK and BYTE, and each of those has two variations, for four total ops.
+
+Select a BLOCK from BANK 0
+`OUT 129,n`  Select block# **n** (0-255) in bank 0  
+
+Select a BLOCK from BANK 1
+`OUT 133,n`  Select block# **n** (0-255) in bank 1
+
+Read a BYTE
+`INP(131)`   Read the byte at the current byte position
+
+Write a BYTE
+`OUT 131,n`  Write the value **n** (0-255) at the current byte position
+
+The first read or write after selecting a block# applies to byte #0 of that block.  
+The byte position advances by one after each read or write, so the next read or write will be byte #1, then byte #2, etc up to 1024.  
+And actually, it's not "up to 1024", it wraps around to 0 of the same block again if you keep reading or writing more than 1024 times without selecting some other block.
+
+Since the device only operates on single byte values, it's a little more efficient to use integer variables with the % suffix, ie, use B%=INP(131) instead of B=INP(131) etc where possible.
+
+The general sequence is always:  
+1 - select a bank+block  
+2 - read/write byte 0-1024 times
+
+If you need to read or write some arbitrary set of bytes from the middle of a block, you must still read (or write) all the bytes from 0 up to the desired offset.  
+For instance, in RBOOT.DO, to skip over the first 16 bytes of the block it does `FORA=0TO15:N=INP(131):NEXT`  
+N is not actually used, it's just reading 16 times and ignoring the data. This just advances the byte position counter to get from byte #0 up to the start of the bytes that it actually wants.
+
+Examples
+
+Select bank 0 block 0  
+`OUT129,0`
+
+read a byte, which will be byte #0 of this block  
+`INP(131)`
+
+Read and print the ascii of all the bytes in bank 0 block 1  
+This will be the first block of actual file data for the first file (also with some file/block metadata like the filename and probably some kind of linked list block pointers).  
+
+```
+10 OUT 129,1
+20 FOR I=0 TO 1023
+30 PRINT CHR$(INP(131));
+40 NEXT
+```
+
+Do the same but in bank 1  
+change line 10 to:  
+`10 OUT 133,1`
+
+Manually repair the first two bytes of block 0 to mark the bank as being formatted without touching any of the data  
+`OUT129,0:OUT131,64:OUT131,4`
+
+Selects bank0 block0, writes 64 to byte0, writes 4 to byte1  
+You usually don't need to do this manually because RAMDSK.CO can do it for you.
+
+
+## RAMDSK
 The "driver" software for the device is [RAMDSK](software/RAMDSK/)
 
 RAMDSK claims to provide the same functionality as NODEs option rom, and even NODE themselves later licensed RAMDSK and included a copy with each unit.  
 Even the rom calls from the option rom have equivalents in RAMDSK, though at different addresses. (see [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP))  
 One thing RAMDSK does not do which the original option rom did, is re-create the user manual text file as part of the Format operation.
 
-#### Installing RAMDSK
+### Installing RAMDSK
 Archived docs mention an 8 line BASIC program called BOOT that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start.  
 That program does not seem to be archived anywhere, so in it's place there is `RBOOT.DO` and `BOOT2K.DO` below which are new.  
 This only works after a copy of RAMDSK has been copied to the RAMPAC.
@@ -167,7 +296,7 @@ Just for reference, here is a more flexible and generic [BOOT2K.DO](software/BOO
 8 N=INP(P):N=N+INP(P)*256:RETURN
 ```
 
-#### Using RAMDSK
+### Using RAMDSK
 Usage is mostly pretty self-explanatory.
 
 The F1-Bank button switches between 2 banks of 256k, and is only functional on a RAMPAC that has more than 256k.
@@ -178,7 +307,7 @@ You could do the manual BASIC one-liner `OUT129,0:OUT131,64:OUT131,4`, but RAMDS
 If you get the "Format RAM-Disk?" prompt on power-on, just answer "N".  
 Then it will ask "Fix?", answer "Y".
 
-### RPI.BA
+## RPI.BA
 Here is a small "RAMPAC inspector" [RPI.BA](software/RPI) to view the raw data from anywhere on the device.  
 There are already old apps for that like N-DKTR and RD, but they are large, include machine language or require the original option rom or RAMDSK.CO, don't support 512k, etc.  
 For instance [RD.BA](Rampac_Diagnostic) can not even be loaded in one piece even on a freshly reset 32k machine, and does not support banks, or the model 200.  
@@ -187,118 +316,13 @@ So this does not use any machine code, everything is in BASIC, supports banks/51
 The ascii display mode (press F2 to toggle hex/ascii) displays the non-printing control characters as their respective CTRL code in inverse video.  
 For example NUL appears as `@` in reverse video. So every byte still takes a single cell of the display.
 
-### XOS
+## XOS
 [XOS](http://www.club100.org/library/libpg.html) is sort of an OS for the Model 200.  
 XOS does not require a RAMPAC, but appears to leverage it well.  
 Some of the things in [software](software) are designed to work with XOS.
 
-### BASIC
-How to access the hardware directly from BASIC.
-
-There are two low level operations that you use to access the device,  
-BLOCK and BYTE, and each of those has two variations, for four total ops.
-
-#### Select a BLOCK from BANK 0
-`OUT 129,n`  Select block# **n** (0-255) in bank 0  
-
-#### Select a BLOCK from BANK 1
-`OUT 133,n`  Select block# **n** (0-255) in bank 1
-
-#### Read a BYTE
-`INP(131)`   Read the byte at the current byte position
-
-#### Write a BYTE
-`OUT 131,n`  Write the value **n** (0-255) at the current byte position
-
-The first read or write after selecting a block# applies to byte #0 of that block.  
-The byte position advances by one after each read or write, so the next read or write will be byte #1, then byte #2, etc up to 1024.  
-And actually, it's not "up to 1024", it wraps around to 0 of the same block again if you keep reading or writing more than 1024 times without selecting some other block.
-
-There is only one byte-position counter that applies the same to reads and writes. The counter advances the same whether you read or write, so you could actually mix reads and writes. If you read 10 bytes and then write 10 bytes, you will read bytes 0-9 and the write bytes 10-19.
-
-Since the device only operates on single byte values, it's a little more efficient to use integer variables with the % suffix, ie, use B%=INP(131) instead of B=INP(131) etc where possible.
-
-The general sequence is always:  
-1 - select a bank+block  
-2 - read/write byte, repeat up to 1023 times (1024 total)
-
-If you need to read or write some arbitrary set of bytes from the middle of a block, you must still read all the bytes from 0 to the first of the desired range.  
-For instance, in the RBOOT.DO programns above, to skip over the first 16 bytes of the block they do `FORA=0TO15:N=INP(131):NEXT`  
-N is not actually used, it's just reading 16 times and ignoring the result.
-
-#### examples
-
-Select bank 0 block 0  
-`OUT129,0`
-
-read a byte, which will be byte #0 of this block  
-`INP(131)`
-
-Read and print the ascii of all the bytes in bank 0 block 1  
-This will be the first block of actual file data for the first file (also with some file/block metadata like the filename and probably some kind of linked list block pointers).  
-
-```
-10 OUT 129,1
-20 FOR I=0 TO 1023
-30 PRINT CHR$(INP(131));
-40 NEXT
-```
-
-Do the same but in bank 1  
-change line 10 to:  
-`10 OUT 133,1`
-
-Manually repair the first two bytes of block 0 to mark the bank as being formatted without touching any of the data  
-`OUT129,0:OUT131,64:OUT131,4`
-
-Selects bank0 block0, writes 64 to byte0, writes 4 to byte1  
-You usually don't need to do this manually because RAMDSK.CO can do it for you.
 
 
-## Model compatibility
-Only Models 100, 102, & 200 were ever supported.
-
-The device is probably hardware compatible with the Olivetti M-10 and Kyotronic KC-85, though RAMDSK was never ported to them.
-
-The device is not compatible with the NEC PC-8201/PC-8300 at all.
-
-### Model 200
-The connector on the DATAPAC [does not actually fit in a Model 200](REF/does_not_fit_model_200.jpg) without cutting the opening wider around the bus connector on the 200.
-
-The only connector that fits in a 200 without hacking on the 200s case is a [solder-type 2x20 male box header](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SBH11-PBPC-D20-ST-BK/1990068),
- which could be soldered back to back with the [female version](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SFH11-PBPC-D20-ST-BK/1990093),
- to make an [adapter](REF/T200_adapter.jpg) to allow [connecting to a 200](REF/T200_adapter_installed.jpg) without having to damage the 200's case.
-
-### Model 100
-The case says "102/200", but it actually works on Model 100 also. It needs an adapter cable, but the cable is simple. It's just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
-[The Model 100 part](https://github.com/bkw777/TRS-80_Disk_Video_Interface_Cable/blob/main/README.md#part-3---model-100-adapter) of this [3-part cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable) is exactly the same thing.
-
-## Theory of Operation
-The three HC161 chips form a 0-1023 counter, setting local sram address bits A0-A9. We'll call this the byte or byte-position counter.
-
-The HC374 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches and holds that address on its outputs until triggered to update to a new address.
-
-Four lines from the system bus: A8, A9, /Y0, and (A), combine to produce two signals which I am calling /BLOCK and /BYTE.
-
-Each time /BLOCK goes low it sets SRAM A0-A9 to 0 and copies BUS AD0-AD7 to SRAM A10-A17,
-then holds A10-A17 latched while /BLOCK is high.  
-Call this a BLOCK op.
-
-Each time /BYTE goes low it enables SRAM for read or write while low,
-then when /BYTE goes high it disables SRAM and increments A0-A9 by 1.
-Call this a BYTE op.
-
-So the device provides up to 256 blocks of 1k bytes each. The host computer does a BLOCK op to select a block number from 0-255, then does a BYTE op to read or write a byte of data at byte #0 in the block, then repeats the BYTE op 1023 more times to read or write all 1024 bytes in the block.  
-The device actually does operate like a disk even though it has no brains or firmware.
-
-Later versions of RAMPAC were offered with 384k or 512k by adding a second bank of 128k or 256k, and later versions of RAMDSK.CO know how to access it.
-
-The extra 256K is accessed by the state of BUS address line A10 during a BLOCK op.  
-BLOCK with BUS_A10 low accesses bank0, BLOCK with BUS_A10 high accesses bank1.  
-The state of BUS_A10 is essentially copied to the SRAM A18 address line and latched during BLOCK ops along with A10-A17, like adding a 9th bit to the HC374.  
-
-The 512k 2-bank operation is just deduced from watching what RAMDSK does on the system bus when you press the Bank button, then the theory tested with a breadboard circuit, and finally with MiniNDP below.  
-MiniNDP actually works with RAMDSK, but probably does not implement the circuit the same way that the RAMPAC did.
 
 <!-- 
 ## New Replacement PCB
@@ -313,6 +337,12 @@ There is not much reason to build this instead of a MiniNDP. Even if you had an 
 
 # MiniNDP
 
+![](PCB/out/MiniNDP_512.svg)
+![](PCB/out/MiniNDP_512.top.jpg)
+![](PCB/out/MiniNDP_512.bottom.jpg)
+![](PCB/out/MiniNDP_512.f.jpg)
+![](PCB/out/MiniNDP_512.b.jpg)
+
 Functions the same as DATAPAC / RAMPAC. Essentially the same circuit, just with a single 512k ram chip instead of 8 32k chips, surface mount parts instead of through hole, and directly attached instead of connected by a cable.
 
 Has 512k in 2 banks of 256k like the final versions of RAMPAC.
@@ -320,37 +350,6 @@ Has 512k in 2 banks of 256k like the final versions of RAMPAC.
 The connector fits in a Model 200 without having to modify the 200.
 
 The diode on RAMRST is copied from a user mod found on a DATAPAC. It appears to be intended to prevent a battery drain on the host computer while the DATAPAC is left connected to the host while the host is turned off.
-
-You can optionally make a thinner card by replacing BT1 and C1 with lower profile alternatives.  
-|BATTERY|estimated life|holders that fit the footprint|height|C1 Capacitor|
-|---|---|---|---|---|
-|CR2032|7.5 years|Keystone 3034<br>TE/Linx BAT-HLD-001-SMT<br>Adam Tech BH-67<br>MPD BK-912|4.1mm|[TAJC227K010RNJ](https://www.digikey.com/en/products/detail/kyocera-avx/TAJC227K010RNJ/1833766?s=N4IgTCBcDaICoEEBSBhMYDsBpADARhwCUA5JEAXQF8g) - 6032-28 220u 10v|
-|CR2016|3 years|Keystone 3028|1.7mm|[TLJW157M010R0200](https://www.digikey.com/en/products/detail/kyocera-avx/TLJW157M010R0200/929982?s=N4IgTCBcDaICoBkBSB1AjAVgOwFkAMaeASnmHniALoC%2BQA) - 6032-15 150u 10v|
-
-BOM [DigiKey](https://www.digikey.com/short/q4mh3b52)  
-PCB <!-- [OSHPark](https://oshpark.com/shared_projects/), -->[PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html), or there is a gerber zip in [releases](../../releases/)
-
-For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.  
-
-## MiniNDP Enclosure
-There are a few versions of printable cover in the [enclosure](enclosure) directory.  
-There is OpenSCAD source and exported STL for a snap-on cover, with both a thick version for a card with CR2032 holder, and a thin version for a card with a CR2016 holder.  
-There is also an STL for a slip cover by F. D. Singleton.  
-The printable STLs are in [releases](../releases).
-
-You can get both the PCB and enclosure at the same time from Elecrow by submitting the gerber zip and the enclosure stl, and it arrives in under 2 weeks even with the cheapest economy shipping option.
-
-![](PCB/out/MiniNDP_512.svg)
-![](PCB/out/MiniNDP_512.top.jpg)
-![](PCB/out/MiniNDP_512.bottom.jpg)
-![](PCB/out/MiniNDP_512.f.jpg)
-![](PCB/out/MiniNDP_512.b.jpg)
-
-CR2032 height
-![](PCB/out/MiniNDP_256_CR2032.jpg)
-
-CR2016 height (nominally a CR2012 holder, but can take a CR2016)  
-![](PCB/out/MiniNDP_256_CR2016.jpg)
 
 Installed on a TANDY 102
 ![](REF/MiniNDP_on_102.jpg)
@@ -366,3 +365,29 @@ Installed on a TANDY 200
 
 The 512k board also still supports 256k and 128k. There is no real reason to do this now but if you wanted to install a 256k (AS6C2008A) 
 or 128k (AS6C1008, IS62C1024, etc) SRAM, omit the U8 part (the 1G79), and solder-blob U8 pads 4 & 5 together. Those two pads are modified to also be a solder-jumper for this purpose.
+
+## MiniNDP PCB & BOM
+BOM [DigiKey](https://www.digikey.com/short/q4mh3b52)  
+PCB <!-- [OSHPark](https://oshpark.com/shared_projects/), -->[PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html), or there is a gerber zip in [releases](../../releases/)
+
+For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.  
+
+You can optionally make a thinner card by replacing BT1 and C1 with lower profile alternatives.  
+|BATTERY|estimated life|holders that fit the footprint|height|C1 Capacitor|
+|---|---|---|---|---|
+|CR2032|7.5 years|[Keystone 3034](https://www.digikey.com/short/rmwrc5hv)<br>TE/Linx BAT-HLD-001-SMT<br>Adam Tech BH-67<br>MPD BK-912|4.1mm|[TAJC227K010RNJ](https://www.digikey.com/en/products/detail/kyocera-avx/TAJC227K010RNJ/1833766?s=N4IgTCBcDaICoEEBSBhMYDsBpADARhwCUA5JEAXQF8g) - 6032-28 220u 10v|
+|CR2016|3 years|[Keystone 3028](https://www.digikey.com/short/m93fmzb2)|1.7mm|[TLJW157M010R0200](https://www.digikey.com/en/products/detail/kyocera-avx/TLJW157M010R0200/929982?s=N4IgTCBcDaICoBkBSB1AjAVgOwFkAMaeASnmHniALoC%2BQA) - 6032-15 150u 10v|
+
+CR2032 height
+![](PCB/out/MiniNDP_256_CR2032.jpg)
+
+CR2016 height (nominally a CR2012 holder, but can take a CR2016)  
+![](PCB/out/MiniNDP_256_CR2016.jpg)
+
+## MiniNDP Enclosure
+There are a few versions of printable cover in the [enclosure](enclosure) directory.  
+There is OpenSCAD source and exported STL for a snap-on cover, with both a thick version for a card with CR2032 holder, and a thin version for a card with a CR2016 holder.  
+There is also an STL for a slip cover by F. D. Singleton.  
+The printable STLs are in [releases](../releases).
+
+You can get both the PCB and enclosure at the same time from Elecrow by submitting the gerber zip and the enclosure stl, and it arrives in under 2 weeks even with the cheapest economy shipping option.
