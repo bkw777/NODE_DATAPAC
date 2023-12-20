@@ -6,16 +6,15 @@ Windows, using https://github.com/bkw777/tsend
 
   C:> tsend.ps1 -file RAM200.DO
 
-Mac/Linux, using https://github.com/bkw777/dlplus
+Mac/Linux, using https://github.com/bkw777/dl2
 
   $ dl -v -b RAM200.DO
 
 
 --- Re-install from the RAMPAC itself after a cold reset ---
 
-If you have a RAMPAC with a copy of RAM200.CO on it,
+If you have a RAMPAC with a copy of RAM200.CO already on it,
 and a Model 200 that is wiped from a cold reset,
 you can manually type-in RBOOT.DO to reinstall RAMDSK from the RAMPAC.
 
-RAM200.CO (or RAMDSK.CO, the name doesn't matter) must be the first file
-saved to the RAMPAC after a format.
+RAM200.CO must be the first file saved to the RAMPAC after a format.

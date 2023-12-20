@@ -2,18 +2,18 @@
 
 The NODE Systems DATAPAC and RAMPAC were a ram disk peripheral for TRS-80 / TANDY Models 100, 102, & 200 computers.
 
-RAMPAC was a later device that functioned the same as DATAPAC, even using the same software to run it, just in a new smaller form factor.
+RAMPAC was a later version of the device that functioned the same as DATAPAC, even using the same software to run it, just in a new smaller form factor.
 
 This schematic and PCB documents the DATAPAC. If I ever aquire a RAMPAC, I'll add that.
 
 Here is some disorganized [INFO](software/) mostly gathered from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [club100](http://www.club100.org).
 
-TLDR: To use the hardware, install [RAMDSK.CO](software/RAMDSK/), and what you get is a 128K or 256K ram disk.
+TLDR: To use the hardware, install [RAMDSK.CO](software/RAMDSK/), and what you get is a 128k or 256k ram disk.
 
-The printing on the enclosure says 256K, and the circuit is all there to support 256K, but my two units only had 128K installed.  
-The PCB has footprints for four 32K sram chips (62256 equivalent), for a total of 128K.  
-To get 256K, a second set of chips are piggybacked on top of the first four, each with pin 20 bent out and connected to the pcb instead of to the chip below.  
-No other parts or changes are needed to upgrade a 128K unit to 256K.
+The printing on the enclosure says 256k, and the circuit is all there to support 256k, but my two units only had 128k installed.  
+The PCB has footprints for four 32k sram chips (62256 equivalent), for a total of 128k.  
+To get 256k, a second set of chips are piggybacked on top of the first four, each with pin 20 bent out and connected to the pcb instead of to the chip below.  
+No other parts or changes are needed to upgrade a 128k unit to 256k.
 
 ![](REF/NODE_DATAPAC_256K_1.jpg)
 ![](REF/NODE_DATAPAC_256K_2.jpg)
@@ -23,6 +23,8 @@ No other parts or changes are needed to upgrade a 128K unit to 256K.
 ## Reproduction Schematic & PCB
 This is a new drawing but aims to reflect the original actual device as exactly as possible.  
 It's meant to be a form of documentation or reference describing the original hardware as it was.  
+For instance, the inconsistent thickness of power traces, and the 5V power trace that almost touches one of the mounting screw heads, are both exactly as in the original.  
+(I added a fiber washer to that screw in my units after noticing that. The case is isolated, not connected to ground, but still...)
 ![](PCB/out/NODE_DATAPAC_256K_historical.svg)
 
 PCB TOP
@@ -39,9 +41,9 @@ The original battery is no longer made. The modern replacement is almost 2mm tal
 
 NODE Systems themselves used to perform an update to older units to replace the original rechargeable NiCD cell with a non-rechargeable lithium cell which was supposed to last about 5 years.
 
-The change is simple and easy, and the parts are common. You just remove the old battery and the 200 ohm resistor, and replace them with a CR2032 holder and a diode. That's it. Both parts fit and solder right in the same locations where the old parts came out. Point the diode stripe away from the battery, just like the other diode that is right there next to it. Any kind of diode will do. Another 1N4148 like the other one that's already there is perfect.
+The change is simple and easy, and the parts are common. You just remove the old battery and the 200 ohm resistor, and replace them with a CR2032 holder and a diode. That's it. Both parts fit and solder right in the same locations where the old parts came out. Point the diode stripe away from the battery, just like the other diode that is right there next to it. Any standard diode will do. Schottky is not recommended because the reverse leakage is not good for a lithium cell. Another 1N4148 like the one that's already there is perfect.  
 This should give about 4 years of memory.  
-(The original battery may have only lasted a number of months according to a review in the archives. So the coin cell mod is definitely an improvement as well as being available.)
+(The original NiCD battery may have only lasted as little as a few months per charge according to a review in the archives. So the coin cell mod is not merely more conveniently available with current parts, it's an improvement.)
 
 BEFORE
 ![](PCB/out/NODE_DATAPAC_256K_batt_mod_before.jpg)
@@ -65,37 +67,57 @@ The original manual does not seem to be scanned or archived anywhere.
 All we have today is a few bits of info from discussions in the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and Paul Globmans software on [club100](http://www.club100.org/library/libpg.html).  
 Some of these are collected [here](software).
 
-A few of those documents say that the device originally shipped with the user manual pre-loaded onto the DATAPAC as a 12K text file, along with at least one BASIC program, and the Format function in the option rom would also re-create this file.
+A few of those documents say that the device originally shipped with the user manual pre-loaded onto the DATAPAC as a 12k text file, along with at least one BASIC program.  
+If/when the battery died in the device and all data was lost, the Format operation in the option rom would also re-create the text file.  
+
+Neither the option rom nor the text file are archived anywhere that I have been able to find yet.
+
+If anyone has a RAMPAC, they probably also have the option rom, and the original manual could be recovered from that. Maybe one will turn up some day.
 
 ## Software
+
+Originally these shipped with an option rom from NODE (written by Travelling Software), which does not seem to be archived anywhere.  
+Later, each unit was also shipped with a copy of RAMDSK licensed from Paul Globman.
+
+Today all we have is RAMDSK, but it claims to do everything that the option rom did. Although it does not reproduce the pre-loaded manual and utility files which the option rom did.
+
+Some software culled from the M100SIG archive and Club100 are collected here in the [software](software) directory.  
+Much of that software actually requires the original option rom, which is not available. Some of that could possibly be converted to work with RAMDSK instead of the rom by translating the call addresses per the RAMDSK.TIP file.
+
 ### RAMDSK
 The "driver" software for the device is [RAMDSK](software/RAMDSK/)
 
-Originally these shipped with an option rom from NODE (Written by Travelling Software), which does not seem to be archived anywhere. Today all we have left is RAMDSK.
+RAMDSK claims to provide the same functionality as NODEs option rom, and even NODE themselves later licensed RAMDSK and included a copy with each unit.  
+Even the rom calls from the option rom have equivalents in RAMDSK, though at different addresses. (see [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP))  
+One thing RAMDSK does not do which the original option rom did, is re-create the user manual text file as part of the Format operation.
 
-RAMDSK purports to provide all or almost all of the same functionality as NODEs option rom, and even NODE themselves later licensed RAMDSK and included a copy with each unit. It's unclear if this was in addition to their original option rom, or fully replacing it.  
-Even the rom calls from the option rom have equivalents in RAMDSK, though at different addresses. (see RAMDSK.TIP) 
-One thing RAMDSK does not do which the original option rom did, is re-create the user manual text file as part of the Format function.
+#### Installing RAMDSK
+Archived docs mention an 8 line BASIC program called BOOT that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start.  
+That program does not seem to be archived anywhere, so in it's place there is `RBOOT.DO` and `bootstrap.bas` below which are new.  
+This only works after a copy of RAMDSK has been copied to the RAMPAC.
 
-The "Bank" button in the later version of RAMDSK is for the later versions of the hardware that could have 384K or 512K. It has no effect on a 128K or 256K unit.  
+To get RAMDSK installed the first time, just copy it to the portable via any of the normal ways to install any .CO file.  
 
-The only other significant software using this device seems to be [XOS](http://www.club100.org/library/libpg.html), which is sort of an OS for the Model 200. XOS does not require a RAMPAC or DATAPAC, but apparently makes good use of one if present. For instance, you can keep just a single copy of RAMDSK.CO in bank 3, yet be able to use it from any bank.  
-I have not tried XOS yet, this is just from reading the description.
+The most convenient way is to use a [TPDD emulator](http://tandy.wiki/TPDD_server), but this requires having a [TPDD client](http://tandy.wiki/TPDD_client) installed already.  
+If you don't already have a TPDD emulator and TS-DOS set up, there are also BASIC loaders:  
+[software/RAMDSK/RAM100/RAM100.DO](software/RAMDSK/RAM100/RAM100.DO) for Model 100/102  
+[software/RAMDSK/RAM200/RAM200.DO](software/RAMDSK/RAM200/RAM200.DO) for Model 200
 
-Some software culled from the M100SIG archive and Club100 are collected in [software](software).  
-Much of that software actually requires the original option rom, which is not available. Some of that could possibly be converted to work with RAMDSK instead of the rom by translating the call addresses per the RAMDSK.TIP file.
+To bootstrap the BASIC loader from a PC running Windows:  
+Install https://github.com/bkw777/tsend  
+Then: `C:> tsend.ps1 -file RAM100.DO`
 
-The few documents we do have mention a BOOT program that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start, but that program does not seem to be archived anywhere.
+To bootstrap the BASIC loader from a PC running Linux, MACOS, FreeBSD, even Windows too via Cygwin or MSYS2 but not WSL:  
+Install https://github.com/bkw777/dl2  
+Then: `$ dl -v -b RAM100.DO`
 
-Currently the only way to get RAMDSK installed is to copy it via any of the normal ways to copy any other .CO file. Create a BASIC loader with co2ba or similar, TPDD, cassette.
-The quickest way to go from scratch if you don't already have a TPDD emulator and TS-DOS set up is the bootstrap directions in [software/RAMDSK/RAM100/install.txt](software/RAMDSK/RAM100/install.txt) or [software/RAMDSK/RAM200/install.txt](software/RAMDSK/RAM200/install.txt), which uses a bootstrapper program on a pc to feed a loader program into BASIC.
+Once you have RAMDSK installed, if you save a copy to the RAMPAC as the very first file after a fresh format, then in the future you can re-install RAMDSK from the RAMPAC itself after a cold reset without needing another computer (or actual TPDD drive) by manually typing in a short BASIC program.
 
-### RBOOT
-Once you have RAMDSK installed, if you use it to save a copy to the RAMPAC as the very first file after a fresh format, then you can re-install RAMDSK from the RAMPAC after a cold reset by manually typing in a short BASIC program.  
-(these are optimized to be the least amount of typing possible, not the most efficient code possible)
+These are optimized to tetris-pack into the fewest possible 40-column lines, not to be the most efficient code possible, please excuse the inexcusable IF and math inside the byte read loop. :)
 
-#### RBOOT for Model 100
-[software/RAMDSK/RAM100/RBOOT.DO](software/RAMDSK/RAM100/RBOOT.DO) for [software/RAMDSK/RAM100/RAM100.CO](software/RAMDSK/RAM100/RAM100.CO)
+RBOOT for Model 100  
+[software/RAMDSK/RAM100/RBOOT.DO](software/RAMDSK/RAM100/RBOOT.DO)  
+for [software/RAMDSK/RAM100/RAM100.CO](software/RAMDSK/RAM100/RAM100.CO)
 ```
 1 CLEAR0,61558:T=61558:E=62957:OUT129,2
 2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
@@ -103,8 +125,9 @@ Once you have RAMDSK installed, if you use it to save a copy to the RAMPAC as th
 4 ?".";:NEXT:SAVEM"RAM100",T,E,T
 ```
 
-#### RBOOT for Model 200
-[software/RAMDSK/RAM200/RBOOT.DO](software/RAMDSK/RAM200/RBOOT.DO) for [software/RAMDSK/RAM200/RAM200.CO](software/RAMDSK/RAM200/RAM200.CO)
+RBOOT for Model 200  
+[software/RAMDSK/RAM200/RBOOT.DO](software/RAMDSK/RAM200/RBOOT.DO)  
+for [software/RAMDSK/RAM200/RAM200.CO](software/RAMDSK/RAM200/RAM200.CO)
 ```
 1 CLEAR0,59715:T=59715:E=61101:OUT129,2
 2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
@@ -112,14 +135,24 @@ Once you have RAMDSK installed, if you use it to save a copy to the RAMPAC as th
 4 ?".";:NEXT:SAVEM"RAM200",T,E,T
 ```
 
-#### Generic bootstrap
-Just for reference, here is a larger but more flexible and generic version.  
+RBOOT for Model 200, booting from Bank1  
+If you want to get fancy, you could support both model 100 and model 200 at the same time on the same RAMPAC by putting a copy of RAM100.CO in Bank0 and a copy of RAM200.CO in Bank1, and modify RBOOT.DO for the 200 to read from Bank1 by just changing `OUT129` to `OUT133`.
+```
+1 CLEAR0,59715:T=59715:E=61101:OUT133,2
+2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
+3 POKEA,INP(131):IFA=T+1007THENOUT133,1
+4 ?".";:NEXT:SAVEM"RAM200",T,E,T
+```
+
+Generic bootstrap  
+Just for reference, here is a more flexible and generic [BOOT2K.DO](software/BOOT2K.DO) for any .CO file up to 2038 bytes.  
 * Reads the filename and address values from the file itself  
-* Works on any binary that fits in the first 2 blocks (slightly uner 2k)  
+* Works on any .CO file that fits in 2 blocks  
+ 2 blocks of 1k = 2048 bytes,  
+ Minus 16 bytes of RAMDSK filename and length header = 2038 bytes for the .CO file,  
+ Minus 6 bytes of .CO start/length/exec header = 2032 bytes of machine program code.  
 * Works on both Model 100 and 200  
 * Displays a CLEAR command that you have to manually type in
-
-[software/RAMDSK/bootstrap.bas](software/RAMDSK/boostrap.bas) for any binary
 ```
 1 CLEAR32,59000:CLS:P=131:OUT129,2
 2 FORA=0TO9:F$=F$+CHR$(INP(P)):NEXT
@@ -131,16 +164,30 @@ Just for reference, here is a larger but more flexible and generic version.
 8 N=INP(P):N=N+INP(P)*256:RETURN
 ```
 
-None of these are the actual original "BOOT" program mentioned in the archives. That original file that was shipped pre-loaded on DATAPAC & RAMPAC units is lost now unless/until someone finds a copy.  
+#### Using RAMDSK
+Usage is mostly pretty self-explanatory.
 
-### Using RAMDSK
-The Bank button switches between 2 banks of 256K, and is only functional on RAMPAC or MiniNDP that has more than 256K installed.
+The F1-Bank button switches between 2 banks of 256k, and is only functional on a RAMPAC that has more than 256k.
 
-[It seems to be fairly easy for the first byte to get corrupted](software/RAMPAC.001)  
-I have had it happen a bunch of times already myself.  
+[It is fairly common for the first byte to get corrupted](software/RAMPAC.001)  
 Don't Panic(tm)  
-You could do the manual BASIC one-liner from that document, but RAMDSK has a first-byte-fixer built-in.  
-If you get the dreaded "Format?" prompt, just answer "N" and then it will prompt "Fix?" ,and you answer "Y" to that, and your files will be back.
+You could do the manual BASIC one-liner `OUT129,0:OUT131,64:OUT131,4`, but RAMDSK also has a first-byte-fixer built-in.  
+If you get the "Format RAM-Disk?" prompt on power-on, just answer "N".  
+Then it will ask "Fix?", answer "Y".
+
+### RPI.BA
+Here is a small "RAMPAC inspector" [RPI.BA](software/RPI) to view the raw data from anywhere on the device.  
+There are already old apps for that like N-DKTR and RD, but they are large, include machine language or require the original option rom or RAMDSK.CO, don't support 512k, etc.  
+For instance [RD.BA](Rampac_Diagnostic) can not even be loaded in one piece even on a freshly reset 32k machine, and does not support banks, or the model 200.  
+So this does not use any machine code, everything is in BASIC, supports banks/512k, runs on both model 100 and 200, and is relatively small.
+
+The ascii display mode (press F2 to toggle hex/ascii) displays the non-printing control characters as their respective CTRL code in inverse video.  
+For example NUL appears as `@` in reverse video. So every byte still takes a single cell of the display.
+
+### XOS
+[XOS](http://www.club100.org/library/libpg.html) is sort of an OS for the Model 200.  
+XOS does not require a RAMPAC, but appears to leverage it well.  
+Some of the things in [software](software) are designed to work with XOS.
 
 ### BASIC
 How to access the hardware directly from BASIC.
@@ -168,6 +215,14 @@ There is only one byte-position counter that applies the same to reads and write
 
 Since the device only operates on single byte values, it's a little more efficient to use integer variables with the % suffix, ie, use B%=INP(131) instead of B=INP(131) etc where possible.
 
+The general sequence is always:  
+1 - select a bank+block  
+2 - read/write byte, repeat up to 1023 times (1024 total)
+
+If you need to read or write some arbitrary set of bytes from the middle of a block, you must still read all the bytes from 0 to the first of the desired range.  
+For instance, in the RBOOT.DO programns above, to skip over the first 16 bytes of the block they do `FORA=0TO15:N=INP(131):NEXT`  
+N is not actually used, it's just reading 16 times and ignoring the result.
+
 #### examples
 
 Select bank 0 block 0  
@@ -193,22 +248,16 @@ change line 10 to:
 Manually repair the first two bytes of block 0 to mark the bank as being formatted without touching any of the data  
 `OUT129,0:OUT131,64:OUT131,4`
 
-Selects bank0 block0, writes 64 to byte #0, writes 4 to byte #1  
+Selects bank0 block0, writes 64 to byte0, writes 4 to byte1  
 You usually don't need to do this manually because RAMDSK.CO can do it for you.
 
-### RPI.BA
-Here is a small "RAMPAC inspector" [RPI.BA](software/RPI) to view the raw data from anywhere on the device.  
-There are already old apps for that like N-DKTR and RD, but they are large, include machine language or require the original option rom or RAMDSK.CO, don't support 512k, etc.  
-For instance [RD.BA](Rampac_Diagnostic) can not even be loaded in one piece even on a freshly reset 32k machine, and does not support banks, or the model 200.  
-So this does not use any machine code, everything is in BASIC, supports banks/512k, runs on both model 100 and 200, and is relatively small.
-
-The ascii display mode (press F2 to toggle hex/ascii) displays the non-printing control characters as their respective CTRL code in inverse video.  
-For example NUL appears as `@` in reverse video. So every byte still takes a single cell of the display.
 
 ## Model compatibility
-Apparently only Models 100, 102, & 200 were ever supported. (No NEC or Olivetti, etc)
+Only Models 100, 102, & 200 were ever supported.
 
-There is no reason the device can't work on any of the other machines, merely the software was never ported to them.
+The device is probably hardware compatible with the Olivetti M-10 and Kyotronic KC-85, though RAMDSK was never ported to them.
+
+The device is not compatible with the NEC PC-8201/PC-8300 at all.
 
 ### Model 200
 The connector on the DATAPAC [does not actually fit in a Model 200](REF/does_not_fit_model_200.jpg) without cutting the opening wider around the bus connector on the 200.
@@ -245,8 +294,8 @@ The extra 256K is accessed by the state of BUS address line A10 during a BLOCK o
 BLOCK with BUS_A10 low accesses bank0, BLOCK with BUS_A10 high accesses bank1.  
 The state of BUS_A10 is essentially copied to the SRAM A18 address line and latched during BLOCK ops along with A10-A17, like adding a 9th bit to the HC374.  
 
-The extra bank 512k operation is just deduced from watching what RAMDSK.CO tries to do on the system bus when you press the Bank button, then the theory tested with a breadboard circuit, and finally with MiniNDP below, which actually works with RAMDSK.  
-MiniNDP probably does not implement the circuit the same way that the RAMPAC did.
+The 512k 2-bank operation is just deduced from watching what RAMDSK does on the system bus when you press the Bank button, then the theory tested with a breadboard circuit, and finally with MiniNDP below.  
+MiniNDP actually works with RAMDSK, but probably does not implement the circuit the same way that the RAMPAC did.
 
 <!-- 
 ## New Replacement PCB
@@ -263,9 +312,9 @@ There is not much reason to build this instead of a MiniNDP. Even if you had an 
 
 Functions the same as DATAPAC / RAMPAC. Essentially the same circuit, just with a single 512k ram chip instead of 8 32k chips, surface mount parts instead of through hole, and directly attached instead of connected by a cable.
 
-Provides the second bank of 256k like RAMPAC, for a total of 512k.
+Has 512k in 2 banks of 256k like the final versions of RAMPAC.
 
-The connector fits in a Model 200 without having to modify the 200.  
+The connector fits in a Model 200 without having to modify the 200.
 
 The diode on RAMRST is copied from a user mod found on a DATAPAC. It appears to be intended to prevent a battery drain on the host computer while the DATAPAC is left connected to the host while the host is turned off.
 
@@ -280,9 +329,11 @@ PCB <!-- [OSHPark](https://oshpark.com/shared_projects/), -->[PCBWAY](https://ww
 
 For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.  
 
-There are a few options for an [enclosure](enclosure).  
+## MiniNDP Enclosure
+There are a few versions of printable cover in the [enclosure](enclosure) directory.  
 There is OpenSCAD source and exported STL for a snap-on cover, with both a thick version for a card with CR2032 holder, and a thin version for a card with a CR2016 holder.  
-There is also an STL for a slip cover style by F. D. Singleton.
+There is also an STL for a slip cover by F. D. Singleton.  
+The printable STLs are in [releases](../releases).
 
 You can get both the PCB and enclosure at the same time from Elecrow by submitting the gerber zip and the enclosure stl, and it arrives in under 2 weeks even with the cheapest economy shipping option.
 
@@ -311,4 +362,4 @@ Installed on a TANDY 200
 ![](REF/MiniNDP_bank1.jpg)
 
 The 512k board also still supports 256k and 128k. There is no real reason to do this now but if you wanted to install a 256k (AS6C2008A) 
-or 128k (AS6C1008) SRAM, omit the U8 part (the 1G79), and instead short U8 pads 4 & 5 together with solder. Those two pads are modified to also be a solder-jumper for this purpose.
+or 128k (AS6C1008, IS62C1024, etc) SRAM, omit the U8 part (the 1G79), and solder-blob U8 pads 4 & 5 together. Those two pads are modified to also be a solder-jumper for this purpose.
