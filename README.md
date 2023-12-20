@@ -1,8 +1,8 @@
 # Reproduction of Node Systems DATAPAC
 
-The NODE Systems DATAPAC and RAMPAC were a ram disk peripheral for TRS-80 / TANDY Models 100, 102, & 200 computers.
+The NODE Systems DATAPAC was a popular ram disk peripheral for TRS-80 / TANDY Models 100, 102, & 200 computers.
 
-RAMPAC was a later version of the device that functioned the same as DATAPAC, even using the same software to run it, just in a new smaller form factor.
+Later versions of the same device were called RAMPAC. They functioned the same as DATAPAC and used the same software, just in a much smaller form factor.
 
 This schematic and PCB documents the DATAPAC. If I ever aquire a RAMPAC, I'll add that.
 
@@ -10,10 +10,10 @@ Here is some disorganized [INFO](software/) mostly gathered from the [M100SIG ar
 
 TLDR: To use the hardware, install [RAMDSK.CO](software/RAMDSK/), and what you get is a 128k or 256k ram disk.
 
-The printing on the enclosure says 256k, and the circuit is all there to support 256k, but my two units only had 128k installed.  
+The printing on the enclosure says 256k, and the circuitry and parts are all there to support 256k, but my two units only had 128k installed.  
 The PCB has footprints for four 32k sram chips (62256 equivalent), for a total of 128k.  
-To get 256k, a second set of chips are piggybacked on top of the first four, each with pin 20 bent out and connected to the pcb instead of to the chip below.  
-No other parts or changes are needed to upgrade a 128k unit to 256k.
+To get 256k, a second set of chips are soldered piggyback on top of the first four, each with pin 20 bent out and connected to the pcb separately, and all other pins connected to the chip below.  
+No other parts or changes are needed to upgrade an existing 128k unit to 256k.
 
 ![](REF/NODE_DATAPAC_256K_1.jpg)
 ![](REF/NODE_DATAPAC_256K_2.jpg)
@@ -37,12 +37,12 @@ The original PCB has no silkscreen. This image has silkscreen added to show wher
 ![](PCB/out/NODE_DATAPAC_256K_historical_top_annotated.jpg)
 
 ## Battery
-The original battery is no longer made. The modern replacement is almost 2mm taller and does not fit inside the enclosure.
+The original battery is no longer made, and the modern cross-reference is almost 2mm taller and does not fit inside the enclosure.
 
 NODE Systems themselves used to perform an update to older units to replace the original rechargeable NiCD cell with a non-rechargeable lithium cell which was supposed to last about 5 years.
 
 The change is simple and easy, and the parts are common. You just remove the old battery and the 200 ohm resistor, and replace them with a CR2032 holder and a diode. That's it. Both parts fit and solder right in the same locations where the old parts came out. Point the diode stripe away from the battery, just like the other diode that is right there next to it. Any standard diode will do. Schottky is not recommended because the reverse leakage is not good for a lithium cell. Another 1N4148 like the one that's already there is perfect.  
-This should give about 4 years of memory.  
+This should give at least 4 years of memory.  
 (The original NiCD battery may have only lasted as little as a few months per charge according to a review in the archives. So the coin cell mod is not merely more conveniently available with current parts, it's an improvement.)
 
 BEFORE
@@ -60,6 +60,9 @@ STEPS
 
 If you wish to keep using a rechargeable battery, then a suitable option is FL3/V80H. That is 3 16x5.8mm NiMH button cells in a flat in-line pack with wire leads. It fits perfectly in the space next to the ribbon cable. It needs to be secured with hot glue or foam mounting tape, and connected with wires run to the original battery location.  
 ![](REF/fl3v80h_placement.jpg)
+
+The charging circuit is utterly basic, so do not connect any other type of battery except NiCD or NiMH.  
+You can use any cell form factor and any larger or smaller mAh capacity, but must be 3-cell 3.6v NiCD or NiMH chemistry.
 
 ## Documentation
 The original manual does not seem to be scanned or archived anywhere.
