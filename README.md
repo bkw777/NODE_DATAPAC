@@ -118,6 +118,7 @@ Just for reference, here is a larger but more flexible and generic version.
 * Works on any binary that fits in the first 2 blocks (slightly uner 2k)  
 * Works on both Model 100 and 200  
 * Displays a CLEAR command that you have to manually type in
+
 [software/RAMDSK/bootstrap.bas](software/RAMDSK/boostrap.bas) for any binary
 ```
 1 CLEAR32,59000:CLS:P=131:OUT129,2
