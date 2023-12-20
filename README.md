@@ -112,14 +112,13 @@ Once you have RAMDSK installed, if you use it to save a copy to the RAMPAC as th
 4 ?".";:NEXT:SAVEM"RAMDSK",T,E,T
 ```
 
-#### Generic RBOOT
+#### Generic bootstrap
 Just for reference, here is a larger but more flexible and generic version.  
 * Reads the filename and address values from the file itself  
 * Works on any binary that fits in the first 2 blocks (slightly uner 2k)  
-* Works on both Model 100 and 200 without changes  
-* Has progress display  
-* Prints a message at the end with a CLEAR command that you have to manually type to complete the install  
-[software/RAMDSK/RBOOT.DO](software/RAMDSK/RBOOT.DO) for any binary
+* Works on both Model 100 and 200  
+* Displays a CLEAR command that you have to manually type in
+[software/RAMDSK/bootstrap.bas](software/RAMDSK/boostrap.bas) for any binary
 ```
 1 CLEAR32,59000:CLS:P=131:OUT129,2
 2 FORA=0TO9:F$=F$+CHR$(INP(P)):NEXT
