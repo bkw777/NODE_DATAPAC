@@ -216,7 +216,8 @@ Manually repair the first two bytes of block 0 to mark the bank as being formatt
 This means:  
  Select bank0 block0  
  write one byte, value 64  
- write one byte, value 4  
+ write one byte, value 4
+
 `OUT129,0:OUT131,64:OUT131,4`
 
 (BTW you usually don't need to do that manually because RAMDSK.CO will do it for you if you just answer "Y" at the "Fix?" prompt.)
