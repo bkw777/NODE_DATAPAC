@@ -248,22 +248,25 @@ Archived docs mention an 8 line BASIC program called BOOT that could be manually
 That program does not seem to be archived anywhere, so in it's place there is `RBOOT.DO` and `BOOT2K.DO` below which are new.  
 This only works after a copy of RAMDSK has been copied to the RAMPAC.
 
-To get RAMDSK installed the first time, just copy it to the portable via any of the normal ways to install any .CO file.  
+To get RAMDSK installed the first time, copy RAM100.CO or RAM200.CO to the portable via any of the normal ways to install any .CO file.  
 
-The most convenient way is to use a [TPDD emulator](http://tandy.wiki/TPDD_server), but this requires having a [TPDD client](http://tandy.wiki/TPDD_client) installed already.  
-If you don't already have a TPDD emulator and TS-DOS set up, there are also BASIC loaders:  
+The most convenient way is to use a TPDD [client](http://tandy.wiki/TPDD_client) & [server](http://tandy.wiki/TPDD_server) to copy the file, then [adjust HIMEM](https://bitchin100.com/wiki/index.php?title=Loading_a_typical_CO_file) to be able to run it.  
+
+But if you don't already have something like a REX# with a TS-DOS option rom image, a more self-contained option is a BASIC loader:  
 [software/RAMDSK/RAM100/RAM100.DO](software/RAMDSK/RAM100/RAM100.DO) for Model 100/102  
-[software/RAMDSK/RAM200/RAM200.DO](software/RAMDSK/RAM200/RAM200.DO) for Model 200
+[software/RAMDSK/RAM200/RAM200.DO](software/RAMDSK/RAM200/RAM200.DO) for Model 200  
 
 To bootstrap the BASIC loader from a PC running Windows:  
 Install https://github.com/bkw777/tsend  
 Then: `C:> tsend.ps1 -file RAM100.DO`
 
-To bootstrap the BASIC loader from a PC running Linux, MACOS, FreeBSD, even Windows too via Cygwin or MSYS2 but not WSL:  
+To bootstrap the BASIC loader from a PC running Linux, MACOS, FreeBSD, any unix, Cygwin/MSYS2:  
 Install https://github.com/bkw777/dl2  
-Then: `$ dl -v -b RAM100.DO`
+Then: `$ dl -v -b RAM100.DO`  
 
-Once you have RAMDSK installed, if you save a copy to the RAMPAC as the very first file after a fresh format, then in the future you can re-install RAMDSK from the RAMPAC itself after a cold reset without needing another computer (or actual TPDD drive) by manually typing in a short BASIC program.
+Another option for mac/linux, [pdd.sh](https://github.com/bkw777/pdd.sh) also has a bootstrap function and does not require you to compile anything.
+
+Once you have RAMDSK installed, if you save a copy to the RAMPAC as the very first file after a fresh format, then in the future you can re-install RAMDSK from the RAMPAC itself after a cold reset without needing another computer or TPDD drive by manually typing in a short BASIC program.
 
 These are optimized to tetris-pack into the fewest possible 40-column lines, not to be the most efficient code possible, please excuse the inexcusable IF and math inside the byte read loop. :)
 
