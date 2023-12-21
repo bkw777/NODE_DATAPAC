@@ -17,7 +17,7 @@
   * [PCB & BOM](#minindp-pcb--bom)
   * [Enclosure](#minindp-enclosure)
 
-This repo documents the NODE Systems DATAPAC, RAMPAC, and a new clone the MiniNDP.
+This repo documents the NODE Systems DATAPAC, RAMPAC, and a new clone, the [MiniNDP](#minindp).
 
 The NODE Systems DATAPAC was a popular ram disk peripheral for TRS-80 / TANDY Models 100, 102, & 200 computers.
 
