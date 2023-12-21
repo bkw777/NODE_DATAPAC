@@ -27,7 +27,7 @@ The schematic and PCB below documents the DATAPAC from examining 2 units. If I e
 
 Here is some disorganized [INFO](software/) mostly gathered from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [club100](http://www.club100.org).
 
-TLDR: To use the hardware, install [RAMDSK.CO](software/RAMDSK/), and what you get is a ram disk of 128k to 512k depending on model and installed ram.
+TLDR: To use the hardware, install [RAMDSK](#ramdsk), and what you get is a ram disk of 128k to 512k depending on model and installed ram.
 
 The printing on the DATAPAC enclosure says 256k, and the circuitry and parts are all there to support 256k, but my two units only had 128k installed.  
 The PCB has footprints for four 32k sram chips (62256 equivalent), for a total of 128k.  
