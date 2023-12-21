@@ -12,7 +12,7 @@
     * [Installation](#installing-ramdsk)
     * [Usage](#using-ramdsk)
   * [RAMPAC Inspector](#rpiba)
-  * [XOS](#xos)
+  * [XOS-C](#xos-c)
 * [MiniNDP](#minindp)
   * [PCB & BOM](#minindp-pcb--bom)
   * [Enclosure](#minindp-enclosure)
@@ -337,13 +337,10 @@ So this does not use any machine code, everything is in BASIC, supports banks/51
 The ascii display mode (press F2 to toggle hex/ascii) displays the non-printing control characters as their respective CTRL code in inverse video.  
 For example NUL appears as `@` in reverse video. So every byte still takes a single cell of the display.
 
-## XOS
-[XOS](http://www.club100.org/library/libpg.html) is sort of an OS for the Model 200.  
-XOS does not require a RAMPAC, but appears to leverage it well.  
-Some of the things in [software](software) are designed to work with XOS.
-
-
-
+## XOS-C
+[XOS-C](http://www.club100.org/library/libpg.html) is sort of an OS for the Model 200.  
+XOS-C does not require a RAMPAC, but appears to leverage one well if available.  
+Some of the things in [software](software) are designed to work with XOS-C.
 
 <!-- 
 ## New Replacement PCB
