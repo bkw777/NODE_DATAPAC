@@ -130,7 +130,7 @@ If you wish to keep using a rechargeable battery, then a suitable option is FL3/
 ![](REF/fl3v80h_placement.jpg)
 
 The charging circuit is utterly basic, so do not connect any other type of battery except NiCD or NiMH.  
-You can use any cell form factor and any larger or smaller mAh capacity, but must be 3-cell 3.6v NiCD or NiMH chemistry.
+You can use any cell form factor and any larger or smaller mAh capacity, but must be 3.6v and only NiCD or NiMH chemistry.
 
 ## Model compatibility
 Only Models 100, 102, & 200 were ever supported.
