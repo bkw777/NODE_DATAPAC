@@ -48,9 +48,6 @@ Some of these are collected [here](software).
 A few of those documents say that the device originally shipped with the user manual pre-loaded onto the DATAPAC as a 12k text file, along with at least one BASIC program.  
 If/when the battery died in the device and all data was lost, the Format operation in the option rom would also re-create the text file.  
 
-One of the magazine articles below (P. Globman) says that the rom was called RAM+, but the only RAM+ rom I have seen is PCSG RAM+ which is for the PCSG ram expansion, which is an entirely different  
-The option rom was called RAM+ (gleaned from a mention in a magazine article)
-
 Neither the option rom nor the text file are archived anywhere that I have been able to find yet.
 
 If anyone has a RAMPAC, they probably also have the option rom, and the original manual could be recovered from that. Maybe one will turn up some day.
