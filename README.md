@@ -1,32 +1,11 @@
 # NODE Systems DATAPAC
-
-The NODE Systems DATAPAC was a popular ram disk peripheral for TRS-80 / TANDY Models 100, 102, & 200 computers.
-
-Later versions of the same device were called RAMPAC. They functioned the same as DATAPAC and used the same software, just in a much smaller form factor.
-
-This schematic and PCB documents the DATAPAC. If I ever aquire a RAMPAC, I'll add that.
-
-Here is some disorganized [INFO](software/) mostly gathered from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [club100](http://www.club100.org).
-
-TLDR: To use the hardware, install [RAMDSK.CO](software/RAMDSK/), and what you get is a 128k or 256k ram disk.
-
-The printing on the enclosure says 256k, and the circuitry and parts are all there to support 256k, but my two units only had 128k installed.  
-The PCB has footprints for four 32k sram chips (62256 equivalent), for a total of 128k.  
-To get 256k, a second set of chips are soldered piggyback on top of the first four, each with pin 20 bent out and connected to the pcb separately, and all other pins connected to the chip below.  
-No other parts or changes are needed to upgrade an existing 128k unit to 256k.
-
-![](REF/NODE_DATAPAC_256K_1.jpg)
-![](REF/NODE_DATAPAC_256K_2.jpg)
-![](REF/NODE_DATAPAC_256K_3.jpg)
-![](REF/NODE_DATAPAC_256K_4.jpg)
-
-# Table of Contents
 * [Documentation](#documentation)
-* [Hardware](#hardware)
+* [DATAPAC Hardware](#datapac-hardware)
   * [Reproduction Schematic & PCB](#reproduction-schematic--pcb)
   * [Theory of Operation](#theory-of-operation)
   * [Battery](#battery)
   * [Model Compatibility](#model-compatibility)
+* [RAMPAC Hardware](#rampac-hardware)
 * [Software](#software)
   * [BASIC](#basic)
   * [RAMDSK](#ramdsk)
@@ -38,6 +17,28 @@ No other parts or changes are needed to upgrade an existing 128k unit to 256k.
   * [PCB & BOM](#minindp-pcb--bom)
   * [Enclosure](#minindp-enclosure)
 
+This repo documents the NODE Systems DATAPAC, RAMPAC, and a new clone the MiniNDP.
+
+The NODE Systems DATAPAC was a popular ram disk peripheral for TRS-80 / TANDY Models 100, 102, & 200 computers.
+
+Later versions of the same device were called RAMPAC. They functioned the same as DATAPAC and used the same software, just in a much smaller form factor.
+
+The schematic and PCB below documents the DATAPAC from examining 2 units. If I ever aquire a RAMPAC, I'll add that.
+
+Here is some disorganized [INFO](software/) mostly gathered from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [club100](http://www.club100.org).
+
+TLDR: To use the hardware, install [RAMDSK.CO](software/RAMDSK/), and what you get is a ram disk of 128k to 512k depending on model and installed ram.
+
+The printing on the DATAPAC enclosure says 256k, and the circuitry and parts are all there to support 256k, but my two units only had 128k installed.  
+The PCB has footprints for four 32k sram chips (62256 equivalent), for a total of 128k.  
+To get 256k, a second set of chips are soldered piggyback on top of the first four, each with pin 20 bent out and connected to the pcb separately, and all other pins connected to the chip below.  
+No other parts or changes are needed to upgrade an existing 128k unit to 256k.  
+
+![](REF/NODE_DATAPAC_256K_1.jpg)
+![](REF/NODE_DATAPAC_256K_2.jpg)
+![](REF/NODE_DATAPAC_256K_3.jpg)
+![](REF/NODE_DATAPAC_256K_4.jpg)
+
 # Documentation
 The original manual does not seem to be scanned or archived anywhere.
 
@@ -47,11 +48,20 @@ Some of these are collected [here](software).
 A few of those documents say that the device originally shipped with the user manual pre-loaded onto the DATAPAC as a 12k text file, along with at least one BASIC program.  
 If/when the battery died in the device and all data was lost, the Format operation in the option rom would also re-create the text file.  
 
+One of the magazine articles below (P. Globman) says that the rom was called RAM+, but the only RAM+ rom I have seen is PCSG RAM+ which is for the PCSG ram expansion, which is an entirely different  
+The option rom was called RAM+ (gleaned from a mention in a magazine article)
+
 Neither the option rom nor the text file are archived anywhere that I have been able to find yet.
 
 If anyone has a RAMPAC, they probably also have the option rom, and the original manual could be recovered from that. Maybe one will turn up some day.
 
-# Hardware
+The P Globman magazine article below says that the rom was called RAM+, but the only RAM+ rom I have seen is PCSG RAM+ which is for an entirely different type of device, the [PCSG / Cryptronics RAM Expansion](http://tandy.wiki/PCSG_/_Cryptronics_RAM_Expansion) which provides RAM, like the [PG Designs](http://tandy.wiki/PG_Designs_M100_RAM_Expansion) or [QUAD](https//github.com/bkw777/reQUAD), not a RAM DISK. EI, these devices all replace the internal 32k where the ram files live and where programs run etc. The DATAPAC/RAMPAC do something entirely different. See [Theory of Operation](#theory-of-operation). PCSG RAM+ definitely is not the rom for the DATAPAC or RAMPAC. It is possible the NODE rom was also called RAM+.
+
+Other References  
+[Alspaugh, Ron. "Database management with both the Node RAMPAC & DATAPAC." Portable 100 Nov 90:8-11](https://archive.org/details/P100-Magazine/1990-11/page/8/)
+[Globman, Paul. "Node utility mini-extravaganza! Here are two special programs for Node Datapac/RAMPAC users." Dec 90:19-20](https://archive.org/details/P100-Magazine/1990-12/page/18/)
+
+# DATAPAC Hardware
 ## Reproduction Schematic & PCB
 This is a new drawing but aims to reflect the original actual device as exactly as possible.  
 It's meant to be a form of documentation or reference describing the original hardware as it was.  
@@ -140,6 +150,11 @@ The only connector that fits in a 200 without hacking on the 200s case is a [sol
 ### Model 100
 The case says "102/200", but it actually works on Model 100 also. It needs an adapter cable, but the cable is simple. It's just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
 [The Model 100 part](https://github.com/bkw777/TRS-80_Disk_Video_Interface_Cable/blob/main/README.md#part-3---model-100-adapter) of this [3-part cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable) is exactly the same thing.
+
+# RAPMAC Hardware
+About all we can say currently is that we know it was sold in 128k, 256k, 384k, and 512k capacities, and was "about 2 inches square".
+
+We can say how it's banks worked, because we can look at RAMDSK and see what it wants, which is how banks were added to MiniNDP.
 
 # Software
 
