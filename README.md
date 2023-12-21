@@ -55,10 +55,10 @@ If anyone has a RAMPAC, they probably also have the option rom, and the original
 The P Globman magazine article below says that the rom was called RAM+, but the only RAM+ rom I have seen is PCSG RAM+ which is for an entirely different type of device, the [PCSG / Cryptronics RAM Expansion](http://tandy.wiki/PCSG_/_Cryptronics_RAM_Expansion) which provides RAM, like the [PG Designs](http://tandy.wiki/PG_Designs_M100_RAM_Expansion) or [QUAD](https//github.com/bkw777/reQUAD), not a RAM DISK. EI, these devices all replace the internal 32k where the ram files live and where programs run etc. The DATAPAC/RAMPAC do something entirely different. See [Theory of Operation](#theory-of-operation). PCSG RAM+ definitely is not the rom for the DATAPAC or RAMPAC. It is possible the NODE rom was also called RAM+.
 
 Other References  
-* "Database management with both the Node RAMPAC & DATAPAC." - Alspaugh, Ron  
-  [Portable 100, Nov 90:8-11](https://archive.org/details/P100-Magazine/1990-11/page/8/)  
-* "Node utility mini-extravaganza! Here are two special programs for Node Datapac/RAMPAC users." - Globman, Paul  
-  [Portable 100, Dec 90:19-20](https://archive.org/details/P100-Magazine/1990-12/page/18/)  
+* "Database management with both the Node RAMPAC & DATAPAC."  
+  Alspaugh, Ron - [Portable 100, Nov 90:8-11](https://archive.org/details/P100-Magazine/1990-11/page/8/)  
+* "Node utility mini-extravaganza! Here are two special programs for Node Datapac/RAMPAC users."  
+  Globman, Paul - [Portable 100, Dec 90:19-20](https://archive.org/details/P100-Magazine/1990-12/page/18/)  
 
 # DATAPAC Hardware
 ## Reproduction Schematic & PCB
