@@ -304,8 +304,8 @@ Just for reference, here is a more flexible and generic [BOOT2K.DO](software/BOO
 * Reads the filename and address values from the file itself  
 * Works on any .CO file that fits in 2 blocks  
  2 blocks of 1k = 2048 bytes,  
- Minus 16 bytes of RAMDSK filename and length header = 2038 bytes for the .CO file,  
- Minus 6 bytes of .CO start/length/exec header = 2032 bytes of machine program code.  
+ Minus 10 bytes of RAMDSK filename and length header = 2038 bytes for the file,  
+ Minus 6 bytes of .CO header = 2032 bytes of machine program code.  
 * Works on both Model 100 and 200  
 * Displays a CLEAR command that you have to manually type in
 ```
