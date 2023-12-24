@@ -172,7 +172,7 @@ How to access the hardware from BASIC.
 See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP)
 
 ### Low level direct access using only BASIC
-There are two low level that you use to access the device,  
+There are two low level operations that you use to access the device,  
 BLOCK and BYTE, and each of those has two variations, for four total ops.
 
 Select a BLOCK from BANK 0  
