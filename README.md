@@ -305,7 +305,7 @@ If you want to get fancy, you could support both model 100 and model 200 at the 
 ```
 
 Generic bootstrap  
-Just for reference, here is a more flexible and generic [NBOOT](software/NBOOT/NBOOT.DO) for any .CO file up to 2038 bytes.  
+Just for reference, here is a more flexible and generic [NBOOT](software/NBOOT/) for any .CO file up to 2038 bytes.  
 * Reads the filename and address values from the file itself  
 * Works on any .CO file that fits in 2 blocks  
  2 blocks of 1k = 2048 bytes,  
