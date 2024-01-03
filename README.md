@@ -305,8 +305,19 @@ If you want to get fancy, you could support both model 100 and model 200 at the 
 4 ?".";:NEXT:SAVEM"RAM200",T,E,T
 ```
 
+### Using RAMDSK
+Usage is mostly pretty self-explanatory.
+
+The F1-Bank button switches between 2 banks of 256k, and is only functional on a RAMPAC that has more than 256k.
+
+[It is fairly common for the first byte to get corrupted](software/RAMPAC.001)  
+Don't Panic(tm)  
+You could do the manual BASIC one-liner `OUT129,0:OUT131,64:OUT131,4`, but RAMDSK also has a first-byte-fixer built-in.  
+If you get the "Format RAM-Disk?" prompt on power-on, just answer "N".  
+Then it will ask "Fix?", answer "Y".
+
 ## NBOOT
-Just for reference, here is a more flexible and generic [NBOOT](software/NBOOT/) for any .CO file up to 2038 bytes.  
+Just for reference, to boot some other CO instead of RAMDSK, here is a more flexible and generic [NBOOT](software/NBOOT/) for any .CO file up to 2038 bytes.  
 * Reads the filename and address values from the file itself  
 * Works on any .CO file that fits in 2 blocks  
  2 blocks of 1k = 2048 bytes,  
@@ -324,20 +335,6 @@ Just for reference, here is a more flexible and generic [NBOOT](software/NBOOT/)
 7 ?"CLEAR 0,"T":NEW":SAVEMF$,T,E,X:END
 8 N=INP(P):N=N+INP(P)*256:RETURN
 ```
-
-This is just for reference to load some other CO file besides RAMDSK.
-
-
-### Using RAMDSK
-Usage is mostly pretty self-explanatory.
-
-The F1-Bank button switches between 2 banks of 256k, and is only functional on a RAMPAC that has more than 256k.
-
-[It is fairly common for the first byte to get corrupted](software/RAMPAC.001)  
-Don't Panic(tm)  
-You could do the manual BASIC one-liner `OUT129,0:OUT131,64:OUT131,4`, but RAMDSK also has a first-byte-fixer built-in.  
-If you get the "Format RAM-Disk?" prompt on power-on, just answer "N".  
-Then it will ask "Fix?", answer "Y".
 
 ## RAMPAC Inspector
 [RPI.BA](software/RPI) is a small util to view the raw data from anywhere on the device.  
