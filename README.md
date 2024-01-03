@@ -11,6 +11,7 @@
   * [RAMDSK](#ramdsk)
     * [Installation](#installing-ramdsk)
     * [Usage](#using-ramdsk)
+  * [NBOOT](#nboot)
   * [RAMPAC Inspector](#rpiba)
   * [XOS-C](#xos-c)
   * [N-DKTR](#n-dktr)
@@ -304,7 +305,7 @@ If you want to get fancy, you could support both model 100 and model 200 at the 
 4 ?".";:NEXT:SAVEM"RAM200",T,E,T
 ```
 
-Generic bootstrap  
+## NBOOT
 Just for reference, here is a more flexible and generic [NBOOT](software/NBOOT/) for any .CO file up to 2038 bytes.  
 * Reads the filename and address values from the file itself  
 * Works on any .CO file that fits in 2 blocks  
