@@ -12,11 +12,11 @@
     * [Installation](#installing-ramdsk)
     * [Usage](#using-ramdsk)
   * [NBOOT](#nboot)
-  * [RAMPAC Inspector](#rpiba)
+  * [RAMPAC Inspector](#rampac-inspector)
   * [XOS-C](#xos-c)
   * [N-DKTR](#n-dktr)
   * [NODE-PDD-Link](#node-pdd-link)
-  * [NODE EXE](#node-exe)
+  * [NEXE](#ndexe)
   * [RAMPAC Diagnostic](#rampac-diagnostic)
 * [MiniNDP](#minindp)
   * [PCB & BOM](#minindp-pcb--bom)
@@ -316,15 +316,12 @@ You could do the manual BASIC one-liner `OUT129,0:OUT131,64:OUT131,4`, but RAMDS
 If you get the "Format RAM-Disk?" prompt on power-on, just answer "N".  
 Then it will ask "Fix?", answer "Y".
 
-## NBOOT
-Just for reference, to boot some other CO instead of RAMDSK, here is a more flexible and generic [NBOOT](software/NBOOT/) for any .CO file up to 2038 bytes.  
-* Reads the filename and address values from the file itself  
+## [NBOOT](software/NBOOT/)
+Just for reference, to boot some other CO instead of RAMDSK,  
+here  is a more flexible and generic bootstrapper for any .CO file up to 2038 bytes.  
+* Reads the filename and start/length/exec values from the file itself  
 * Works on any .CO file that fits in 2 blocks  
- 2 blocks of 1k = 2048 bytes,  
- Minus 10 bytes of RAMDSK filename and length header = 2038 bytes for the file,  
- Minus 6 bytes of .CO header = 2032 bytes of machine program code.  
-* Works on both Model 100 and 200  
-* Displays a CLEAR command that you have to manually type in at the end
+* Works on both Model 100 and 200
 ```
 1 CLEAR32,59000:CLS:P=131:OUT129,2
 2 FORA=0TO9:F$=F$+CHR$(INP(P)):NEXT
@@ -336,32 +333,22 @@ Just for reference, to boot some other CO instead of RAMDSK, here is a more flex
 8 N=INP(P):N=N+INP(P)*256:RETURN
 ```
 
-## RAMPAC Inspector
-[RPI.BA](software/RPI) is a small util to view the raw data from anywhere on the device.  
-There are already old apps for that like N-DKTR and RD, but they are large, include machine language, or require the original option rom or RAMDSK.CO, don't support 512k, etc.  
-For instance [RD.BA](Rampac_Diagnostic) can not even be loaded in one piece even on a freshly reset 32k machine, and does not support banks, or the model 200.  
-So this does not use any machine code, everything is in BASIC, supports banks/512k, runs on both model 100 and 200, and is relatively small.
-
-The ascii display mode (press F2 to toggle hex/ascii) displays the non-printing control characters as their respective CTRL code in inverse video.  
-For example NUL appears as `@` in reverse video. So every byte still takes a single cell of the display.
-
 ## XOS-C
 [XOS-C](http://www.club100.org/library/libpg.html) is sort of an OS for the Model 200.  
-XOS-C does not require a RAMPAC, but leverages one well if available.  
-Several of the NODE utils from the M100SIG actually require XOS-C.
-[software/Requires%20XOS-C](software/Requires%20XOS-C/)
+XOS-C does not require a RAMPAC, but leverages one if available.  
+[Several of the NODE utils from the M100SIG require XOS-C.](software/Requires_XOS-C/)
 
-## N-DKTR
-[software/N-DKTR](software/N-DKTR/)
+## [RAMPAC Inspector](software/RPI)
+Smaller than RD or N-DKTR, no machine code or calls, doesn't require the NODE ROM or RAMDSK, supports banks / all 512k.  
+Just displays the data, no parsing or interpretation of directory/file structures etc.
 
-## NODE-PDD-Link
-[software/NODE-PDD-Link](software/NODE-PDD-Link/)
+## [N-DKTR](software/N-DKTR/)
 
-## NODE EXE
-[software/NDEXE](software/NDEXE/)
+## [NODE-PDD-Link](software/NODE-PDD-Link/)
 
-## RAMPAC Diagnostic
-[software/Rampac_Diagnostic](software/Rampac_Diagnostic/)
+## [NDEXE](software/NDEXE/)
+
+## [Rampac_Diagnostic](software/Rampac_Diagnostic/)
 
 <!-- 
 ## New Replacement PCB
