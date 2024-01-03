@@ -1,20 +1,34 @@
-If you have a TPDD client like TS-DOS, just copy RAM100.CO
+Installation options
 
-To bootstrap from a PC:
+--- Initial Install ---
 
-Windows, using https://github.com/bkw777/tsend
+If you have a TPDD client like TS-DOS and a TPDD emulator like LaddieAlpha or dl2:
+just copy RAM100.CO to the 100 and run it.
+(http://bitchin100.com/wiki/index.php?title=Loading_a_typical_CO_file)
+
+Otherwise you can bootstrap using the BASIC loader over serial from a PC.
+
+For Windows, using https://github.com/bkw777/tsend
 
   C:> tsend.ps1 -file RAM100.DO
 
-Mac/Linux, using https://github.com/bkw777/dl2
+For Mac/Linux, using https://github.com/bkw777/dl2
 
   $ dl -v -b RAM100.DO
+
+
+If you want to be able to re-install from the RAMPAC itself in the future,
+then once installed, copy RAM100.CO to the RAMPAC as the first file.
 
 
 --- Re-install from the RAMPAC itself after a cold reset ---
 
 If you have a RAMPAC with a copy of RAM100.CO already on it,
-and a Model 100/102 that is wiped from a cold reset,
-you can manually type-in RBOOT.DO to reinstall RAMDSK from the RAMPAC.
+and a Model 100 or 102 that is wiped from a cold reset,
+you can type-in RBOOT.100 to reinstall RAMDSK from the RAMPAC.
 
-RAM100.CO must be the first file saved to the RAMPAC after a format.
+RAM100.CO must be the first file saved on the RAMPAC.
+
+RBOOT.100 may be customized to load from bank1 instead of bank0
+by changing the two occurances of OUT129 to OUT133.
+In this case RAM100.CO must be the first file saved in bank1.

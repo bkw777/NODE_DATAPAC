@@ -1,0 +1,33 @@
+NBOOT - generic NODE bootstrap for reference
+
+NBOOT is a larger more generic version of RBOOT
+which is not hard-coded to RAM100.CO or RAM200.CO,
+nor to Model 100 or 200.
+
+It will load any .CO file saved in the first directory slot on the NODE,
+and will read its filename and top/end/exe addresses from the CO header.
+
+The file must be a .CO file, and must be no larger than 2038 bytes,
+and must be saved into the first directory entry on the NODE.
+
+Runs the same on Models 100, 102, and 200.
+
+You can customize it to load from bank1 instead of bank0 by changing
+K=129 to K=133 on line 1. In this way you could have both 100 and 200
+versions of the .CO on the same NODE, and bootstrap either one.
+Just like for bank0, the 2nd .CO must be the first file saved on bank1.
+
+There are two slightly different versions.
+The difference is what it does with the file after loading.
+
+NBOOTS saves the file.
+Uses SAVEM to create FNAME.CO in the ram filesystem (main menu).
+You usually want this one.
+
+NBOOTR runs the file.
+Uses CALL to immediately jump to execute the loaded bytes.
+You usually don't want this one. It's just for reference.
+
+And actually you usually don't want either of these, because you usually
+just want to bootstrap RAMDSK, and there is a much smaller bootstrapper
+just for RAMDSK which is RBOOT, found in the RAMDSK directory.

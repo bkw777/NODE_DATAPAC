@@ -244,24 +244,25 @@ Even the rom calls from the option rom have equivalents in RAMDSK, though at dif
 One thing RAMDSK does not do which the original option rom did, is re-create the user manual text file as part of the Format operation.
 
 ### Installing RAMDSK
-Archived docs mention an 8 line BASIC program called BOOT that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start.  
-That program does not seem to be archived anywhere, so in it's place there is `RBOOT.DO` and `BOOT2K.DO` below which are new.  
+Archived docs mention an 8 line BASIC program called BOOT that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start.
+
+That program does not seem to be archived anywhere, so in it's place there is `RBOOT` and `NBOOT` below which are new.  
 This only works after a copy of RAMDSK has been copied to the RAMPAC.
 
-To get RAMDSK installed the first time, copy RAM100.CO or RAM200.CO to the portable via any of the normal ways to install any .CO file.  
+To get RAMDSK installed the first time, copy RAM100.CO or RAM200.CO to the 100 or 200.
 
-The most convenient way is to use a TPDD [client](http://tandy.wiki/TPDD_client) & [server](http://tandy.wiki/TPDD_server) to copy the file, then [adjust HIMEM](https://bitchin100.com/wiki/index.php?title=Loading_a_typical_CO_file) to be able to run it.  
+The most convenient way is to use a TPDD [client](http://tandy.wiki/TPDD_client) & [server](http://tandy.wiki/TPDD_server) to copy the file, then [adjust HIMEM](https://bitchin100.com/wiki/index.php?title=Loading_a_typical_CO_file) to run it.  
 
 But if you don't already have something like a REX# with a TS-DOS option rom image, a more self-contained option is a BASIC loader:  
 [software/RAMDSK/RAM100/RAM100.DO](software/RAMDSK/RAM100/RAM100.DO) for Model 100/102  
 [software/RAMDSK/RAM200/RAM200.DO](software/RAMDSK/RAM200/RAM200.DO) for Model 200  
 
 To bootstrap the BASIC loader from a PC running Windows:  
-Install https://github.com/bkw777/tsend  
+Install [tsend](https://github.com/bkw777/tsend)  
 Then: `C:> tsend.ps1 -file RAM100.DO`
 
 To bootstrap the BASIC loader from a PC running Linux, MACOS, FreeBSD, any unix, Cygwin/MSYS2:  
-Install https://github.com/bkw777/dl2  
+Install [dl2](https://github.com/bkw777/dl2)  
 Then: `$ dl -v -b RAM100.DO`  
 
 Another option for mac/linux, [pdd.sh](https://github.com/bkw777/pdd.sh) also has a bootstrap function and does not require you to compile anything.
@@ -271,7 +272,7 @@ Once you have RAMDSK installed, if you save a copy to the RAMPAC as the very fir
 These are optimized to tetris-pack into the fewest possible 40-column lines, not to be the most efficient code possible, please excuse the inexcusable IF and math inside the byte read loop. :)
 
 RBOOT for Model 100  
-[software/RAMDSK/RAM100/RBOOT.DO](software/RAMDSK/RAM100/RBOOT.DO)  
+[software/RAMDSK/RAM100/RBOOT.100](software/RAMDSK/RAM100/RBOOT.100)  
 for [software/RAMDSK/RAM100/RAM100.CO](software/RAMDSK/RAM100/RAM100.CO)
 ```
 1 CLEAR0,61558:T=61558:E=62957:OUT129,2
@@ -281,7 +282,7 @@ for [software/RAMDSK/RAM100/RAM100.CO](software/RAMDSK/RAM100/RAM100.CO)
 ```
 
 RBOOT for Model 200  
-[software/RAMDSK/RAM200/RBOOT.DO](software/RAMDSK/RAM200/RBOOT.DO)  
+[software/RAMDSK/RAM200/RBOOT.200](software/RAMDSK/RAM200/RBOOT.200)  
 for [software/RAMDSK/RAM200/RAM200.CO](software/RAMDSK/RAM200/RAM200.CO)
 ```
 1 CLEAR0,59715:T=59715:E=61101:OUT129,2
@@ -291,7 +292,7 @@ for [software/RAMDSK/RAM200/RAM200.CO](software/RAMDSK/RAM200/RAM200.CO)
 ```
 
 RBOOT for Model 200, booting from Bank1  
-If you want to get fancy, you could support both model 100 and model 200 at the same time on the same RAMPAC by putting a copy of RAM100.CO in Bank0 and a copy of RAM200.CO in Bank1, and modify RBOOT.DO for the 200 to read from Bank1 by just changing `OUT129` to `OUT133`.
+If you want to get fancy, you could support both model 100 and model 200 at the same time on the same RAMPAC by putting a copy of RAM100.CO in Bank0 and a copy of RAM200.CO in Bank1, and modify RBOOT.200 to read from bank1 instead of bank0 by just changing `OUT129` to `OUT133`.
 ```
 1 CLEAR0,59715:T=59715:E=61101:OUT133,2
 2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
@@ -300,14 +301,14 @@ If you want to get fancy, you could support both model 100 and model 200 at the 
 ```
 
 Generic bootstrap  
-Just for reference, here is a more flexible and generic [BOOT2K.DO](software/BOOT2K.DO) for any .CO file up to 2038 bytes.  
+Just for reference, here is a more flexible and generic [NBOOT](software/NBOOT/NBOOT.DO) for any .CO file up to 2038 bytes.  
 * Reads the filename and address values from the file itself  
 * Works on any .CO file that fits in 2 blocks  
  2 blocks of 1k = 2048 bytes,  
  Minus 10 bytes of RAMDSK filename and length header = 2038 bytes for the file,  
  Minus 6 bytes of .CO header = 2032 bytes of machine program code.  
 * Works on both Model 100 and 200  
-* Displays a CLEAR command that you have to manually type in
+* Displays a CLEAR command that you have to manually type in at the end
 ```
 1 CLEAR32,59000:CLS:P=131:OUT129,2
 2 FORA=0TO9:F$=F$+CHR$(INP(P)):NEXT
@@ -318,6 +319,9 @@ Just for reference, here is a more flexible and generic [BOOT2K.DO](software/BOO
 7 ?"CLEAR 0,"T":NEW":SAVEMF$,T,E,X:END
 8 N=INP(P):N=N+INP(P)*256:RETURN
 ```
+
+This is just for reference to load some other CO file besides RAMDSK.
+
 
 ### Using RAMDSK
 Usage is mostly pretty self-explanatory.
@@ -330,9 +334,9 @@ You could do the manual BASIC one-liner `OUT129,0:OUT131,64:OUT131,4`, but RAMDS
 If you get the "Format RAM-Disk?" prompt on power-on, just answer "N".  
 Then it will ask "Fix?", answer "Y".
 
-## RPI.BA
-Here is a small "RAMPAC inspector" [RPI.BA](software/RPI) to view the raw data from anywhere on the device.  
-There are already old apps for that like N-DKTR and RD, but they are large, include machine language or require the original option rom or RAMDSK.CO, don't support 512k, etc.  
+## RAMPAC Inspector
+[RPI.BA](software/RPI) is a small util to view the raw data from anywhere on the device.  
+There are already old apps for that like N-DKTR and RD, but they are large, include machine language, or require the original option rom or RAMDSK.CO, don't support 512k, etc.  
 For instance [RD.BA](Rampac_Diagnostic) can not even be loaded in one piece even on a freshly reset 32k machine, and does not support banks, or the model 200.  
 So this does not use any machine code, everything is in BASIC, supports banks/512k, runs on both model 100 and 200, and is relatively small.
 
@@ -341,8 +345,21 @@ For example NUL appears as `@` in reverse video. So every byte still takes a sin
 
 ## XOS-C
 [XOS-C](http://www.club100.org/library/libpg.html) is sort of an OS for the Model 200.  
-XOS-C does not require a RAMPAC, but appears to leverage one well if available.  
-Some of the things in [software](software) are designed to work with XOS-C.
+XOS-C does not require a RAMPAC, but leverages one well if available.  
+Several of the NODE utils from the M100SIG actually require XOS-C.
+[software/Requires%20XOS-C](software/Requires%20XOS-C/)
+
+## NODE Doctor
+[software/N-DKTR](software/N-DKTR/)
+
+## NODE-PDD-Link
+[software/NODE-PDD-Link](software/NODE-PDD-Link/)
+
+## NODE EXE
+[software/NDEXE](software/NDEXE/)
+
+## RAMPAC Diagnostic
+[software/Rampac_Diagnostic](software/Rampac_Diagnostic/)
 
 <!-- 
 ## New Replacement PCB

@@ -1,6 +1,6 @@
 NODE.DO is NODE.BAS with the leading and trailing junk removed such that it may be loaded by a bootstrapper like `dl -b` or `tsend.ps1`
 
-dlplus:
+dl2:
   $ dl -v -b NODE.DO
 
 tsend.ps1:
