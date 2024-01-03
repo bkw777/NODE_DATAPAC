@@ -1,0 +1,83 @@
+
+This is just from my own examination combined with reading the available info, not authoritative.
+2024 Brian K. White
+
+A lot more details of the directory and filesystem structure can probably
+be divined from studying RD.BA and N-DKTR.BA
+
+This only applies to the filesystem created by RAMDSK or the NODE ROM.
+The device may also be used as arbitrary raw data storage by other apps,
+and in that case the data may be anything.
+
+Everywhere I say "block" some of the old docs & programs say "sector". They both refer to the same thing.
+
+The first 2 bytes of block 0 = 0x40 0x04 marks the bank as being formatted with a filesystem.
+
+The first byte of block 0 is susceptible to being corrupted with unwanted
+writes during connect/disconnect/power-on/power-off.
+You should never connect or disconnect the device while the computer is powered on,
+but it can still get corrupted even if you always careful.
+
+RAMDSK will offer to fix it automatically.
+Answer "N" to the "Format?" prompt, then "Y" to the "Fix?" prompt.
+
+You can also fix it manually from BASIC by typing:
+  OUT129,0:OUT131,64:OUT131,4<cr>
+
+For bank 1 this would be
+  OUT133,0:OUT131,64:OUT131,4<cr>
+
+but bank 1 will probably never get corrupted, because the problem is electrical,
+and the latch & counter chips that set the bank, block, & byte address are not connected
+to the battery. When the device is disconnected or the computer is turned off,
+those chips all reset to 0, so the only byte that is ever at risk is always the same
+byte 0 of block 0 of bank 0.
+
+The table defining which blocks are used by files is in block 0.
+
+The file names and file sizes are in the first 10 bytes of the first block of each file.
+
+The block table only says that block N is the first block of a file, but not what that file is.
+You get the filenames and filesizes by reading the first 10 bytes of every "first" block.
+
+From looking at N-DKTR.BA lines 2-18:
+The first 512 bytes of block 0 are 2 bytes per block for 256 blocks.
+Excluding the first pair for block 0,
+for the remaining blocks 1-255, if the first byte is...
+ >127 : block is marked "F" - the first block of a file
+ 32   : block is marked "c" - continuation of a file
+ 0    : block is marked "+" - available un-used block
+ else : block is marked "?" - none of the above, which should never happen
+
+(*maybe* the 2nd byte indicates the next block in the chain if any?)
+
+The first saved file starts in block 2 and then continues in block 1
+
+bank 0
+block 2
+
+First 10 bytes are filename and filesize.
+This is filesystem metadata created by RAMDSK or the NODE ROM, not part of the file itself.
+
+0000-0005 RAM100                 name
+0006-0007 CO                     ext
+0008-0009 7E 05 -> 057E -> 1406  size
+
+The next <size> bytes are the file data.
+If <size> is >1014, then the data continues in some other block.
+(block 1 in this case)
+
+In the case of a .CO file, the .CO file format has a 6-byte header.
+This is part of the .CO file format, nothing to do with DATAPAC or RAMPAC.
+
+0010-0011 76 F0 -> F076 -> 61558 TOP
+0012-0013 78 05 -> 0578 -> 1400  LEN  ( -> 62957 END )
+0014-0015 76 F0 -> F076 -> 61558 EXE
+
+0016-1023 data
+
+Remainder of data is on block 1.
+Yes it starts on block 2 and continues and ends in block 1. I don't know why.
+The remaining data starts right at byte 0 of block 1.
+
+The bytes from the end of a file to the end of it's last block are un-used and un-usable.

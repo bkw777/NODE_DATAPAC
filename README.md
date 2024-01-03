@@ -39,16 +39,17 @@ The PCB has footprints for four 32k sram chips (62256 equivalent), for a total o
 To get 256k, a second set of chips are soldered piggyback on top of the first four, each with pin 20 bent out and connected to the pcb separately, and all other pins connected to the chip below.  
 No other parts or changes are needed to upgrade an existing 128k unit to 256k.  
 
-![](REF/NODE_DATAPAC_256K_1.jpg)
-![](REF/NODE_DATAPAC_256K_2.jpg)
-![](REF/NODE_DATAPAC_256K_3.jpg)
-![](REF/NODE_DATAPAC_256K_4.jpg)
+![](ref/NODE_DATAPAC_256K_1.jpg)
+![](ref/NODE_DATAPAC_256K_2.jpg)
+![](ref/NODE_DATAPAC_256K_3.jpg)
+![](ref/NODE_DATAPAC_256K_4.jpg)
 
 # Documentation
 The original manual does not seem to be scanned or archived anywhere.
 
 All we have today is a few bits of info from discussions in the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and Paul Globmans software on [club100](http://www.club100.org/library/libpg.html).  
-Some of these are collected [here](software).
+Some of these are collected in [docs](docs).  
+See also the docs for the various bits of [software](software).
 
 A few of those documents say that the device originally shipped with the user manual pre-loaded onto the DATAPAC as a 12k text file, along with at least one BASIC program.  
 If/when the battery died in the device and all data was lost, the Format operation in the option rom would also re-create the text file.  
@@ -132,7 +133,7 @@ STEPS
 
 
 If you wish to keep using a rechargeable battery, then a suitable option is FL3/V80H. That is 3 16x5.8mm NiMH button cells in a flat in-line pack with wire leads. It fits perfectly in the space next to the ribbon cable. It needs to be secured with hot glue or foam mounting tape, and connected with wires run to the original battery location.  
-![](REF/fl3v80h_placement.jpg)
+![](ref/fl3v80h_placement.jpg)
 
 The charging circuit is utterly basic, so do not connect any other type of battery except NiCD or NiMH.  
 You can use any cell form factor and any larger or smaller mAh capacity, but must be 3.6v and only NiCD or NiMH chemistry.
@@ -145,11 +146,11 @@ The device is probably hardware compatible with the Olivetti M-10 and Kyotronic 
 The device is not compatible with the NEC PC-8201/PC-8300 at all.
 
 ### Model 200
-The connector on the DATAPAC [does not actually fit in a Model 200](REF/does_not_fit_model_200.jpg) without cutting the opening wider around the bus connector on the 200.
+The connector on the DATAPAC [does not actually fit in a Model 200](ref/does_not_fit_model_200.jpg) without cutting the opening wider around the bus connector on the 200.
 
 The only connector that fits in a 200 without hacking on the 200s case is a [solder-type 2x20 male box header](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SBH11-PBPC-D20-ST-BK/1990068),
  which could be soldered back to back with the [female version](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SFH11-PBPC-D20-ST-BK/1990093),
- to make an [adapter](REF/T200_adapter.jpg) to allow [connecting to a 200](REF/T200_adapter_installed.jpg) without having to damage the 200's case.
+ to make an [adapter](ref/T200_adapter.jpg) to allow [connecting to a 200](ref/T200_adapter_installed.jpg) without having to damage the 200's case.
 
 ### Model 100
 The case says "102/200", but it actually works on Model 100 also. It needs an adapter cable, but the cable is simple. It's just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
@@ -378,16 +379,16 @@ The connector fits in a Model 200 without having to modify the 200.
 The diode on RAMRST is copied from a user mod found on a DATAPAC. It appears to be intended to prevent a battery drain on the host computer while the DATAPAC is left connected to the host while the host is turned off.
 
 Installed on a TANDY 102
-![](REF/MiniNDP_on_102.jpg)
+![](ref/MiniNDP_on_102.jpg)
 
 Installed on a TANDY 200
-![](REF/MiniNDP_on_200.jpg)
+![](ref/MiniNDP_on_200.jpg)
 
-![](REF/MiniNDP_and_cover.jpg)
-![](REF/MiniNDP_and_cover.back.jpg)
-![](REF/MiniNDP_and_cover.assembled.jpg)
-![](REF/MiniNDP_bank0.jpg)
-![](REF/MiniNDP_bank1.jpg)
+![](ref/MiniNDP_and_cover.jpg)
+![](ref/MiniNDP_and_cover.back.jpg)
+![](ref/MiniNDP_and_cover.assembled.jpg)
+![](ref/MiniNDP_bank0.jpg)
+![](ref/MiniNDP_bank1.jpg)
 
 The 512k board also still supports 256k and 128k. There is no real reason to do this now but if you wanted to install a 256k (AS6C2008A) 
 or 128k (AS6C1008, IS62C1024, etc) SRAM, omit the U8 part (the 1G79), and solder-blob U8 pads 4 & 5 together. Those two pads are modified to also be a solder-jumper for this purpose.
