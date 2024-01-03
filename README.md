@@ -13,6 +13,10 @@
     * [Usage](#using-ramdsk)
   * [RAMPAC Inspector](#rpiba)
   * [XOS-C](#xos-c)
+  * [N-DKTR](#n-dktr)
+  * [NODE-PDD-Link](#node-pdd-link)
+  * [NODE EXE](#node-exe)
+  * [RAMPAC Diagnostic](#rampac-diagnostic)
 * [MiniNDP](#minindp)
   * [PCB & BOM](#minindp-pcb--bom)
   * [Enclosure](#minindp-enclosure)
@@ -155,7 +159,7 @@ About all we can say currently is that we know it was sold in 128k, 256k, 384k, 
 
 We can say how it's banks worked, because we can look at RAMDSK and see what it wants, which is how banks were added to MiniNDP.
 
-# Software
+# [Software](software)
 
 Originally these shipped with an option rom from NODE (written by Travelling Software), which does not seem to be archived anywhere.  
 Later, each unit was also shipped with a copy of RAMDSK licensed from Paul Globman.
@@ -349,7 +353,7 @@ XOS-C does not require a RAMPAC, but leverages one well if available.
 Several of the NODE utils from the M100SIG actually require XOS-C.
 [software/Requires%20XOS-C](software/Requires%20XOS-C/)
 
-## NODE Doctor
+## N-DKTR
 [software/N-DKTR](software/N-DKTR/)
 
 ## NODE-PDD-Link
