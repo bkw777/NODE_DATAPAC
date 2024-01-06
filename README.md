@@ -331,7 +331,7 @@ here  is a more flexible and generic bootstrapper for any .CO file up to 2038 by
 5 ?@0,A:POKEA,INP(P):IFA=NTHENOUT129,1
 6 NEXT:?@0,"Installed "F$:?"Type:"
 7 ?"CLEAR 0,"T":NEW":SAVEMF$,T,E,X:END
-8 N=INP(P):N=N+INP(P)*256:RETURN
+8 N=INP(P)+INP(P)*256:RETURN
 ```
 
 ## XOS-C
