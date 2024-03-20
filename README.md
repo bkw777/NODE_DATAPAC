@@ -110,6 +110,8 @@ The state of BUS_A10 is essentially copied to the SRAM A18 address line and latc
 The 512k 2-bank operation is just deduced from watching what RAMDSK does on the system bus when you press the Bank button, then the theory tested with a breadboard circuit, and finally with MiniNDP below.  
 MiniNDP actually works with RAMDSK, but probably does not implement the circuit the same way that the RAMPAC did.
 
+[What this all means from the host computer software side of things](https://github.com/bkw777/NODE_DATAPAC?tab=readme-ov-file#low-level-direct-access-using-only-basic)
+
 ## Battery
 The original battery is no longer made, and the modern cross-reference is almost 2mm taller and does not fit inside the enclosure.
 
