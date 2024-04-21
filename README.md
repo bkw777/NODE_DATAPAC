@@ -313,8 +313,7 @@ Usage is mostly pretty self-explanatory.
 
 The F1-Bank button switches between 2 banks of 256k, and is only functional on a RAMPAC that has more than 256k.
 
-[It is fairly common for the first byte to get corrupted](software/RAMPAC.001)  
-Don't Panic(tm)  
+[It is fairly common for the first byte to get corrupted](software/RAMDSK/RAMPAC.001) ...Don't Panic(tm)  
 You could do the manual BASIC one-liner `OUT129,0:OUT131,64:OUT131,4`, but RAMDSK also has a first-byte-fixer built-in.  
 If you get the "Format RAM-Disk?" prompt on power-on, just answer "N".  
 Then it will ask "Fix?", answer "Y".
