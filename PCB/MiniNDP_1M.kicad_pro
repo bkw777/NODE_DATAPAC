@@ -58,7 +58,14 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        "silk_overlap|162115905|108486759|956b010d-a68e-4d02-b58e-7b0ef722dc0b|9e9fc1df-d073-46d9-86ab-51e0d0b37d42",
+        "silk_overlap|162115905|108486759|956b010d-a68e-4d02-b58e-7b0ef722dc0b|b210e7cd-df2a-45f4-ad5c-ea18739a23a6",
+        "via_dangling|167400000|111125000|1ea4dffe-4cd0-451c-8a62-b2b5db2dfffa|00000000-0000-0000-0000-000000000000",
+        "via_dangling|167400000|88425000|0cb39934-bf39-4989-9e2c-97dcc3818e56|00000000-0000-0000-0000-000000000000",
+        "via_dangling|172000000|111125000|9fae5576-f8bf-40bc-b594-568c187170d4|00000000-0000-0000-0000-000000000000",
+        "via_dangling|172000000|88425000|e3d645b6-5c90-40b2-b971-b73aae16869a|00000000-0000-0000-0000-000000000000"
+      ],
       "meta": {
         "version": 2
       },
@@ -501,10 +508,10 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "GERBER_${TITLE}_${REVISION}",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "out/MiniNDP_512_CR2016.step",
+      "step": "out/MiniNDP_1M.step",
       "svg": "",
       "vrml": ""
     },

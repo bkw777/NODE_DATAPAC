@@ -1,12 +1,19 @@
 /* 3d-printable enclosure for MiniNDP - github.com/bkw777/NODE_DATAPAC */
-// version: 001
+// version: 002
 
-// print with no supports
 
+// ------------------------------------------------------------------------------
 // customizable options
 
-//parts_height = 1.8; // thin card with CR2016
-parts_height = 4.2; // thick card with CR2032
+onemeg = false; // 1M board
+lowprofile = false; // CR2016 instead of CR2032
+
+parts_height = lowprofile ? 1.8 : 4.2;
+
+pcb_stl = 
+        onemeg ? "MiniNDP_1M.PCB.stl" :
+        lowprofile ? "pcb_CR2016.stl" :
+        "pcb_CR2032.stl";
 
 // arc smoothness - comment both out before importing into FreeCAD
 $fs = 0.2;
@@ -18,19 +25,16 @@ wall_thickness = 0.8;
 // and the diameter of the long thin cylinder that forms the grabber clip.
 // Max is 1.5
 lip = 1.2;
-//corner = 8; // size of pcb rest corners
 ledge = 0.8; // width of pcb rest ledge
 
-//pcb_stl = "pcb_CR2016.stl";
-pcb_stl = "pcb_CR2032.stl";
-
 fc = 0.2;  // fitment clearance
+o = 0.01;  // overlap/overcut/overhang
 
 // PCB dimensions from KiCAD
 pcb_thickness = 1.6;
 pcb_length = 34;
 pcb_width = 60;
-pcb_corner_radius = 1;
+pcb_corner_radius = 2;
 
 short_grabbers = 10;
 long_grabbers = pcb_width/2;
@@ -55,7 +59,7 @@ module pcb_model () {
 module main_shell() {
  difference() {
   // add the main outer surface
-  rounded_cube(w=outer_width,d=outer_length,h=outer_height*2,rh=outer_corner);
+  rounded_cube(w=outer_width,d=outer_length,h=outer_height*2,rh=outer_corner,rv=outer_corner*0.75);
 
   union() {
    // cut outer rounded cube in half to leave a (solid) bathtub
@@ -68,26 +72,37 @@ module main_shell() {
    // cut the main cavity
    // ledge
    rounded_cube(w=inner_width-ledge*2,d=inner_length-ledge*2,h=inner_height*2,rh=fr);
-   // corners
-   //hull() {
-   // rounded_cube(w=inner_width,d=inner_length-corner,h=inner_height*2,rh=fr);
-   // rounded_cube(w=inner_width-corner,d=inner_length,h=inner_height*2,rh=fr);
-   //}
   }
  }
  
  // add the snap retainer lips on the long wall edges
- // if using corners uncomment mirror_copy
- //mirror_copy([0,1,0])
   translate([0,inner_length/2,-lip/2]) rotate([0,90,0]) cylinder(h=long_grabbers,d=lip,center=true);
 
- // if using corners, comment out this whole section
  // add the short grabbers on the bottom
  mirror_copy([1,0,0]) translate([inner_width/2,-inner_length/2-wall_thickness/2+short_grabbers/2,-lip/2])
   difference() {
    rotate([90,0,0]) cylinder(h=short_grabbers,d=lip,center=true);
    translate([lip/2+0.1,-short_grabbers/2,0]) rotate([0,0,45]) cube(lip*2,center=true);
   }
+  
+ // add graphic to show install orientation
+ translate([0,-pcb_length/2+5,inner_height+o]) {
+  h = 0.2;
+  rotate([0,180,0]) {
+   linear_extrude(h) {
+    xy_array(xo=2.54,xc=20,yo=2.54,yc=2,center=true)
+     circle(r=0.5);
+    difference() {
+     square([58.5,8.7],true);
+      group () {
+       translate([0,4,0]) square([4.5,8],true);
+       square([56.3,6.4],true);
+      }
+    }
+   }
+  }
+ }
+
 }
 
 // orient & position for printing

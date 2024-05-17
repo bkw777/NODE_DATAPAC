@@ -11284,7 +11284,7 @@
 		(dnp no)
 		(uuid "2b15837a-e1b7-4b63-a342-ec3304fb2f02")
 		(property "Reference" "BT1"
-			(at 104.14 181.61 0)
+			(at 96.774 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11292,7 +11292,7 @@
 			)
 		)
 		(property "Value" "Keystone_3034"
-			(at 100.33 187.96 0)
+			(at 91.44 189.992 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11825,7 +11825,7 @@
 			)
 		)
 		(property "Value" "BAS70DW-05"
-			(at 88.9 185.42 0)
+			(at 88.9 184.912 0)
 			(effects
 				(font
 					(size 1.27 1.27)

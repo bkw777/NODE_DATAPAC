@@ -116,3 +116,17 @@ module mirror_copy(v) {
  children();
  mirror(v) children();
 }
+
+module xy_array(xo=10,xc=4,yo=10,yc=2,center=false) {
+ xe = (xc-1)*xo;
+ ye = (yc-1)*yo;
+ tx = center ? -xe/2 : 0;
+ ty = center ? -ye/2 : 0;
+ translate([tx,ty,0])
+ for (i=[0:xo:xe]) {
+  for (j=[0:yo:ye]) {
+    translate([i,j,0])
+     children();
+  }
+ }
+}

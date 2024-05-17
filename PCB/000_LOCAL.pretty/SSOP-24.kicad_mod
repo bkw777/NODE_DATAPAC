@@ -6,28 +6,31 @@
 	(descr "SSOP24: plastic shrink small outline package; 24 leads; body width 3.9 mm; lead pitch 0.635; (see NXP SSOP-TSSOP-VSO-REFLOW.pdf and sot556-1_po.pdf)")
 	(tags "SSOP 0.635")
 	(property "Reference" "REF**"
-		(at 0 -5.4 0)
+		(at -1 -4 -90)
+		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "9b47fe01-b9ae-4d77-8118-50367085214e")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.8 0.8)
+				(thickness 0.1)
 			)
+			(justify left)
 		)
 	)
 	(property "Value" "SSOP-24"
-		(at 0 5.4 0)
-		(layer "F.Fab")
+		(at 0.75 0 -90)
+		(unlocked yes)
+		(layer "F.SilkS")
 		(uuid "1247a6d8-093e-4d20-824b-9ba5346453a5")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.8 0.8)
+				(thickness 0.1)
 			)
 		)
 	)
-	(property "Footprint" ""
+	(property "Footprint" "SSOP-24"
 		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
@@ -405,7 +408,7 @@
 		(roundrect_rratio 0.25)
 		(uuid "ceffc88a-d6b6-4928-a4c2-1cf67f2c0c30")
 	)
-	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/SSOP-24_3.9x8.7mm_P0.635mm.wrl"
+	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/SSOP-24_3.9x8.7mm_P0.635mm.step"
 		(offset
 			(xyz 0 0 0)
 		)
