@@ -3336,7 +3336,7 @@
 				)
 			)
 		)
-		(property "Footprint" "000_LOCAL:SSOP-24"
+		(property "Footprint" "000_LOCAL:SOIC-24"
 			(at 0 0 0)
 			(effects
 				(font
