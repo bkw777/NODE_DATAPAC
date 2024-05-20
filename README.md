@@ -421,7 +421,7 @@ The printable STLs are in [releases](../releases).
 
 You can get both the PCB and enclosure at the same time from Elecrow by submitting the gerber zip and the enclosure stl, and it arrives in under 2 weeks even with the cheapest economy shipping option.
 
-## MiniNDP WIP
+## Works in Progress
 Experimental 1-meg version - Testing still pending.
 ```
 OUT 129,N = select bank 0 block N
@@ -436,3 +436,10 @@ OUT 141,N = select bank 3 block N
 new parts  
 [AS6C8008 1Mx8 5v parallel sram](https://www.digikey.com/short/p7h3mj33)  
 [FCT821 10-bit latch](https://www.digikey.com/short/74fmpjp2) (basicallly a 10-bit version of HC374 or HC574)
+
+Alternative 512K "B" version. This may become the default suggested 512K version assuming it tests ok, because it's fewer & larger parts (easier to hand-solder) and better layout & routing.  
+But one advantage of the original version is it's possible to make a thinner low profile card. But on this one the FCT821 is only available in a thick SOIC-24 package. The part IS currently manufactured in smaller packages including QSOP which would be perfect, but no one sells those individually, only in bulk. So this version only provides a standard CR2032 option. The SRAM footprint supports both SOP-32 and TSOP-II-32.
+![](PCB/out/MiniNDP_512K_B.svg)  
+![](PCB/out/MiniNDP_512K_B.top.jpg)  
+![](PCB/out/MiniNDP_512K_B.bottom.jpg)  
+![](PCB/out/MiniNDP_512K_B.jpg)  
