@@ -5812,7 +5812,7 @@
 			)
 		)
 	)
-	(symbol "AS6C8008_TSOPII"
+	(symbol "AS6C4008_TSOPII32"
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -5825,7 +5825,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Value" "AS6C8008_TSOPII"
+		(property "Value" "AS6C4008_TSOPII32"
 			(at 2.54 23.495 0)
 			(effects
 				(font
@@ -5879,7 +5879,7 @@
 				(hide yes)
 			)
 		)
-		(symbol "AS6C8008_TSOPII_0_1"
+		(symbol "AS6C4008_TSOPII32_0_1"
 			(rectangle
 				(start -10.16 22.86)
 				(end 10.16 -35.56)
@@ -5892,7 +5892,7 @@
 				)
 			)
 		)
-		(symbol "AS6C8008_TSOPII_1_0"
+		(symbol "AS6C4008_TSOPII32_1_0"
 			(pin power_in line
 				(at 0 25.4 270)
 				(length 2.54)
@@ -5966,7 +5966,7 @@
 				)
 			)
 		)
-		(symbol "AS6C8008_TSOPII_1_1"
+		(symbol "AS6C4008_TSOPII32_1_1"
 			(pin input line
 				(at -12.7 10.16 0)
 				(length 2.54)
