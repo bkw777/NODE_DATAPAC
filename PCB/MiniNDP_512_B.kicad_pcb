@@ -9,7 +9,7 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP 512")
-		(date "2024-05-19")
+		(date "2024-05-21")
 		(rev "B01")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")

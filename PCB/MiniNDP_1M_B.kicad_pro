@@ -38,8 +38,8 @@
         "other_text_upright": false,
         "pads": {
           "drill": 0.0,
-          "height": 0.4,
-          "width": 1.4
+          "height": 0.5,
+          "width": 1.2
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -59,11 +59,12 @@
         }
       ],
       "drc_exclusions": [
-        "starved_thermal|129350000|107325000|7264d97b-15d8-4a15-a143-ebe7adc45345|cbd7c422-2229-450b-9143-83975deb6800|F.Cu",
-        "via_dangling|168300000|111125000|1ea4dffe-4cd0-451c-8a62-b2b5db2dfffa|00000000-0000-0000-0000-000000000000",
-        "via_dangling|168300000|88425000|0cb39934-bf39-4989-9e2c-97dcc3818e56|00000000-0000-0000-0000-000000000000",
-        "via_dangling|172900000|111125000|9fae5576-f8bf-40bc-b594-568c187170d4|00000000-0000-0000-0000-000000000000",
-        "via_dangling|172900000|88425000|e3d645b6-5c90-40b2-b971-b73aae16869a|00000000-0000-0000-0000-000000000000"
+        "silk_overlap|162115905|108486759|956b010d-a68e-4d02-b58e-7b0ef722dc0b|9e9fc1df-d073-46d9-86ab-51e0d0b37d42",
+        "silk_overlap|162115905|108486759|956b010d-a68e-4d02-b58e-7b0ef722dc0b|b210e7cd-df2a-45f4-ad5c-ea18739a23a6",
+        "via_dangling|167400000|111125000|1ea4dffe-4cd0-451c-8a62-b2b5db2dfffa|00000000-0000-0000-0000-000000000000",
+        "via_dangling|167400000|88425000|0cb39934-bf39-4989-9e2c-97dcc3818e56|00000000-0000-0000-0000-000000000000",
+        "via_dangling|172000000|111125000|9fae5576-f8bf-40bc-b594-568c187170d4|00000000-0000-0000-0000-000000000000",
+        "via_dangling|172000000|88425000|e3d645b6-5c90-40b2-b971-b73aae16869a|00000000-0000-0000-0000-000000000000"
       ],
       "meta": {
         "version": 2
@@ -472,7 +473,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "MiniNDP_512K_B.kicad_pro",
+    "filename": "MiniNDP_1M_B.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -510,7 +511,7 @@
       "plot": "GERBER_${TITLE}_${REVISION}",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "out/MiniNDP_512K_B.step",
+      "step": "out/MiniNDP_1M.step",
       "svg": "",
       "vrml": ""
     },
