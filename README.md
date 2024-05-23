@@ -96,28 +96,30 @@ The HC138 is what monitors the bus and determines when/if the device is being ad
 Reading or writing to certain port numbers "p" in `INP(p)` `OUT p,n`, results in the HC138 asserting either /BLOCK or /BYTE.
 
 Each time /BLOCK goes low:  
-* SRAM A0-A9 are reset to 0  
-* BUS AD0-AD7 are copied to SRAM A10-A17  
+* SRAM A0-A9 are reset to 0  (byte-position counter is reset to 0)
+* BUS AD0-AD7 are copied to SRAM A10-A17  (block-selector is set from the bus data lines)
 When /BLOCK goes high again:
-* SRAM A10-A17 are held latched at whatever they were set to.
+* SRAM A10-A17 are held latched at whatever they were set to.  (block# selection is locked-in until next /BLOCK)
 
 In other words, SELECT-BLOCK
 
 Each time /BYTE goes low:  
-* SRAM is enabled while /BYTE is low  
+* SRAM is enabled while /BYTE is low  (the bus data lines read from or write to the current address in SRAM)
 When /BYTE goes high again:
 * SRAM is disabled
 * A0-A9 are incremented by 1.
 
 In other words, READ-BYTE or WRITE-BYTE
 
+The block-selector and byte-position combine to set SRAM address bits A0-A17 make the address to a single byte somewhere in SRAM.  
+
 So, AD0-AD7 is 8 bits, and A0-A9 is 10 bits, so the device provides up to 256 blocks of 1024 bytes each. The host computer first does a SELECT-BLOCK to select a block number from 0-255, then does READ-BYTE or WRITE-BYTE to read or write one byte of data at byte-position 0 in that block, then repeats the BYTE operation up to 1023 more times to read or write up to all 1024 bytes in the block.  
 
-It's called a ramdisk because the device actually does operate like a disk even though it has no brains or firmware. The HC374 latch acts like a track or sector address, and the binary counter acts like a disk or tape head reading or writing a sequential stream of bytes. IE: the bytes of ram are not individually directly accessed like in main memory. A block address is selected, and then up to 1024 bytes are streamed sequentially to or from that block.
+It's called a ramdisk because the device actually does operate like a disk even though it has no brains or firmware. The HC374 latch acts like a track or sector address, and the binary counter acts like a disk or tape head reading or writing a sequential stream of bytes.
 
 Later versions of RAMPAC were offered with 384k or 512k by adding a second bank of up to 256k, and later versions of RAMDSK.CO know how to access the 2nd bank.
 
-The extra 256K is accessed by the state of BUS address line A10 during a SELECT-BLOCK operation.  
+The extra 256K is accessed by the state of bus address line A10 during a SELECT-BLOCK operation.  
 SELECT-BLOCK with BUS_A10 low accesses bank0, with BUS_A10 high accesses bank1.  
 All other aspects are the same, so accessing bank0 on a a 512K device is the same as accessing the only bank on a 256K device.  Old software is still compatible with bank0 on new hardware, new software is still compatible with old hardware.
 
