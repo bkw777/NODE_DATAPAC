@@ -88,10 +88,10 @@ The original PCB has no silkscreen. This image has silkscreen added to show wher
 The three HC161 chips form a 0-1023 counter, setting local sram address bits A0-A9.  
 Call this the byte-position counter.
 
-The HC374 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches that address on its outputs until triggered to update to a new address.
+The HC374 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches that address on its outputs until triggered to update to a new address.  
 Call this the block selector.
 
-The HC138 decodes four lines from the bus, `/Y0` `(A)` `A8` `A9`, to produce one of two signals I'll call `/BLOCK` and `/BYTE`.  
+The HC138 decodes four lines from the bus, `/Y0` `(A)` `A8` `A9`, to produce one of two signals, call them `/BLOCK` and `/BYTE`.  
 The HC138 is what monitors the bus and determines when/if the device is being addressed or not.  
 Reading or writing to certain port numbers "p" in `INP(p)` `OUT p,n`, results in the HC138 asserting either /BLOCK or /BYTE.
 
