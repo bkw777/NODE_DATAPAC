@@ -97,21 +97,27 @@ Reading or writing to certain port numbers "p" in `INP(p)` `OUT p,n`, results in
 
 (Original DATAPAC has a 2nd HC138 which converts 3 of the block-select address bits into 1 of 8 chip-select to select 1 of 8 32K SRAM chips. MiniNDP just uses all 8 address bits directly in a single larger sram chip, and has no 2nd HC138. RAMPAC probably did the same.)
 
-Each time /BLOCK goes low:  
-* SRAM A0-A9 are reset to 0  (byte-position counter is reset to 0)  
-* BUS AD0-AD7 are copied to SRAM A10-A17  (block-selector is set from the bus data lines)  
-When /BLOCK goes high again:  
+----
+
+### SELECT-BLOCK
+Each time /BLOCK goes low:
+* SRAM A0-A9 are reset to 0  (byte-position counter is reset to 0)
+* BUS AD0-AD7 are copied to SRAM A10-A17  (block-selector is set from the bus data lines)
+
+When /BLOCK goes high again:
 * SRAM A10-A17 are held latched at whatever they were set to.  (block# selection is locked-in until next /BLOCK)
 
-In other words, SELECT-BLOCK
+----
 
-Each time /BYTE goes low:  
-* SRAM is enabled while /BYTE is low  (the bus data lines read from or write to the current address in SRAM)  
-When /BYTE goes high again:  
-* SRAM is disabled  
-* A0-A9 are incremented by 1.
+### READ-BYTE / WRITE-BYTE
+Each time /BYTE goes low:
+* SRAM is enabled while /BYTE is low  (the bus data lines read from or write to the current address in SRAM)
 
-In other words, READ-BYTE or WRITE-BYTE
+When /BYTE goes high again:
+* SRAM is disabled
+* A0-A9 are incremented by 1
+
+----
 
 The block-selector and byte-position combine to set SRAM address bits A0-A17 make the address to a single byte somewhere in SRAM.  
 
