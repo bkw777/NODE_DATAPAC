@@ -21,7 +21,7 @@
 * [MiniNDP](#minindp)
   * [PCB & BOM](#minindp-pcb--bom)
   * [Enclosure](#minindp-enclosure)
-  * [WIP/Experiment](#minindp-wip)
+  * [WIP/Experiments](#works-in-progress)
 
 This repo documents the NODE Systems DATAPAC, RAMPAC, and a new clone, the [MiniNDP](#minindp).
 
@@ -85,31 +85,41 @@ The original PCB has no silkscreen. This image has silkscreen added to show wher
 ![](PCB/out/NODE_DATAPAC_256K_historical_reproduction_top_annotated.jpg)
 
 ## Theory of Operation
-The three HC161 chips form a 0-1023 counter, setting local sram address bits A0-A9. We'll call this the byte or byte-position counter.
+The three HC161 chips form a 0-1023 counter, setting local sram address bits A0-A9.  
+Call this the byte-position counter.
 
-The HC374 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches and holds that address on its outputs until triggered to update to a new address.
+The HC374 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches that address on its outputs until triggered to update to a new address.
+Call this the block selector.
 
-Four lines from the system bus: A8, A9, /Y0, and (A), combine to produce two signals which I am calling /BLOCK and /BYTE.
+The HC138 decodes four lines from the bus, `/Y0` `(A)` `A8` `A9`, to produce one of two signals I'll call `/BLOCK` and `/BYTE`.  
+The HC138 is what monitors the bus and determines when/if the device is being addressed or not.  
+Reading or writing to certain port numbers "p" in `INP(p)` `OUT p,n`, results in the HC138 asserting either /BLOCK or /BYTE.
 
-Each time /BLOCK goes low it sets SRAM A0-A9 to 0 and copies BUS AD0-AD7 to SRAM A10-A17,
-then holds A10-A17 latched while /BLOCK is high.  
-Call this a BLOCK op.
+Each time /BLOCK goes low:  
+* SRAM A0-A9 are reset to 0  
+* BUS AD0-AD7 are copied to SRAM A10-A17  
+When /BLOCK goes high again:
+* SRAM A10-A17 are held latched at whatever they were set to.
 
-Each time /BYTE goes low it enables SRAM for read or write while low,
-then when /BYTE goes high it disables SRAM and increments A0-A9 by 1.
-Call this a BYTE op.
+In other words, SELECT-BLOCK
 
-So the device provides up to 256 blocks of 1k bytes each. The host computer does a BLOCK op to select a block number from 0-255, then does a BYTE op to read or write a byte of data at byte #0 in the block, then repeats the BYTE op 1023 more times to read or write all 1024 bytes in the block.  
-The device actually does operate like a disk even though it has no brains or firmware.
+Each time /BYTE goes low:  
+* SRAM is enabled while /BYTE is low  
+When /BYTE goes high again:
+* SRAM is disabled
+* A0-A9 are incremented by 1.
 
-Later versions of RAMPAC were offered with 384k or 512k by adding a second bank of 128k or 256k, and later versions of RAMDSK.CO know how to access it.
+In other words, READ-BYTE or WRITE-BYTE
 
-The extra 256K is accessed by the state of BUS address line A10 during a BLOCK op.  
-BLOCK with BUS_A10 low accesses bank0, BLOCK with BUS_A10 high accesses bank1.  
-The state of BUS_A10 is essentially copied to the SRAM A18 address line and latched during BLOCK ops along with A10-A17, like adding a 9th bit to the HC374.  
+So, AD0-AD7 is 8 bits, and A0-A9 is 10 bits, so the device provides up to 256 blocks of 1024 bytes each. The host computer first does a SELECT-BLOCK to select a block number from 0-255, then does READ-BYTE or WRITE-BYTE to read or write one byte of data at byte-position 0 in that block, then repeats the BYTE operation up to 1023 more times to read or write up to all 1024 bytes in the block.  
 
-The 512k 2-bank operation is just deduced from watching what RAMDSK does on the system bus when you press the Bank button, then the theory tested with a breadboard circuit, and finally with MiniNDP below.  
-MiniNDP actually works with RAMDSK, but probably does not implement the circuit the same way that the RAMPAC did.
+It's called a ramdisk because the device actually does operate like a disk even though it has no brains or firmware. The HC374 latch acts like a track or sector address, and the binary counter acts like a disk or tape head reading or writing a sequential stream of bytes. IE: the bytes of ram are not individually directly accessed like in main memory. A block address is selected, and then up to 1024 bytes are streamed sequentially to or from that block.
+
+Later versions of RAMPAC were offered with 384k or 512k by adding a second bank of up to 256k, and later versions of RAMDSK.CO know how to access the 2nd bank.
+
+The extra 256K is accessed by the state of BUS address line A10 during a SELECT-BLOCK operation.  
+SELECT-BLOCK with BUS_A10 low accesses bank0, with BUS_A10 high accesses bank1.  
+All other aspects are the same, so accessing bank0 on a a 512K device is the same as accessing the only bank on a 256K device.  Old software is still compatible with bank0 on new hardware, new software is still compatible with old hardware.
 
 [What this all means from the host computer software side of things](https://github.com/bkw777/NODE_DATAPAC?tab=readme-ov-file#low-level-direct-access-using-only-basic)
 
@@ -159,10 +169,12 @@ The only connector that fits in a 200 without hacking on the 200s case is a [sol
 The case says "102/200", but it actually works on Model 100 also. It needs an adapter cable, but the cable is simple. It's just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
 [The Model 100 part](https://github.com/bkw777/TRS-80_Disk_Video_Interface_Cable/blob/main/README.md#part-3---model-100-adapter) of this [3-part cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable) is exactly the same thing.
 
-# RAPMAC Hardware
+# RAMPAC Hardware
 About all we can say currently is that we know it was sold in 128k, 256k, 384k, and 512k capacities, and was "about 2 inches square".
 
-We can say how it's banks worked, because we can look at RAMDSK and see what it wants, which is how banks were added to MiniNDP.
+We can say how it's banks worked, because we can look at RAMDSK and see what it wants, and verified by the fact that MiniNDP 512 actually works.  
+
+MiniNDP schematic is essentially just a clone of the DATAPAC schematic with the coin cell mod applied and the multiple ram chips replaced by a single big one. RAMPAC schematic might have been different.
 
 # [Software](software)
 
@@ -336,22 +348,28 @@ here  is a more flexible and generic bootstrapper for any .CO file up to 2038 by
 8 N=INP(P)+INP(P)*256:RETURN
 ```
 
+## RAMPAC Inspector
+[RAMPAC Inspector](software/RPI)
+
+Smaller than RD or N-DKTR, no machine code or calls, doesn't require the NODE ROM or RAMDSK, supports banks / all 512k.  
+Just displays the raw data, no parsing or interpretation of the directory/file structures created by RAMDSK.CO etc.
+
 ## XOS-C
 [XOS-C](http://www.club100.org/library/libpg.html) is sort of an OS for the Model 200.  
 XOS-C does not require a RAMPAC, but leverages one if available.  
 [Several of the NODE utils from the M100SIG require XOS-C.](software/Requires_XOS-C/)
 
-## [RAMPAC Inspector](software/RPI)
-Smaller than RD or N-DKTR, no machine code or calls, doesn't require the NODE ROM or RAMDSK, supports banks / all 512k.  
-Just displays the data, no parsing or interpretation of directory/file structures etc.
+## N-DKTR
+[N-DKTR](software/N-DKTR/)
 
-## [N-DKTR](software/N-DKTR/)
+## NODE-PDD-Link
+[NODE-PDD-Link](software/NODE-PDD-Link/)
 
-## [NODE-PDD-Link](software/NODE-PDD-Link/)
+## NDEXE
+[NDEXE](software/NDEXE/)
 
-## [NDEXE](software/NDEXE/)
-
-## [Rampac_Diagnostic](software/Rampac_Diagnostic/)
+## RAMPAC Diagnostic
+[Rampac_Diagnostic/](software/Rampac_Diagnostic/)
 
 <!-- 
 ## New Replacement PCB
