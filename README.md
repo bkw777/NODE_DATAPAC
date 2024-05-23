@@ -95,6 +95,8 @@ The HC138 decodes four lines from the bus, `/Y0` `(A)` `A8` `A9`, to produce one
 The HC138 is what monitors the bus and determines when/if the device is being addressed or not.  
 Reading or writing to certain port numbers "p" in `INP(p)` `OUT p,n`, results in the HC138 asserting either /BLOCK or /BYTE.
 
+(Original DATAPAC has a 2nd HC138 which converts 3 of the block-select address bits into 1 of 8 chip-select to select 1 of 8 32K SRAM chips. MiniNDP just uses all 8 address bits directly in a single larger sram chip, and has no 2nd HC138. RAMPAC probably did the same.)
+
 Each time /BLOCK goes low:  
 * SRAM A0-A9 are reset to 0  (byte-position counter is reset to 0)
 * BUS AD0-AD7 are copied to SRAM A10-A17  (block-selector is set from the bus data lines)
