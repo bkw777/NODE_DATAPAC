@@ -386,6 +386,7 @@ Installed on a TANDY 102
 Installed on a TANDY 200
 ![](ref/MiniNDP_on_200.jpg)
 
+(low profile version with CR2016 instead of CR2032)
 ![](ref/MiniNDP_and_cover.jpg)
 ![](ref/MiniNDP_and_cover.back.jpg)
 ![](ref/MiniNDP_and_cover.assembled.jpg)
