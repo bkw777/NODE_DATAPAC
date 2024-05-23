@@ -73,16 +73,16 @@ This is a new drawing but aims to reflect the original actual device as exactly 
 It's meant to be a form of documentation or reference describing the original hardware as it was.  
 For instance, the inconsistent thickness of power traces, and the 5V power trace that almost touches one of the mounting screw heads, are both exactly as in the original.  
 (I added a fiber washer to that screw in my units after noticing that. The case is isolated, not connected to ground, but still...)
-![](PCB/out/NODE_DATAPAC_256K_historical.svg)
+![](PCB/out/NODE_DATAPAC_256K_historical_reproduction.svg)
 
 PCB TOP
-![](PCB/out/NODE_DATAPAC_256K_historical_top.jpg)
+![](PCB/out/NODE_DATAPAC_256K_historical_reproduction_top.jpg)
 
 PCB BOTTOM
-![](PCB/out/NODE_DATAPAC_256K_historical_bottom.jpg)
+![](PCB/out/NODE_DATAPAC_256K_historical_reproduction_bottom.jpg)
 
 The original PCB has no silkscreen. This image has silkscreen added to show where the components from the schematic go.
-![](PCB/out/NODE_DATAPAC_256K_historical_top_annotated.jpg)
+![](PCB/out/NODE_DATAPAC_256K_historical_reproduction_top_annotated.jpg)
 
 ## Theory of Operation
 The three HC161 chips form a 0-1023 counter, setting local sram address bits A0-A9. We'll call this the byte or byte-position counter.
