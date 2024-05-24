@@ -85,45 +85,53 @@ The original PCB has no silkscreen. This image has silkscreen added to show wher
 ![](PCB/out/NODE_DATAPAC_256K_historical_reproduction_top_annotated.jpg)
 
 ## Theory of Operation
-The three HC161 chips form a 0-1023 counter, setting local sram address bits A0-A9.  
-Call this the byte-position counter.
+The circuit has 2 functions, SELECT-BLOCK and READ/WRITE-BYTE, controlled by the internal signals /BLOCK and /BYTE.
 
-The HC374 sets local sram address bits A10-A17 from the bus AD0-AD7, and latches that address on its outputs until triggered to update to a new address.  
-Call this the block selector.
+The U4 HC138 monitors four lines from the bus, `/Y0` `(A)` `A8` `A9`, and based on that asserts either `/BLOCK` or `/BYTE` or neither.  
+If neither /BLOCK nor /BYTE is asserted then the bus traffic has no effect on any of the other chips.
 
-The HC138 decodes four lines from the bus, `/Y0` `(A)` `A8` `A9`, to produce one of two signals, call them `/BLOCK` and `/BYTE`.  
-The HC138 is what monitors the bus and determines when/if the device is being addressed or not.  
-Reading or writing to certain port numbers "p" in `INP(p)` `OUT p,n`, results in the HC138 asserting either /BLOCK or /BYTE.
+The 3 HC161 form a 0-1023 counter, setting SRAM address bits A0-A9.  
+Call this the byte-number or byte-position counter.
 
-(Original DATAPAC has a 2nd HC138 which converts 3 of the block-select address bits into 1 of 8 chip-select to select 1 of 8 32K SRAM chips. MiniNDP just uses all 8 address bits directly in a single larger sram chip, and has no 2nd HC138. RAMPAC probably did the same.)
+The HC374 sets SRAM address bits A10-A17 from the bus data bits AD0-AD7, and latches that value on its outputs until triggered to update to a new value.  
+Call this the block-number or block selector.
+
+The U5 HC138 converts 3 bits of the block-number into 1 of 8 chip-select to select 1 of 8 32K SRAM chips,  
+and also monitors both /BYTE and RAMRST and disables all ram while either /BYTE or RAMRST is high.
 
 ----
 
 ### SELECT-BLOCK
-Each time /BLOCK goes low:
+When /BLOCK goes low:
 * SRAM A0-A9 are reset to 0  (byte-position counter is reset to 0)
-* BUS AD0-AD7 are copied to SRAM A10-A17  (block-selector is set from the bus data lines)
+* BUS AD0-AD7 are copied to SRAM A10-A17  (bus data lines AD0-AD7 select a block-number)
 
-When /BLOCK goes high again:
-* SRAM A10-A17 are held latched at whatever they were set to.  (block# selection is locked-in until next /BLOCK)
+When /BLOCK goes high:
+* SRAM A10-A17 are held latched at whatever they were set to  (block-number is locked in until next /BLOCK)
 
 ----
 
 ### READ-BYTE / WRITE-BYTE
-Each time /BYTE goes low:
-* SRAM is enabled while /BYTE is low  (the bus data lines read from or write to the current address in SRAM)
+When /BYTE goes low:
+* SRAM is enabled  (bus data lines AD0-AD7 read from or write to the current address in SRAM)
 
-When /BYTE goes high again:
+When /BYTE goes high:
 * SRAM is disabled
-* A0-A9 are incremented by 1
+* A0-A9 are incremented by 1 (byte-position, thus the current address in SRAM, is advanced to the next byte)
 
 ----
 
-The block-selector and byte-position combine to set SRAM address bits A0-A17 make the address to a single byte somewhere in SRAM.  
+The byte-number and block-number combine to form the current address in SRAM at any given time.  
 
-So, AD0-AD7 is 8 bits, and A0-A9 is 10 bits, so the device provides up to 256 blocks of 1024 bytes each. The host computer first does a SELECT-BLOCK to select a block number from 0-255, then does READ-BYTE or WRITE-BYTE to read or write one byte of data at byte-position 0 in that block, then repeats the BYTE operation up to 1023 more times to read or write up to all 1024 bytes in the block.  
+The device provides up to 256 blocks (8-bit block-number) of 1024 bytes each (10-bit byte-number).
 
-It's called a ramdisk because the device actually does operate like a disk even though it has no brains or firmware. The HC374 latch acts like a track or sector address, and the binary counter acts like a disk or tape head reading or writing a sequential stream of bytes.
+The host computer first does a SELECT-BLOCK to select a block number from 0-255, then does READ-BYTE or WRITE-BYTE to read or write one byte of data at byte number 0 in that block, then repeats the BYTE operation up to 1023 more times to read or write up to all 1024 bytes in the block.  
+
+It's not really limited to 1024 reads/writes. If you read or write more than 1024 times total without selecting a new block, the byte-number counter just rolls over to 0 again.
+
+You can also mix reads and writes in the same block. Each read OR write advances the byte-number the same way each time, regardless if the previous operation was a read or a write. For instance in order to skip over 64 bytes without modifying them and then start writing at the 65th byte, you would read-and-ignore 64 times and then start writing.
+
+It's called a ramdisk because the device actually does operate like a disk even though it has no brains or firmware. The block-select latch acts like a track or sector address, and the binary counter acts like a disk or tape head reading or writing a sequential stream of bytes.
 
 Later versions of RAMPAC were offered with 384k or 512k by adding a second bank of up to 256k, and later versions of RAMDSK.CO know how to access the 2nd bank.
 
