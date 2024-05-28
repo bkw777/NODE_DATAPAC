@@ -9615,16 +9615,6 @@
 		)
 	)
 	(gr_line
-		(start 123.95 86.825)
-		(end 179.95 86.825)
-		(stroke
-			(width 0.02)
-			(type default)
-		)
-		(layer "Dwgs.User")
-		(uuid "0e6b0129-309d-491b-a8b7-77651c4bfcef")
-	)
-	(gr_line
 		(start 154.45 119.1)
 		(end 154.25 118.9)
 		(stroke
@@ -9635,16 +9625,6 @@
 		(uuid "1f2c5252-5ffd-43a1-8088-7fe723a94cc3")
 	)
 	(gr_line
-		(start 123.95 119.225)
-		(end 179.95 119.225)
-		(stroke
-			(width 0.02)
-			(type default)
-		)
-		(layer "Dwgs.User")
-		(uuid "240a3090-b82c-469e-bf34-429d4c86c215")
-	)
-	(gr_line
 		(start 154.45 119.1)
 		(end 154.65 118.9)
 		(stroke
@@ -9653,70 +9633,6 @@
 		)
 		(layer "Dwgs.User")
 		(uuid "30de09d8-0d86-4360-82af-4320ad5aac64")
-	)
-	(gr_arc
-		(start 179.95 86.825)
-		(mid 180.798528 87.176472)
-		(end 181.15 88.025)
-		(stroke
-			(width 0.02)
-			(type default)
-		)
-		(layer "Dwgs.User")
-		(uuid "6a783cfd-ce0a-44fd-8270-a87d51845b9c")
-	)
-	(gr_arc
-		(start 181.15 118.025)
-		(mid 180.798528 118.873528)
-		(end 179.95 119.225)
-		(stroke
-			(width 0.02)
-			(type default)
-		)
-		(layer "Dwgs.User")
-		(uuid "71c0a267-08c9-4841-ad71-6a67c29489cb")
-	)
-	(gr_line
-		(start 122.75 88.025)
-		(end 122.75 118.025)
-		(stroke
-			(width 0.02)
-			(type default)
-		)
-		(layer "Dwgs.User")
-		(uuid "7bc7bb53-68a5-43a7-9e53-ba2040cf3ab8")
-	)
-	(gr_arc
-		(start 122.75 88.025)
-		(mid 123.101472 87.176472)
-		(end 123.95 86.825)
-		(stroke
-			(width 0.02)
-			(type default)
-		)
-		(layer "Dwgs.User")
-		(uuid "8b6f3745-b769-4320-8bed-594d5b9eb975")
-	)
-	(gr_arc
-		(start 123.95 119.225)
-		(mid 123.101472 118.873528)
-		(end 122.75 118.025)
-		(stroke
-			(width 0.02)
-			(type default)
-		)
-		(layer "Dwgs.User")
-		(uuid "9cc68585-190f-4395-8541-20040ef45161")
-	)
-	(gr_line
-		(start 181.15 88.025)
-		(end 181.15 118.025)
-		(stroke
-			(width 0.02)
-			(type default)
-		)
-		(layer "Dwgs.User")
-		(uuid "bc75a9e8-d6dd-44e2-9dc1-61b5f35545fc")
 	)
 	(gr_line
 		(start 154.45 118.35)
@@ -30498,14 +30414,6 @@
 				(xy 144.646808 109.242661) (xy 144.647413 109.242554) (xy 144.730476 109.230286) (xy 144.73164 109.230174)
 				(xy 144.837838 109.225531)
 			)
-		)
-	)
-	(group ""
-		(uuid "5974ed5b-9801-4d99-9305-0b12a1b38d6c")
-		(members "0e6b0129-309d-491b-a8b7-77651c4bfcef" "240a3090-b82c-469e-bf34-429d4c86c215"
-			"6a783cfd-ce0a-44fd-8270-a87d51845b9c" "71c0a267-08c9-4841-ad71-6a67c29489cb"
-			"7bc7bb53-68a5-43a7-9e53-ba2040cf3ab8" "8b6f3745-b769-4320-8bed-594d5b9eb975"
-			"9cc68585-190f-4395-8541-20040ef45161" "bc75a9e8-d6dd-44e2-9dc1-61b5f35545fc"
 		)
 	)
 	(group ""
