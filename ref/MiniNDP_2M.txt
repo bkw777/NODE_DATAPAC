@@ -1,7 +1,10 @@
 RAMPAC possible output port addresses to select more than 2 banks
 
 Normal RAMPAC has max 2 banks
-To select any bank:
+To select any block & bank:
+block is set by the data on AD0-AD7
+bank is set by the address bits A10 - A14
+Address bits A8, A9, & A15 are used to select the device
 A8  low
 A9  high
 A10 low=bank0 high=bank1
@@ -16,13 +19,13 @@ A AAAAA AA
 5 43210 98  bank#  OUT
 
 1 00000 01    0    129    bank_0 block_n = OUT129,n    256K
-1 00001 01    1    133    bank_1 block_n = OUT133,n    512K
+1 00001 01    1    133    bank_1 block_n = OUT133,n    512K   1 bit latch
 1 00010 01    2    137
-1 00011 01    3    141                                 1M
+1 00011 01    3    141                                 1M     2 bit latch
 1 00100 01    4    145
 1 00101 01    5    149
 1 00110 01    6    153
-1 00111 01    7    157                                 2M    still possible to buy 2Mx8 5v parallel sram
+1 00111 01    7    157                                 2M     3 bit latch, CY62167
 1 01000 01    8    161
 1 01001 01    9    165
 1 01010 01   10    169
@@ -30,7 +33,7 @@ A AAAAA AA
 1 01100 01   12    177
 1 01101 01   13    181
 1 01110 01   14    185
-1 01111 01   15    189                                 4M
+1 01111 01   15    189                                 4M    4 bit latch, CY62177
 1 10000 01   16    193
 1 10001 01   17    197
 1 10010 01   18    201

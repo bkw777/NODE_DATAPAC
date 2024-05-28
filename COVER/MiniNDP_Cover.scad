@@ -6,14 +6,11 @@
 // customizable options
 
 support_old_pcb_shape = false; // pcb originally had 1mm corners
-onemeg = false; // 1M board
 low_profile = false; // true for CR2016 , false for CR2032
-finger_pulls = true;
 
-pcb_stl = 
-        onemeg ? "MiniNDP_1M.PCB.stl" :
-        low_profile ? "pcb_CR2016.stl" :
-        "pcb_CR2032.stl";
+//pcb_stl = "MiniNDP_1M_B.PCB.stl"; assert(!low_profile);
+//pcb_stl = "MiniNDP_512_B.PCB.stl"; assert(!low_profile);
+pcb_stl = low_profile ? "pcb_CR2016.stl" : "pcb_CR2032.stl";
 
 parts_height = low_profile ? 1.8 : 4.2;
 
@@ -49,7 +46,6 @@ finger_pull_height = 0.4;
 
 // ---------------------------------------------------------------
 
-assert(!(onemeg&&low_profile));
 assert(lip<=wall_thickness*2);
 assert(finger_pull_height<=wall_thickness+fc+ledge);
 
@@ -121,16 +117,14 @@ module main_shell() {
  }
 
  // add finger pulls
- if (finger_pulls) {
-  translate([0,finger_pull_length/2-pcb_length/2+pcb_corner_radius,outer_height-finger_pull_height-sr])
-   mirror_copy([1,0,0])
-    translate([outer_width/2,0,0])
-     hull() {
-      mirror_copy([0,1,0])
-       translate([0,finger_pull_length/2-finger_pull_height,0])
-        sphere(finger_pull_height);
-     }
- }
+ translate([0,finger_pull_length/2-pcb_length/2+pcb_corner_radius,outer_height-finger_pull_height-sr])
+  mirror_copy([1,0,0])
+   translate([outer_width/2,0,0])
+    hull() {
+     mirror_copy([0,1,0])
+      translate([0,finger_pull_length/2-finger_pull_height,0])
+       sphere(finger_pull_height);
+    }
 
 }
 

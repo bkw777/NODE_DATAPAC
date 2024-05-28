@@ -510,7 +510,7 @@
       "plot": "GERBER_${TITLE}_${REVISION}",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "out/MiniNDP_512K_B.step",
+      "step": "out/MiniNDP_512_B.step",
       "svg": "",
       "vrml": ""
     },
