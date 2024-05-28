@@ -8,7 +8,7 @@
 support_old_pcb_shape = false; // 1mm corners to fit old pcb outline
 low_profile = false; // true for CR2016 , false for CR2032
 
-//pcb_stl = "pcb_1M_B.stl"; assert(!low_profile);
+//pcb_stl = "pcb_1M.stl"; assert(!low_profile);
 //pcb_stl = "pcb_512_B.stl"; assert(!low_profile);
 pcb_stl = low_profile ? "pcb_CR2016.stl" : "pcb_CR2032.stl";
 

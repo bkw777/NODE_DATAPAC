@@ -466,10 +466,10 @@ OUT 133,N = select bank 1 block N
 OUT 137,N = select bank 2 block N
 OUT 141,N = select bank 3 block N
 ```
-![](PCB/out/MiniNDP_1M_B.svg)  
-![](PCB/out/MiniNDP_1M_B.top.jpg)  
-![](PCB/out/MiniNDP_1M_B.bottom.jpg)  
-![](PCB/out/MiniNDP_1M_B.jpg)  
+![](PCB/out/MiniNDP_1M.svg)  
+![](PCB/out/MiniNDP_1M.top.jpg)  
+![](PCB/out/MiniNDP_1M.bottom.jpg)  
+![](PCB/out/MiniNDP_1M.jpg)  
 
 new parts  
 [AS6C8008 1Mx8 5v parallel sram](https://www.digikey.com/short/p7h3mj33)  

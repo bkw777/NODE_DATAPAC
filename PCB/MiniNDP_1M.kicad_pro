@@ -38,8 +38,8 @@
         "other_text_upright": false,
         "pads": {
           "drill": 0.0,
-          "height": 2.35,
-          "width": 2.075
+          "height": 0.6,
+          "width": 1.7
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -473,7 +473,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "MiniNDP_1M.kicad_pro",
+    "filename": "MiniNDP_1M_B.kicad_pro",
     "version": 1
   },
   "net_settings": {
