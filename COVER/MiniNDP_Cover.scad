@@ -5,11 +5,11 @@
 // ------------------------------------------------------------------------------
 // customizable options
 
-support_old_pcb_shape = false; // pcb originally had 1mm corners
+support_old_pcb_shape = false; // 1mm corners to fit old pcb outline
 low_profile = false; // true for CR2016 , false for CR2032
 
-//pcb_stl = "MiniNDP_1M_B.PCB.stl"; assert(!low_profile);
-//pcb_stl = "MiniNDP_512_B.PCB.stl"; assert(!low_profile);
+//pcb_stl = "pcb_1M_B.stl"; assert(!low_profile);
+//pcb_stl = "pcb_512_B.stl"; assert(!low_profile);
 pcb_stl = low_profile ? "pcb_CR2016.stl" : "pcb_CR2032.stl";
 
 parts_height = low_profile ? 1.8 : 4.2;
