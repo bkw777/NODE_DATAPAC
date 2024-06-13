@@ -33,10 +33,10 @@ lip = 1.2;
 // width of pcb tray ledge
 ledge = 0.8;
 
-fc = 0.2;  // fitment clearance
-o = 0.01;  // overlap/overcut/overhang
+fc = 0.2; // fitment clearance: 0.1 for SLS printing, 0.2 for FDM printing
+o = 0.01; // overlap/overcut/overhang
 
-sr = 1; // secondary/smaller fillet radius
+sr = 1;   // secondary/smaller fillet radius
 
 short_retainer_len = 10;
 long_retainer_len = pcb_width/2;
@@ -87,15 +87,26 @@ module main_shell() {
   }
  }
  
- // add the long PCB grabber on the top center
-  translate([0,inner_length/2,-lip/2]) rotate([0,90,0]) cylinder(h=long_retainer_len,d=lip,center=true);
+ // add the top & bottom PCB grabbers
+  difference () {
+   mirror_copy([0,1,0])
+    translate([0,inner_length/2,-lip/2])
+     rotate([0,90,0])
+      cylinder(h=long_retainer_len,d=lip,center=true);
+   translate([0,-inner_length/2+1,-0.5])
+    cylinder(h=2,r=1,center=true);
+  }
 
  // add the short PCB grabbers on the bottom left & right
- mirror_copy([1,0,0]) translate([inner_width/2,-inner_length/2-wall_thickness/2+short_retainer_len/2,-lip/2])
-  difference() {
-   rotate([90,0,0]) cylinder(h=short_retainer_len,d=lip,center=true);
-   translate([lip/2+0.1,-short_retainer_len/2,0]) rotate([0,0,45]) cube(lip*2,center=true);
-  }
+ mirror_copy([1,0,0])
+  translate([inner_width/2,-inner_length/2-wall_thickness/2+short_retainer_len/2,-lip/2])
+   difference() {
+    rotate([90,0,0])
+     cylinder(h=short_retainer_len,d=lip,center=true);
+    translate([lip/2+0.1,-short_retainer_len/2,0])
+     rotate([0,0,45])
+      cube(lip*2,center=true);
+   }
   
  // add embossed graphic of the 2x20 IDC connector
  // to the inside face to show install orientation
@@ -107,10 +118,11 @@ module main_shell() {
      square(0.64,true); // circle(0.32);
     difference() {
      square([58.5,8.7],true);
-      group () {
-       translate([0,4,0]) square([4.5,8],true);
-       square([56.3,6.4],true);
-      }
+     group () {
+      translate([0,4,0])
+       square([4.5,8],true);
+      square([56.3,6.4],true);
+     }
     }
    }
   }
