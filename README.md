@@ -433,8 +433,11 @@ The 512k board also still supports 256k and 128k. There is no real reason to do 
 or 128k (AS6C1008, IS62C1024, etc) SRAM, omit the U8 part (the 1G79), and solder-blob U8 pads 4 & 5 together. Those two pads are modified to also be a solder-jumper for this purpose.
 
 ## MiniNDP PCB & BOM
-BOM [DigiKey](https://www.digikey.com/short/q4mh3b52)  
+BOM [DigiKey](https://www.digikey.com/short/3ppfwff9)  
 PCB <!-- [OSHPark](https://oshpark.com/shared_projects/), -->[PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html), or there is a gerber zip in [releases](../../releases/)
+
+If the SRAM is out of stock, this saved search gives other compatible parts:  
+https://www.digikey.com/short/fzw3bwf8  
 
 For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.  
 
