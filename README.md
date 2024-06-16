@@ -478,8 +478,22 @@ new parts
 [AS6C8008 1Mx8 5v parallel sram](https://www.digikey.com/short/p7h3mj33)  
 [FCT821 10-bit latch](https://www.digikey.com/short/74fmpjp2) (basicallly a 10-bit version of HC374 or HC574)
 
-Alternative 512K "B" version.
+Alternative 512K style "B"
 ![](PCB/out/MiniNDP_512_B.svg)  
 ![](PCB/out/MiniNDP_512_B.top.jpg)  
 ![](PCB/out/MiniNDP_512_B.bottom.jpg)  
 ![](PCB/out/MiniNDP_512_B.jpg)  
+
+Alternative 512K style "D"
+
+This is attempting to be easier to hand-solder by using fewer & larger chips.  
+It mostly succeeds but one thing is not ideal.  
+The 1G32 and DA1 are both still tiny, but they are still fairly easy to solder because at least you don't have to try to actually see the pin-1 mark on the tiny package. The 1G32 is a 5-pin assymetric part so you don't need to see the markings to get it right. DA1 is a symmetric inside as well as outside so it doesn't matter which way you install it.  
+But replacing the 3 HC161's with the HC4040 required adding the 2G04, and that part is both tiny AND the pin-1 orientation actually matters, and it's very difficult to see the pin-1 mark on it.  
+
+Also this version is not tested. I'm not certain this idea of inverting the /BLOCK and /BYTE signals into a HC4040 will actually behave exactly the same as the HC161's
+
+![](PCB/out/MiniNDP_512_D.svg)  
+![](PCB/out/MiniNDP_512_D.top.jpg)  
+![](PCB/out/MiniNDP_512_D.bottom.jpg)  
+![](PCB/out/MiniNDP_512_D.jpg)  
