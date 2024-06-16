@@ -6534,7 +6534,7 @@
 	)
 	(wire
 		(pts
-			(xy 95.25 149.86) (xy 222.25 149.86)
+			(xy 95.25 142.24) (xy 226.06 142.24)
 		)
 		(stroke
 			(width 0)
@@ -7434,16 +7434,6 @@
 	)
 	(wire
 		(pts
-			(xy 222.25 142.24) (xy 226.06 142.24)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "82a55cc9-fd35-41fc-b34d-1b89949ccf09")
-	)
-	(wire
-		(pts
 			(xy 158.75 68.58) (xy 168.91 68.58)
 		)
 		(stroke
@@ -7734,7 +7724,7 @@
 	)
 	(wire
 		(pts
-			(xy 95.25 45.72) (xy 95.25 149.86)
+			(xy 95.25 45.72) (xy 95.25 142.24)
 		)
 		(stroke
 			(width 0)
@@ -7771,16 +7761,6 @@
 			(type default)
 		)
 		(uuid "aae3d79d-3189-4370-b40d-7ca697369f15")
-	)
-	(wire
-		(pts
-			(xy 222.25 142.24) (xy 222.25 149.86)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ab22712f-8523-4595-a40e-3f940a0e559c")
 	)
 	(bus
 		(pts
@@ -12754,7 +12734,8 @@
 	(symbol
 		(lib_name "2G04_1")
 		(lib_id "000_LOCAL:2G04")
-		(at 119.38 53.34 0)
+		(at 119.38 45.72 0)
+		(mirror x)
 		(unit 2)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12762,7 +12743,7 @@
 		(dnp no)
 		(uuid "b3fb5a7c-aa63-4ca9-97c1-1bbad1f1de67")
 		(property "Reference" "U5"
-			(at 119.38 57.15 0)
+			(at 119.38 39.624 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12770,7 +12751,7 @@
 			)
 		)
 		(property "Value" "2G04"
-			(at 119.38 58.928 0)
+			(at 119.38 41.656 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12778,7 +12759,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:SOT-363_SC-70-6"
-			(at 119.38 53.34 0)
+			(at 119.38 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12787,7 +12768,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/2G04.pdf"
-			(at 119.38 53.34 0)
+			(at 119.38 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12796,7 +12777,7 @@
 			)
 		)
 		(property "Description" "Dual NOT Gate, Low-Voltage CMOS"
-			(at 119.38 53.34 0)
+			(at 119.38 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13883,7 +13864,8 @@
 	(symbol
 		(lib_name "2G04_2")
 		(lib_id "000_LOCAL:2G04")
-		(at 119.38 45.72 0)
+		(at 119.38 53.34 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13891,7 +13873,7 @@
 		(dnp no)
 		(uuid "face683d-7f1e-4d07-86db-bb90ffe5a458")
 		(property "Reference" "U5"
-			(at 119.38 40.132 0)
+			(at 119.38 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13899,7 +13881,7 @@
 			)
 		)
 		(property "Value" "2G04"
-			(at 119.38 41.91 0)
+			(at 119.38 59.182 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13907,7 +13889,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:SOT-363_SC-70-6"
-			(at 119.38 45.72 0)
+			(at 119.38 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13916,7 +13898,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/2G04.pdf"
-			(at 119.38 45.72 0)
+			(at 119.38 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13925,7 +13907,7 @@
 			)
 		)
 		(property "Description" "Dual NOT Gate, Low-Voltage CMOS"
-			(at 119.38 45.72 0)
+			(at 119.38 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
