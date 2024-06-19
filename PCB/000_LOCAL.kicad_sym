@@ -4669,7 +4669,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "http://www.ti.com/lit/gpn/sn74LS574"
+		(property "Datasheet" "datasheets/HC574.pdf"
 			(at 0 0 0)
 			(effects
 				(font
@@ -4685,14 +4685,6 @@
 					(size 1.27 1.27)
 				)
 				(hide yes)
-			)
-		)
-		(property "ki_locked" ""
-			(at 0 0 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
 			)
 		)
 		(property "ki_keywords" "TTL REG DFF DFF8 3State"
