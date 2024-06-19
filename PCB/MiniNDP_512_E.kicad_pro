@@ -11,7 +11,7 @@
         "copper_text_italic": false,
         "copper_text_size_h": 1.5,
         "copper_text_size_v": 1.5,
-        "copper_text_thickness": 0.4,
+        "copper_text_thickness": 0.2,
         "copper_text_upright": false,
         "courtyard_line_width": 0.05,
         "dimension_precision": 4,
@@ -37,9 +37,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 1.0,
-          "height": 1.7,
-          "width": 1.7
+          "drill": 0.0,
+          "height": 0.4,
+          "width": 1.4
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -59,12 +59,13 @@
         }
       ],
       "drc_exclusions": [
-        "courtyards_overlap|144532144|109175001|7d776081-3483-48fd-8dc5-f9c03aac2852|9ebc1f84-9e0c-47ee-a25a-4874dbbdf5b7",
-        "lib_footprint_mismatch|144725000|110175000|9ebc1f84-9e0c-47ee-a25a-4874dbbdf5b7|00000000-0000-0000-0000-000000000000",
+        "courtyards_overlap|148076552|108490002|7d776081-3483-48fd-8dc5-f9c03aac2852|9ebc1f84-9e0c-47ee-a25a-4874dbbdf5b7",
+        "lib_footprint_mismatch|147682802|108990001|9ebc1f84-9e0c-47ee-a25a-4874dbbdf5b7|00000000-0000-0000-0000-000000000000",
         "silk_edge_clearance|122610000|119509723|fa3b362c-5fb5-448e-bd5f-6936d5db432b|fb575e91-d79d-4e59-8a89-cb8ca966d597",
         "silk_edge_clearance|181201560|119585000|a75df812-e675-4181-b73c-9e9882f94196|c6c4c500-1ea7-49e0-a092-34b8000db04e",
         "silk_edge_clearance|181290000|119509723|a75df812-e675-4181-b73c-9e9882f94196|240064af-4564-455c-80f5-3cfd01b8f01b",
-        "text_height|152950000|105425000|6ec436a9-72dc-494b-9c7f-6a631c00767c|00000000-0000-0000-0000-000000000000",
+        "starved_thermal|129800000|108475000|7264d97b-15d8-4a15-a143-ebe7adc45345|7d3e2eae-1f00-483a-be84-2a0ca939663c|F.Cu",
+        "starved_thermal|129800000|111075000|7264d97b-15d8-4a15-a143-ebe7adc45345|9a4ab2c4-70c3-4348-908e-2d5b5f857615|F.Cu",
         "via_dangling|167400000|111125000|1ea4dffe-4cd0-451c-8a62-b2b5db2dfffa|00000000-0000-0000-0000-000000000000",
         "via_dangling|167400000|88425000|0cb39934-bf39-4989-9e2c-97dcc3818e56|00000000-0000-0000-0000-000000000000",
         "via_dangling|172000000|111125000|9fae5576-f8bf-40bc-b594-568c187170d4|00000000-0000-0000-0000-000000000000",
@@ -128,7 +129,7 @@
       "rules": {
         "max_error": 0.005,
         "min_clearance": 0.2,
-        "min_connection": 0.0,
+        "min_connection": 0.2,
         "min_copper_edge_clearance": 0.2,
         "min_hole_clearance": 0.3,
         "min_hole_to_hole": 0.3,
@@ -136,7 +137,7 @@
         "min_microvia_drill": 0.3,
         "min_resolved_spokes": 2,
         "min_silk_clearance": 0.0,
-        "min_text_height": 0.8,
+        "min_text_height": 0.6,
         "min_text_thickness": 0.08,
         "min_through_hole_diameter": 0.3,
         "min_track_width": 0.2,
