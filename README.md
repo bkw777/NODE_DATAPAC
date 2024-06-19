@@ -497,3 +497,12 @@ Also this version is not tested. I'm not certain this idea of inverting the /BLO
 ![](PCB/out/MiniNDP_512_D.top.jpg)  
 ![](PCB/out/MiniNDP_512_D.bottom.jpg)  
 ![](PCB/out/MiniNDP_512_D.jpg)  
+
+Style "E"  
+All low profile TSOP/TSSOP parts and compatible with 128k to 512k like the main version.  
+But new layout that looks neater and should be easier to hand-solder.
+
+![](PCB/out/MiniNDP_512_E.svg)  
+![](PCB/out/MiniNDP_512_E.top.jpg)  
+![](PCB/out/MiniNDP_512_E.bottom.jpg)  
+![](PCB/out/MiniNDP_512_E.jpg)  

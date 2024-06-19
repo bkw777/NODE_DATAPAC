@@ -11,7 +11,7 @@
         "copper_text_italic": false,
         "copper_text_size_h": 1.5,
         "copper_text_size_v": 1.5,
-        "copper_text_thickness": 0.2,
+        "copper_text_thickness": 0.4,
         "copper_text_upright": false,
         "courtyard_line_width": 0.05,
         "dimension_precision": 4,
@@ -37,9 +37,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.0,
-          "height": 0.6,
-          "width": 1.95
+          "drill": 1.0,
+          "height": 1.7,
+          "width": 1.7
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -59,13 +59,16 @@
         }
       ],
       "drc_exclusions": [
-        "silk_edge_clearance|122610000|119509722|47bdd0d1-a68b-4a0f-a331-2707eb5a2545|99d129c6-37ea-4a32-93eb-f0336d215e79",
-        "silk_edge_clearance|122698441|119585000|47bdd0d1-a68b-4a0f-a331-2707eb5a2545|e3300296-e8c0-4e2e-b948-571fc521eb3a",
-        "silk_edge_clearance|181290000|119509723|5d445b73-f471-4af2-a55e-f71ca63db808|5a78a7af-e301-40fc-b451-af4516f568d9",
-        "via_dangling|168300000|111125000|1ea4dffe-4cd0-451c-8a62-b2b5db2dfffa|00000000-0000-0000-0000-000000000000",
-        "via_dangling|168300000|88425000|0cb39934-bf39-4989-9e2c-97dcc3818e56|00000000-0000-0000-0000-000000000000",
-        "via_dangling|172900000|111125000|9fae5576-f8bf-40bc-b594-568c187170d4|00000000-0000-0000-0000-000000000000",
-        "via_dangling|172900000|88425000|e3d645b6-5c90-40b2-b971-b73aae16869a|00000000-0000-0000-0000-000000000000"
+        "courtyards_overlap|144532144|109175001|7d776081-3483-48fd-8dc5-f9c03aac2852|9ebc1f84-9e0c-47ee-a25a-4874dbbdf5b7",
+        "lib_footprint_mismatch|144725000|110175000|9ebc1f84-9e0c-47ee-a25a-4874dbbdf5b7|00000000-0000-0000-0000-000000000000",
+        "silk_edge_clearance|122610000|119509723|fa3b362c-5fb5-448e-bd5f-6936d5db432b|fb575e91-d79d-4e59-8a89-cb8ca966d597",
+        "silk_edge_clearance|181201560|119585000|a75df812-e675-4181-b73c-9e9882f94196|c6c4c500-1ea7-49e0-a092-34b8000db04e",
+        "silk_edge_clearance|181290000|119509723|a75df812-e675-4181-b73c-9e9882f94196|240064af-4564-455c-80f5-3cfd01b8f01b",
+        "text_height|152950000|105425000|6ec436a9-72dc-494b-9c7f-6a631c00767c|00000000-0000-0000-0000-000000000000",
+        "via_dangling|167400000|111125000|1ea4dffe-4cd0-451c-8a62-b2b5db2dfffa|00000000-0000-0000-0000-000000000000",
+        "via_dangling|167400000|88425000|0cb39934-bf39-4989-9e2c-97dcc3818e56|00000000-0000-0000-0000-000000000000",
+        "via_dangling|172000000|111125000|9fae5576-f8bf-40bc-b594-568c187170d4|00000000-0000-0000-0000-000000000000",
+        "via_dangling|172000000|88425000|e3d645b6-5c90-40b2-b971-b73aae16869a|00000000-0000-0000-0000-000000000000"
       ],
       "meta": {
         "version": 2
@@ -192,7 +195,6 @@
         0.2,
         0.3,
         0.4,
-        0.5,
         0.6
       ],
       "tuning_pattern_settings": {
@@ -475,7 +477,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "MiniNDP_512_D.kicad_pro",
+    "filename": "MiniNDP_512_E.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -513,7 +515,7 @@
       "plot": "GERBER_${TITLE}_${REVISION}",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "out/MiniNDP_512_B.step",
+      "step": "out/MiniNDP_512_CR2016.step",
       "svg": "",
       "vrml": ""
     },
