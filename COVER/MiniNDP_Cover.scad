@@ -1,12 +1,14 @@
 /* 3d-printable enclosure for MiniNDP - github.com/bkw777/NODE_DATAPAC */
 // version: 002
 
+// ------------------------------------------------------------------------------
+// options
+
+old_pcb_shape = false; // first few versions of PCB had 1mm corner radius
+low_profile = false; // true for CR2016 , false for CR2032
+loose_fit = false; // true if FDM print is too tight
 
 // ------------------------------------------------------------------------------
-// customizable options
-
-support_old_pcb_shape = false; // 1mm corners to fit old pcb outline
-low_profile = false; // true for CR2016 , false for CR2032
 
 //pcb_stl = "pcb_1M.stl"; assert(!low_profile);
 //pcb_stl = "pcb_512_B.stl"; assert(!low_profile);
@@ -18,7 +20,7 @@ parts_height = low_profile ? 1.8 : 4.2;
 pcb_thickness = 1.6;
 pcb_length = 34;
 pcb_width = 60;
-pcb_corner_radius = support_old_pcb_shape ? 1 : 2;
+pcb_corner_radius = old_pcb_shape ? 1 : 2;
 
 // arc smoothness - comment both out before importing into FreeCAD
 $fs = 0.2;
@@ -27,13 +29,13 @@ $fa = 1;
 wall_thickness = 0.8;
 
 // this is both the height of the wall above the pcb surface on the computer side,
-// and the diameter of the cylinder that forms the pcb retainer bump
+// and the diameter of the cylinders that form the pcb retainer bumps
 lip = 1.2;
 
 // width of pcb tray ledge
 ledge = 0.8;
 
-fc = 0.2; // fitment clearance: 0.1 for SLS printing, 0.2 for FDM printing
+fc = loose_fit ? 0.2 : 0.1; // fitment clearance
 o = 0.01; // overlap/overcut/overhang
 
 sr = 1;   // secondary/smaller fillet radius
