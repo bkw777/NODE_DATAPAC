@@ -6,7 +6,7 @@
 	(descr "TSOP-II, 44 Pin (http://www.issi.com/WW/pdf/61-64C5128AL.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py")
 	(tags "TSOP-II SO")
 	(property "Reference" "REF**"
-		(at -4.25 -9 -90)
+		(at -4.25 -7.6 -90)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "8090e4c9-b59e-4d38-b78c-9c553c871394")
@@ -39,6 +39,7 @@
 		(effects
 			(font
 				(size 1.27 1.27)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -51,6 +52,7 @@
 		(effects
 			(font
 				(size 1.27 1.27)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -63,6 +65,7 @@
 		(effects
 			(font
 				(size 1.27 1.27)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -147,9 +150,20 @@
 		(layer "F.SilkS")
 		(uuid "3efe5918-2696-40c9-aa1b-3495a8835ec3")
 	)
+	(fp_circle
+		(center -4.25 -8.4)
+		(end -3.75 -8.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill solid)
+		(layer "F.SilkS")
+		(uuid "22016f95-296a-4bee-b708-73a4ec3e5858")
+	)
 	(fp_poly
 		(pts
-			(xy -5.715 -8.935) (xy -5.955 -9.265) (xy -5.475 -9.265) (xy -5.715 -8.935)
+			(xy -5.8 -8.9) (xy -5.45 -9.35) (xy -6.15 -9.35)
 		)
 		(stroke
 			(width 0.12)
@@ -157,7 +171,7 @@
 		)
 		(fill solid)
 		(layer "F.SilkS")
-		(uuid "aae1504f-2be4-42a0-a82a-e9f5b8362820")
+		(uuid "9170fd15-294b-4052-8d33-5353bd28ac42")
 	)
 	(fp_line
 		(start -6.6 -9.46)

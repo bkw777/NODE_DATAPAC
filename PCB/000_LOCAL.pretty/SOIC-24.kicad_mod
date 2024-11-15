@@ -6,7 +6,7 @@
 	(descr "SOIC, 24 Pin (JEDEC MS-013AD, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_wide-rw/RW_24.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py")
 	(tags "SOIC SO")
 	(property "Reference" "REF**"
-		(at -3 -7.5 -90)
+		(at -2.794 -5.715 -90)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "ad8e7416-ab9d-43e2-b51c-ad10469685bc")
@@ -39,6 +39,7 @@
 		(effects
 			(font
 				(size 1.27 1.27)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -51,6 +52,7 @@
 		(effects
 			(font
 				(size 1.27 1.27)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -63,6 +65,7 @@
 		(effects
 			(font
 				(size 1.27 1.27)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -147,17 +150,28 @@
 		(layer "F.SilkS")
 		(uuid "ab12aa76-a3ba-438c-8088-0b2ca7e848a1")
 	)
-	(fp_poly
-		(pts
-			(xy -4.7125 -7.545) (xy -5.0525 -8.015) (xy -4.3725 -8.015) (xy -4.7125 -7.545)
-		)
+	(fp_circle
+		(center -2.794 -6.985)
+		(end -2.286 -6.985)
 		(stroke
-			(width 0.12)
+			(width 0.1)
 			(type solid)
 		)
 		(fill solid)
 		(layer "F.SilkS")
-		(uuid "68bdfbcc-185f-4f96-94d3-6e1c4d62fee2")
+		(uuid "3ebb8443-b084-43b8-90d3-9cfde8301d29")
+	)
+	(fp_poly
+		(pts
+			(xy -4.65 -7.45) (xy -5 -7.8) (xy -4.3 -7.8)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill solid)
+		(layer "F.SilkS")
+		(uuid "66c15b55-47f6-43f2-8d6f-a581510a936b")
 	)
 	(fp_line
 		(start -5.93 -7.95)

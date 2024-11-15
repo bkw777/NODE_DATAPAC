@@ -72,7 +72,7 @@
 	(attr smd)
 	(fp_line
 		(start -2.2 -2.7)
-		(end 2.15 -2.7)
+		(end 2.2 -2.7)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -81,8 +81,8 @@
 		(uuid "6dd9ff13-a04e-4a12-b11b-dd771d1aacb8")
 	)
 	(fp_line
-		(start -2.15 2.7)
-		(end 2.15 2.7)
+		(start -2.2 2.7)
+		(end 2.2 2.7)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -90,20 +90,9 @@
 		(layer "F.SilkS")
 		(uuid "0e8a0a3f-3424-4e26-9aa4-68ce230e8d8e")
 	)
-	(fp_rect
-		(start -3.485 -2.7)
-		(end -2.2 -2.565)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(fill solid)
-		(layer "F.SilkS")
-		(uuid "c5bb1ed2-94aa-40e1-9df1-37cf2889d524")
-	)
 	(fp_circle
-		(center -1.25 -1.75)
-		(end -0.75 -1.75)
+		(center -1.5 -2)
+		(end -1.1 -2)
 		(stroke
 			(width 0.01)
 			(type solid)
@@ -111,6 +100,18 @@
 		(fill solid)
 		(layer "F.SilkS")
 		(uuid "6e05589a-8d1e-4039-aad2-3e6cab3ade4c")
+	)
+	(fp_poly
+		(pts
+			(xy -2.85 -2.55) (xy -3.2 -2.9) (xy -2.5 -2.9)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill solid)
+		(layer "F.SilkS")
+		(uuid "86cddbae-afdd-4e61-b81b-1b6d993d0969")
 	)
 	(fp_line
 		(start -3.75 -2.75)

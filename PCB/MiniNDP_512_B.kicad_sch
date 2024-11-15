@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP 512")
-		(date "2024-05-21")
-		(rev "B03")
+		(date "2024-11-13")
+		(rev "B04")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAM100.CO or RAM200.CO")
@@ -5005,141 +5005,6 @@
 				)
 			)
 		)
-		(symbol "C_1"
-			(pin_numbers hide)
-			(pin_names
-				(offset 0.254) hide)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "C"
-				(at 0.254 1.778 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Value" "C"
-				(at 0.254 -2.032 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "~"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Unpolarized capacitor, small symbol"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "capacitor cap"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "C_*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "C_1_0_1"
-				(polyline
-					(pts
-						(xy -1.524 -0.508) (xy 1.524 -0.508)
-					)
-					(stroke
-						(width 0.3302)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.524 0.508) (xy 1.524 0.508)
-					)
-					(stroke
-						(width 0.3048)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "C_1_1_1"
-				(pin passive line
-					(at 0 2.54 270)
-					(length 2.032)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -2.54 90)
-					(length 2.032)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "power:+BATT"
 			(power)
 			(pin_numbers hide)
@@ -5694,12 +5559,6 @@
 		)
 	)
 	(junction
-		(at 133.35 181.61)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "01c8bfa2-14fd-4d47-a7cf-48507c64f69f")
-	)
-	(junction
 		(at 133.35 53.34)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5722,6 +5581,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "05be65a3-f4c8-4f1b-b567-61b9f48b6540")
+	)
+	(junction
+		(at 133.35 181.61)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "05c04000-e998-4abf-a2e1-1404e94b4b9a")
 	)
 	(junction
 		(at 234.95 128.27)
@@ -5770,12 +5635,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "2e55923d-2f53-439c-adf1-9c206a3a6d8f")
-	)
-	(junction
-		(at 133.35 186.69)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "391edae4-5d7f-42f7-ae0c-5f6ed602e927")
 	)
 	(junction
 		(at 120.65 154.94)
@@ -5896,6 +5755,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b611139c-da73-41f7-b50b-272516ada01e")
+	)
+	(junction
+		(at 133.35 186.69)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b7ce6b0b-deb1-416a-b166-5b960eec7807")
 	)
 	(junction
 		(at 101.6 43.18)
@@ -7061,16 +6926,6 @@
 	)
 	(wire
 		(pts
-			(xy 133.35 181.61) (xy 139.7 181.61)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "318b9478-3425-43b4-b579-724f6c208870")
-	)
-	(wire
-		(pts
 			(xy 107.95 149.86) (xy 107.95 147.32)
 		)
 		(stroke
@@ -7078,6 +6933,16 @@
 			(type default)
 		)
 		(uuid "31b3186c-0c1a-4d91-ae60-e22f2b59dc0c")
+	)
+	(wire
+		(pts
+			(xy 133.35 181.61) (xy 139.7 181.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "32d6bd48-3230-44cc-9b3d-6b53edbdd419")
 	)
 	(wire
 		(pts
@@ -7618,16 +7483,6 @@
 			(type default)
 		)
 		(uuid "6e21ee4f-a12c-4f7e-b653-af8662c4562b")
-	)
-	(wire
-		(pts
-			(xy 133.35 186.69) (xy 139.7 186.69)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6f8ef833-f842-4ca6-aa64-f970a268c559")
 	)
 	(wire
 		(pts
@@ -8758,6 +8613,16 @@
 			(type default)
 		)
 		(uuid "e0e71ed6-dbb9-41b0-9c0c-d4cfdc5caa3c")
+	)
+	(wire
+		(pts
+			(xy 133.35 186.69) (xy 139.7 186.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e16922e0-b473-4fcc-be45-aa6236597b93")
 	)
 	(wire
 		(pts
@@ -10488,7 +10353,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "CAP TANT 220UF 10% 10V 2312"
+			(at 109.22 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TAJC227K010RNJ"
 			(at 109.22 185.42 0)
 			(effects
 				(font
@@ -10623,7 +10497,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "512K x 8 High-Speed CMOS Static RAM, DIP-32/SOP-32/TSOP-32"
+		(property "Description" "512K x 8 High-Speed CMOS Static RAM, SOP-32/TSOP-II-32"
+			(at 234.95 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "AS6C4008-55ZIN or AS6C4008-55SIN"
 			(at 234.95 82.55 0)
 			(effects
 				(font
@@ -11055,6 +10938,15 @@
 				(hide yes)
 			)
 		)
+		(property "MPN" "CY74FCT821BTSOC"
+			(at 146.05 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "4fbc70d6-c249-4e56-96dc-bfa97ffc9345")
 		)
@@ -11181,7 +11073,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "SMT 20mm x 3.2mm coin cell holder"
+			(at 100.33 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "Keystone 3034"
 			(at 100.33 185.42 0)
 			(effects
 				(font
@@ -11409,6 +11310,84 @@
 		)
 	)
 	(symbol
+		(lib_id "000_LOCAL:C")
+		(at 152.4 184.15 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "36a06e35-c1ab-4f49-bc53-2b65fc234497")
+		(property "Reference" "C5"
+			(at 153.67 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1u"
+			(at 153.67 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "000_LOCAL:C_0805"
+			(at 153.3652 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 152.4 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "CAP CER 1UF 10V X7R 0805"
+			(at 152.4 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL21B105KPFNNNE"
+			(at 152.4 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e05d5882-0105-49a9-9fb3-89c006858a46")
+		)
+		(pin "2"
+			(uuid "54021d57-01e4-478a-a9f0-9a2632be083c")
+		)
+		(instances
+			(project "MiniNDP_512_B"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "C5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:PWR_FLAG")
 		(at 39.37 100.33 90)
 		(unit 1)
@@ -11520,7 +11499,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "diode array schottky 2-pair common cathode"
+			(at 92.71 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "BAS70DW-05-7-F"
 			(at 92.71 180.34 0)
 			(effects
 				(font
@@ -11735,7 +11723,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "4-bit synchronous binary counter"
+			(at 177.8 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "SN74HC161PWR"
 			(at 177.8 81.28 0)
 			(effects
 				(font
@@ -12045,7 +12042,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "4-bit synchronous binary counter"
+			(at 114.3 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "SN74HC161PWR"
 			(at 114.3 40.64 0)
 			(effects
 				(font
@@ -12155,7 +12161,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "diode array schottky 2-pair common cathode"
+			(at 78.74 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "BAS70DW-05-7-F"
 			(at 78.74 147.32 0)
 			(effects
 				(font
@@ -12302,7 +12317,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "3 to 8 decoder"
+			(at 50.8 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "SN74HC138PWR"
 			(at 50.8 50.8 0)
 			(effects
 				(font
@@ -12363,76 +12387,6 @@
 			(project "MiniNDP_512_B"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_name "C_1")
-		(lib_id "000_LOCAL:C")
-		(at 152.4 184.15 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "5e4e1f2b-b699-472a-a824-281ee2e76183")
-		(property "Reference" "C5"
-			(at 153.67 182.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1u"
-			(at 153.67 185.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "000_LOCAL:C_0805"
-			(at 153.3652 187.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 152.4 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 152.4 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "8034f9aa-90b5-460f-af61-46b0bf71d9d1")
-		)
-		(pin "2"
-			(uuid "dbcde70a-3f1f-4042-9cfb-876491eb6c1d")
-		)
-		(instances
-			(project "MiniNDP_512_B"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "C5")
 					(unit 1)
 				)
 			)
@@ -12547,7 +12501,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Single 2 input OR"
+			(at 234.95 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "74LVC1G32GW,125"
 			(at 234.95 139.7 0)
 			(effects
 				(font
@@ -12824,7 +12787,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "4-bit synchronous binary counter"
+			(at 146.05 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "SN74HC161PWR"
 			(at 146.05 60.96 0)
 			(effects
 				(font
@@ -13023,75 +12995,6 @@
 		)
 	)
 	(symbol
-		(lib_id "000_LOCAL:C")
-		(at 133.35 184.15 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "98181379-63ff-4cda-8f42-774aa26ae251")
-		(property "Reference" "C3"
-			(at 134.62 182.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1u"
-			(at 134.62 185.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "000_LOCAL:C_0805"
-			(at 134.3152 187.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 133.35 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 133.35 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "63b764db-f129-4d7a-9ef9-bf9ec827a2cb")
-		)
-		(pin "2"
-			(uuid "d8febc1f-05ca-45f7-91cb-9aa4565a7408")
-		)
-		(instances
-			(project "MiniNDP_512_B"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "C3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:VMEM")
 		(at 261.62 85.09 0)
 		(unit 1)
@@ -13151,6 +13054,84 @@
 			(project "MiniNDP_512_B"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR014")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:C")
+		(at 139.7 184.15 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9aa5b905-2583-4e52-91ce-e3a16c53fb58")
+		(property "Reference" "C4"
+			(at 140.97 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1u"
+			(at 140.97 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "000_LOCAL:C_0805"
+			(at 140.6652 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 139.7 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "CAP CER 1UF 10V X7R 0805"
+			(at 139.7 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL21B105KPFNNNE"
+			(at 139.7 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "27cf90db-d1b9-46f3-815c-e15db0ef913c")
+		)
+		(pin "2"
+			(uuid "216f07f9-abe3-42c1-a44c-58d0248fc791")
+		)
+		(instances
+			(project "MiniNDP_512_B"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "C4")
 					(unit 1)
 				)
 			)
@@ -13267,7 +13248,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "RES 47K OHM 1% 1/8W 0805"
+			(at 219.71 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RMCF0805FT47K0"
 			(at 219.71 132.08 0)
 			(effects
 				(font
@@ -13860,7 +13850,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "RES 1K OHM 5% 1/4W 0805"
+			(at 109.22 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RK73B2ATTD102J"
 			(at 109.22 180.34 0)
 			(effects
 				(font
@@ -13929,7 +13928,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "CONN HEADER VERT 40POS 2.54MM"
+			(at 52.07 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "302-S401"
 			(at 52.07 123.19 0)
 			(effects
 				(font
@@ -14128,6 +14136,84 @@
 			(project "MiniNDP_512_B"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR041")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:C")
+		(at 133.35 184.15 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d2c3d58b-7d90-4fa5-a1ac-1019f7e9590c")
+		(property "Reference" "C3"
+			(at 134.62 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1u"
+			(at 134.62 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "000_LOCAL:C_0805"
+			(at 134.3152 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 133.35 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "CAP CER 1UF 10V X7R 0805"
+			(at 133.35 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL21B105KPFNNNE"
+			(at 133.35 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "de7d9f6b-7a72-4771-85ab-dc56a7cc52fb")
+		)
+		(pin "2"
+			(uuid "a084691a-4052-4b3d-8ab2-efdf760b07d8")
+		)
+		(instances
+			(project "MiniNDP_512_B"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "C3")
 					(unit 1)
 				)
 			)
@@ -14505,7 +14591,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, small symbol"
+		(property "Description" "RES 47K OHM 1% 1/8W 0805"
+			(at 261.62 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "RMCF0805FT47K0"
 			(at 261.62 87.63 0)
 			(effects
 				(font
@@ -14574,7 +14669,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "CAP CER 1UF 10V X7R 0805"
+			(at 127 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL21B105KPFNNNE"
 			(at 127 184.15 0)
 			(effects
 				(font
@@ -14593,76 +14697,6 @@
 			(project "MiniNDP_512_B"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "C2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_name "C_1")
-		(lib_id "000_LOCAL:C")
-		(at 139.7 184.15 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f67de40a-3b1b-4aad-a56b-8f758387c95b")
-		(property "Reference" "C4"
-			(at 140.97 182.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1u"
-			(at 140.97 185.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "000_LOCAL:C_0805"
-			(at 140.6652 187.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 139.7 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 139.7 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "0a01132b-48d5-4ddb-9f30-42fcfbb5b7f1")
-		)
-		(pin "2"
-			(uuid "db77badc-031f-45dc-8ffd-9c5fc201ab0b")
-		)
-		(instances
-			(project "MiniNDP_512_B"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "C4")
 					(unit 1)
 				)
 			)

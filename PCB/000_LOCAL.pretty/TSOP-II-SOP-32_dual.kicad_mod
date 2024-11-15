@@ -6,7 +6,7 @@
 	(descr "32-lead plastic TSOP; Type II")
 	(tags "TSOP-II 32")
 	(property "Reference" "REF**"
-		(at -4 -8.375 -90)
+		(at -3.81 -8.255 -90)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "83363bd9-c702-47af-8aee-b06eb7219fa4")
@@ -15,6 +15,7 @@
 				(size 0.8 0.8)
 				(thickness 0.1)
 			)
+			(justify left)
 		)
 	)
 	(property "Value" "TSOP-II-SOP-32_dual"
@@ -38,6 +39,7 @@
 		(effects
 			(font
 				(size 1.27 1.27)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -50,6 +52,7 @@
 		(effects
 			(font
 				(size 1.27 1.27)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -62,6 +65,7 @@
 		(effects
 			(font
 				(size 1.27 1.27)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -126,17 +130,28 @@
 		(layer "F.SilkS")
 		(uuid "55366ca6-1c52-4f2f-b095-1ead42792766")
 	)
-	(fp_poly
-		(pts
-			(xy -5.750324 -10.17) (xy -5.990324 -10.5) (xy -5.510324 -10.5) (xy -5.750324 -10.17)
-		)
+	(fp_circle
+		(center -3.81 -9.525)
+		(end -3.302 -9.525)
 		(stroke
-			(width 0.12)
+			(width 0.1)
 			(type solid)
 		)
 		(fill solid)
 		(layer "F.SilkS")
-		(uuid "2befada4-8ae6-49aa-8460-7a1c3085f115")
+		(uuid "ba2c4685-3b48-4c99-aeb1-3a26bcff85cc")
+	)
+	(fp_poly
+		(pts
+			(xy -6.15 -10.05) (xy -6.6 -10.5) (xy -5.7 -10.5)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill solid)
+		(layer "F.SilkS")
+		(uuid "940bc33f-e8b7-4a08-a6ce-607ca0f1feda")
 	)
 	(fp_line
 		(start -7.366 -10.668)
