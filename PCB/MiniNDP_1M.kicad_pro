@@ -38,7 +38,7 @@
         "other_text_upright": false,
         "pads": {
           "drill": 0.0,
-          "height": 0.4,
+          "height": 0.35,
           "width": 1.4
         },
         "silk_line_width": 0.1,
@@ -521,7 +521,7 @@
   },
   "schematic": {
     "annotate_start_num": 0,
-    "bom_export_filename": "out/MiniNDP_1M.fab_bom.csv",
+    "bom_export_filename": "out/MiniNDP_1M.bom.csv",
     "bom_fmt_presets": [],
     "bom_fmt_settings": {
       "field_delimiter": ",",

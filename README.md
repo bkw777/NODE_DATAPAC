@@ -367,7 +367,7 @@ here  is a more flexible and generic bootstrapper for any .CO file up to 2038 by
 ```
 
 ## RAMPAC Inspector
-[RAMPAC Inspector](software/RPI)
+[RAMPAC Inspector](software/CRI)
 
 Smaller than RD or N-DKTR, no machine code or calls, doesn't require the NODE ROM or RAMDSK, supports banks / all 512k.  
 Just displays the raw data, no parsing or interpretation of the directory/file structures created by RAMDSK.CO etc.
@@ -402,11 +402,11 @@ There is not much reason to build this instead of a MiniNDP. Even if you had an 
 
 # MiniNDP
 
-![](PCB/out/MiniNDP_512.svg)
-![](PCB/out/MiniNDP_512.top.jpg)
-![](PCB/out/MiniNDP_512.bottom.jpg)
-![](PCB/out/MiniNDP_512.f.jpg)
-![](PCB/out/MiniNDP_512.b.jpg)
+![](PCB/out/MiniNDP.jpg)
+![](PCB/out/MiniNDP.2.jpg)
+![](PCB/out/MiniNDP.top.jpg)
+![](PCB/out/MiniNDP.bottom.jpg)
+![](PCB/out/MiniNDP.svg)
 
 Functions the same as DATAPAC / RAMPAC. Essentially the same circuit, just with a single 512k ram chip instead of 8 32k chips, surface mount parts instead of through hole, and directly attached instead of connected by a cable.
 
@@ -429,11 +429,11 @@ Installed on a TANDY 200
 ![](ref/MiniNDP_bank0.jpg)
 ![](ref/MiniNDP_bank1.jpg)
 
-The 512k board also still supports 256k and 128k. There is no real reason to do this now but if you wanted to install a 256k (AS6C2008A) 
-or 128k (AS6C1008, IS62C1024, etc) SRAM, omit the U8 part (the 1G79), and solder-blob U8 pads 4 & 5 together. Those two pads are modified to also be a solder-jumper for this purpose.
+The pcb supports 128k, 256k, or 512k. There is no real reason to install less than 512k but if you wanted to install a 256k (AS6C2008A) 
+or 128k (AS6C1008, IS62C1024, etc) SRAM, then just omit the U8 part (1G79), and solder-blob JP1 (U8 pads 4 & 5). Those two pads are modified in the footprint to also be a solder-jumper for this purpose.
 
 ## MiniNDP PCB & BOM
-BOM [DigiKey](https://www.digikey.com/short/3ppfwff9)  
+BOM [DigiKey](https://www.digikey.com/short/cd3hnw3b)  (there is also a bom.csv generated from the schematic in the [PCB/out](PCB/out) dir, and a copy included in the gerber zip in [releases](../../releases/)  
 PCB <!-- [OSHPark](https://oshpark.com/shared_projects/), -->[PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html), or there is a gerber zip in [releases](../../releases/)
 
 If the SRAM is out of stock, this saved search gives other compatible parts:  
@@ -461,35 +461,62 @@ The printable STLs are in [releases](../releases).
 
 You can get both the PCB and enclosure at the same time from Elecrow by submitting the gerber zip and the enclosure stl, and it arrives in under 2 weeks even with the cheapest economy shipping option.
 
-## Works in Progress
-Experimental 1-meg version - Testing still pending.
+## Other Experiments
+
+### MiniNDP 1M
+1 Meg version, has 4 banks.  
+This is tested and works, but is useless unless you write your own software to use Bank2 & Bank3.
+RAMDSK can use Bank0 and Bank1 the same as on a normal 512k version, but does not know anything about Bank2 or Bank3.
+
+The only software that knows about the extra banks is [RAMPAC Inspector](software/CRI) can read the raw data from all 4 banks.  
+Edit line 10 to say NN%=3 to allow access to banks 0-3.
+
+This is why this version only has the low level programming directions for accessing the raw data printed on the back.
+
 ```
 OUT 129,N = select bank 0 block N
 OUT 133,N = select bank 1 block N
 OUT 137,N = select bank 2 block N
 OUT 141,N = select bank 3 block N
 ```
+
 ![](PCB/out/MiniNDP_1M.svg)  
 ![](PCB/out/MiniNDP_1M.top.jpg)  
 ![](PCB/out/MiniNDP_1M.bottom.jpg)  
 ![](PCB/out/MiniNDP_1M.jpg)  
 
-new parts  
+new / different BOM parts:  
 [AS6C8008 1Mx8 5v parallel sram](https://www.digikey.com/short/p7h3mj33)  
 [FCT821 10-bit latch](https://www.digikey.com/short/74fmpjp2) (basicallly a 10-bit version of HC374 or HC574)
 
-Alternative 512K style "B"
+### Alternate style "B" - Easier hand-soldering
+This is a little easier to hand-solder by using fewer and larger parts.  
+There are still some small parts with small legs, but the most difficult part, the TSOP sram is replaced and it's overall easier.  
+The TSOP sram is replaced by a much larger TSOP-II version.  
+The 2 small parts HC574 and 1G79 are replaced by a single larger FCT821.  
+The remaining small-leg parts are not as fine pitch as the TSOP.  
+The in-line arrangements make them easier to hand solder.  
+The TSSOP-16 footprints are customized to have narrower pads and more gap between the pads to make it easier to avoid bridging neighboring pins.  
+
 ![](PCB/out/MiniNDP_512_B.svg)  
 ![](PCB/out/MiniNDP_512_B.top.jpg)  
 ![](PCB/out/MiniNDP_512_B.bottom.jpg)  
 ![](PCB/out/MiniNDP_512_B.jpg)  
 
-Alternative 512K style "D"
+### Alternate style "D" - Even easier hand-soldering
 
-This is attempting to be easier to hand-solder by using fewer & larger chips.  
-It mostly succeeds but one thing is not ideal.  
-The 1G32 and DA1 are both still tiny, but they are still fairly easy to solder because at least you don't have to try to actually see the pin-1 mark on the tiny package. The 1G32 is a 5-pin assymetric part so you don't need to see the markings to get it right. DA1 is symmetrical inside as well as outside so it doesn't matter which way you install it.  
-But replacing the 3 HC161's with the HC4040 required adding the 2G04, and that part is both tiny AND the pin-1 orientation actually matters, and it's very difficult to see the pin-1 mark on it.  
+This is attempting to be even easier to hand-solder by using fewer & larger chips.  
+It mostly succeeds but one part is such a pain that it voids the whole point.  
+
+The 1G32 and DA1 are both still tiny, but they are still fairly easy to solder because at least you don't have to try to actually see the pin-1 mark on the tiny package.  
+The 1G32 is a 5-pin assymetric part so you don't need to see the markings to get it right.  
+DA1 is symmetrical so it doesn't matter which way you install it.  
+
+But replacing the 3 HC161's with the HC4040 required adding the 2G04 to invert the EN & CLK inputs,  
+and that part is both tiny AND the pin-1 orientation actually matters,  
+and it's very difficult to see the pin-1 mark on it.  
+It's also in a crowded location.  
+It's also almost impossible to tell the 2G04 and diode array apart if they are both out and loose at the same time.
 
 Also this version is not tested. I'm not certain this idea of inverting the /BLOCK and /BYTE signals into a HC4040 will actually behave exactly the same as the HC161's
 
@@ -497,12 +524,3 @@ Also this version is not tested. I'm not certain this idea of inverting the /BLO
 ![](PCB/out/MiniNDP_512_D.top.jpg)  
 ![](PCB/out/MiniNDP_512_D.bottom.jpg)  
 ![](PCB/out/MiniNDP_512_D.jpg)  
-
-Style "E"  
-All low profile TSOP/TSSOP parts and compatible with 128k to 512k like the main version.  
-But new layout that looks neater and should be easier to hand-solder.
-
-![](PCB/out/MiniNDP_512_E.svg)  
-![](PCB/out/MiniNDP_512_E.top.jpg)  
-![](PCB/out/MiniNDP_512_E.bottom.jpg)  
-![](PCB/out/MiniNDP_512_E.jpg)  
