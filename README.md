@@ -407,7 +407,7 @@ There is not much reason to build this instead of a MiniNDP. Even if you had an 
 ![](PCB/out/MiniNDP.top.jpg)
 ![](PCB/out/MiniNDP.bottom.jpg)
 ![](PCB/out/MiniNDP.svg)
-[bom](PCB/out/MiniNDP.bom.csv)
+[MiniNDP.bom.csv](PCB/out/MiniNDP.bom.csv)
 
 Functions the same as DATAPAC / RAMPAC. Essentially the same circuit, just with a single 512k ram chip instead of 8 32k chips, surface mount parts instead of through hole, and directly attached instead of connected by a cable.
 
@@ -485,7 +485,7 @@ OUT 141,N = select bank 3 block N
 ![](PCB/out/MiniNDP_1M.top.jpg)  
 ![](PCB/out/MiniNDP_1M.bottom.jpg)  
 ![](PCB/out/MiniNDP_1M.svg)  
-[bom](PCB/out/MiniNDP_1M.bom.csv)
+[MiniNDP_1M.bom.csv](PCB/out/MiniNDP_1M.bom.csv)
 
 
 ### Alternate style "B" - Easier hand-soldering
@@ -501,7 +501,7 @@ The TSSOP-16 footprints are customized to have narrower pads and more gap betwee
 ![](PCB/out/MiniNDP_512_B.top.jpg)  
 ![](PCB/out/MiniNDP_512_B.bottom.jpg)  
 ![](PCB/out/MiniNDP_512_B.svg)  
-[bom](PCB/out/MiniNDP_512_B.bom.csv)
+[MiniNDP_512_B.bom.csv](PCB/out/MiniNDP_512_B.bom.csv)
 
 ### Alternate style "D" - Even easier hand-soldering
 
@@ -517,4 +517,4 @@ I'm not certain this idea of inverting the /BLOCK and /BYTE signals into a 4040 
 ![](PCB/out/MiniNDP_512_D.top.jpg)  
 ![](PCB/out/MiniNDP_512_D.bottom.jpg)  
 ![](PCB/out/MiniNDP_512_D.svg)  
-[bom](PCB/out/MiniNDP_512_D.bom.csv)  
+[MiniNDP_512_D.bom.csv](PCB/out/MiniNDP_512_D.bom.csv)  
