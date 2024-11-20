@@ -407,6 +407,7 @@ There is not much reason to build this instead of a MiniNDP. Even if you had an 
 ![](PCB/out/MiniNDP.top.jpg)
 ![](PCB/out/MiniNDP.bottom.jpg)
 ![](PCB/out/MiniNDP.svg)
+[bom](PCB/out/MiniNDP.bom.csv)
 
 Functions the same as DATAPAC / RAMPAC. Essentially the same circuit, just with a single 512k ram chip instead of 8 32k chips, surface mount parts instead of through hole, and directly attached instead of connected by a cable.
 
@@ -480,14 +481,12 @@ OUT 137,N = select bank 2 block N
 OUT 141,N = select bank 3 block N
 ```
 
-![](PCB/out/MiniNDP_1M.svg)  
+![](PCB/out/MiniNDP_1M.jpg)  
 ![](PCB/out/MiniNDP_1M.top.jpg)  
 ![](PCB/out/MiniNDP_1M.bottom.jpg)  
-![](PCB/out/MiniNDP_1M.jpg)  
+![](PCB/out/MiniNDP_1M.svg)  
+[bom](PCB/out/MiniNDP_1M.bom.csv)
 
-new / different BOM parts:  
-[AS6C8008 1Mx8 5v parallel sram](https://www.digikey.com/short/p7h3mj33)  
-[FCT821 10-bit latch](https://www.digikey.com/short/74fmpjp2) (basicallly a 10-bit version of HC374 or HC574)
 
 ### Alternate style "B" - Easier hand-soldering
 This is a little easier to hand-solder by using fewer and larger parts.  
@@ -498,29 +497,24 @@ The remaining small-leg parts are not as fine pitch as the TSOP.
 The in-line arrangements make them easier to hand solder.  
 The TSSOP-16 footprints are customized to have narrower pads and more gap between the pads to make it easier to avoid bridging neighboring pins.  
 
-![](PCB/out/MiniNDP_512_B.svg)  
+![](PCB/out/MiniNDP_512_B.jpg)  
 ![](PCB/out/MiniNDP_512_B.top.jpg)  
 ![](PCB/out/MiniNDP_512_B.bottom.jpg)  
-![](PCB/out/MiniNDP_512_B.jpg)  
+![](PCB/out/MiniNDP_512_B.svg)  
+[bom](PCB/out/MiniNDP_512_B.bom.csv)
 
 ### Alternate style "D" - Even easier hand-soldering
 
-This is attempting to be even easier to hand-solder by using fewer & larger chips.  
-It mostly succeeds but one part is such a pain that it voids the whole point.  
+This version attempts to be even easier to hand-solder by using all larger parts.  
+Even the small parts that look the same as the other versions are actually larger,  
+just the caps & resistors are the same 0805 size.  
+Though the larger parts means now the parts are getting a little crowded.
 
-The 1G32 and DA1 are both still tiny, but they are still fairly easy to solder because at least you don't have to try to actually see the pin-1 mark on the tiny package.  
-The 1G32 is a 5-pin assymetric part so you don't need to see the markings to get it right.  
-DA1 is symmetrical so it doesn't matter which way you install it.  
+This version is not tested.  
+I'm not certain this idea of inverting the /BLOCK and /BYTE signals into a 4040 will actually behave exactly the same as 161s
 
-But replacing the 3 HC161's with the HC4040 required adding the 2G04 to invert the EN & CLK inputs,  
-and that part is both tiny AND the pin-1 orientation actually matters,  
-and it's very difficult to see the pin-1 mark on it.  
-It's also in a crowded location.  
-It's also almost impossible to tell the 2G04 and diode array apart if they are both out and loose at the same time.
-
-Also this version is not tested. I'm not certain this idea of inverting the /BLOCK and /BYTE signals into a HC4040 will actually behave exactly the same as the HC161's
-
-![](PCB/out/MiniNDP_512_D.svg)  
+![](PCB/out/MiniNDP_512_D.jpg)  
 ![](PCB/out/MiniNDP_512_D.top.jpg)  
 ![](PCB/out/MiniNDP_512_D.bottom.jpg)  
-![](PCB/out/MiniNDP_512_D.jpg)  
+![](PCB/out/MiniNDP_512_D.svg)  
+[bom](PCB/out/MiniNDP_512_D.bom.csv)  
