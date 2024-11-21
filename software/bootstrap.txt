@@ -1,0 +1,120 @@
+
+bootstrap code
+2024 Brian K. White
+
+This is just to document why the bootstrap code is what it is.
+
+It's not good code by normal standards, repeating a couple operations
+exactly the same 1500 times over in the byte-read loop.
+
+The goal is to read RAMx00.CO from the RAMPAC, poke into ram,
+and SAVEM, on a cold-reset machine where all ram is wiped.
+
+It has to be manually typed-in on a Model 100 every time it's even used,
+and so it needs to be as short as possible, and ideally should not
+exceed 39 columns per line so that it displays without wrapping on the 100.
+
+So far I have never seen or found a copy of the original "8 lines" bootstrap
+program mentioned in the various docs and archived discussions.
+
+I came up with this code by getting RAMDSK installed initially via TPDD,
+then using RAMDSK to copy itself to the device, and then using
+"RAMPAC Inspector" (CRI.DO) to find out how the file was physically
+stored on the device, and wrote code to pull that off the device.
+
+-------------------------------------------------------------------------------
+
+Files appear to be stored in reverse block number order.
+Block 0 only contains some kind of allocation table, no file data.
+It's not a directory either, no filenames.
+A file that requires 2 blocks uses blocks 1 & 2, but starts at block 2 and ends at block 1.
+
+The first 10 bytes of the first block (the highest block number of all
+the blocks used by the file) contains the file name without the dot,
+and the file length. This is all metadata created used by RAMDSK,
+not part of the file itself.
+
+6 bytes - file name
+2 bytes - file extension
+2 bytes - file length (LSB first, 7E05 = 0x057E = 1406 for RAM100.CO)
+
+The file data starts immediately after that.
+
+In the particular case of a .CO file, the first 6 bytes of the .CO file format
+is the CO header with the top-address,length,exe-address.
+
+2 bytes - top address (LSB first, 76F0 = 0xF076 = 61558)
+2 bytes - length      (LSB first, 7805 = 0x0578 = 1400 : end address = top+len-1 = 62957)
+2 bytes - exe address (LSB first, 76F0 = 0xF076 = 61558)
+
+Then the actual executable data that you poke into ram comes after that.
+
+The two lengths above are different because the first is the full file length
+including the 6-byte CO header.
+The length in the CO header is 6 bytes less because it's just the length
+of the actual executable within the CO, not including the 6-byte CO header.
+
+-------------------------------------------------------------------------------
+
+The bootstrap program reads and discards the first 16 bytes of block 2,
+then reads 1008 bytes of payload data (1024 minus the initial 16 bytes above,
+then moves to block 1, then reads the remaining number of bytes in the file,
+using all pre-known values for the lengths and addresses etc instead
+of actually parsing the header.
+
+The fancier 8-line version bootstrap NBOOTS.DO (also mine still not the original)
+actually reads and parses the filename and .CO header rather than using
+hard-coded pre-known values. It is still hard coded for exactly 2 blocks,
+because I don't know how to interpret block 0 to find the first block of a file.
+
+You could possibly start with an expected filename and just search
+the first 10 bytes of every block until finding a match,
+and then get the length from the rest of the header, and then just hope
+that the blocks are always contiguous and count down from there.
+
+-------------------------------------------------------------------------------
+
+Line 0 is in the file just for reference but you would never type this in.
+0' RAM100 boot 20231217 Brian K. White
+
+Inefficient but shortest.
+Within 39 columns even when listed and ? expands to PRINT.
+38 seconds with progress dots
+20 seconds without progress dots
+
+1 CLEAR0,61558:T=61558:E=62957:OUT129,2
+2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
+3 POKEA,INP(131):IFA=T+1007THENOUT129,1
+4 ?".";:NEXT:SAVEM"RAMDSK",T,E
+
+
+The better code version is a whole line longer and also exceeds 39 columns.
+29 seconds with progress dots
+12 seconds without progress dots
+
+1 CLEAR0,61558:T=61558:E=62957:X=T+1007
+2 K=129:Y=131:OUTK,2:FORA=0TO15:N=INP(Y)
+3 NEXT:S=T:GOSUB5:S=X+1:X=E:OUTK,1
+4 GOSUB5:SAVEM"RAMDSK",T,E
+5 FORA=STOX:?".";:POKEA,INP(Y):NEXT:RETURN
+
+
+-------------------------------------------------------------------------------
+
+To adapt for some other FOO.CO file:
+Get the TOP,END,EXE values for the CO file.
+Copy FOO.CO to the 100 by any means such as TPDD,
+then LOADM "FOO.CO" and it will display the values.
+
+replace the top and end values in line 1
+  1 CLEAR0,top:T=top:E=end:OUT129,2
+replace the filename in line 4
+  4 ?".";:NEXT:SAVEM"FOO",T,E
+if the exe value is not the same as the top value
+then add it to the SAVEM command
+  4 ?".";:NEXT:SAVEM"FOO",T,E,exe
+
+-------------------------------------------------------------------------------
+
+To load from Bank1 instead of Bank0, replace all OUT129 with OUT133
+
