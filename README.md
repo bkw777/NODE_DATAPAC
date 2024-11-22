@@ -558,7 +558,9 @@ I'm not certain this idea of inverting the /BLOCK and /BYTE signals into a 4040 
 ![](PCB/out/MiniNDP_512_D.svg)  
 [MiniNDP_512_D.bom.csv](PCB/out/MiniNDP_512_D.bom.csv)  
 
-### 256K "F" version - The simplest.
+### 256K "F" version - Easy to Build
+
+This version is not tested yet.
 
 This has the fewest & largest parts and is the easiest to build.  
 Even the caps & resistors are larger 1206 instead of 0805.  
