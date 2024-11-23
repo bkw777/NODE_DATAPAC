@@ -563,12 +563,7 @@ I'm not certain this idea of inverting the /BLOCK and /BYTE signals into a 4040 
 This version is not tested yet.
 
 This has the fewest & largest parts and is the easiest to build.  
-Even the caps & resistors are larger 1206 instead of 0805.  
-It's only 256k because 512k requires adding at least 2 more parts and they are both 6-leg parts where it's almost impossible to see the markings to find pin-1, even with magnification and light.
-
-The caps are optional. The original DATAPAC doesn't have any caps and works fine.  
-But the caps shown are over specced 4.7u when only 100n would be needed for decoupling.  
-This is so that they can do double duty and also give a few seconds of memory retention without the battery in place of the big tantalum and inrush resistor on the other boards.
+Even the caps & resistors are larger 1206 instead of 0805.
 
 ![](PCB/out/MiniNDP_256_F.jpg)  
 ![](PCB/out/MiniNDP_256_F.top.jpg)  
