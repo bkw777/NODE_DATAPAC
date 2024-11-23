@@ -372,44 +372,50 @@ here  is a more flexible and generic bootstrapper for any .CO file up to 2038 by
 Smaller than RD or N-DKTR, no machine code or calls, doesn't require the NODE ROM or RAMDSK, supports banks / all 512k.  
 Just displays the raw data, no parsing or interpretation of the directory/file structures created by RAMDSK.CO etc.
 
-TODO - display/repair first 2 bytes formatted flag.
+TODO - display/repair first 2 bytes formatted flag.  
 TODO - display filenames and lengths from the headers.  
 
 Block 0 is still a mystery, but the filenames and lengths are readable from the first 10 bytes of any block that begins a file.
 
-Files appear to be stored in reverse block number order.
-Block 0 only contains some kind of allocation table, no file data.
-It's not a directory either, no filenames.
-A file that requires 2 blocks uses blocks 1 & 2, but starts at block 2 and ends at block 1.
+Files appear to be stored in reverse block number order.  
+Block 0 only contains some kind of allocation table, no file data.  
+It's not a directory either, no filenames.  
+A file that requires 2 blocks uses blocks 1 & 2, but starts at block 2 and ends at block 1.  
+I don't know what happens when files get deleted and new files have to be fragmented. There is probably some kind of linked list in block 0 that chains blocks together
 
 The first 10 bytes of the first block (the highest block number of all the blocks used by the file) contains the file name without the dot, and the file length.  
 This header is metadata created and used by RAMDSK, not part of the file itself.
 
-6 bytes - file name
-2 bytes - file extension
+6 bytes - file name  
+2 bytes - file extension  
 2 bytes - file length (LSB first, 7E05 = 0x057E = 1406 for RAM100.CO)
 
 The file data starts immediately after that.  
 The remaining blocks in the file have no metadata headers, the payload data resumes right from byte 0 in the remaining blocks.
 
-You don't really know which blocks contain file data though without block 0.
-A block that "looks" like the beginning of a file could just be data within some other file.
+We don't really know which blocks contain file data though without block 0.  
+A block that looks like the beginning of a file could just be data within some other file.
 
-manually you can run CRI.BA and enter: 0,1,0,16
-to read the first 16 bytes of block 1,
+Manually you can run CRI.BA and enter: 0,1,0,16 to read the first 16 bytes of block 1,
 then repeat for block 2: 0,2,0,16    block 3: 0,3,0,16   etc
-Use F2 to switch between ascii and hex display.
-In ascii mode you'll see the file names if any,  
-and in hex mode you can see the file length, and in the case of .CO files you can also see the 6-byte CO header.  
-Count past the first 8 hex pairs to get past the filename,  
-Then the next hex pair is the file length LSB  
-Then the next pair is the file length MSB  (multiply by 256 and add to LSB to hget the file length)  
+Use F2 to switch between ascii and hex display.  
+In ascii mode you'll see the file names if any, and in hex mode you can see the file length.  
+And in the case of .CO files you can also see the 6-byte CO header.  
 
-If the extension was CO, then the next 6 bytes are the CO header
-2 bytes - top address, lsb first
-2 bytes - length, lsb first
+To read the file length:  
+In hex display mode each hex pair is one byte.  
+Count past the first 8 hex pairs to get past the filename,  
+The next pair is the LSB of the file length  
+The next pair is the MSB of the file length  
+Length = MSB * 256 + LSB
+
+In the particular case where the extension is CO, then the next 6 bytes are a CO header  
+This is not part of RAMDSK metadata, this is just part of the CO file format.  
+2 bytes - top address, lsb first  
+2 bytes - length, lsb first  
 2 bytes - exe address, lsb first
 
+The length field in the CO header will be 6 bytes less than the full file length, because the CO header only describes the payload of the CO file, it does not include the header itself.
 
 ## XOS-C
 [XOS-C](http://www.club100.org/library/libpg.html) is sort of an OS for the Model 200.  
@@ -563,7 +569,7 @@ I'm not certain this idea of inverting the /BLOCK and /BYTE signals into a 4040 
 This version is not tested yet.
 
 This has the fewest & largest parts and is the easiest to build.  
-Even the caps & resistors are larger 1206 instead of 0805.
+Even the caps & resistors are larger 1206 package instead of 0805.
 
 ![](PCB/out/MiniNDP_256_F.jpg)  
 ![](PCB/out/MiniNDP_256_F.top.jpg)  
