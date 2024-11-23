@@ -7528,7 +7528,7 @@
 		)
 		(uuid "d17617a0-d178-46a1-9400-ae0a18f4e25b")
 	)
-	(text "This version aims to reduce the part count for easier DIY building. The 3 161's are replaced by a single 4040.\n161 clocks on rising edge and 4040 clocks on falling edge, so everything else also changes to work off active-high BLOCK & BYTE.\n138 is replaced with 238, and 574 with 573. Being 256k-only vs 512k also saves a couple of other components.\nThe 512k sram has no CE2 pin, so it would need to add a 2G02 (dual NOR) to invert RAMRST and then combine with BYTE to generate ~{CE}.\n512k also needs a 9th bit of address latch, which would require adding a 1G373 to the 573.\nTHIS VERSION IS NOT TESTED.\n"
+	(text "This version aims to reduce the part count for easier DIY building. The 3 161's are replaced by a single 4040.\n161 clocks on rising edge and 4040 clocks on falling edge, so everything else also changes to work off active-high BLOCK & BYTE.\n138 is replaced with 238, and 574 with 573. Being 256k-only vs 512k also saves a couple of other components.\nThe 512k sram has no CE2 pin, so it would need a 2G00 (dual NAND) to invert RAMRST and then combine with BYTE to generate ~{CE}.\n512k also needs a 9th bit of address latch, which would require adding a 1G373 to the 573.\nOr possibly just replace the 573 with an FCT841.\nTHIS VERSION IS NOT TESTED.\n"
 		(exclude_from_sim no)
 		(at 68.072 155.956 0)
 		(effects
