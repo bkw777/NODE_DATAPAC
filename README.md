@@ -581,7 +581,8 @@ Even the caps & resistors are larger 1206 package instead of 0805.
 
 This version is not tested yet.
 
-512k version that's almost as easy to build as 256_F
+512k version that's almost as easy to build as 256_F  
+The caps are overspec so they can do double duty as both decoupling and giving a few seconds of retention without the battery.
 
 ![](PCB/out/MiniNDP_512_F.jpg)  
 ![](PCB/out/MiniNDP_512_F.top.jpg)  
