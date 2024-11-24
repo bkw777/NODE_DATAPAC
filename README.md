@@ -587,5 +587,5 @@ The caps are overspec so they can do double duty as both decoupling and giving a
 ![](PCB/out/MiniNDP_512_F.jpg)  
 ![](PCB/out/MiniNDP_512_F.top.jpg)  
 ![](PCB/out/MiniNDP_512_F.bottom.jpg)  
-[![](PCB/out/MiniNDP_512_F.svg)](PCB/out/MiniNDP_512_F.pdf)  
+![](PCB/out/MiniNDP_512_F.svg)  
 [MiniNDP_512_F.bom.csv](PCB/out/MiniNDP_512_F.bom.csv)
