@@ -576,3 +576,15 @@ Even the caps & resistors are larger 1206 package instead of 0805.
 ![](PCB/out/MiniNDP_256_F.bottom.jpg)  
 ![](PCB/out/MiniNDP_256_F.svg)  
 [MiniNDP_256_F.bom.csv](PCB/out/MiniNDP_256_F.bom.csv)
+
+### 512K "F" version - Easy to Build
+
+This version is not tested yet.
+
+512k version that's almost as easy to build as 256_F
+
+![](PCB/out/MiniNDP_512_F.jpg)  
+![](PCB/out/MiniNDP_512_F.top.jpg)  
+![](PCB/out/MiniNDP_512_F.bottom.jpg)  
+![](PCB/out/MiniNDP_512_F.pdf)  
+[MiniNDP_512_F.bom.csv](PCB/out/MiniNDP_512_F.bom.csv)

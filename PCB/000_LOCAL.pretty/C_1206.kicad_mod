@@ -7,6 +7,7 @@
 	(tags "capacitor")
 	(property "Reference" "REF**"
 		(at 0 -1.9 0)
+		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "83cc328c-b7a6-47b2-9ffa-7ac49f4468d0")
 		(effects

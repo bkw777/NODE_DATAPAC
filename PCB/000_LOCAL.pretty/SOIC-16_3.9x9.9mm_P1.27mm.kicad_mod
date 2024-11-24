@@ -6,24 +6,26 @@
 	(descr "SOIC, 16 Pin (JEDEC MS-012AC, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_16.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py")
 	(tags "SOIC SO")
 	(property "Reference" "REF**"
-		(at 0 -5.9 0)
+		(at -0.85 -2.2 -90)
+		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "f54c712d-1f28-468b-8071-dbb812230e03")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.8 0.8)
+				(thickness 0.1)
 			)
 		)
 	)
 	(property "Value" "SOIC-16_3.9x9.9mm_P1.27mm"
-		(at 0 5.9 0)
-		(layer "F.Fab")
+		(at 0.55 0 -90)
+		(unlocked yes)
+		(layer "F.SilkS")
 		(uuid "879c6f73-32e5-4735-b0e3-7b3f6a68622b")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.8 0.8)
+				(thickness 0.1)
 			)
 		)
 	)
