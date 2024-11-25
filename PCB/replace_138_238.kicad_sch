@@ -1,0 +1,2754 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "f15c2929-5cf4-4b4e-965d-148e1bec8a42")
+	(paper "A4")
+	(title_block
+		(title "MiniNDP control circuit - active high output")
+		(date "2024-11-25")
+		(company "Brian K. White - b.kenyon.w@gmail.com")
+		(comment 1 "github.com/bkw777/NODE_DATAPAC")
+	)
+	(lib_symbols
+		(symbol "000_LOCAL:74xx00"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at 1.524 8.636 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "74xx00"
+				(at 3.302 6.604 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "datasheets/HC00.pdf"
+				(at 6.35 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Quad NAND Gate"
+				(at 6.35 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "Qaud Gate NAND"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "SSOP* VSSOP*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "74xx00_1_1"
+				(arc
+					(start -0.635 -3.175)
+					(mid 2.54 0)
+					(end -0.635 3.175)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.635 -3.175) (xy -3.81 -3.175) (xy -3.81 3.175) (xy -0.635 3.175)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -6.35 2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -6.35 -2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output inverted
+					(at 6.35 0 180)
+					(length 3.81)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74xx00_2_1"
+				(arc
+					(start -0.635 -3.175)
+					(mid 2.54 0)
+					(end -0.635 3.175)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.635 -3.175) (xy -3.81 -3.175) (xy -3.81 3.175) (xy -0.635 3.175)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -6.35 2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -6.35 -2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output inverted
+					(at 6.35 0 180)
+					(length 3.81)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74xx00_3_1"
+				(arc
+					(start -0.635 -3.175)
+					(mid 2.54 0)
+					(end -0.635 3.175)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.635 -3.175) (xy -3.81 -3.175) (xy -3.81 3.175) (xy -0.635 3.175)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -6.35 -2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output inverted
+					(at 6.35 0 180)
+					(length 3.81)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -6.35 2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74xx00_4_1"
+				(arc
+					(start -0.635 -3.175)
+					(mid 2.54 0)
+					(end -0.635 3.175)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.635 -3.175) (xy -3.81 -3.175) (xy -3.81 3.175) (xy -0.635 3.175)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin output inverted
+					(at 6.35 0 180)
+					(length 3.81)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -6.35 2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -6.35 -2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74xx00_5_0"
+				(rectangle
+					(start -5.08 5.08)
+					(end 5.08 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "74xx00_5_1"
+				(pin power_in line
+					(at 0 10.16 270)
+					(length 5.08)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -10.16 90)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "000_LOCAL:74xx08"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at 1.524 8.636 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "74xx08"
+				(at 3.302 6.604 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "datasheets/HC08.pdf"
+				(at 6.35 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Quad AND Gate"
+				(at 6.35 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "Quad Gate AND"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "SSOP* VSSOP*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "74xx08_1_1"
+				(arc
+					(start -0.635 -3.175)
+					(mid 2.54 0)
+					(end -0.635 3.175)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.635 -3.175) (xy -3.81 -3.175) (xy -3.81 3.175) (xy -0.635 3.175)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -6.35 2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -6.35 -2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 6.35 0 180)
+					(length 3.81)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74xx08_2_1"
+				(arc
+					(start -0.635 -3.175)
+					(mid 2.54 0)
+					(end -0.635 3.175)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.635 -3.175) (xy -3.81 -3.175) (xy -3.81 3.175) (xy -0.635 3.175)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -6.35 2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -6.35 -2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 6.35 0 180)
+					(length 3.81)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74xx08_3_1"
+				(arc
+					(start -0.635 -3.175)
+					(mid 2.54 0)
+					(end -0.635 3.175)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.635 -3.175) (xy -3.81 -3.175) (xy -3.81 3.175) (xy -0.635 3.175)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -6.35 -2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 6.35 0 180)
+					(length 3.81)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -6.35 2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74xx08_4_1"
+				(arc
+					(start -0.635 -3.175)
+					(mid 2.54 0)
+					(end -0.635 3.175)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.635 -3.175) (xy -3.81 -3.175) (xy -3.81 3.175) (xy -0.635 3.175)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin output line
+					(at 6.35 0 180)
+					(length 3.81)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -6.35 2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -6.35 -2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74xx08_5_0"
+				(rectangle
+					(start -5.08 5.08)
+					(end 5.08 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "74xx08_5_1"
+				(pin power_in line
+					(at 0 10.16 270)
+					(length 5.08)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -10.16 90)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+	)
+	(junction
+		(at 201.93 85.09)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4c0157f8-c8d4-49b4-b18c-15278f1d6d5f")
+	)
+	(junction
+		(at 201.93 87.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "56313f31-1b51-4f1a-9e07-40c806964e99")
+	)
+	(junction
+		(at 172.72 67.31)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b1878cc3-7121-4e96-955d-320efad36a77")
+	)
+	(junction
+		(at 52.07 69.85)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b54ab78f-bd38-4d90-bbd4-0cd1ab6be862")
+	)
+	(junction
+		(at 81.28 90.17)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bcd4d080-4c28-45ee-a515-71cf903e0f26")
+	)
+	(junction
+		(at 90.17 72.39)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c8b2229a-0c0f-46cc-a23a-ac83d4b89915")
+	)
+	(junction
+		(at 81.28 87.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "db83e28c-977b-4c7f-bb30-b22e8e8fb1bd")
+	)
+	(junction
+		(at 210.82 69.85)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e19de3d1-1859-44cd-8ae0-1218359547a3")
+	)
+	(wire
+		(pts
+			(xy 163.83 87.63) (xy 201.93 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0e36a295-701b-41e3-ac63-b51c98959e50")
+	)
+	(wire
+		(pts
+			(xy 43.18 69.85) (xy 52.07 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1b635998-2f14-4ed1-8815-4f7f7e937a49")
+	)
+	(wire
+		(pts
+			(xy 227.33 72.39) (xy 233.68 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "24bbfed5-c844-4e7b-a3ab-2d0c59c50300")
+	)
+	(wire
+		(pts
+			(xy 172.72 64.77) (xy 172.72 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "296f23af-0302-40e1-9535-0e73967dc2e7")
+	)
+	(wire
+		(pts
+			(xy 52.07 67.31) (xy 52.07 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2aa619fa-8b3a-4b2a-ae60-6498c4a4a787")
+	)
+	(wire
+		(pts
+			(xy 185.42 72.39) (xy 185.42 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2d6b124b-0e31-41f9-a4b6-53dfe0e4b302")
+	)
+	(wire
+		(pts
+			(xy 227.33 85.09) (xy 233.68 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3233a991-5e0d-403c-8271-b9c110f2def5")
+	)
+	(wire
+		(pts
+			(xy 201.93 74.93) (xy 201.93 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "40d15adb-ee27-487f-93a3-76b97e4af264")
+	)
+	(wire
+		(pts
+			(xy 93.98 85.09) (xy 90.17 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "481a7823-4491-4c51-b4e6-7e1026a7b437")
+	)
+	(wire
+		(pts
+			(xy 43.18 85.09) (xy 52.07 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "50ee9d56-e1ed-4d43-8d8a-866995b1a052")
+	)
+	(wire
+		(pts
+			(xy 106.68 74.93) (xy 113.03 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "52873688-da53-4756-8b2a-bde46f041e6a")
+	)
+	(wire
+		(pts
+			(xy 214.63 82.55) (xy 210.82 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5dca31f6-ef5e-4cc0-917e-1cdf35a08c19")
+	)
+	(wire
+		(pts
+			(xy 210.82 69.85) (xy 214.63 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6d047921-32e7-4bce-b8dd-c976fa7f9499")
+	)
+	(wire
+		(pts
+			(xy 201.93 85.09) (xy 201.93 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "74821c49-bf52-4669-a041-9ee0919b4ec8")
+	)
+	(wire
+		(pts
+			(xy 52.07 69.85) (xy 52.07 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8027a0c0-fd8e-4f7c-817c-2575e1b3884e")
+	)
+	(wire
+		(pts
+			(xy 172.72 67.31) (xy 172.72 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "85ad2e1a-f814-4fb2-932f-66471ec89ee4")
+	)
+	(wire
+		(pts
+			(xy 81.28 90.17) (xy 81.28 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "88858f27-7ae8-4ef3-a4ff-98f5e618d899")
+	)
+	(wire
+		(pts
+			(xy 90.17 72.39) (xy 90.17 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8f848bf5-40b4-4ecf-86c1-2211fb297bac")
+	)
+	(wire
+		(pts
+			(xy 198.12 69.85) (xy 210.82 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "906b10ad-9783-4501-a6ae-db96fb498dd8")
+	)
+	(wire
+		(pts
+			(xy 77.47 72.39) (xy 90.17 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "976d8d2f-5d2e-426b-8d7d-4dfe96074f96")
+	)
+	(wire
+		(pts
+			(xy 214.63 74.93) (xy 201.93 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9906d8b4-4423-44ce-8be0-cba5954995e4")
+	)
+	(wire
+		(pts
+			(xy 201.93 87.63) (xy 201.93 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a1b2eb0c-57af-42af-bd87-c6b15f7ab0e3")
+	)
+	(wire
+		(pts
+			(xy 163.83 82.55) (xy 172.72 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "af9fb310-f0c4-4e50-8b12-ae4e79a806dc")
+	)
+	(wire
+		(pts
+			(xy 43.18 90.17) (xy 81.28 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b310d5d9-1fd0-41c8-84f2-981fc917464c")
+	)
+	(wire
+		(pts
+			(xy 90.17 72.39) (xy 93.98 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b86b0587-453a-48ee-bc3d-e03e77ecd979")
+	)
+	(wire
+		(pts
+			(xy 106.68 87.63) (xy 113.03 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cda833c5-46c4-495b-b9c3-0443e1628742")
+	)
+	(wire
+		(pts
+			(xy 163.83 67.31) (xy 172.72 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e4cfced7-b2df-479b-8042-bcf9e066a5d9")
+	)
+	(wire
+		(pts
+			(xy 81.28 87.63) (xy 81.28 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ee526893-a848-4622-aa96-58650745bb3a")
+	)
+	(wire
+		(pts
+			(xy 163.83 77.47) (xy 172.72 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f1451f96-2ff0-49eb-8b78-331d5c312e4f")
+	)
+	(wire
+		(pts
+			(xy 43.18 80.01) (xy 52.07 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f648a4b0-b4ea-48ab-b050-4b32a7e8d60f")
+	)
+	(wire
+		(pts
+			(xy 210.82 69.85) (xy 210.82 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f8841a1e-d239-45f1-b274-360cc856f479")
+	)
+	(wire
+		(pts
+			(xy 64.77 74.93) (xy 64.77 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fea9bab0-6ac4-49be-a097-66e296f859b6")
+	)
+	(wire
+		(pts
+			(xy 81.28 77.47) (xy 81.28 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ff87a3bf-f118-44e4-b8b2-7339fe79f2a9")
+	)
+	(wire
+		(pts
+			(xy 93.98 77.47) (xy 81.28 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ffbed5e4-194a-4356-bb2a-5a3f5fd00c76")
+	)
+	(text "Active-high BLOCK & BYTE\nReplaces HC238"
+		(exclude_from_sim no)
+		(at 198.12 56.896 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "1b1b744b-52cc-4a6b-a208-888828f32f07")
+	)
+	(text "Active-low ~{BLOCK} & ~{BYTE}\nReplaces HC138"
+		(exclude_from_sim no)
+		(at 72.39 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "9b0863f8-9391-4a0a-8f03-88facf48d0c1")
+	)
+	(text "         BUS BUS BUS\n(A)	~{YO}  _A8  _A9 _A10  ->  BLOCK BYTE    Function\nL	X	X	X	X		X	  X\nX	H	X	X	X		X	  X\nX	X	L	X	X		X	  X\nH	L	H	L	L	->  L	  H  Select BLOCK # from BANK 0\nH	L	H	L	H	->  L	  H  Select BLOCK # from BANK 1\nH	L	H	H	X	->  H	  L  Read or Write BYTE\n\n~{BLOCK}\nL: sets A0-A9 to 0, updates A10-A18 from AD0-AD7 & BUS_A10\nH: latches A10-A18\n\n~{BYTE}\nL: enables SRAM for read or write\nH: disables SRAM, increments A0-A9 by 1\n"
+		(exclude_from_sim no)
+		(at 49.022 134.112 0)
+		(effects
+			(font
+				(face "KiCad Font")
+				(size 1 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "d2d54b37-c8c2-4d1b-ab40-c17599d1e7f1")
+	)
+	(text "         BUS BUS BUS\n(A)	~{YO}  _A8  _A9 _A10  ->  BLOCK BYTE    Function\nL	X	X	X	X		X	  X\nX	H	X	X	X		X	  X\nX	X	L	X	X		X	  X\nH	L	H	L	L	->  H	  L  Select BLOCK # from BANK 0\nH	L	H	L	H	->  H	  L  Select BLOCK # from BANK 1\nH	L	H	H	X	->  L	  H  Read or Write BYTE\n\nBLOCK\nH: sets A0-A9 to 0, updates A10-A18 from AD0-AD7 & BUS_A10\nL: latches A10-A18\n\nBYTE\nH: enables SRAM for read or write\nL: disables SRAM, increments A0-A9 by 1\n"
+		(exclude_from_sim no)
+		(at 174.752 130.302 0)
+		(effects
+			(font
+				(face "KiCad Font")
+				(size 1 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "e2fc4626-87cb-403f-acf5-21accce15267")
+	)
+	(label "~{Y0}"
+		(at 43.18 69.85 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "1f217482-894a-4e06-989e-249f1c6ce976")
+	)
+	(label "(A)"
+		(at 163.83 77.47 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "26f24c64-71f1-4b61-858b-c7ec076136e2")
+	)
+	(label "BUS_A9"
+		(at 163.83 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "46916032-3d28-410d-b9be-64897c3e8d6b")
+	)
+	(label "BYTE"
+		(at 233.68 72.39 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "5b7f43f5-4b03-417b-b7a6-d47e64806a50")
+	)
+	(label "(A)"
+		(at 43.18 80.01 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "74b8cd22-9d51-4321-aea2-1179e8ea966a")
+	)
+	(label "BUS_A8"
+		(at 43.18 85.09 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "8ba6f2b2-1f7d-460b-b972-fcd3ee5cbdb0")
+	)
+	(label "BUS_A9"
+		(at 43.18 90.17 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "9168f0d9-0c1d-49c5-a24a-6195b261c63c")
+	)
+	(label "BLOCK"
+		(at 113.03 87.63 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "9a430ad2-3827-44fa-a0a3-13e5465d7587")
+	)
+	(label "~{Y0}"
+		(at 163.83 67.31 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "b213052a-974f-4699-9bfe-2c609db9a494")
+	)
+	(label "BYTE"
+		(at 113.03 74.93 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "bc89ae6c-5812-4b06-bb0a-a30407b4b8cb")
+	)
+	(label "BLOCK"
+		(at 233.68 85.09 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "c415988f-5580-473d-91d3-c15980c0247a")
+	)
+	(label "BUS_A8"
+		(at 163.83 82.55 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "d486a3d2-482c-45a4-9ddc-c6029ad0fa99")
+	)
+	(symbol
+		(lib_id "000_LOCAL:74xx08")
+		(at 191.77 69.85 0)
+		(mirror x)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0f504627-fce3-4894-8e2f-a817ca9d635e")
+		(property "Reference" "U5"
+			(at 190.5 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "HC08"
+			(at 191.008 70.866 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:SOIC-14_3.9x8.7mm_P1.27mm"
+			(at 191.77 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/HC08.pdf"
+			(at 198.12 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "IC GATE AND 4CH 2-INP 14SO"
+			(at 198.12 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "74HC08D,653"
+			(at 191.77 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "10"
+			(uuid "bb7534d7-1bba-4750-8c68-f3d1011f9008")
+		)
+		(pin "6"
+			(uuid "03b6e8b1-7676-4117-8346-dd75c4528a8a")
+		)
+		(pin "2"
+			(uuid "73cd226a-b044-4154-b927-5dc6ed52acd4")
+		)
+		(pin "5"
+			(uuid "621fa591-e4ef-4b01-8ab0-e5650eff2ea7")
+		)
+		(pin "4"
+			(uuid "2c1c1475-9206-4adc-80ef-114fc494351a")
+		)
+		(pin "8"
+			(uuid "714ac9f7-059a-4b9b-b3e8-1c8d3c910c0a")
+		)
+		(pin "12"
+			(uuid "4526d731-76ba-4a78-8604-29287682d71e")
+		)
+		(pin "1"
+			(uuid "21c411cf-107d-4669-8e50-d29b3170a746")
+		)
+		(pin "13"
+			(uuid "83bdc63f-32f5-4c60-8ab0-a409b7376b87")
+		)
+		(pin "3"
+			(uuid "e547ac33-f5b1-4e4a-a943-a4601c1e8d6c")
+		)
+		(pin "11"
+			(uuid "11a35984-858f-4669-b5fd-6761838003be")
+		)
+		(pin "14"
+			(uuid "397e49b7-b70e-4f38-a027-af951a3dd0bc")
+		)
+		(pin "7"
+			(uuid "fcad5c90-ad43-4420-ac39-27973a027cd9")
+		)
+		(pin "9"
+			(uuid "5acd6ab9-4f75-4d95-acfb-1600e8e14b58")
+		)
+		(instances
+			(project ""
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "U5")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:74xx08")
+		(at 58.42 82.55 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1004f691-bc39-401b-bf87-2a3f7aed4977")
+		(property "Reference" "U2"
+			(at 56.896 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "HC08"
+			(at 57.404 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:SOIC-14_3.9x8.7mm_P1.27mm"
+			(at 58.42 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/HC08.pdf"
+			(at 64.77 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "IC GATE AND 4CH 2-INP 14SO"
+			(at 64.77 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "74HC08D,653"
+			(at 58.42 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "10"
+			(uuid "bb7534d7-1bba-4750-8c68-f3d1011f900b")
+		)
+		(pin "6"
+			(uuid "03b6e8b1-7676-4117-8346-dd75c4528a8d")
+		)
+		(pin "2"
+			(uuid "41652247-c8d6-454e-87dc-2c77a7ddc799")
+		)
+		(pin "5"
+			(uuid "621fa591-e4ef-4b01-8ab0-e5650eff2eaa")
+		)
+		(pin "4"
+			(uuid "2c1c1475-9206-4adc-80ef-114fc494351d")
+		)
+		(pin "8"
+			(uuid "714ac9f7-059a-4b9b-b3e8-1c8d3c910c0d")
+		)
+		(pin "12"
+			(uuid "4526d731-76ba-4a78-8604-29287682d721")
+		)
+		(pin "1"
+			(uuid "66873caf-f262-4fbf-9fd5-0d706518d141")
+		)
+		(pin "13"
+			(uuid "83bdc63f-32f5-4c60-8ab0-a409b7376b8a")
+		)
+		(pin "3"
+			(uuid "66f430bb-2009-4918-8a98-c9a3ba732da0")
+		)
+		(pin "11"
+			(uuid "11a35984-858f-4669-b5fd-6761838003c1")
+		)
+		(pin "14"
+			(uuid "397e49b7-b70e-4f38-a027-af951a3dd0bf")
+		)
+		(pin "7"
+			(uuid "fcad5c90-ad43-4420-ac39-27973a027cdc")
+		)
+		(pin "9"
+			(uuid "5acd6ab9-4f75-4d95-acfb-1600e8e14b5b")
+		)
+		(instances
+			(project "replace_238"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "U2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:74xx00")
+		(at 100.33 74.93 0)
+		(unit 4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "118d60ca-14d6-4265-ac3e-1d01f2e10b69")
+		(property "Reference" "U1"
+			(at 99.06 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "HC00"
+			(at 99.568 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 100.33 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/HC00.pdf"
+			(at 106.68 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Quad NAND Gate"
+			(at 106.68 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "13"
+			(uuid "800f686b-3fc8-4298-a892-44851850168b")
+		)
+		(pin "6"
+			(uuid "50f8bce6-eb8c-40fb-a328-9ed6be808930")
+		)
+		(pin "14"
+			(uuid "e9a170bd-c6c4-48da-aaf3-f72742a89570")
+		)
+		(pin "5"
+			(uuid "4837bd42-0818-4867-bf60-70a9e04cbeb0")
+		)
+		(pin "9"
+			(uuid "0164b0f7-9956-492e-800e-b21c3e0ee913")
+		)
+		(pin "2"
+			(uuid "15567024-14bb-4f87-b041-380521853174")
+		)
+		(pin "10"
+			(uuid "9246da32-0e26-44ea-a233-c4cb81720b3b")
+		)
+		(pin "4"
+			(uuid "b1b0f69d-4410-47c4-97cf-739208d12223")
+		)
+		(pin "8"
+			(uuid "95ddd842-b9fb-40c8-a23b-00d08dd67850")
+		)
+		(pin "11"
+			(uuid "81006710-d218-4d11-bc63-7a6a9e75d841")
+		)
+		(pin "3"
+			(uuid "569d91df-9c9b-45fd-ab73-a3484711cb09")
+		)
+		(pin "12"
+			(uuid "cb36b4d6-6c04-4ce6-9322-7a3a560d774f")
+		)
+		(pin "7"
+			(uuid "74d3258f-a9a9-4c23-9355-1b900ca0019c")
+		)
+		(pin "1"
+			(uuid "8b4c88f5-2ce3-4abf-ad54-ec0e096fc965")
+		)
+		(instances
+			(project "replace_238"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "U1")
+					(unit 4)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:74xx00")
+		(at 208.28 87.63 0)
+		(mirror x)
+		(unit 3)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "13ba83a6-ff50-486f-8903-656642546781")
+		(property "Reference" "U7"
+			(at 207.264 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "HC00"
+			(at 207.264 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 208.28 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/HC00.pdf"
+			(at 214.63 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Quad NAND Gate"
+			(at 214.63 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "13"
+			(uuid "a6c8fdbd-902e-4331-98e9-e639f5947c8b")
+		)
+		(pin "6"
+			(uuid "50f8bce6-eb8c-40fb-a328-9ed6be80892d")
+		)
+		(pin "14"
+			(uuid "e9a170bd-c6c4-48da-aaf3-f72742a8956d")
+		)
+		(pin "5"
+			(uuid "4837bd42-0818-4867-bf60-70a9e04cbead")
+		)
+		(pin "9"
+			(uuid "0164b0f7-9956-492e-800e-b21c3e0ee910")
+		)
+		(pin "2"
+			(uuid "15567024-14bb-4f87-b041-380521853171")
+		)
+		(pin "10"
+			(uuid "9246da32-0e26-44ea-a233-c4cb81720b38")
+		)
+		(pin "4"
+			(uuid "b1b0f69d-4410-47c4-97cf-739208d12220")
+		)
+		(pin "8"
+			(uuid "95ddd842-b9fb-40c8-a23b-00d08dd6784d")
+		)
+		(pin "11"
+			(uuid "4830e06d-1c73-4761-819e-35d126a5c129")
+		)
+		(pin "3"
+			(uuid "569d91df-9c9b-45fd-ab73-a3484711cb06")
+		)
+		(pin "12"
+			(uuid "69864355-32d1-4bed-a286-eb0c7ab5c83f")
+		)
+		(pin "7"
+			(uuid "74d3258f-a9a9-4c23-9355-1b900ca00199")
+		)
+		(pin "1"
+			(uuid "8b4c88f5-2ce3-4abf-ad54-ec0e096fc962")
+		)
+		(instances
+			(project ""
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "U7")
+					(unit 3)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:74xx00")
+		(at 87.63 90.17 0)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "373456a0-f92f-4c15-9205-81ee1491beaf")
+		(property "Reference" "U1"
+			(at 86.614 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "HC00"
+			(at 86.614 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 87.63 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/HC00.pdf"
+			(at 93.98 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Quad NAND Gate"
+			(at 93.98 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "13"
+			(uuid "a6c8fdbd-902e-4331-98e9-e639f5947c8b")
+		)
+		(pin "6"
+			(uuid "50f8bce6-eb8c-40fb-a328-9ed6be80892d")
+		)
+		(pin "14"
+			(uuid "e9a170bd-c6c4-48da-aaf3-f72742a8956d")
+		)
+		(pin "5"
+			(uuid "4837bd42-0818-4867-bf60-70a9e04cbead")
+		)
+		(pin "9"
+			(uuid "0ec0b5ac-3526-4efe-a621-6ea9bf82d43e")
+		)
+		(pin "2"
+			(uuid "15567024-14bb-4f87-b041-380521853171")
+		)
+		(pin "10"
+			(uuid "e19a8d62-5f9c-4390-9c70-26f50d80565a")
+		)
+		(pin "4"
+			(uuid "b1b0f69d-4410-47c4-97cf-739208d12220")
+		)
+		(pin "8"
+			(uuid "5a402556-a7f3-4252-a4f1-38632130cf7a")
+		)
+		(pin "11"
+			(uuid "4830e06d-1c73-4761-819e-35d126a5c129")
+		)
+		(pin "3"
+			(uuid "569d91df-9c9b-45fd-ab73-a3484711cb06")
+		)
+		(pin "12"
+			(uuid "69864355-32d1-4bed-a286-eb0c7ab5c83f")
+		)
+		(pin "7"
+			(uuid "74d3258f-a9a9-4c23-9355-1b900ca00199")
+		)
+		(pin "1"
+			(uuid "8b4c88f5-2ce3-4abf-ad54-ec0e096fc962")
+		)
+		(instances
+			(project "replace_238"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:74xx08")
+		(at 220.98 72.39 0)
+		(unit 3)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5b35ccc5-70a3-4c09-aeb6-d4c811dc943c")
+		(property "Reference" "U5"
+			(at 219.964 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "HC08"
+			(at 219.964 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:SOIC-14_3.9x8.7mm_P1.27mm"
+			(at 220.98 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/HC08.pdf"
+			(at 227.33 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "IC GATE AND 4CH 2-INP 14SO"
+			(at 227.33 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "74HC08D,653"
+			(at 220.98 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "10"
+			(uuid "bb7534d7-1bba-4750-8c68-f3d1011f900a")
+		)
+		(pin "6"
+			(uuid "03b6e8b1-7676-4117-8346-dd75c4528a8c")
+		)
+		(pin "2"
+			(uuid "73cd226a-b044-4154-b927-5dc6ed52acd6")
+		)
+		(pin "5"
+			(uuid "621fa591-e4ef-4b01-8ab0-e5650eff2ea9")
+		)
+		(pin "4"
+			(uuid "2c1c1475-9206-4adc-80ef-114fc494351c")
+		)
+		(pin "8"
+			(uuid "714ac9f7-059a-4b9b-b3e8-1c8d3c910c0c")
+		)
+		(pin "12"
+			(uuid "4526d731-76ba-4a78-8604-29287682d720")
+		)
+		(pin "1"
+			(uuid "21c411cf-107d-4669-8e50-d29b3170a748")
+		)
+		(pin "13"
+			(uuid "83bdc63f-32f5-4c60-8ab0-a409b7376b89")
+		)
+		(pin "3"
+			(uuid "e547ac33-f5b1-4e4a-a943-a4601c1e8d6e")
+		)
+		(pin "11"
+			(uuid "11a35984-858f-4669-b5fd-6761838003c0")
+		)
+		(pin "14"
+			(uuid "397e49b7-b70e-4f38-a027-af951a3dd0be")
+		)
+		(pin "7"
+			(uuid "fcad5c90-ad43-4420-ac39-27973a027cdb")
+		)
+		(pin "9"
+			(uuid "5acd6ab9-4f75-4d95-acfb-1600e8e14b5a")
+		)
+		(instances
+			(project ""
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "U5")
+					(unit 3)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:74xx08")
+		(at 71.12 72.39 0)
+		(mirror x)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5f8729bd-2aec-4f9a-9ce8-229251e16b94")
+		(property "Reference" "U2"
+			(at 69.85 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "HC08"
+			(at 70.358 73.406 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:SOIC-14_3.9x8.7mm_P1.27mm"
+			(at 71.12 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/HC08.pdf"
+			(at 77.47 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "IC GATE AND 4CH 2-INP 14SO"
+			(at 77.47 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "74HC08D,653"
+			(at 71.12 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "10"
+			(uuid "bb7534d7-1bba-4750-8c68-f3d1011f9008")
+		)
+		(pin "6"
+			(uuid "d227fcfe-e81a-4891-b635-3252ac39d4d3")
+		)
+		(pin "2"
+			(uuid "73cd226a-b044-4154-b927-5dc6ed52acd4")
+		)
+		(pin "5"
+			(uuid "7b428aaa-983f-4639-aac1-e0104040bad7")
+		)
+		(pin "4"
+			(uuid "3eb54b01-eb56-4d2b-898d-d5391e2404b9")
+		)
+		(pin "8"
+			(uuid "714ac9f7-059a-4b9b-b3e8-1c8d3c910c0a")
+		)
+		(pin "12"
+			(uuid "4526d731-76ba-4a78-8604-29287682d71e")
+		)
+		(pin "1"
+			(uuid "21c411cf-107d-4669-8e50-d29b3170a746")
+		)
+		(pin "13"
+			(uuid "83bdc63f-32f5-4c60-8ab0-a409b7376b87")
+		)
+		(pin "3"
+			(uuid "e547ac33-f5b1-4e4a-a943-a4601c1e8d6c")
+		)
+		(pin "11"
+			(uuid "11a35984-858f-4669-b5fd-6761838003be")
+		)
+		(pin "14"
+			(uuid "397e49b7-b70e-4f38-a027-af951a3dd0bc")
+		)
+		(pin "7"
+			(uuid "fcad5c90-ad43-4420-ac39-27973a027cd9")
+		)
+		(pin "9"
+			(uuid "5acd6ab9-4f75-4d95-acfb-1600e8e14b58")
+		)
+		(instances
+			(project "replace_238"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "U2")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:74xx00")
+		(at 58.42 69.85 0)
+		(mirror x)
+		(unit 3)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "bc25521a-0335-48b8-8576-86a86e21a9ab")
+		(property "Reference" "U1"
+			(at 57.404 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "HC00"
+			(at 57.404 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 58.42 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/HC00.pdf"
+			(at 64.77 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Quad NAND Gate"
+			(at 64.77 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "13"
+			(uuid "a6c8fdbd-902e-4331-98e9-e639f5947c8b")
+		)
+		(pin "6"
+			(uuid "50f8bce6-eb8c-40fb-a328-9ed6be80892d")
+		)
+		(pin "14"
+			(uuid "e9a170bd-c6c4-48da-aaf3-f72742a8956d")
+		)
+		(pin "5"
+			(uuid "4837bd42-0818-4867-bf60-70a9e04cbead")
+		)
+		(pin "9"
+			(uuid "8d8c58a8-0085-4d15-aae2-caa17e0380fb")
+		)
+		(pin "2"
+			(uuid "15567024-14bb-4f87-b041-380521853171")
+		)
+		(pin "10"
+			(uuid "598b515a-37b4-481d-9829-52b68914d934")
+		)
+		(pin "4"
+			(uuid "b1b0f69d-4410-47c4-97cf-739208d12220")
+		)
+		(pin "8"
+			(uuid "55550cd3-2f4a-4586-8e07-03dd3ea4dbab")
+		)
+		(pin "11"
+			(uuid "4830e06d-1c73-4761-819e-35d126a5c129")
+		)
+		(pin "3"
+			(uuid "569d91df-9c9b-45fd-ab73-a3484711cb06")
+		)
+		(pin "12"
+			(uuid "69864355-32d1-4bed-a286-eb0c7ab5c83f")
+		)
+		(pin "7"
+			(uuid "74d3258f-a9a9-4c23-9355-1b900ca00199")
+		)
+		(pin "1"
+			(uuid "8b4c88f5-2ce3-4abf-ad54-ec0e096fc962")
+		)
+		(instances
+			(project "replace_238"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "U1")
+					(unit 3)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:74xx00")
+		(at 179.07 67.31 0)
+		(unit 4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c335ee9f-52f6-415d-9cd6-45299d75fdb7")
+		(property "Reference" "U7"
+			(at 177.8 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "HC00"
+			(at 178.308 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 179.07 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/HC00.pdf"
+			(at 185.42 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Quad NAND Gate"
+			(at 185.42 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "13"
+			(uuid "a6c8fdbd-902e-4331-98e9-e639f5947c8e")
+		)
+		(pin "6"
+			(uuid "50f8bce6-eb8c-40fb-a328-9ed6be808930")
+		)
+		(pin "14"
+			(uuid "e9a170bd-c6c4-48da-aaf3-f72742a89570")
+		)
+		(pin "5"
+			(uuid "4837bd42-0818-4867-bf60-70a9e04cbeb0")
+		)
+		(pin "9"
+			(uuid "0164b0f7-9956-492e-800e-b21c3e0ee913")
+		)
+		(pin "2"
+			(uuid "15567024-14bb-4f87-b041-380521853174")
+		)
+		(pin "10"
+			(uuid "9246da32-0e26-44ea-a233-c4cb81720b3b")
+		)
+		(pin "4"
+			(uuid "b1b0f69d-4410-47c4-97cf-739208d12223")
+		)
+		(pin "8"
+			(uuid "95ddd842-b9fb-40c8-a23b-00d08dd67850")
+		)
+		(pin "11"
+			(uuid "4830e06d-1c73-4761-819e-35d126a5c12c")
+		)
+		(pin "3"
+			(uuid "569d91df-9c9b-45fd-ab73-a3484711cb09")
+		)
+		(pin "12"
+			(uuid "69864355-32d1-4bed-a286-eb0c7ab5c842")
+		)
+		(pin "7"
+			(uuid "74d3258f-a9a9-4c23-9355-1b900ca0019c")
+		)
+		(pin "1"
+			(uuid "8b4c88f5-2ce3-4abf-ad54-ec0e096fc965")
+		)
+		(instances
+			(project ""
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "U7")
+					(unit 4)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:74xx08")
+		(at 179.07 80.01 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "cac06367-697f-4c82-9f3c-c14f967b8810")
+		(property "Reference" "U5"
+			(at 177.546 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "HC08"
+			(at 178.054 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:SOIC-14_3.9x8.7mm_P1.27mm"
+			(at 179.07 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/HC08.pdf"
+			(at 185.42 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "IC GATE AND 4CH 2-INP 14SO"
+			(at 185.42 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "74HC08D,653"
+			(at 179.07 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "10"
+			(uuid "bb7534d7-1bba-4750-8c68-f3d1011f900b")
+		)
+		(pin "6"
+			(uuid "03b6e8b1-7676-4117-8346-dd75c4528a8d")
+		)
+		(pin "2"
+			(uuid "73cd226a-b044-4154-b927-5dc6ed52acd7")
+		)
+		(pin "5"
+			(uuid "621fa591-e4ef-4b01-8ab0-e5650eff2eaa")
+		)
+		(pin "4"
+			(uuid "2c1c1475-9206-4adc-80ef-114fc494351d")
+		)
+		(pin "8"
+			(uuid "714ac9f7-059a-4b9b-b3e8-1c8d3c910c0d")
+		)
+		(pin "12"
+			(uuid "4526d731-76ba-4a78-8604-29287682d721")
+		)
+		(pin "1"
+			(uuid "21c411cf-107d-4669-8e50-d29b3170a749")
+		)
+		(pin "13"
+			(uuid "83bdc63f-32f5-4c60-8ab0-a409b7376b8a")
+		)
+		(pin "3"
+			(uuid "e547ac33-f5b1-4e4a-a943-a4601c1e8d6f")
+		)
+		(pin "11"
+			(uuid "11a35984-858f-4669-b5fd-6761838003c1")
+		)
+		(pin "14"
+			(uuid "397e49b7-b70e-4f38-a027-af951a3dd0bf")
+		)
+		(pin "7"
+			(uuid "fcad5c90-ad43-4420-ac39-27973a027cdc")
+		)
+		(pin "9"
+			(uuid "5acd6ab9-4f75-4d95-acfb-1600e8e14b5b")
+		)
+		(instances
+			(project ""
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "U5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:74xx08")
+		(at 220.98 85.09 0)
+		(unit 4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f49da544-3a3c-487e-adbf-e1796e71ec85")
+		(property "Reference" "U5"
+			(at 219.964 84.074 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "HC08"
+			(at 220.218 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:SOIC-14_3.9x8.7mm_P1.27mm"
+			(at 220.98 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/HC08.pdf"
+			(at 227.33 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "IC GATE AND 4CH 2-INP 14SO"
+			(at 227.33 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "74HC08D,653"
+			(at 220.98 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "10"
+			(uuid "bb7534d7-1bba-4750-8c68-f3d1011f900c")
+		)
+		(pin "6"
+			(uuid "03b6e8b1-7676-4117-8346-dd75c4528a8e")
+		)
+		(pin "2"
+			(uuid "73cd226a-b044-4154-b927-5dc6ed52acd8")
+		)
+		(pin "5"
+			(uuid "621fa591-e4ef-4b01-8ab0-e5650eff2eab")
+		)
+		(pin "4"
+			(uuid "2c1c1475-9206-4adc-80ef-114fc494351e")
+		)
+		(pin "8"
+			(uuid "714ac9f7-059a-4b9b-b3e8-1c8d3c910c0e")
+		)
+		(pin "12"
+			(uuid "4526d731-76ba-4a78-8604-29287682d722")
+		)
+		(pin "1"
+			(uuid "21c411cf-107d-4669-8e50-d29b3170a74a")
+		)
+		(pin "13"
+			(uuid "83bdc63f-32f5-4c60-8ab0-a409b7376b8b")
+		)
+		(pin "3"
+			(uuid "e547ac33-f5b1-4e4a-a943-a4601c1e8d70")
+		)
+		(pin "11"
+			(uuid "11a35984-858f-4669-b5fd-6761838003c2")
+		)
+		(pin "14"
+			(uuid "397e49b7-b70e-4f38-a027-af951a3dd0c0")
+		)
+		(pin "7"
+			(uuid "fcad5c90-ad43-4420-ac39-27973a027cdd")
+		)
+		(pin "9"
+			(uuid "5acd6ab9-4f75-4d95-acfb-1600e8e14b5c")
+		)
+		(instances
+			(project ""
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "U5")
+					(unit 4)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:74xx00")
+		(at 100.33 87.63 0)
+		(mirror x)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f4f0cc6d-947b-4eb6-8dc7-494ad641828e")
+		(property "Reference" "U1"
+			(at 99.314 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "HC00"
+			(at 99.314 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 100.33 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/HC00.pdf"
+			(at 106.68 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Quad NAND Gate"
+			(at 106.68 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "13"
+			(uuid "a6c8fdbd-902e-4331-98e9-e639f5947c8b")
+		)
+		(pin "6"
+			(uuid "50f8bce6-eb8c-40fb-a328-9ed6be80892d")
+		)
+		(pin "14"
+			(uuid "e9a170bd-c6c4-48da-aaf3-f72742a8956d")
+		)
+		(pin "5"
+			(uuid "4837bd42-0818-4867-bf60-70a9e04cbead")
+		)
+		(pin "9"
+			(uuid "0ec0b5ac-3526-4efe-a621-6ea9bf82d43e")
+		)
+		(pin "2"
+			(uuid "1f150b86-0805-4f53-8d1e-81c70efb5d9d")
+		)
+		(pin "10"
+			(uuid "e19a8d62-5f9c-4390-9c70-26f50d80565a")
+		)
+		(pin "4"
+			(uuid "b1b0f69d-4410-47c4-97cf-739208d12220")
+		)
+		(pin "8"
+			(uuid "5a402556-a7f3-4252-a4f1-38632130cf7a")
+		)
+		(pin "11"
+			(uuid "4830e06d-1c73-4761-819e-35d126a5c129")
+		)
+		(pin "3"
+			(uuid "1609e5a5-a2b1-4884-9543-3905d437464e")
+		)
+		(pin "12"
+			(uuid "69864355-32d1-4bed-a286-eb0c7ab5c83f")
+		)
+		(pin "7"
+			(uuid "74d3258f-a9a9-4c23-9355-1b900ca00199")
+		)
+		(pin "1"
+			(uuid "5df8ffd7-c343-4b47-adc9-936810d252ec")
+		)
+		(instances
+			(project "replace_238"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "U1")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+)
