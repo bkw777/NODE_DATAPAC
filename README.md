@@ -507,7 +507,7 @@ The printable STLs are in [releases](../releases).
 
 You can get both the PCB and enclosure at the same time from Elecrow by submitting the gerber zip and the enclosure stl, and it arrives in under 2 weeks even with the cheapest economy shipping option.
 
-## Other Experiments
+## Other Versions
 
 ### MiniNDP 1M
 1 Meg version, has 4 banks.  
@@ -516,8 +516,6 @@ RAMDSK can use Bank0 and Bank1 the same as on a normal 512k version, but does no
 
 The only software that knows about the extra banks is [RAMPAC Inspector](software/CRI) can read the raw data from all 4 banks.  
 Edit line 10 to say NN%=3 to allow access to banks 0-3.
-
-This is why this version only has the low level programming directions for accessing the raw data printed on the back.
 
 ```
 OUT 129,N = select bank 0 block N
@@ -532,60 +530,51 @@ OUT 141,N = select bank 3 block N
 ![](PCB/out/MiniNDP_1M.svg)  
 [MiniNDP_1M.bom.csv](PCB/out/MiniNDP_1M.bom.csv)
 
-
-### Alternate style "B" - Easier hand-soldering
-This is a little easier to hand-solder by using fewer and larger parts.  
-There are still some small parts with small legs, but the most difficult part, the TSOP sram is replaced and it's overall easier.  
-The TSOP sram is replaced by a much larger TSOP-II version.  
-The 2 small parts HC574 and 1G79 are replaced by a single larger FCT821.  
-The remaining small-leg parts are not as fine pitch as the TSOP.  
-The in-line arrangements make them easier to hand solder.  
-The TSSOP-16 footprints are customized to have narrower pads and more gap between the pads to make it easier to avoid bridging neighboring pins.  
-
-![](PCB/out/MiniNDP_512_B.jpg)  
-![](PCB/out/MiniNDP_512_B.top.jpg)  
-![](PCB/out/MiniNDP_512_B.bottom.jpg)  
-![](PCB/out/MiniNDP_512_B.svg)  
-[MiniNDP_512_B.bom.csv](PCB/out/MiniNDP_512_B.bom.csv)
-
-### Alternate style "D" - Even easier hand-soldering
-
-This version attempts to be even easier to hand-solder by using all larger parts.  
-Even the small parts that look the same as the other versions are actually larger,  
-just the caps & resistors are the same 0805 size.  
-Though the larger parts means now the parts are getting a little crowded.
-
-This version is not tested.  
-I'm not certain this idea of inverting the /BLOCK and /BYTE signals into a 4040 will actually behave exactly the same as 161s
-
-![](PCB/out/MiniNDP_512_D.jpg)  
-![](PCB/out/MiniNDP_512_D.top.jpg)  
-![](PCB/out/MiniNDP_512_D.bottom.jpg)  
-![](PCB/out/MiniNDP_512_D.svg)  
-[MiniNDP_512_D.bom.csv](PCB/out/MiniNDP_512_D.bom.csv)  
-
-### 256K "F" version - Easy to Build
+### Easy to Build Version
 
 This version is not tested yet.
 
-This has the fewest & largest parts and is the easiest to build.  
 All parts are 1206 & SOIC
 
-![](PCB/out/MiniNDP_256_F.jpg)  
-![](PCB/out/MiniNDP_256_F.top.jpg)  
-![](PCB/out/MiniNDP_256_F.bottom.jpg)  
-![](PCB/out/MiniNDP_256_F.svg)  
-[MiniNDP_256_F.bom.csv](PCB/out/MiniNDP_256_F.bom.csv)
+The decouplers are overspec to do double duty and give a few seconds retention without the battery.
 
-### 512K "F" version - Easy to Build
+This uses different parts than the normal version and the circuit works slightly differently.  
+It's the same logic, just with the central BLOCK & BYTE internal control signals inverted from active-low to active-high,
+mostly because I can't find an active-low version of CD4040 (12-bit binary counter).
 
-This version is not tested yet.
+The original DATAPAC uses a HC138 to generate active-low internal control signals #BLOCK & #BYTE,  
+a binary counter made of 3 x HC161, and a HC374 address latch.
 
-All parts are 1206 & SOIC  
-512k required an additional part
+In the original design, \#BLOCK goes low and the HC374 updates it's data from the bus, then when #BLOCK goes back to high at the end of the pulse, that's when the 374 latches the address.  
+Similarly, \#BYTE goes low and enables the SRAM, and then when #BYTE goes back high after the byte hs been read or written, that's when the byte offset counter advances because the 161s clock on the rising edge.
+
+This version uses a single 4040 for the binary counter instead 3 161s. The 4040 clocks on the falling edge, not the rising edge, and so it needs an active-high BYTE signal.  
+So the 138 is replaced by a 238, which is is the same chip, takes the same inputs and does the same 3-to-8 function, just with active-high outputs.  
+But that means BLOCK is active high too, and and 512k needs 9 bits of address latch, so the 574 is replaced by a FCT841.  
+
+Switching out the 3 x 161s for the single 4040 trades 48 0.65mm pitch pins for just 16 1.27mm pitch pins.  
+That should be much more likely to solder without errors.  
+The other parts all have the same number of pins, but at least much larger. Everything is 1.27mm pitch instead of 0.5mm and 0.65mm.
+
+512k sram doesn't have a CE2 pin, so a HC00 is used to invert RAMRST and then combine with BYTE to generate #CE.
 
 ![](PCB/out/MiniNDP_512_F.jpg)  
 ![](PCB/out/MiniNDP_512_F.top.jpg)  
 ![](PCB/out/MiniNDP_512_F.bottom.jpg)  
 ![](PCB/out/MiniNDP_512_F.svg)  
 [MiniNDP_512_F.bom.csv](PCB/out/MiniNDP_512_F.bom.csv)
+
+### Even Easier to Build - 256k
+
+This version is not tested yet.
+
+This has the fewest & largest parts and is the easiest to build.  
+
+Same as above wrt CD4040 etc, but being 256k allows to also get rid of the HC00.  
+This version takes advantage of the fact that only 256k or lower sram has a CE2 pin, and uses both #CE1 and CE2 to monitor both RAMRST and BYTE without needing a seperate part.
+
+![](PCB/out/MiniNDP_256_F.jpg)  
+![](PCB/out/MiniNDP_256_F.top.jpg)  
+![](PCB/out/MiniNDP_256_F.bottom.jpg)  
+![](PCB/out/MiniNDP_256_F.svg)  
+[MiniNDP_256_F.bom.csv](PCB/out/MiniNDP_256_F.bom.csv)
