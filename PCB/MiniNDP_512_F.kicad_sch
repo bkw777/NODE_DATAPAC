@@ -7,7 +7,7 @@
 	(title_block
 		(title "MiniNDP 512")
 		(date "2024-11-26")
-		(rev "F02")
+		(rev "F03")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAM100.CO or RAM200.CO")
@@ -5275,12 +5275,6 @@
 		(uuid "cb8baf0b-3a00-411f-822f-495ed70191d9")
 	)
 	(junction
-		(at 266.7 83.82)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "ea63a64c-489a-4b79-9a31-f199f81585cc")
-	)
-	(junction
 		(at 222.25 134.62)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6064,6 +6058,16 @@
 	)
 	(wire
 		(pts
+			(xy 214.63 137.16) (xy 222.25 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0282f3b8-13a4-4400-a797-06db03bf70b5")
+	)
+	(wire
+		(pts
 			(xy 165.1 41.91) (xy 175.26 41.91)
 		)
 		(stroke
@@ -6131,16 +6135,6 @@
 			(type default)
 		)
 		(uuid "0b1cfa6e-ac19-4b64-9802-e6cacb0abf30")
-	)
-	(wire
-		(pts
-			(xy 247.65 139.7) (xy 254 139.7)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0be77375-7882-4ca3-b97c-914a005bd489")
 	)
 	(wire
 		(pts
@@ -6554,6 +6548,16 @@
 	)
 	(wire
 		(pts
+			(xy 255.27 83.82) (xy 255.27 149.86)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4e4343bc-3a24-42c6-b7fb-2f5ad32d4673")
+	)
+	(wire
+		(pts
 			(xy 205.74 91.44) (xy 222.25 91.44)
 		)
 		(stroke
@@ -6874,7 +6878,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 83.82) (xy 266.7 83.82)
+			(xy 247.65 83.82) (xy 255.27 83.82)
 		)
 		(stroke
 			(width 0)
@@ -7154,6 +7158,16 @@
 	)
 	(wire
 		(pts
+			(xy 252.73 76.2) (xy 252.73 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9844bcfd-f3de-4656-acb2-16007231b914")
+	)
+	(wire
+		(pts
 			(xy 129.54 97.79) (xy 139.7 97.79)
 		)
 		(stroke
@@ -7301,6 +7315,16 @@
 			(type default)
 		)
 		(uuid "afd75960-532b-49f5-8a58-c62ce4e63ed1")
+	)
+	(wire
+		(pts
+			(xy 247.65 139.7) (xy 252.73 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b0431835-4d6b-4e67-8f1c-822a395556fd")
 	)
 	(bus
 		(pts
@@ -7464,16 +7488,6 @@
 	)
 	(wire
 		(pts
-			(xy 266.7 83.82) (xy 266.7 149.86)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c02b2472-f005-43e1-b91b-a606b6eaf2f8")
-	)
-	(wire
-		(pts
 			(xy 247.65 68.58) (xy 257.81 68.58)
 		)
 		(stroke
@@ -7544,16 +7558,6 @@
 	)
 	(wire
 		(pts
-			(xy 266.7 81.28) (xy 266.7 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c574398e-df5f-4798-8a8d-36ffc694f9b3")
-	)
-	(wire
-		(pts
 			(xy 50.8 113.03) (xy 40.64 113.03)
 		)
 		(stroke
@@ -7564,7 +7568,7 @@
 	)
 	(wire
 		(pts
-			(xy 266.7 149.86) (xy 73.66 149.86)
+			(xy 255.27 149.86) (xy 73.66 149.86)
 		)
 		(stroke
 			(width 0)
@@ -7591,16 +7595,6 @@
 			(type default)
 		)
 		(uuid "c94efc27-c368-4b4d-b6e4-dd771379d3a8")
-	)
-	(wire
-		(pts
-			(xy 254 76.2) (xy 254 139.7)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cad3569a-ede2-4ac2-83a0-c913faf9d05e")
 	)
 	(bus
 		(pts
@@ -7814,16 +7808,6 @@
 	)
 	(wire
 		(pts
-			(xy 254 76.2) (xy 247.65 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e7c12aa7-1212-460a-9382-8c7d45830753")
-	)
-	(wire
-		(pts
 			(xy 88.9 170.18) (xy 88.9 172.72)
 		)
 		(stroke
@@ -7844,7 +7828,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 81.28) (xy 256.54 81.28)
+			(xy 247.65 81.28) (xy 257.81 81.28)
 		)
 		(stroke
 			(width 0)
@@ -7861,6 +7845,16 @@
 			(type default)
 		)
 		(uuid "ea7b82cd-628f-431e-9983-51f29e403e29")
+	)
+	(wire
+		(pts
+			(xy 252.73 76.2) (xy 247.65 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eb1804d7-3b4c-4619-86a9-e8d1b1b5637b")
 	)
 	(wire
 		(pts
@@ -7884,7 +7878,7 @@
 	)
 	(wire
 		(pts
-			(xy 256.54 152.4) (xy 256.54 81.28)
+			(xy 257.81 152.4) (xy 257.81 81.28)
 		)
 		(stroke
 			(width 0)
@@ -7984,7 +7978,7 @@
 	)
 	(wire
 		(pts
-			(xy 44.45 137.16) (xy 222.25 137.16)
+			(xy 44.45 137.16) (xy 207.01 137.16)
 		)
 		(stroke
 			(width 0)
@@ -8064,7 +8058,7 @@
 	)
 	(wire
 		(pts
-			(xy 40.64 152.4) (xy 256.54 152.4)
+			(xy 40.64 152.4) (xy 257.81 152.4)
 		)
 		(stroke
 			(width 0)
@@ -8806,7 +8800,7 @@
 		(uuid "6c209a3d-fdde-49ed-bffa-9247aaf2c419")
 	)
 	(label "RAMRST"
-		(at 222.25 137.16 180)
+		(at 207.01 137.16 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9322,6 +9316,17 @@
 		)
 		(uuid "d2d45d05-46ad-4d9a-83bb-296a5fe4ac74")
 	)
+	(label "SLEEP"
+		(at 222.25 137.16 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "d36dc4d2-72a9-4988-8d80-dec4bdb076df")
+	)
 	(label "BUS_A9"
 		(at 63.5 100.33 0)
 		(fields_autoplaced yes)
@@ -9420,84 +9425,6 @@
 			(justify left bottom)
 		)
 		(uuid "f8877853-71a0-44f5-83d6-45a5366bd2c6")
-	)
-	(symbol
-		(lib_id "000_LOCAL:R")
-		(at 266.7 78.74 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "1eb08d59-62d4-411f-90bf-1394b1d07ba1")
-		(property "Reference" "R2"
-			(at 268.224 77.724 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "47k"
-			(at 268.224 79.756 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "000_LOCAL:R_1206"
-			(at 266.7 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/TE-4-2176343-5.pdf"
-			(at 266.7 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "RES 47K OHM 1% 1/4W 1206"
-			(at 266.7 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CRGCQ1206F47K"
-			(at 266.7 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "78fbd99e-4d46-49ca-86d7-393c7ef77a16")
-		)
-		(pin "2"
-			(uuid "e3936f3e-3c04-441d-85ab-2c2da6f401c7")
-		)
-		(instances
-			(project "MiniNDP_512_F"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "R2")
-					(unit 1)
-				)
-			)
-		)
 	)
 	(symbol
 		(lib_id "power:VMEM")
@@ -10441,6 +10368,82 @@
 			(project "MiniNDP_512_B"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR058")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:LL4148")
+		(at 210.82 137.16 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4a744a4b-46e1-42b6-a8e9-9d92bfa5e154")
+		(property "Reference" "D3"
+			(at 210.82 131.826 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LL4148"
+			(at 210.82 134.112 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:D_MiniMELF"
+			(at 210.82 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/ll4148.pdf"
+			(at 210.82 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "50V 1A General Purpose Rectifier Diode"
+			(at 210.82 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "FDLL4148"
+			(at 210.82 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "debc369d-03f4-4fb6-88f4-4dd585923681")
+		)
+		(pin "2"
+			(uuid "26a117e8-17ff-46c2-969e-b5e3fd9a84e1")
+		)
+		(instances
+			(project "MiniNDP_512_F"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "D3")
 					(unit 1)
 				)
 			)
@@ -11516,71 +11519,6 @@
 			(project "MiniNDP_512_D"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:VMEM")
-		(at 266.7 76.2 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "99c9e2ce-1fc4-4747-8ce2-0e4f2338b4f5")
-		(property "Reference" "#PWR014"
-			(at 266.7 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "VMEM"
-			(at 266.7 72.136 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 266.7 76.2 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 266.7 76.2 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"VMEM\""
-			(at 266.7 76.2 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "bce83128-9095-471f-9372-c932d143bf9e")
-		)
-		(instances
-			(project "MiniNDP_512_B"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "#PWR014")
 					(unit 1)
 				)
 			)

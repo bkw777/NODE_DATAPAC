@@ -3,7 +3,7 @@
 "C1,C2","4.7u","datasheets/CL31B475KAHNNNE.pdf","000_LOCAL:C_1206","2","","CL31B475KAHNNNE","CAP CER 4.7UF 25V X7R 1206"
 "D1,D2","LL4148","datasheets/ll4148.pdf","000_LOCAL:D_MiniMELF","2","","FDLL4148","50V 1A General Purpose Rectifier Diode"
 "J1","Conn_02x20_Odd_Even","datasheets/2x20_male_boxed.pdf","000_LOCAL:IDC-Header_2x20_P2.54mm_Vertical","1","","302-S401","CONN HEADER VERT 40POS 2.54MM"
-"R1,R2","47k","datasheets/TE-4-2176343-5.pdf","000_LOCAL:R_1206","2","","CRGCQ1206F47K","RES 47K OHM 1% 1/4W 1206"
+"R1","47k","datasheets/TE-4-2176343-5.pdf","000_LOCAL:R_1206","1","","CRGCQ1206F47K","RES 47K OHM 1% 1/4W 1206"
 "U1","HC238","datasheets/HC238.pdf","000_LOCAL:SOIC-16_3.9x9.9mm_P1.27mm","1","","74HC238D,653","IC DECODER/DEMUX 1 X 3:8 16SO"
 "U2","HC4040","datasheets/4040.pdf","000_LOCAL:SOIC-16_3.9x9.9mm_P1.27mm","1","","74HC4040D,653","IC BINARY COUNTER 12-BIT 16SO"
 "U3","HC573","datasheets/HC573.pdf","000_LOCAL:SOIC-20W_7.5x12.8mm_P1.27mm","1","","74HC573D,653","IC D-TYPE TRANSP SGL 8:8 20SO"
