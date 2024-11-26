@@ -6,7 +6,7 @@
 	(descr "SOIC, 24 Pin (JEDEC MS-013AD, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_wide-rw/RW_24.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py")
 	(tags "SOIC SO")
 	(property "Reference" "REF**"
-		(at -2.794 -5.715 -90)
+		(at -2.667 -5.969 -90)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "ad8e7416-ab9d-43e2-b51c-ad10469685bc")
@@ -151,8 +151,8 @@
 		(uuid "ab12aa76-a3ba-438c-8088-0b2ca7e848a1")
 	)
 	(fp_circle
-		(center -2.667 -6.604)
-		(end -2.159 -6.604)
+		(center -2.667 -6.731)
+		(end -2.286 -6.731)
 		(stroke
 			(width 0.1)
 			(type solid)

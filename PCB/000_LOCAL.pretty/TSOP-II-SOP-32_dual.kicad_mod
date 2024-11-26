@@ -6,7 +6,7 @@
 	(descr "32-lead plastic TSOP; Type II")
 	(tags "TSOP-II 32")
 	(property "Reference" "REF**"
-		(at -3.81 -8.255 -90)
+		(at -3.81 -8.509 -90)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "83363bd9-c702-47af-8aee-b06eb7219fa4")
@@ -131,8 +131,8 @@
 		(uuid "55366ca6-1c52-4f2f-b095-1ead42792766")
 	)
 	(fp_circle
-		(center -3.81 -9.525)
-		(end -3.302 -9.525)
+		(center -3.81 -9.271)
+		(end -3.429 -9.271)
 		(stroke
 			(width 0.1)
 			(type solid)
