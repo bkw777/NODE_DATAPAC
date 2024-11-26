@@ -5167,6 +5167,12 @@
 		(uuid "0627605d-74f6-43cd-ab0b-efdcece61194")
 	)
 	(junction
+		(at 222.25 137.16)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "08e3c768-99f3-4d41-bf10-185e71c885f5")
+	)
+	(junction
 		(at 45.72 85.09)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5273,6 +5279,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ea63a64c-489a-4b79-9a31-f199f81585cc")
+	)
+	(junction
+		(at 222.25 134.62)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ee30688e-1a44-48e8-9164-3b333197d7df")
 	)
 	(no_connect
 		(at 63.5 123.19)
@@ -6102,7 +6114,7 @@
 	)
 	(wire
 		(pts
-			(xy 107.95 139.7) (xy 234.95 139.7)
+			(xy 107.95 142.24) (xy 234.95 142.24)
 		)
 		(stroke
 			(width 0)
@@ -6119,6 +6131,16 @@
 			(type default)
 		)
 		(uuid "0b1cfa6e-ac19-4b64-9802-e6cacb0abf30")
+	)
+	(wire
+		(pts
+			(xy 247.65 139.7) (xy 254 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0be77375-7882-4ca3-b97c-914a005bd489")
 	)
 	(wire
 		(pts
@@ -6640,6 +6662,16 @@
 		)
 		(uuid "5a3536e6-4c0a-441e-a0b4-e6a3d8584c95")
 	)
+	(wire
+		(pts
+			(xy 222.25 132.08) (xy 222.25 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5a4fb6f4-c36d-40fd-bb78-ddf1f5d0d422")
+	)
 	(bus
 		(pts
 			(xy 31.75 97.79) (xy 31.75 120.65)
@@ -6969,16 +7001,6 @@
 			(type default)
 		)
 		(uuid "8881b010-c70d-4da3-92d4-b396f5fd8e81")
-	)
-	(wire
-		(pts
-			(xy 247.65 137.16) (xy 254 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "888d9eb8-2ed8-4d6e-8deb-12c400ca84e0")
 	)
 	(bus
 		(pts
@@ -7512,7 +7534,7 @@
 	)
 	(wire
 		(pts
-			(xy 107.95 36.83) (xy 107.95 139.7)
+			(xy 107.95 36.83) (xy 107.95 142.24)
 		)
 		(stroke
 			(width 0)
@@ -7572,23 +7594,13 @@
 	)
 	(wire
 		(pts
-			(xy 254 76.2) (xy 254 137.16)
+			(xy 254 76.2) (xy 254 139.7)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "cad3569a-ede2-4ac2-83a0-c913faf9d05e")
-	)
-	(wire
-		(pts
-			(xy 222.25 129.54) (xy 222.25 132.08)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cbe1c3d2-89cb-4343-a1ba-a12284060573")
 	)
 	(bus
 		(pts
@@ -7690,6 +7702,16 @@
 		)
 		(uuid "d83f8f1f-8312-45a3-bd62-3925354bd4d6")
 	)
+	(wire
+		(pts
+			(xy 222.25 134.62) (xy 222.25 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d9ab7fe0-b63a-4bec-b256-f049cab7e5a1")
+	)
 	(bus
 		(pts
 			(xy 76.2 95.25) (xy 76.2 147.32)
@@ -7729,6 +7751,16 @@
 			(type default)
 		)
 		(uuid "dd247f0c-424a-44a2-8352-cf884883fee5")
+	)
+	(wire
+		(pts
+			(xy 222.25 139.7) (xy 222.25 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ddf484d2-53e1-416d-8740-e081f2f8cde6")
 	)
 	(bus
 		(pts
@@ -8455,7 +8487,7 @@
 		(uuid "149737f6-d449-4616-89e4-dcbd6b73973f")
 	)
 	(label "~{CE}"
-		(at 247.65 137.16 0)
+		(at 247.65 139.7 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8697,7 +8729,7 @@
 		(uuid "5deb5bda-a043-4710-8026-8f9e90c7ba4b")
 	)
 	(label "A[0..18]"
-		(at 190.5 120.65 0)
+		(at 186.69 120.65 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9247,7 +9279,7 @@
 		(uuid "cebfe45d-2827-48e3-ab54-52cfea215423")
 	)
 	(label "BYTE"
-		(at 234.95 139.7 180)
+		(at 234.95 142.24 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10804,7 +10836,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:74xx00")
-		(at 228.6 134.62 0)
+		(at 228.6 137.16 0)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -10813,7 +10845,7 @@
 		(dnp no)
 		(uuid "6ed46018-ae6d-438e-9a49-88f92f7c66ab")
 		(property "Reference" "U5"
-			(at 227.33 136.144 0)
+			(at 227.33 138.684 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10821,7 +10853,7 @@
 			)
 		)
 		(property "Value" "HC00"
-			(at 227.584 133.35 0)
+			(at 227.584 135.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10829,7 +10861,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:SOIC-14_3.9x8.7mm_P1.27mm"
-			(at 228.6 134.62 0)
+			(at 228.6 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10838,7 +10870,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/HC00.pdf"
-			(at 234.95 134.62 0)
+			(at 234.95 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10847,7 +10879,7 @@
 			)
 		)
 		(property "Description" "IC GATE NAND 4CH 2-INP 14SO"
-			(at 234.95 134.62 0)
+			(at 234.95 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10856,7 +10888,7 @@
 			)
 		)
 		(property "MPN" "74HC00D,653"
-			(at 228.6 134.62 0)
+			(at 228.6 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11888,7 +11920,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:R")
-		(at 222.25 127 0)
+		(at 222.25 129.54 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11897,7 +11929,7 @@
 		(dnp no)
 		(uuid "b168907d-e8c8-476c-822e-982f1b78525a")
 		(property "Reference" "R1"
-			(at 223.774 125.984 0)
+			(at 223.774 128.524 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11906,7 +11938,7 @@
 			)
 		)
 		(property "Value" "47k"
-			(at 223.774 128.016 0)
+			(at 223.774 130.556 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11915,7 +11947,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:R_1206"
-			(at 222.25 127 0)
+			(at 222.25 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11924,7 +11956,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/TE-4-2176343-5.pdf"
-			(at 222.25 127 0)
+			(at 222.25 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11933,7 +11965,7 @@
 			)
 		)
 		(property "Description" "RES 47K OHM 1% 1/4W 1206"
-			(at 222.25 127 0)
+			(at 222.25 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11942,7 +11974,7 @@
 			)
 		)
 		(property "MPN" "CRGCQ1206F47K"
-			(at 222.25 127 0)
+			(at 222.25 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12098,7 +12130,7 @@
 	)
 	(symbol
 		(lib_id "power:VMEM")
-		(at 222.25 124.46 0)
+		(at 222.25 127 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12106,7 +12138,7 @@
 		(dnp no)
 		(uuid "bedf4ea0-a376-4024-ac80-f6c59adbb25c")
 		(property "Reference" "#PWR021"
-			(at 222.25 128.27 0)
+			(at 222.25 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12115,7 +12147,7 @@
 			)
 		)
 		(property "Value" "VMEM"
-			(at 222.25 120.396 0)
+			(at 222.25 122.936 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12123,7 +12155,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 222.25 124.46 0)
+			(at 222.25 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12132,7 +12164,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 222.25 124.46 0)
+			(at 222.25 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12141,7 +12173,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VMEM\""
-			(at 222.25 124.46 0)
+			(at 222.25 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13192,7 +13224,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:74xx00")
-		(at 241.3 137.16 0)
+		(at 241.3 139.7 0)
 		(unit 2)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13200,7 +13232,7 @@
 		(dnp no)
 		(uuid "fb435ca6-732f-453f-963c-3018a9d46979")
 		(property "Reference" "U5"
-			(at 240.03 135.636 0)
+			(at 240.03 138.176 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13208,7 +13240,7 @@
 			)
 		)
 		(property "Value" "HC00"
-			(at 240.284 138.43 0)
+			(at 240.284 140.97 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13216,7 +13248,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:SOIC-14_3.9x8.7mm_P1.27mm"
-			(at 241.3 137.16 0)
+			(at 241.3 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13225,7 +13257,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/HC00.pdf"
-			(at 247.65 137.16 0)
+			(at 247.65 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13234,7 +13266,7 @@
 			)
 		)
 		(property "Description" "IC GATE NAND 4CH 2-INP 14SO"
-			(at 247.65 137.16 0)
+			(at 247.65 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13243,7 +13275,7 @@
 			)
 		)
 		(property "MPN" "74HC00D,653"
-			(at 241.3 137.16 0)
+			(at 241.3 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
