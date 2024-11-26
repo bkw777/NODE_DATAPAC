@@ -569,7 +569,7 @@ I'm not certain this idea of inverting the /BLOCK and /BYTE signals into a 4040 
 This version is not tested yet.
 
 This has the fewest & largest parts and is the easiest to build.  
-Even the caps & resistors are larger 1206 package instead of 0805.
+All parts are 1206 & SOIC
 
 ![](PCB/out/MiniNDP_256_F.jpg)  
 ![](PCB/out/MiniNDP_256_F.top.jpg)  
@@ -581,23 +581,11 @@ Even the caps & resistors are larger 1206 package instead of 0805.
 
 This version is not tested yet.
 
-512k version that's almost as easy to build as 256_F  
-The caps are overspec so they can do double duty as both decoupling and giving a few seconds of retention without the battery.
+All parts are 1206 & SOIC  
+512k required an additional part
 
 ![](PCB/out/MiniNDP_512_F.jpg)  
 ![](PCB/out/MiniNDP_512_F.top.jpg)  
 ![](PCB/out/MiniNDP_512_F.bottom.jpg)  
 ![](PCB/out/MiniNDP_512_F.svg)  
 [MiniNDP_512_F.bom.csv](PCB/out/MiniNDP_512_F.bom.csv)
-
-### 512K "G" version - Easy to Build
-
-This version is not tested yet.
-
-512k version that has ALL large 1206 & SOIC parts.  
-
-![](PCB/out/MiniNDP_512_G.jpg)  
-![](PCB/out/MiniNDP_512_G.top.jpg)  
-![](PCB/out/MiniNDP_512_G.bottom.jpg)  
-![](PCB/out/MiniNDP_512_G.svg)  
-[MiniNDP_512_G.bom.csv](PCB/out/MiniNDP_512_G.bom.csv)
