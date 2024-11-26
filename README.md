@@ -589,3 +589,15 @@ The caps are overspec so they can do double duty as both decoupling and giving a
 ![](PCB/out/MiniNDP_512_F.bottom.jpg)  
 ![](PCB/out/MiniNDP_512_F.svg)  
 [MiniNDP_512_F.bom.csv](PCB/out/MiniNDP_512_F.bom.csv)
+
+### 512K "G" version - Easy to Build
+
+This version is not tested yet.
+
+512k version that has ALL large 1206 & SOIC parts.  
+
+![](PCB/out/MiniNDP_512_G.jpg)  
+![](PCB/out/MiniNDP_512_G.top.jpg)  
+![](PCB/out/MiniNDP_512_G.bottom.jpg)  
+![](PCB/out/MiniNDP_512_G.svg)  
+[MiniNDP_512_G.bom.csv](PCB/out/MiniNDP_512_G.bom.csv)
