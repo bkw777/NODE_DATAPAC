@@ -5000,10 +5000,10 @@
 		(uuid "9920a878-c398-46e2-8029-32a78147a97f")
 	)
 	(junction
-		(at 266.7 78.74)
+		(at 260.35 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "a334c8ab-bf2f-42c4-9f3e-0ce8a4271459")
+		(uuid "a9b23cb2-741f-4752-88d3-500e42dd6ab1")
 	)
 	(junction
 		(at 99.06 177.8)
@@ -6065,7 +6065,7 @@
 	)
 	(wire
 		(pts
-			(xy 266.7 76.2) (xy 266.7 78.74)
+			(xy 260.35 74.93) (xy 260.35 78.74)
 		)
 		(stroke
 			(width 0)
@@ -6625,7 +6625,7 @@
 	)
 	(wire
 		(pts
-			(xy 266.7 88.9) (xy 266.7 152.4)
+			(xy 260.35 78.74) (xy 260.35 152.4)
 		)
 		(stroke
 			(width 0)
@@ -7445,16 +7445,6 @@
 	)
 	(wire
 		(pts
-			(xy 266.7 78.74) (xy 266.7 81.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cad3569a-ede2-4ac2-83a0-c913faf9d05e")
-	)
-	(wire
-		(pts
 			(xy 199.39 104.14) (xy 215.9 104.14)
 		)
 		(stroke
@@ -7615,7 +7605,7 @@
 	)
 	(wire
 		(pts
-			(xy 241.3 78.74) (xy 266.7 78.74)
+			(xy 241.3 78.74) (xy 260.35 78.74)
 		)
 		(stroke
 			(width 0)
@@ -7805,7 +7795,7 @@
 	)
 	(wire
 		(pts
-			(xy 45.72 152.4) (xy 266.7 152.4)
+			(xy 45.72 152.4) (xy 260.35 152.4)
 		)
 		(stroke
 			(width 0)
@@ -8245,17 +8235,6 @@
 		)
 		(uuid "12a7422b-1dc1-408e-ad40-1f976c4bdcc1")
 	)
-	(label "SLEEP"
-		(at 266.7 78.74 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "139682ad-c16b-4ff0-bde1-11713300bacd")
-	)
 	(label "A13"
 		(at 215.9 76.2 180)
 		(fields_autoplaced yes)
@@ -8576,13 +8555,13 @@
 		(uuid "6b908ee4-9b6c-4260-92f9-5eb4c441728c")
 	)
 	(label "RAMRST"
-		(at 266.7 88.9 270)
+		(at 241.3 78.74 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "6d7cec5d-91de-4b1c-ba4b-bd4f6c14cb0f")
 	)
@@ -9124,17 +9103,6 @@
 			(justify left bottom)
 		)
 		(uuid "ea8cd3b0-1940-4ff7-88da-81fe470d7406")
-	)
-	(label "SLEEP"
-		(at 241.3 78.74 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "efd48306-58c5-4e39-805b-cd87737102f5")
 	)
 	(label "A4"
 		(at 215.9 63.5 180)
@@ -10720,84 +10688,6 @@
 		)
 	)
 	(symbol
-		(lib_id "000_LOCAL:LL4148")
-		(at 266.7 85.09 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "755d00bc-9cd2-4303-ba7a-32d781ebbd40")
-		(property "Reference" "D3"
-			(at 268.986 84.074 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "LL4148"
-			(at 268.986 86.36 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "000_LOCAL:D_MiniMELF"
-			(at 266.7 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/ll4148.pdf"
-			(at 266.7 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "50V 1A General Purpose Rectifier Diode"
-			(at 266.7 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "FDLL4148"
-			(at 266.7 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4dfdea29-cdd1-4e90-a1bf-23b73066791c")
-		)
-		(pin "2"
-			(uuid "aa779c71-84b7-4775-a864-171d2ef796cc")
-		)
-		(instances
-			(project "MiniNDP_1M_C"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "D3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:PWR_FLAG")
 		(at 45.72 102.87 90)
 		(unit 1)
@@ -11261,7 +11151,7 @@
 	)
 	(symbol
 		(lib_id "power:VMEM")
-		(at 266.7 71.12 0)
+		(at 260.35 69.85 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11269,7 +11159,7 @@
 		(dnp no)
 		(uuid "a40ded43-9dff-4bbc-827e-7b10bd8b2327")
 		(property "Reference" "#PWR014"
-			(at 266.7 74.93 0)
+			(at 260.35 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11278,7 +11168,7 @@
 			)
 		)
 		(property "Value" "VMEM"
-			(at 266.7 66.802 0)
+			(at 260.35 65.532 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11286,7 +11176,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 266.7 71.12 0)
+			(at 260.35 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11295,7 +11185,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 266.7 71.12 0)
+			(at 260.35 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11304,7 +11194,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VMEM\""
-			(at 266.7 71.12 0)
+			(at 260.35 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11326,7 +11216,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:R")
-		(at 266.7 73.66 0)
+		(at 260.35 72.39 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11334,7 +11224,7 @@
 		(dnp no)
 		(uuid "a705bf1e-6e66-4469-ac28-448a42a80f08")
 		(property "Reference" "R1"
-			(at 267.97 72.644 0)
+			(at 261.62 71.374 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11343,7 +11233,7 @@
 			)
 		)
 		(property "Value" "47k"
-			(at 267.97 74.676 0)
+			(at 261.62 73.406 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11352,7 +11242,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:R_0805"
-			(at 266.7 73.66 0)
+			(at 260.35 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11361,7 +11251,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/sei-rmcf_rmcp.pdf"
-			(at 266.7 73.66 0)
+			(at 260.35 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11370,7 +11260,7 @@
 			)
 		)
 		(property "Description" "RES 47K OHM 1% 1/8W 0805"
-			(at 266.7 73.66 0)
+			(at 260.35 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11379,7 +11269,7 @@
 			)
 		)
 		(property "MPN" "RMCF0805FT47K0"
-			(at 266.7 73.66 0)
+			(at 260.35 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)

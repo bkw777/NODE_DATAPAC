@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP 512")
-		(date "2024-11-26")
-		(rev "F03")
+		(date "2024-11-27")
+		(rev "F04")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAM100.CO or RAM200.CO")
@@ -5149,12 +5149,6 @@
 		)
 	)
 	(junction
-		(at 120.65 180.34)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "00e90739-5247-4449-874b-185e730a2bff")
-	)
-	(junction
 		(at 133.35 123.19)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5195,12 +5189,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "232f86ef-0efd-427b-929a-cd1fbc4a55bf")
-	)
-	(junction
-		(at 120.65 175.26)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "29225e61-0c9a-40a9-89ee-43f2160a6bc2")
 	)
 	(junction
 		(at 127 147.32)
@@ -5263,6 +5251,12 @@
 		(uuid "8a855880-9bda-4be8-994c-72c43bc27fbe")
 	)
 	(junction
+		(at 120.65 175.26)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8c23b10b-a0ca-4717-97bd-9026728495f2")
+	)
+	(junction
 		(at 54.61 52.07)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5273,6 +5267,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "cb8baf0b-3a00-411f-822f-495ed70191d9")
+	)
+	(junction
+		(at 120.65 180.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ed59625f-0c9c-4cd6-b109-2895fc53aea6")
 	)
 	(junction
 		(at 222.25 134.62)
@@ -6058,16 +6058,6 @@
 	)
 	(wire
 		(pts
-			(xy 214.63 137.16) (xy 222.25 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0282f3b8-13a4-4400-a797-06db03bf70b5")
-	)
-	(wire
-		(pts
 			(xy 165.1 41.91) (xy 175.26 41.91)
 		)
 		(stroke
@@ -6148,7 +6138,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 73.66) (xy 222.25 73.66)
+			(xy 205.74 73.66) (xy 215.9 73.66)
 		)
 		(stroke
 			(width 0)
@@ -6168,7 +6158,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 71.12) (xy 257.81 71.12)
+			(xy 241.3 71.12) (xy 257.81 71.12)
 		)
 		(stroke
 			(width 0)
@@ -6198,7 +6188,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 58.42) (xy 222.25 58.42)
+			(xy 205.74 58.42) (xy 215.9 58.42)
 		)
 		(stroke
 			(width 0)
@@ -6318,7 +6308,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 78.74) (xy 222.25 78.74)
+			(xy 205.74 78.74) (xy 215.9 78.74)
 		)
 		(stroke
 			(width 0)
@@ -6335,16 +6325,6 @@
 			(type default)
 		)
 		(uuid "3068c8f9-270e-4570-bb34-8b6c8f69061e")
-	)
-	(wire
-		(pts
-			(xy 114.3 180.34) (xy 120.65 180.34)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "34553a4f-fcdf-4e57-b144-7fa2c99393d9")
 	)
 	(wire
 		(pts
@@ -6418,7 +6398,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 66.04) (xy 257.81 66.04)
+			(xy 241.3 66.04) (xy 257.81 66.04)
 		)
 		(stroke
 			(width 0)
@@ -6448,7 +6428,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 68.58) (xy 222.25 68.58)
+			(xy 205.74 68.58) (xy 215.9 68.58)
 		)
 		(stroke
 			(width 0)
@@ -6478,7 +6458,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 55.88) (xy 222.25 55.88)
+			(xy 205.74 55.88) (xy 215.9 55.88)
 		)
 		(stroke
 			(width 0)
@@ -6518,7 +6498,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 81.28) (xy 222.25 81.28)
+			(xy 205.74 81.28) (xy 215.9 81.28)
 		)
 		(stroke
 			(width 0)
@@ -6548,7 +6528,7 @@
 	)
 	(wire
 		(pts
-			(xy 255.27 83.82) (xy 255.27 149.86)
+			(xy 254 83.82) (xy 254 149.86)
 		)
 		(stroke
 			(width 0)
@@ -6558,7 +6538,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 91.44) (xy 222.25 91.44)
+			(xy 205.74 91.44) (xy 215.9 91.44)
 		)
 		(stroke
 			(width 0)
@@ -6598,7 +6578,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 60.96) (xy 222.25 60.96)
+			(xy 205.74 60.96) (xy 215.9 60.96)
 		)
 		(stroke
 			(width 0)
@@ -6798,7 +6778,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 88.9) (xy 222.25 88.9)
+			(xy 205.74 88.9) (xy 215.9 88.9)
 		)
 		(stroke
 			(width 0)
@@ -6846,6 +6826,16 @@
 		)
 		(uuid "6c69e90e-0139-4f67-8737-9805757e6d4c")
 	)
+	(wire
+		(pts
+			(xy 120.65 175.26) (xy 127 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6cf1136c-88bc-47dc-8a39-868278674f8d")
+	)
 	(bus
 		(pts
 			(xy 177.8 95.25) (xy 177.8 97.79)
@@ -6878,7 +6868,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 83.82) (xy 255.27 83.82)
+			(xy 241.3 83.82) (xy 254 83.82)
 		)
 		(stroke
 			(width 0)
@@ -6888,7 +6878,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 60.96) (xy 257.81 60.96)
+			(xy 241.3 60.96) (xy 257.81 60.96)
 		)
 		(stroke
 			(width 0)
@@ -6938,7 +6928,17 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 53.34) (xy 222.25 53.34)
+			(xy 120.65 180.34) (xy 127 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7bb7c4fc-bace-4316-aef2-1ad5d32f86d4")
+	)
+	(wire
+		(pts
+			(xy 205.74 53.34) (xy 215.9 53.34)
 		)
 		(stroke
 			(width 0)
@@ -6968,7 +6968,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 180.34) (xy 127 180.34)
+			(xy 114.3 180.34) (xy 120.65 180.34)
 		)
 		(stroke
 			(width 0)
@@ -7066,16 +7066,6 @@
 		)
 		(uuid "8df93051-a439-4b41-be43-692a3b359d80")
 	)
-	(wire
-		(pts
-			(xy 127 175.26) (xy 120.65 175.26)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8e31360b-3ba6-4f2d-ad64-b7fe255ec758")
-	)
 	(bus
 		(pts
 			(xy 76.2 90.17) (xy 76.2 92.71)
@@ -7138,7 +7128,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 63.5) (xy 257.81 63.5)
+			(xy 241.3 63.5) (xy 257.81 63.5)
 		)
 		(stroke
 			(width 0)
@@ -7158,7 +7148,7 @@
 	)
 	(wire
 		(pts
-			(xy 252.73 76.2) (xy 252.73 139.7)
+			(xy 251.46 76.2) (xy 251.46 139.7)
 		)
 		(stroke
 			(width 0)
@@ -7178,7 +7168,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 76.2) (xy 222.25 76.2)
+			(xy 205.74 76.2) (xy 215.9 76.2)
 		)
 		(stroke
 			(width 0)
@@ -7258,7 +7248,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 63.5) (xy 222.25 63.5)
+			(xy 205.74 63.5) (xy 215.9 63.5)
 		)
 		(stroke
 			(width 0)
@@ -7278,7 +7268,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 71.12) (xy 222.25 71.12)
+			(xy 205.74 71.12) (xy 215.9 71.12)
 		)
 		(stroke
 			(width 0)
@@ -7318,7 +7308,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 139.7) (xy 252.73 139.7)
+			(xy 247.65 139.7) (xy 251.46 139.7)
 		)
 		(stroke
 			(width 0)
@@ -7338,7 +7328,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 58.42) (xy 257.81 58.42)
+			(xy 241.3 58.42) (xy 257.81 58.42)
 		)
 		(stroke
 			(width 0)
@@ -7378,7 +7368,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 99.06) (xy 222.25 99.06)
+			(xy 205.74 99.06) (xy 215.9 99.06)
 		)
 		(stroke
 			(width 0)
@@ -7408,7 +7398,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 55.88) (xy 257.81 55.88)
+			(xy 241.3 55.88) (xy 257.81 55.88)
 		)
 		(stroke
 			(width 0)
@@ -7428,7 +7418,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 53.34) (xy 257.81 53.34)
+			(xy 241.3 53.34) (xy 257.81 53.34)
 		)
 		(stroke
 			(width 0)
@@ -7458,7 +7448,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 93.98) (xy 222.25 93.98)
+			(xy 205.74 93.98) (xy 215.9 93.98)
 		)
 		(stroke
 			(width 0)
@@ -7488,7 +7478,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 68.58) (xy 257.81 68.58)
+			(xy 241.3 68.58) (xy 257.81 68.58)
 		)
 		(stroke
 			(width 0)
@@ -7568,7 +7558,7 @@
 	)
 	(wire
 		(pts
-			(xy 255.27 149.86) (xy 73.66 149.86)
+			(xy 254 149.86) (xy 73.66 149.86)
 		)
 		(stroke
 			(width 0)
@@ -7688,7 +7678,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 96.52) (xy 222.25 96.52)
+			(xy 205.74 96.52) (xy 215.9 96.52)
 		)
 		(stroke
 			(width 0)
@@ -7798,7 +7788,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 66.04) (xy 222.25 66.04)
+			(xy 205.74 66.04) (xy 215.9 66.04)
 		)
 		(stroke
 			(width 0)
@@ -7828,7 +7818,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 81.28) (xy 257.81 81.28)
+			(xy 241.3 81.28) (xy 256.54 81.28)
 		)
 		(stroke
 			(width 0)
@@ -7848,7 +7838,7 @@
 	)
 	(wire
 		(pts
-			(xy 252.73 76.2) (xy 247.65 76.2)
+			(xy 251.46 76.2) (xy 241.3 76.2)
 		)
 		(stroke
 			(width 0)
@@ -7878,7 +7868,7 @@
 	)
 	(wire
 		(pts
-			(xy 257.81 152.4) (xy 257.81 81.28)
+			(xy 256.54 152.4) (xy 256.54 81.28)
 		)
 		(stroke
 			(width 0)
@@ -7908,7 +7898,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 83.82) (xy 222.25 83.82)
+			(xy 205.74 83.82) (xy 215.9 83.82)
 		)
 		(stroke
 			(width 0)
@@ -7978,7 +7968,7 @@
 	)
 	(wire
 		(pts
-			(xy 44.45 137.16) (xy 207.01 137.16)
+			(xy 44.45 137.16) (xy 222.25 137.16)
 		)
 		(stroke
 			(width 0)
@@ -8008,7 +7998,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 86.36) (xy 222.25 86.36)
+			(xy 205.74 86.36) (xy 215.9 86.36)
 		)
 		(stroke
 			(width 0)
@@ -8058,7 +8048,7 @@
 	)
 	(wire
 		(pts
-			(xy 40.64 152.4) (xy 257.81 152.4)
+			(xy 40.64 152.4) (xy 256.54 152.4)
 		)
 		(stroke
 			(width 0)
@@ -8166,7 +8156,7 @@
 	)
 	(text "SOP-32 or TSOP-II-32"
 		(exclude_from_sim no)
-		(at 234.95 41.91 0)
+		(at 228.6 41.91 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8382,7 +8372,7 @@
 		(uuid "0000b3ef-91a9-4247-bf9b-79dd6e08bd23")
 	)
 	(label "~{RD}"
-		(at 247.65 81.28 0)
+		(at 241.3 81.28 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8415,7 +8405,7 @@
 		(uuid "02ca8b3b-e307-4f2b-92e0-f944688d286c")
 	)
 	(label "A1"
-		(at 222.25 53.34 180)
+		(at 215.9 53.34 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8426,7 +8416,7 @@
 		(uuid "09ae59f1-e513-4124-8f84-006b90ab503b")
 	)
 	(label "~{CE}"
-		(at 247.65 76.2 0)
+		(at 241.3 76.2 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8437,7 +8427,7 @@
 		(uuid "0f924cd8-502d-4a38-89ff-0f34d8f66004")
 	)
 	(label "A7"
-		(at 222.25 86.36 180)
+		(at 215.9 86.36 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8459,7 +8449,7 @@
 		(uuid "12a7422b-1dc1-408e-ad40-1f976c4bdcc1")
 	)
 	(label "A13"
-		(at 222.25 66.04 180)
+		(at 215.9 66.04 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8470,7 +8460,7 @@
 		(uuid "13d9315b-3a3e-4c51-a15e-05a35db355ff")
 	)
 	(label "AD0"
-		(at 247.65 60.96 0)
+		(at 241.3 60.96 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8492,7 +8482,7 @@
 		(uuid "16c72e7f-906b-4d30-ae9f-142b31cc514d")
 	)
 	(label "A16"
-		(at 222.25 83.82 180)
+		(at 215.9 83.82 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8580,7 +8570,7 @@
 		(uuid "323c3633-9292-46b8-985d-6c90dfe1ed3f")
 	)
 	(label "AD5"
-		(at 247.65 58.42 0)
+		(at 241.3 58.42 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8657,7 +8647,7 @@
 		(uuid "4e876d03-ad82-4b37-85b0-0883d30f5b30")
 	)
 	(label "AD1"
-		(at 247.65 63.5 0)
+		(at 241.3 63.5 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8679,7 +8669,7 @@
 		(uuid "53dbf55e-2838-49a0-b4f1-19a6489ab8ec")
 	)
 	(label "A17"
-		(at 222.25 88.9 180)
+		(at 215.9 88.9 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8712,7 +8702,7 @@
 		(uuid "5d338b48-9dc2-44f2-8cbc-666f2c8aa211")
 	)
 	(label "A3"
-		(at 222.25 99.06 180)
+		(at 215.9 99.06 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8745,7 +8735,7 @@
 		(uuid "6100531c-a8d6-4e38-9f51-d013cae6f0fb")
 	)
 	(label "A8"
-		(at 222.25 73.66 180)
+		(at 215.9 73.66 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8767,7 +8757,7 @@
 		(uuid "65924ce3-79c4-43ac-81ba-03b42c505bac")
 	)
 	(label "A18"
-		(at 222.25 93.98 180)
+		(at 215.9 93.98 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8800,7 +8790,7 @@
 		(uuid "6c209a3d-fdde-49ed-bffa-9247aaf2c419")
 	)
 	(label "RAMRST"
-		(at 207.01 137.16 180)
+		(at 222.25 137.16 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8833,7 +8823,7 @@
 		(uuid "716da352-2b81-42ba-8f10-9f65f3caecb6")
 	)
 	(label "A2"
-		(at 222.25 55.88 180)
+		(at 215.9 55.88 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8844,7 +8834,7 @@
 		(uuid "717ae0bd-3f35-437d-9031-c6216f7432f8")
 	)
 	(label "A15"
-		(at 222.25 71.12 180)
+		(at 215.9 71.12 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8899,7 +8889,7 @@
 		(uuid "7a25304c-177e-4b3f-b164-570e6ca92b51")
 	)
 	(label "A6"
-		(at 222.25 78.74 180)
+		(at 215.9 78.74 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8910,7 +8900,7 @@
 		(uuid "7ad22c15-a5bf-4625-998b-366840042f01")
 	)
 	(label "A9"
-		(at 222.25 96.52 180)
+		(at 215.9 96.52 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8932,7 +8922,7 @@
 		(uuid "83582c3e-557c-4645-9d05-2886a45851ff")
 	)
 	(label "AD7"
-		(at 247.65 53.34 0)
+		(at 241.3 53.34 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8943,7 +8933,7 @@
 		(uuid "85ae06a3-530e-4811-ab08-f745be5bf510")
 	)
 	(label "AD4"
-		(at 247.65 71.12 0)
+		(at 241.3 71.12 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9020,7 +9010,7 @@
 		(uuid "9cd12980-59b9-442d-94fe-d1c5f80b2f27")
 	)
 	(label "~{WR}"
-		(at 247.65 83.82 0)
+		(at 241.3 83.82 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9053,7 +9043,7 @@
 		(uuid "9f9fd5da-81b5-4cb0-8a09-d6f604f3a3b7")
 	)
 	(label "AD3"
-		(at 247.65 68.58 0)
+		(at 241.3 68.58 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9097,7 +9087,7 @@
 		(uuid "b0c6d7bc-0d6f-46b0-8b22-8a960e835a2b")
 	)
 	(label "A11"
-		(at 222.25 60.96 180)
+		(at 215.9 60.96 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9108,7 +9098,7 @@
 		(uuid "b1f86314-f0ec-4b36-b013-38a97550cfa3")
 	)
 	(label "A12"
-		(at 222.25 63.5 180)
+		(at 215.9 63.5 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9130,7 +9120,7 @@
 		(uuid "b26a130c-5d30-4394-b0cf-9725d2767a8a")
 	)
 	(label "A0"
-		(at 222.25 91.44 180)
+		(at 215.9 91.44 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9163,7 +9153,7 @@
 		(uuid "b7ebb459-56c8-41a8-8195-21a58ea7c25f")
 	)
 	(label "A5"
-		(at 222.25 76.2 180)
+		(at 215.9 76.2 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9185,7 +9175,7 @@
 		(uuid "bf4ae98c-679d-4812-a2b6-3c73d2016ad7")
 	)
 	(label "AD2"
-		(at 247.65 66.04 0)
+		(at 241.3 66.04 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9218,7 +9208,7 @@
 		(uuid "c45d1e16-3792-45bf-9313-275fc797d4cd")
 	)
 	(label "A14"
-		(at 222.25 68.58 180)
+		(at 215.9 68.58 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9306,7 +9296,7 @@
 		(uuid "d17b967e-9d65-41ab-b656-ad0e53aba7eb")
 	)
 	(label "A10"
-		(at 222.25 58.42 180)
+		(at 215.9 58.42 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9315,17 +9305,6 @@
 			(justify right bottom)
 		)
 		(uuid "d2d45d05-46ad-4d9a-83bb-296a5fe4ac74")
-	)
-	(label "SLEEP"
-		(at 222.25 137.16 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "d36dc4d2-72a9-4988-8d80-dec4bdb076df")
 	)
 	(label "BUS_A9"
 		(at 63.5 100.33 0)
@@ -9339,7 +9318,7 @@
 		(uuid "d413162f-c8ce-47d8-a9d6-41a892945024")
 	)
 	(label "AD6"
-		(at 247.65 55.88 0)
+		(at 241.3 55.88 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9394,7 +9373,7 @@
 		(uuid "f25d7770-16f4-4aad-a1a7-6b3e6acd67f2")
 	)
 	(label "A4"
-		(at 222.25 81.28 180)
+		(at 215.9 81.28 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9486,6 +9465,82 @@
 			(project "MiniNDP_512_B"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR010")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:C")
+		(at 120.65 177.8 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1f09aac1-1b5a-4f51-867e-40e024977faa")
+		(property "Reference" "C2"
+			(at 120.65 170.434 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1u"
+			(at 120.65 172.974 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:C_1206"
+			(at 120.65 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/CL05Y105KP6VPN.pdf"
+			(at 120.65 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "CAP CER 1UF 25V X7R 1206"
+			(at 120.65 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL31B105KAHNNNE"
+			(at 120.65 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "308654dd-1320-4f88-9c5f-be380b2734a2")
+		)
+		(pin "1"
+			(uuid "f75a979a-646c-4a62-b05a-41313d245d5a")
+		)
+		(instances
+			(project "MiniNDP_512_F"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "C2")
 					(unit 1)
 				)
 			)
@@ -9679,7 +9734,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 234.95 104.14 0)
+		(at 228.6 104.14 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9687,7 +9742,7 @@
 		(dnp no)
 		(uuid "243a43bd-42a3-4ffc-bcb8-c726449c9643")
 		(property "Reference" "#PWR026"
-			(at 234.95 110.49 0)
+			(at 228.6 110.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9696,7 +9751,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 234.95 109.22 0)
+			(at 228.6 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9705,7 +9760,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 234.95 104.14 0)
+			(at 228.6 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9714,7 +9769,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 234.95 104.14 0)
+			(at 228.6 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9723,7 +9778,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 234.95 104.14 0)
+			(at 228.6 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10018,84 +10073,8 @@
 		)
 	)
 	(symbol
-		(lib_id "000_LOCAL:C")
-		(at 137.16 177.8 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "3220eb24-371e-41aa-9d08-9109292e406f")
-		(property "Reference" "C4"
-			(at 139.192 175.514 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "4.7u"
-			(at 139.954 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "000_LOCAL:C_1206"
-			(at 137.16 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/CL31B475KAHNNNE.pdf"
-			(at 137.16 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "CAP CER 4.7UF 25V X7R 1206"
-			(at 137.16 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CL31B475KAHNNNE"
-			(at 137.16 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "0d32be64-c1cf-4f76-ab6e-e3975518dd21")
-		)
-		(pin "1"
-			(uuid "e7851ef0-b33c-4eda-a274-fd393b8f93ae")
-		)
-		(instances
-			(project "MiniNDP_512_F"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "C4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:VMEM")
-		(at 234.95 48.26 0)
+		(at 228.6 48.26 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10103,7 +10082,7 @@
 		(dnp no)
 		(uuid "3594e989-cdf9-46d7-820a-485de3d6f50f")
 		(property "Reference" "#PWR012"
-			(at 234.95 52.07 0)
+			(at 228.6 52.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10112,7 +10091,7 @@
 			)
 		)
 		(property "Value" "VMEM"
-			(at 234.95 44.196 0)
+			(at 228.6 44.196 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10120,7 +10099,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 234.95 48.26 0)
+			(at 228.6 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10129,7 +10108,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 234.95 48.26 0)
+			(at 228.6 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10138,7 +10117,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VMEM\""
-			(at 234.95 48.26 0)
+			(at 228.6 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10368,82 +10347,6 @@
 			(project "MiniNDP_512_B"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR058")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "000_LOCAL:LL4148")
-		(at 210.82 137.16 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "4a744a4b-46e1-42b6-a8e9-9d92bfa5e154")
-		(property "Reference" "D3"
-			(at 210.82 131.826 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "LL4148"
-			(at 210.82 134.112 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "000_LOCAL:D_MiniMELF"
-			(at 210.82 137.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/ll4148.pdf"
-			(at 210.82 137.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "50V 1A General Purpose Rectifier Diode"
-			(at 210.82 137.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "FDLL4148"
-			(at 210.82 137.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "debc369d-03f4-4fb6-88f4-4dd585923681")
-		)
-		(pin "2"
-			(uuid "26a117e8-17ff-46c2-969e-b5e3fd9a84e1")
-		)
-		(instances
-			(project "MiniNDP_512_F"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "D3")
 					(unit 1)
 				)
 			)
@@ -10712,7 +10615,7 @@
 				)
 			)
 		)
-		(property "Value" "4.7u"
+		(property "Value" "1u"
 			(at 114.3 172.974 0)
 			(effects
 				(font
@@ -10729,7 +10632,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "datasheets/CL31B475KAHNNNE.pdf"
+		(property "Datasheet" "datasheets/CL05Y105KP6VPN.pdf"
 			(at 114.3 177.8 0)
 			(effects
 				(font
@@ -10738,7 +10641,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "CAP CER 4.7UF 25V X7R 1206"
+		(property "Description" "CAP CER 1UF 25V X7R 1206"
 			(at 114.3 177.8 0)
 			(effects
 				(font
@@ -10747,7 +10650,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL31B475KAHNNNE"
+		(property "MPN" "CL31B105KAHNNNE"
 			(at 114.3 177.8 0)
 			(effects
 				(font
@@ -11017,82 +10920,6 @@
 		)
 	)
 	(symbol
-		(lib_id "000_LOCAL:C")
-		(at 127 177.8 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "7545d11b-2a27-4333-9b2d-02b249235bb2")
-		(property "Reference" "C3"
-			(at 127 170.434 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "4.7u"
-			(at 127 172.974 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "000_LOCAL:C_1206"
-			(at 127 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/CL31B475KAHNNNE.pdf"
-			(at 127 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "CAP CER 4.7UF 25V X7R 1206"
-			(at 127 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CL31B475KAHNNNE"
-			(at 127 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "888d2f72-bba1-41e6-b50c-c0b3c3d715ad")
-		)
-		(pin "1"
-			(uuid "992a8b86-5ca1-4590-922c-c4a03b18764f")
-		)
-		(instances
-			(project "MiniNDP_512_F"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "C3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:PWR_FLAG")
 		(at 45.72 87.63 90)
 		(unit 1)
@@ -11290,6 +11117,82 @@
 		)
 	)
 	(symbol
+		(lib_id "000_LOCAL:C")
+		(at 137.16 177.8 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "8641f200-d9fc-4199-b011-7c100016980c")
+		(property "Reference" "C4"
+			(at 140.208 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1u"
+			(at 140.462 179.832 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:C_1206"
+			(at 137.16 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/CL05Y105KP6VPN.pdf"
+			(at 137.16 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "CAP CER 1UF 25V X7R 1206"
+			(at 137.16 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL31B105KAHNNNE"
+			(at 137.16 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "44636089-b4c5-4397-bdec-930c3adb30d4")
+		)
+		(pin "1"
+			(uuid "61d6e501-0759-4e83-a4d3-2be2a525443e")
+		)
+		(instances
+			(project "MiniNDP_512_F"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "C4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:VBUS")
 		(at 68.58 85.09 0)
 		(mirror y)
@@ -11358,7 +11261,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:AS6C4008_DIP")
-		(at 234.95 73.66 0)
+		(at 228.6 73.66 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11366,7 +11269,7 @@
 		(dnp no)
 		(uuid "8fc8e425-1951-4706-ae16-c428532c361d")
 		(property "Reference" "U4"
-			(at 236.982 46.736 0)
+			(at 230.632 46.736 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11375,7 +11278,7 @@
 			)
 		)
 		(property "Value" "AS6C4008"
-			(at 236.982 49.022 0)
+			(at 230.632 49.022 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11384,7 +11287,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:TSOP-II-SOP-32_dual"
-			(at 234.95 73.66 0)
+			(at 228.6 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11393,7 +11296,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/AS6C4008.pdf"
-			(at 234.95 73.66 0)
+			(at 228.6 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11402,7 +11305,7 @@
 			)
 		)
 		(property "Description" "IC SRAM 512Kx8 PARALLEL 5v TSOP-II-32"
-			(at 234.95 73.66 0)
+			(at 228.6 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11411,7 +11314,7 @@
 			)
 		)
 		(property "MPN" "AS6C4008-55ZIN"
-			(at 234.95 73.66 0)
+			(at 228.6 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12067,6 +11970,82 @@
 		)
 	)
 	(symbol
+		(lib_id "000_LOCAL:C")
+		(at 127 177.8 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b8611d5e-8885-4760-9a3f-1d527fcc58ac")
+		(property "Reference" "C3"
+			(at 127 170.434 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1u"
+			(at 127 172.974 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:C_1206"
+			(at 127 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/CL05Y105KP6VPN.pdf"
+			(at 127 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "CAP CER 1UF 25V X7R 1206"
+			(at 127 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL31B105KAHNNNE"
+			(at 127 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "4486c1a9-7f99-485d-8bb4-333c4f574ae7")
+		)
+		(pin "1"
+			(uuid "3dcf83d1-e3b7-46a1-98ec-bb4e7642e809")
+		)
+		(instances
+			(project "MiniNDP_512_F"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "C3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:VMEM")
 		(at 222.25 127 0)
 		(unit 1)
@@ -12126,82 +12105,6 @@
 			(project "MiniNDP_512_B"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR021")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "000_LOCAL:C")
-		(at 120.65 177.8 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "c1e338fc-1e1f-4bf4-9db2-17484669722e")
-		(property "Reference" "C2"
-			(at 120.65 170.434 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "4.7u"
-			(at 120.65 172.974 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "000_LOCAL:C_1206"
-			(at 120.65 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/CL31B475KAHNNNE.pdf"
-			(at 120.65 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "CAP CER 4.7UF 25V X7R 1206"
-			(at 120.65 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CL31B475KAHNNNE"
-			(at 120.65 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "05b75484-3ae2-46a4-959a-726b11ab24c2")
-		)
-		(pin "1"
-			(uuid "d74b66e5-c0bc-41f4-a9c9-fdb9da3b8354")
-		)
-		(instances
-			(project "MiniNDP_512_F"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "C2")
 					(unit 1)
 				)
 			)

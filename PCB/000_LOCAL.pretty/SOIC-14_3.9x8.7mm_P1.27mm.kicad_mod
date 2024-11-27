@@ -6,7 +6,7 @@
 	(descr "SOIC, 14 Pin (JEDEC MS-012AB, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_14.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py")
 	(tags "SOIC SO")
 	(property "Reference" "REF**"
-		(at -0.635 -2.794 -90)
+		(at -1.051 -2.794 -90)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "fdc4f0f2-089e-4cc6-b89d-d86cc7688596")
@@ -19,7 +19,7 @@
 		)
 	)
 	(property "Value" "SOIC-14_3.9x8.7mm_P1.27mm"
-		(at 0.635 0 -90)
+		(at 1.016 0 -90)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "dd09bd85-6dc4-4e56-b3ec-e7dd5fddd0e4")
@@ -108,8 +108,8 @@
 		(uuid "5e9f15cb-07cb-4e3d-9085-3c5103c823ce")
 	)
 	(fp_circle
-		(center -0.6 -3.5)
-		(end -0.25 -3.5)
+		(center -1.016 -3.5)
+		(end -0.666 -3.5)
 		(stroke
 			(width 0.1)
 			(type solid)

@@ -536,8 +536,6 @@ This version is not tested yet.
 
 All parts are 1206 & SOIC
 
-The decouplers are overspec to do double duty and give a few seconds retention without the battery.
-
 This uses different parts than the normal version and the circuit works slightly differently.  
 It's the same logic, just with the central BLOCK & BYTE internal control signals inverted from active-low to active-high,
 mostly because I can't find an active-low version of CD4040 (12-bit binary counter).
@@ -584,7 +582,7 @@ This version takes advantage of the fact that 256k or smaller sram has a CE2 pin
 This version is not tested yet.
 
 1 Meg version based on 238, 4040, & FCT841  
-1M sram has a CE2 pin so it can be neat like the 256k version.
+1M sram has a CE2 pin so it can have minimal componets like the 256k version.
 
 ![](PCB/out/MiniNDP_1M_C.jpg)  
 ![](PCB/out/MiniNDP_1M_C.top.jpg)  
