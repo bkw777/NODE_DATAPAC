@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP")
-		(date "2024-11-17")
-		(rev "E04")
+		(date "2024-11-26")
+		(rev "E05")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAM100.CO or RAM200.CO")
@@ -6305,12 +6305,6 @@
 		(uuid "451b15e7-1c8b-4b7a-ac70-3416d32fd947")
 	)
 	(junction
-		(at 265.43 88.9)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "4665b90b-2176-4767-bf9a-8827312aeb78")
-	)
-	(junction
 		(at 101.6 64.77)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -7394,16 +7388,6 @@
 	)
 	(wire
 		(pts
-			(xy 265.43 86.36) (xy 265.43 88.9)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "108bb57b-e8e3-453f-81ce-87c9c536196b")
-	)
-	(wire
-		(pts
 			(xy 222.25 143.51) (xy 222.25 161.29)
 		)
 		(stroke
@@ -8024,7 +8008,7 @@
 	)
 	(wire
 		(pts
-			(xy 265.43 88.9) (xy 265.43 162.56)
+			(xy 262.89 88.9) (xy 262.89 162.56)
 		)
 		(stroke
 			(width 0)
@@ -8364,7 +8348,7 @@
 	)
 	(wire
 		(pts
-			(xy 254 88.9) (xy 265.43 88.9)
+			(xy 254 88.9) (xy 262.89 88.9)
 		)
 		(stroke
 			(width 0)
@@ -9084,7 +9068,7 @@
 	)
 	(wire
 		(pts
-			(xy 265.43 162.56) (xy 71.12 162.56)
+			(xy 262.89 162.56) (xy 71.12 162.56)
 		)
 		(stroke
 			(width 0)
@@ -9424,7 +9408,7 @@
 	)
 	(wire
 		(pts
-			(xy 254 86.36) (xy 262.89 86.36)
+			(xy 254 86.36) (xy 265.43 86.36)
 		)
 		(stroke
 			(width 0)
@@ -9494,7 +9478,7 @@
 	)
 	(wire
 		(pts
-			(xy 262.89 163.83) (xy 262.89 86.36)
+			(xy 265.43 163.83) (xy 265.43 86.36)
 		)
 		(stroke
 			(width 0)
@@ -9634,7 +9618,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 163.83) (xy 262.89 163.83)
+			(xy 43.18 163.83) (xy 265.43 163.83)
 		)
 		(stroke
 			(width 0)
@@ -11459,7 +11443,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C")
-		(at 165.1 182.88 0)
+		(at 158.75 182.88 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11467,7 +11451,7 @@
 		(dnp no)
 		(uuid "112948b7-b866-4d74-9014-b658056d972a")
 		(property "Reference" "C5"
-			(at 166.37 181.61 0)
+			(at 160.02 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11476,7 +11460,7 @@
 			)
 		)
 		(property "Value" "1u"
-			(at 166.37 184.15 0)
+			(at 160.02 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11485,7 +11469,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:C_0805"
-			(at 166.0652 186.69 0)
+			(at 159.7152 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11494,7 +11478,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/CL21B105KAFNNNE.pdf"
-			(at 165.1 182.88 0)
+			(at 158.75 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11503,7 +11487,7 @@
 			)
 		)
 		(property "Description" "CAP CER 1UF 25V X7R 0805"
-			(at 165.1 182.88 0)
+			(at 158.75 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11512,7 +11496,7 @@
 			)
 		)
 		(property "MPN" "CL21B105KAFNNNE"
-			(at 165.1 182.88 0)
+			(at 158.75 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13168,7 +13152,7 @@
 	)
 	(symbol
 		(lib_id "power:VMEM")
-		(at 165.1 180.34 0)
+		(at 158.75 180.34 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13176,7 +13160,7 @@
 		(dnp no)
 		(uuid "5bb219cd-c7ca-4135-a521-7b5d23fbb0bf")
 		(property "Reference" "#PWR055"
-			(at 165.1 184.15 0)
+			(at 158.75 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13185,7 +13169,7 @@
 			)
 		)
 		(property "Value" "VMEM"
-			(at 165.1 175.26 0)
+			(at 158.75 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13193,7 +13177,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 165.1 180.34 0)
+			(at 158.75 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13202,7 +13186,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 165.1 180.34 0)
+			(at 158.75 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13211,7 +13195,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 165.1 180.34 0)
+			(at 158.75 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13347,84 +13331,6 @@
 			(project "MiniNDP_512"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "000_LOCAL:R")
-		(at 265.43 83.82 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "5fbde1de-7b2f-437a-a805-6eedae4d7fda")
-		(property "Reference" "R3"
-			(at 266.7 82.804 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "47k"
-			(at 266.7 84.836 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "000_LOCAL:R_0805"
-			(at 265.43 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/sei-rmcf_rmcp.pdf"
-			(at 265.43 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "RES 47K OHM 1% 1/8W 0805"
-			(at 265.43 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "RMCF0805FT47K0"
-			(at 265.43 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "8bae0c57-3692-48d7-8091-5470a5b5a68a")
-		)
-		(pin "2"
-			(uuid "84880c83-2593-49aa-ba12-0a4d2ac1fbbf")
-		)
-		(instances
-			(project "MiniNDP_512_E"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -14604,71 +14510,6 @@
 	)
 	(symbol
 		(lib_id "power:VMEM")
-		(at 265.43 81.28 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "bc975d18-539b-414b-98d9-9a137d846cf9")
-		(property "Reference" "#PWR013"
-			(at 265.43 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "VMEM"
-			(at 265.43 77.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 265.43 81.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 265.43 81.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 265.43 81.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "bfebad31-bc90-4a7c-bee4-ee41a358570d")
-		)
-		(instances
-			(project "MiniNDP_512"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "#PWR013")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:VMEM")
 		(at 241.3 134.62 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -15200,7 +15041,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 165.1 185.42 0)
+		(at 158.75 185.42 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15208,7 +15049,7 @@
 		(dnp no)
 		(uuid "d04e6a90-6a68-4e49-b78f-98550ad6fd84")
 		(property "Reference" "#PWR041"
-			(at 165.1 191.77 0)
+			(at 158.75 191.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15217,7 +15058,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 165.1 189.23 0)
+			(at 158.75 189.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15226,7 +15067,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 165.1 185.42 0)
+			(at 158.75 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15235,7 +15076,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 165.1 185.42 0)
+			(at 158.75 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15244,7 +15085,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 165.1 185.42 0)
+			(at 158.75 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)

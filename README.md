@@ -530,7 +530,7 @@ OUT 141,N = select bank 3 block N
 ![](PCB/out/MiniNDP_1M.svg)  
 [MiniNDP_1M.bom.csv](PCB/out/MiniNDP_1M.bom.csv)
 
-### Easy to Build Version
+### 512_F - Easy to Build Version
 
 This version is not tested yet.
 
@@ -564,17 +564,30 @@ The other parts all have the same number of pins, but at least much larger. Ever
 ![](PCB/out/MiniNDP_512_F.svg)  
 [MiniNDP_512_F.bom.csv](PCB/out/MiniNDP_512_F.bom.csv)
 
-### Even Easier to Build - 256k
+### 256_F - Even Easier to Build - 256k
 
 This version is not tested yet.
 
 This has the fewest & largest parts and is the easiest to build.  
 
-Same as above wrt CD4040 etc, but being 256k allows to also get rid of the HC00.  
-This version takes advantage of the fact that only 256k or lower sram has a CE2 pin, and uses both #CE1 and CE2 to monitor both RAMRST and BYTE without needing a seperate part.
+Same as above wrt 4040 etc, but being 256k allows to also get rid of the HC00.  
+This version takes advantage of the fact that 256k or smaller sram has a CE2 pin, and uses both #CE1 and CE2 to monitor both RAMRST and BYTE without needing a seperate part.
 
 ![](PCB/out/MiniNDP_256_F.jpg)  
 ![](PCB/out/MiniNDP_256_F.top.jpg)  
 ![](PCB/out/MiniNDP_256_F.bottom.jpg)  
 ![](PCB/out/MiniNDP_256_F.svg)  
 [MiniNDP_256_F.bom.csv](PCB/out/MiniNDP_256_F.bom.csv)
+
+### 1M_C - Easy to build - 1M
+
+This version is not tested yet.
+
+1 Meg version based on 238, 4040, & FCT841  
+1M sram has a CE2 pin so it can be neat like the 256k version.
+
+![](PCB/out/MiniNDP_1M_C.jpg)  
+![](PCB/out/MiniNDP_1M_C.top.jpg)  
+![](PCB/out/MiniNDP_1M_C.bottom.jpg)  
+![](PCB/out/MiniNDP_1M_C.svg)  
+[MiniNDP_1M_C.bom.csv](PCB/out/MiniNDP_1M_C.bom.csv)

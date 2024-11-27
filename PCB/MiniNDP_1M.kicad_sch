@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP 1M")
-		(date "2024-11-13")
-		(rev "B03")
+		(date "2024-11-26")
+		(rev "B04")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAM100.CO or RAM200.CO")
@@ -5648,12 +5648,6 @@
 		(uuid "ea3d7484-a5a8-4804-807b-f773a847810b")
 	)
 	(junction
-		(at 270.51 86.36)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "ea9f99df-ef78-4afb-bf3b-b7d29c43f62a")
-	)
-	(junction
 		(at 139.7 63.5)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -7137,16 +7131,6 @@
 	)
 	(wire
 		(pts
-			(xy 270.51 85.09) (xy 270.51 86.36)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4e272070-dc08-4544-96c8-a30a652491c2")
-	)
-	(wire
-		(pts
 			(xy 223.52 93.98) (xy 228.6 93.98)
 		)
 		(stroke
@@ -7167,7 +7151,7 @@
 	)
 	(wire
 		(pts
-			(xy 270.51 86.36) (xy 270.51 157.48)
+			(xy 264.16 86.36) (xy 264.16 157.48)
 		)
 		(stroke
 			(width 0)
@@ -7407,16 +7391,6 @@
 	)
 	(wire
 		(pts
-			(xy 270.51 78.74) (xy 270.51 80.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6c159e23-9b80-48d2-af20-7d6ff0de823c")
-	)
-	(wire
-		(pts
 			(xy 101.6 68.58) (xy 101.6 88.9)
 		)
 		(stroke
@@ -7487,7 +7461,7 @@
 	)
 	(wire
 		(pts
-			(xy 254 86.36) (xy 270.51 86.36)
+			(xy 254 86.36) (xy 264.16 86.36)
 		)
 		(stroke
 			(width 0)
@@ -8277,7 +8251,7 @@
 	)
 	(wire
 		(pts
-			(xy 265.43 81.28) (xy 254 81.28)
+			(xy 266.7 81.28) (xy 254 81.28)
 		)
 		(stroke
 			(width 0)
@@ -8407,7 +8381,7 @@
 	)
 	(wire
 		(pts
-			(xy 270.51 157.48) (xy 71.12 157.48)
+			(xy 264.16 157.48) (xy 71.12 157.48)
 		)
 		(stroke
 			(width 0)
@@ -8717,7 +8691,7 @@
 	)
 	(wire
 		(pts
-			(xy 254 83.82) (xy 264.16 83.82)
+			(xy 254 83.82) (xy 266.7 83.82)
 		)
 		(stroke
 			(width 0)
@@ -8767,7 +8741,7 @@
 	)
 	(wire
 		(pts
-			(xy 264.16 160.02) (xy 264.16 83.82)
+			(xy 266.7 160.02) (xy 266.7 83.82)
 		)
 		(stroke
 			(width 0)
@@ -8937,7 +8911,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 160.02) (xy 264.16 160.02)
+			(xy 43.18 160.02) (xy 266.7 160.02)
 		)
 		(stroke
 			(width 0)
@@ -9617,7 +9591,7 @@
 		(uuid "5deb5bda-a043-4710-8026-8f9e90c7ba4b")
 	)
 	(label "A[0..19]"
-		(at 209.55 133.35 0)
+		(at 208.28 133.35 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11359,7 +11333,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 265.43 81.28 0)
+		(at 266.7 81.28 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11367,7 +11341,7 @@
 		(dnp no)
 		(uuid "309c1f75-b636-4fdd-8ad1-2f6093da1b17")
 		(property "Reference" "#PWR026"
-			(at 265.43 85.09 0)
+			(at 266.7 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11376,7 +11350,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 265.43 77.47 0)
+			(at 266.7 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11384,7 +11358,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 265.43 81.28 0)
+			(at 266.7 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11393,7 +11367,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 265.43 81.28 0)
+			(at 266.7 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11402,7 +11376,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 265.43 81.28 0)
+			(at 266.7 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12634,71 +12608,6 @@
 			(project "MiniNDP_1M"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:VMEM")
-		(at 270.51 78.74 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "744fa3c7-b1de-40d3-a8b9-a53ad4ed2281")
-		(property "Reference" "#PWR013"
-			(at 270.51 82.55 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "VMEM"
-			(at 270.51 74.676 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 270.51 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 270.51 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"VMEM\""
-			(at 270.51 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "a755234b-a7ae-46c8-8821-02a81c8796ed")
-		)
-		(instances
-			(project "MiniNDP_1M"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "#PWR013")
 					(unit 1)
 				)
 			)
@@ -14326,84 +14235,6 @@
 			(project "MiniNDP_1M_B"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR032")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "000_LOCAL:R")
-		(at 270.51 82.55 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "d509514c-dc1b-484b-b005-d2c422acd84e")
-		(property "Reference" "R3"
-			(at 271.78 81.534 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "47k"
-			(at 271.78 83.566 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "000_LOCAL:R_0805"
-			(at 270.51 82.55 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/sei-rmcf_rmcp.pdf"
-			(at 270.51 82.55 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "RES 47K OHM 1% 1/8W 0805"
-			(at 270.51 82.55 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "RMCF0805FT47K0"
-			(at 270.51 82.55 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4fe34cac-da09-418c-a52f-61548c7bf6ad")
-		)
-		(pin "2"
-			(uuid "da34bb74-5bfc-4794-b7a3-682172f913a7")
-		)
-		(instances
-			(project "MiniNDP_1M"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "R3")
 					(unit 1)
 				)
 			)
