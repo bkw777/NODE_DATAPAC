@@ -3,7 +3,7 @@
 "C1,C2,C3,C4","1u","datasheets/CL21B105KAFNNNE.pdf","000_LOCAL:C_0805","4","","CL21B105KAFNNNE","CAP CER 1UF 25V X7R 0805"
 "D1,D2,D3","LL4148","datasheets/ll4148.pdf","000_LOCAL:D_MiniMELF","3","","FDLL4148","50V 1A General Purpose Rectifier Diode"
 "J1","Conn_02x20_Odd_Even","datasheets/2x20_male_boxed.pdf","000_LOCAL:IDC-Header_2x20_P2.54mm_Vertical","1","","302-S401","CONN HEADER VERT 40POS 2.54MM"
-"R2","47k","datasheets/sei-rmcf_rmcp.pdf","000_LOCAL:R_0805","1","","RMCF0805FT47K0","RES 47K OHM 1% 1/8W 0805"
+"R1","47k","datasheets/sei-rmcf_rmcp.pdf","000_LOCAL:R_0805","1","","RMCF0805FT47K0","RES 47K OHM 1% 1/8W 0805"
 "U1","AS6C8008_TSOPII","datasheets/AS6C8008.pdf","000_LOCAL:TSOP-II-44","1","","AS6C8008-55ZIN","IC SRAM 1Mx8 PARALLEL 5v TSOP-II-44"
 "U2","HC238","datasheets/HC238.pdf","000_LOCAL:SOIC-16_3.9x9.9mm_P1.27mm","1","","74HC238D,653","IC DECODER/DEMUX 1 X 3:8 16SO"
 "U3","4040","datasheets/4040.pdf","000_LOCAL:SOIC-16_3.9x9.9mm_P1.27mm","1","","74HC4040D,653","IC BINARY COUNTER 12-BIT 16SO"

@@ -11333,7 +11333,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a705bf1e-6e66-4469-ac28-448a42a80f08")
-		(property "Reference" "R2"
+		(property "Reference" "R1"
 			(at 267.97 72.644 0)
 			(effects
 				(font
@@ -11396,7 +11396,7 @@
 		(instances
 			(project "MiniNDP_1M_B"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "R2")
+					(reference "R1")
 					(unit 1)
 				)
 			)
