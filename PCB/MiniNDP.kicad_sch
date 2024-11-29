@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP")
-		(date "2024-11-26")
-		(rev "E05")
+		(date "2024-11-28")
+		(rev "E07")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAM100.CO or RAM200.CO")
@@ -2273,9 +2273,8 @@
 				)
 			)
 		)
-		(symbol "000_LOCAL:BAV70S"
-			(pin_names
-				(offset 0.762) hide)
+		(symbol "000_LOCAL:BAV70"
+			(pin_names hide)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -2288,7 +2287,7 @@
 					(justify left)
 				)
 			)
-			(property "Value" "BAV70S"
+			(property "Value" "BAV70"
 				(at 0 2.54 0)
 				(effects
 					(font
@@ -2296,7 +2295,7 @@
 					)
 				)
 			)
-			(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6"
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
 				(at 0 0 0)
 				(effects
 					(font
@@ -2305,7 +2304,7 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "datasheets/BAV70S.pdf"
+			(property "Datasheet" "datasheets/BAV70.pdf"
 				(at 0 0 0)
 				(effects
 					(font
@@ -2314,7 +2313,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "100V 250mA high-speed switching diodes, dual common cathode, SOT-363"
+			(property "Description" "Dual 100V 215mA high-speed switching diodes, common cathode, SOT-23"
 				(at 0 0 0)
 				(effects
 					(font
@@ -2332,7 +2331,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "SOT?363*"
+			(property "ki_fp_filters" "SOT?23*"
 				(at 0 0 0)
 				(effects
 					(font
@@ -2341,7 +2340,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "BAV70S_0_1"
+			(symbol "BAV70_0_1"
 				(polyline
 					(pts
 						(xy -3.81 0) (xy 3.81 0)
@@ -2425,8 +2424,6 @@
 						(type outline)
 					)
 				)
-			)
-			(symbol "BAV70S_1_1"
 				(pin passive line
 					(at -7.62 0 0)
 					(length 3.81)
@@ -2473,63 +2470,7 @@
 							)
 						)
 					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(symbol "BAV70S_2_1"
-				(pin passive line
-					(at 0 -5.08 90)
-					(length 2.54)
-					(name "K"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
 					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -7.62 0 0)
-					(length 3.81)
-					(name "A"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 7.62 0 180)
-					(length 3.81)
-					(name "A"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -6281,7 +6222,7 @@
 		(uuid "261502f6-d703-4f39-9c0d-7e9ede350335")
 	)
 	(junction
-		(at 133.35 185.42)
+		(at 133.35 186.69)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "3749691f-f86c-46cc-a718-eafffce5550c")
@@ -6291,12 +6232,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "3e7f9dc7-09e5-4723-ac1e-cf2379bee1e3")
-	)
-	(junction
-		(at 102.87 180.34)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "3ffb8882-5886-4c72-a02e-4ccff1d89b59")
 	)
 	(junction
 		(at 45.72 99.06)
@@ -6371,25 +6306,19 @@
 		(uuid "8666ccf2-a0a5-49fc-8d3a-1288cb526058")
 	)
 	(junction
-		(at 222.25 143.51)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "904dfc32-f6bf-4c30-9af7-069710337ec7")
-	)
-	(junction
 		(at 107.95 26.67)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "95fef3bf-e1f8-4d0e-bcfe-f14fbb293e3b")
 	)
 	(junction
-		(at 133.35 180.34)
+		(at 133.35 181.61)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9a49d911-4489-408d-bb04-1e226b340f18")
 	)
 	(junction
-		(at 139.7 185.42)
+		(at 139.7 186.69)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9c8ae3c2-3cdb-41a9-a153-222906fbebe2")
@@ -6401,7 +6330,7 @@
 		(uuid "9da48926-2552-49a9-bfc0-184f1304cfcf")
 	)
 	(junction
-		(at 139.7 180.34)
+		(at 139.7 181.61)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a4cbfacf-f5a9-43df-a267-93c811d66f20")
@@ -6411,6 +6340,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ae994458-b7aa-4d61-b3db-ba689ba631d2")
+	)
+	(junction
+		(at 102.87 180.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bbfe2c15-a9f6-47e8-a539-da75f2e0f3c3")
 	)
 	(junction
 		(at 177.8 129.54)
@@ -6435,6 +6370,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d39d8365-6435-480f-8e19-17d3e26aa6eb")
+	)
+	(junction
+		(at 222.25 143.51)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e28eaa3e-f71e-4301-8980-b813835462bb")
 	)
 	(junction
 		(at 105.41 39.37)
@@ -6579,10 +6520,6 @@
 	(no_connect
 		(at 63.5 137.16)
 		(uuid "cdd35a47-10d3-424f-958f-4d01d26bf766")
-	)
-	(no_connect
-		(at 78.74 143.51)
-		(uuid "df1ab9ee-1947-4e71-ba83-cbf1dd31a343")
 	)
 	(no_connect
 		(at 69.85 39.37)
@@ -7268,7 +7205,7 @@
 	)
 	(wire
 		(pts
-			(xy 133.35 185.42) (xy 139.7 185.42)
+			(xy 133.35 186.69) (xy 139.7 186.69)
 		)
 		(stroke
 			(width 0)
@@ -7318,7 +7255,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 160.02) (xy 224.79 160.02)
+			(xy 101.6 160.02) (xy 228.6 160.02)
 		)
 		(stroke
 			(width 0)
@@ -7358,7 +7295,7 @@
 	)
 	(wire
 		(pts
-			(xy 46.99 142.24) (xy 46.99 148.59)
+			(xy 46.99 142.24) (xy 46.99 161.29)
 		)
 		(stroke
 			(width 0)
@@ -7385,16 +7322,6 @@
 			(type default)
 		)
 		(uuid "0f3526c9-21ae-4b77-a436-31369d8558f5")
-	)
-	(wire
-		(pts
-			(xy 222.25 143.51) (xy 222.25 161.29)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "10a25ac8-4710-4047-831c-b55c27be042e")
 	)
 	(wire
 		(pts
@@ -7488,7 +7415,7 @@
 	)
 	(wire
 		(pts
-			(xy 139.7 185.42) (xy 146.05 185.42)
+			(xy 139.7 186.69) (xy 146.05 186.69)
 		)
 		(stroke
 			(width 0)
@@ -7536,16 +7463,6 @@
 		)
 		(uuid "20908176-08bc-451e-a9b6-5c5f67bca68a")
 	)
-	(wire
-		(pts
-			(xy 93.98 161.29) (xy 222.25 161.29)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "21023a1c-8249-47d9-a45b-a06a93e3b2b9")
-	)
 	(bus
 		(pts
 			(xy 31.75 49.53) (xy 31.75 54.61)
@@ -7578,7 +7495,7 @@
 	)
 	(wire
 		(pts
-			(xy 224.79 148.59) (xy 224.79 160.02)
+			(xy 228.6 148.59) (xy 228.6 160.02)
 		)
 		(stroke
 			(width 0)
@@ -7625,6 +7542,16 @@
 			(type default)
 		)
 		(uuid "242b79b8-5465-457c-8014-783e73fa4a67")
+	)
+	(wire
+		(pts
+			(xy 222.25 161.29) (xy 46.99 161.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "248011d2-8db3-4e5c-a260-1f644a24d24d")
 	)
 	(wire
 		(pts
@@ -7868,7 +7795,7 @@
 	)
 	(wire
 		(pts
-			(xy 232.41 148.59) (xy 224.79 148.59)
+			(xy 232.41 148.59) (xy 228.6 148.59)
 		)
 		(stroke
 			(width 0)
@@ -7898,7 +7825,7 @@
 	)
 	(wire
 		(pts
-			(xy 133.35 180.34) (xy 139.7 180.34)
+			(xy 133.35 181.61) (xy 139.7 181.61)
 		)
 		(stroke
 			(width 0)
@@ -8288,7 +8215,7 @@
 	)
 	(wire
 		(pts
-			(xy 139.7 180.34) (xy 146.05 180.34)
+			(xy 139.7 181.61) (xy 146.05 181.61)
 		)
 		(stroke
 			(width 0)
@@ -8455,6 +8382,16 @@
 			(type default)
 		)
 		(uuid "81e3cbad-f34c-4e62-b209-e6c363944271")
+	)
+	(wire
+		(pts
+			(xy 222.25 143.51) (xy 222.25 161.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8262c659-147d-4bbd-8038-67d71de296ba")
 	)
 	(wire
 		(pts
@@ -9558,16 +9495,6 @@
 	)
 	(wire
 		(pts
-			(xy 46.99 148.59) (xy 86.36 148.59)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f63b5de9-6863-469c-8107-16fd46418ecf")
-	)
-	(wire
-		(pts
 			(xy 218.44 91.44) (xy 228.6 91.44)
 		)
 		(stroke
@@ -9605,16 +9532,6 @@
 			(type default)
 		)
 		(uuid "fc85b48f-1a9d-4523-b7cb-0792e636705c")
-	)
-	(wire
-		(pts
-			(xy 93.98 161.29) (xy 93.98 143.51)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fd832037-5f3b-4520-bddd-da2b55cab620")
 	)
 	(wire
 		(pts
@@ -9757,6 +9674,17 @@
 		)
 		(uuid "53f48730-ce2b-4324-8c39-51333e88a6ab")
 	)
+	(text "CR2032 - 7-13 years, 4.1mm thick:\nBT1 = Keystone 3034\nC1 = TAJC227K010RNJ - 6032-28 220u 10v\n\nCR2016 - 3-7 years, 1.7mm thick:\nBT1 = Keystone 3028\nC1 = TLJW157M010R0200 - 6032-15 150u 10v\n\n128k:  U8=DNP  JP1=CLOSE  U6=AS6C1008\n\n256k:  U8=DNP  JP1=CLOSE  U6=AS6C2008A\n\n512k:  U8=1G79 or 1G80  JP1=OPEN  U6=AS6C4008\n"
+		(exclude_from_sim no)
+		(at 215.392 31.75 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5b056593-6d0c-43f9-89ab-a45e93022eb4")
+	)
 	(text "GND"
 		(exclude_from_sim no)
 		(at 50.8 99.06 0)
@@ -9767,17 +9695,6 @@
 			(justify right bottom)
 		)
 		(uuid "5d8b3e44-3c83-4505-b8bf-23189d262a80")
-	)
-	(text "128k:  U8=DNP  JP1=CLOSE  U6=AS6C1008\n\n256k:  U8=DNP  JP1=CLOSE  U6=AS6C2008A\n\n512k:  U8=1G79 or 1G80  JP1=OPEN  U6=AS6C4008\n"
-		(exclude_from_sim no)
-		(at 215.9 44.704 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "5ef5b43a-6a65-4a1e-8d2a-95bb272ca5a5")
 	)
 	(text "IO/~{M}"
 		(exclude_from_sim no)
@@ -9790,14 +9707,14 @@
 		)
 		(uuid "64b3cdad-4f71-4af7-9c96-26d021183da6")
 	)
-	(text "CR2032"
+	(text "CR2016"
 		(exclude_from_sim no)
-		(at 93.726 193.04 0)
+		(at 101.346 192.278 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left bottom)
+			(justify right)
 		)
 		(uuid "6a0db7b4-adbb-447e-b88b-617048063d2d")
 	)
@@ -10427,7 +10344,7 @@
 		(uuid "65d04d85-c02a-495d-995c-9b4cc0e863f0")
 	)
 	(label "RAMRST"
-		(at 83.82 148.59 180)
+		(at 232.41 143.51 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10811,17 +10728,6 @@
 		)
 		(uuid "b99445bb-e8bb-45c0-8a15-358735d28465")
 	)
-	(label "SLEEP"
-		(at 232.41 143.51 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "bef0e524-7777-4a04-a3ff-e12badeed61b")
-	)
 	(label "BUS_A8"
 		(at 44.45 44.45 180)
 		(fields_autoplaced yes)
@@ -11020,17 +10926,6 @@
 		)
 		(uuid "ea8cd3b0-1940-4ff7-88da-81fe470d7406")
 	)
-	(label "SLEEP"
-		(at 93.98 143.51 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "ed180e0c-ce45-483c-980f-a67bcc6765a7")
-	)
 	(label "A4"
 		(at 228.6 60.96 180)
 		(fields_autoplaced yes)
@@ -11071,7 +10966,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "220u10v"
+		(property "Value" "150u10v"
 			(at 114.3 186.69 0)
 			(effects
 				(font
@@ -11089,7 +10984,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "datasheets/TAJ.odf"
+		(property "Datasheet" "datasheets/TAJ.pdf"
 			(at 110.49 185.42 0)
 			(effects
 				(font
@@ -11098,7 +10993,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "CAP TANT 220UF 10% 10V 2312"
+		(property "Description" "CAP TANT 150UF 10% 10V 6032-15"
 			(at 110.49 185.42 0)
 			(effects
 				(font
@@ -11107,7 +11002,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "TAJC227K010RNJ"
+		(property "MPN" "TLJW157M010R0200"
 			(at 110.49 185.42 0)
 			(effects
 				(font
@@ -11199,7 +11094,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:Housing")
-		(at 25.4 154.94 0)
+		(at 24.13 154.94 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -11207,23 +11102,23 @@
 		(dnp no)
 		(uuid "0d15f33f-2e02-4928-b8c4-a424e9c53208")
 		(property "Reference" "N1"
-			(at 25.4 147.066 0)
+			(at 24.13 147.066 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "MiniNDP_Cover"
-			(at 25.4 149.352 0)
+		(property "Value" "MiniNDP_Cover_THIN"
+			(at 24.13 149.352 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "000_LOCAL:MiniNDP_Cover"
-			(at 26.67 153.67 0)
+		(property "Footprint" "000_LOCAL:MiniNDP_Cover_THIN"
+			(at 25.4 153.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11232,7 +11127,7 @@
 			)
 		)
 		(property "Datasheet" "../COVER/MiniNDP_Cover.scad"
-			(at 26.67 153.67 0)
+			(at 25.4 153.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11240,8 +11135,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Snap cover for MiniNDP"
-			(at 25.4 154.94 0)
+		(property "Description" "Snap cover for MiniNDP, thin version for CR2016"
+			(at 24.13 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11249,8 +11144,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "MiniNDP_Cover.stl"
-			(at 25.4 154.94 0)
+		(property "MPN" "MiniNDP_Cover_THIN.stl"
+			(at 24.13 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11443,7 +11338,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C")
-		(at 158.75 182.88 0)
+		(at 158.75 184.15 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11451,7 +11346,7 @@
 		(dnp no)
 		(uuid "112948b7-b866-4d74-9014-b658056d972a")
 		(property "Reference" "C5"
-			(at 160.02 181.61 0)
+			(at 160.02 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11460,7 +11355,7 @@
 			)
 		)
 		(property "Value" "1u"
-			(at 160.02 184.15 0)
+			(at 160.02 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11469,7 +11364,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:C_0805"
-			(at 159.7152 186.69 0)
+			(at 159.7152 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11478,7 +11373,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/CL21B105KAFNNNE.pdf"
-			(at 158.75 182.88 0)
+			(at 158.75 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11487,7 +11382,7 @@
 			)
 		)
 		(property "Description" "CAP CER 1UF 25V X7R 0805"
-			(at 158.75 182.88 0)
+			(at 158.75 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11496,7 +11391,7 @@
 			)
 		)
 		(property "MPN" "CL21B105KAFNNNE"
-			(at 158.75 182.88 0)
+			(at 158.75 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11800,7 +11695,7 @@
 				)
 			)
 		)
-		(property "Value" "Keystone_3034"
+		(property "Value" "Keystone_3028"
 			(at 93.98 189.992 0)
 			(effects
 				(font
@@ -11826,7 +11721,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "SMT 20mm x 3.2mm coin cell holder"
+		(property "Description" "BATTERY RETAINER COIN 20MM x 1.6MM SMT"
 			(at 102.87 185.42 0)
 			(effects
 				(font
@@ -11835,7 +11730,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "Keystone 3034"
+		(property "MPN" "Keystone_3028"
 			(at 102.87 185.42 0)
 			(effects
 				(font
@@ -12195,7 +12090,7 @@
 		)
 	)
 	(symbol
-		(lib_id "000_LOCAL:BAV70S")
+		(lib_id "000_LOCAL:BAV70")
 		(at 95.25 180.34 0)
 		(mirror x)
 		(unit 1)
@@ -12203,24 +12098,24 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "4113706b-4afe-4b5b-98eb-e12a440f89d2")
+		(uuid "41050163-4ce3-4eff-943e-c10d8d4a524d")
 		(property "Reference" "DA1"
-			(at 95.25 182.88 0)
+			(at 92.71 183.896 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "BAS70DW-05"
-			(at 91.44 184.912 0)
+		(property "Value" "BAV70"
+			(at 92.71 186.436 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "000_LOCAL:SOT-363_SC-70-6_symmetric"
+		(property "Footprint" "000_LOCAL:SOT-23"
 			(at 95.25 180.34 0)
 			(effects
 				(font
@@ -12229,7 +12124,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "datasheets/BAS70.pdf"
+		(property "Datasheet" "datasheets/BAV70.pdf"
 			(at 95.25 180.34 0)
 			(effects
 				(font
@@ -12238,7 +12133,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "DIODE ARR SCHOTT 70V 70MA SOT363 2-PAIR COMMON-CATHODE"
+		(property "Description" "DIODE ARRAY GP 75V 150MA SOT23-3"
 			(at 95.25 180.34 0)
 			(effects
 				(font
@@ -12247,7 +12142,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "BAS70DW-05-7-F"
+		(property "MPN" "BAV70-7-F"
 			(at 95.25 180.34 0)
 			(effects
 				(font
@@ -12257,25 +12152,16 @@
 			)
 		)
 		(pin "1"
-			(uuid "10898118-7d15-4d1c-a8c3-28b79a3fea2d")
-		)
-		(pin "2"
-			(uuid "b3b179c0-f073-4414-950e-ad39bd27aedc")
-		)
-		(pin "6"
-			(uuid "bb44de43-8963-4777-8d81-ff295348d392")
+			(uuid "53118586-b8ee-4920-ba00-f4c7524e0265")
 		)
 		(pin "3"
-			(uuid "587c1a12-deaf-4acd-9a23-07dbdc8852bc")
+			(uuid "45b79b94-6c9c-47fd-9814-eee1b286c41c")
 		)
-		(pin "4"
-			(uuid "ed45d8d9-3a85-4688-8d48-f0731311a78c")
-		)
-		(pin "5"
-			(uuid "c8f5fdc4-27d6-441f-9631-791968554691")
+		(pin "2"
+			(uuid "3d2f379b-3d78-44c9-9bcd-946fee29b47d")
 		)
 		(instances
-			(project "MiniNDP_512"
+			(project ""
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "DA1")
 					(unit 1)
@@ -13062,97 +12948,8 @@
 		)
 	)
 	(symbol
-		(lib_id "000_LOCAL:BAV70S")
-		(at 86.36 143.51 0)
-		(mirror y)
-		(unit 2)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "59d00045-4434-43e7-b10d-97ec1f72fea6")
-		(property "Reference" "DA1"
-			(at 86.36 137.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "BAS70DW-05"
-			(at 86.36 139.7 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "000_LOCAL:SOT-363_SC-70-6_symmetric"
-			(at 86.36 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/BAS70.pdf"
-			(at 86.36 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "DIODE ARR SCHOTT 70V 70MA SOT363 2-PAIR COMMON-CATHODE"
-			(at 86.36 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "BAS70DW-05-7-F"
-			(at 86.36 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "26bf0691-1b53-4fb8-8f19-5b99663f5122")
-		)
-		(pin "2"
-			(uuid "1d6c8df9-5640-49b7-82d5-fd0e6db3a256")
-		)
-		(pin "6"
-			(uuid "23b041f0-990a-45f7-aefe-8152c7e8973c")
-		)
-		(pin "3"
-			(uuid "362bac9d-3b5f-4757-94e4-f9e6d60ec500")
-		)
-		(pin "4"
-			(uuid "0151dbab-2af7-40b2-9e65-65af0b9037fb")
-		)
-		(pin "5"
-			(uuid "f31731b3-04b3-43ce-b6b6-3cb633b391e6")
-		)
-		(instances
-			(project "MiniNDP_512"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "DA1")
-					(unit 2)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:VMEM")
-		(at 158.75 180.34 0)
+		(at 158.75 181.61 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13160,7 +12957,7 @@
 		(dnp no)
 		(uuid "5bb219cd-c7ca-4135-a521-7b5d23fbb0bf")
 		(property "Reference" "#PWR055"
-			(at 158.75 184.15 0)
+			(at 158.75 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13169,7 +12966,7 @@
 			)
 		)
 		(property "Value" "VMEM"
-			(at 158.75 175.26 0)
+			(at 158.75 176.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13177,7 +12974,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 158.75 180.34 0)
+			(at 158.75 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13186,7 +12983,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 158.75 180.34 0)
+			(at 158.75 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13195,7 +12992,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 158.75 180.34 0)
+			(at 158.75 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13555,7 +13352,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 133.35 185.42 0)
+		(at 133.35 186.69 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13563,7 +13360,7 @@
 		(dnp no)
 		(uuid "7db3b346-66f2-4474-8970-b668d1d42290")
 		(property "Reference" "#PWR023"
-			(at 133.35 191.77 0)
+			(at 133.35 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13572,7 +13369,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 133.35 189.23 0)
+			(at 133.35 190.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13581,7 +13378,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 133.35 185.42 0)
+			(at 133.35 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13590,7 +13387,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 133.35 185.42 0)
+			(at 133.35 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13599,7 +13396,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 133.35 185.42 0)
+			(at 133.35 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13960,7 +13757,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C")
-		(at 133.35 182.88 0)
+		(at 133.35 184.15 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13968,7 +13765,7 @@
 		(dnp no)
 		(uuid "9622e0ea-a8ee-4846-98c2-7a1e8db4687c")
 		(property "Reference" "C2"
-			(at 134.62 181.61 0)
+			(at 134.62 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13977,7 +13774,7 @@
 			)
 		)
 		(property "Value" "1u"
-			(at 134.62 184.15 0)
+			(at 134.62 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13986,7 +13783,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:C_0805"
-			(at 134.3152 186.69 0)
+			(at 134.3152 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13995,7 +13792,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/CL21B105KAFNNNE.pdf"
-			(at 133.35 182.88 0)
+			(at 133.35 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14004,7 +13801,7 @@
 			)
 		)
 		(property "Description" "CAP CER 1UF 25V X7R 0805"
-			(at 133.35 182.88 0)
+			(at 133.35 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14013,7 +13810,7 @@
 			)
 		)
 		(property "MPN" "CL21B105KAFNNNE"
-			(at 133.35 182.88 0)
+			(at 133.35 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14640,7 +14437,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 133.35 180.34 0)
+		(at 133.35 181.61 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14648,7 +14445,7 @@
 		(dnp no)
 		(uuid "cd9c301f-61ae-4e5a-815b-ff67e8f76840")
 		(property "Reference" "#PWR025"
-			(at 133.35 184.15 0)
+			(at 133.35 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14657,7 +14454,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 133.35 175.26 0)
+			(at 133.35 176.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14665,7 +14462,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 133.35 180.34 0)
+			(at 133.35 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14674,7 +14471,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 133.35 180.34 0)
+			(at 133.35 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14683,7 +14480,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 133.35 180.34 0)
+			(at 133.35 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15041,7 +14838,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 158.75 185.42 0)
+		(at 158.75 186.69 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15049,7 +14846,7 @@
 		(dnp no)
 		(uuid "d04e6a90-6a68-4e49-b78f-98550ad6fd84")
 		(property "Reference" "#PWR041"
-			(at 158.75 191.77 0)
+			(at 158.75 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15058,7 +14855,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 158.75 189.23 0)
+			(at 158.75 190.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15067,7 +14864,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 158.75 185.42 0)
+			(at 158.75 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15076,7 +14873,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 158.75 185.42 0)
+			(at 158.75 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15085,7 +14882,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 158.75 185.42 0)
+			(at 158.75 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15172,7 +14969,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C")
-		(at 146.05 182.88 0)
+		(at 146.05 184.15 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15180,7 +14977,7 @@
 		(dnp no)
 		(uuid "d8882537-ebea-413e-a1a3-b8c10ef0159c")
 		(property "Reference" "C4"
-			(at 147.32 181.61 0)
+			(at 147.32 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15189,7 +14986,7 @@
 			)
 		)
 		(property "Value" "1u"
-			(at 147.32 184.15 0)
+			(at 147.32 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15198,7 +14995,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:C_0805"
-			(at 147.0152 186.69 0)
+			(at 147.0152 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15207,7 +15004,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/CL21B105KAFNNNE.pdf"
-			(at 146.05 182.88 0)
+			(at 146.05 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15216,7 +15013,7 @@
 			)
 		)
 		(property "Description" "CAP CER 1UF 25V X7R 0805"
-			(at 146.05 182.88 0)
+			(at 146.05 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15225,7 +15022,7 @@
 			)
 		)
 		(property "MPN" "CL21B105KAFNNNE"
-			(at 146.05 182.88 0)
+			(at 146.05 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15446,7 +15243,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C")
-		(at 139.7 182.88 0)
+		(at 139.7 184.15 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15454,7 +15251,7 @@
 		(dnp no)
 		(uuid "e1b00c29-c0ca-492e-bef2-de06c7779da7")
 		(property "Reference" "C3"
-			(at 140.97 181.61 0)
+			(at 140.97 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15463,7 +15260,7 @@
 			)
 		)
 		(property "Value" "1u"
-			(at 140.97 184.15 0)
+			(at 140.97 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15472,7 +15269,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:C_0805"
-			(at 140.6652 186.69 0)
+			(at 140.6652 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15481,7 +15278,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/CL21B105KAFNNNE.pdf"
-			(at 139.7 182.88 0)
+			(at 139.7 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15490,7 +15287,7 @@
 			)
 		)
 		(property "Description" "CAP CER 1UF 25V X7R 0805"
-			(at 139.7 182.88 0)
+			(at 139.7 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15499,7 +15296,7 @@
 			)
 		)
 		(property "MPN" "CL21B105KAFNNNE"
-			(at 139.7 182.88 0)
+			(at 139.7 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)

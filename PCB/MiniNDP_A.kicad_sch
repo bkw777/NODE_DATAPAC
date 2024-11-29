@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP")
-		(date "2024-11-18")
-		(rev "A18")
+		(date "2024-11-27")
+		(rev "A19")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAM100.CO or RAM200.CO")
@@ -1898,9 +1898,8 @@
 				)
 			)
 		)
-		(symbol "000_LOCAL:BAV70S"
-			(pin_names
-				(offset 0.762) hide)
+		(symbol "000_LOCAL:BAV70"
+			(pin_names hide)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -1913,7 +1912,7 @@
 					(justify left)
 				)
 			)
-			(property "Value" "BAV70S"
+			(property "Value" "BAV70"
 				(at 0 2.54 0)
 				(effects
 					(font
@@ -1921,7 +1920,7 @@
 					)
 				)
 			)
-			(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6"
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1930,7 +1929,7 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "datasheets/BAV70S.pdf"
+			(property "Datasheet" "datasheets/BAV70.pdf"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1939,7 +1938,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "100V 250mA high-speed switching diodes, dual common cathode, SOT-363"
+			(property "Description" "Dual 100V 215mA high-speed switching diodes, common cathode, SOT-23"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1957,7 +1956,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "SOT?363*"
+			(property "ki_fp_filters" "SOT?23*"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1966,7 +1965,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "BAV70S_0_1"
+			(symbol "BAV70_0_1"
 				(polyline
 					(pts
 						(xy -3.81 0) (xy 3.81 0)
@@ -2050,8 +2049,6 @@
 						(type outline)
 					)
 				)
-			)
-			(symbol "BAV70S_1_1"
 				(pin passive line
 					(at -7.62 0 0)
 					(length 3.81)
@@ -2098,63 +2095,7 @@
 							)
 						)
 					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(symbol "BAV70S_2_1"
-				(pin passive line
-					(at 0 -5.08 90)
-					(length 2.54)
-					(name "K"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
 					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -7.62 0 0)
-					(length 3.81)
-					(name "A"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 7.62 0 180)
-					(length 3.81)
-					(name "A"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -5510,12 +5451,6 @@
 		(uuid "1c3a588b-c6ff-4961-9c52-1b747489b8f2")
 	)
 	(junction
-		(at 262.89 88.9)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "24bf5751-7fca-4b7b-94b6-8b83425b0cb7")
-	)
-	(junction
 		(at 105.41 36.83)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5624,6 +5559,12 @@
 		(uuid "875dcc7f-c383-4a6d-aabb-47dd05c21813")
 	)
 	(junction
+		(at 102.87 180.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8eeb56f9-4731-4c36-bb7d-ca078e442a61")
+	)
+	(junction
 		(at 139.7 52.07)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5702,6 +5643,12 @@
 		(uuid "d59c13b8-0eb3-4408-83dd-2d7ffff55630")
 	)
 	(junction
+		(at 224.79 148.59)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "dee1c88d-3900-4bc1-abcc-0abbeb3a3008")
+	)
+	(junction
 		(at 105.41 39.37)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5724,18 +5671,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "eb2812fc-03ae-4ada-a5e1-ea6746a448ef")
-	)
-	(junction
-		(at 226.06 148.59)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "efcc2566-6759-43cf-ad4e-2b8bbbae00ec")
-	)
-	(junction
-		(at 102.87 180.34)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "f20b35bb-2c8f-4629-a224-d3accf218c33")
 	)
 	(junction
 		(at 139.7 59.69)
@@ -5844,10 +5779,6 @@
 	(no_connect
 		(at 63.5 137.16)
 		(uuid "cdd35a47-10d3-424f-958f-4d01d26bf766")
-	)
-	(no_connect
-		(at 78.74 143.51)
-		(uuid "df1ab9ee-1947-4e71-ba83-cbf1dd31a343")
 	)
 	(no_connect
 		(at 69.85 46.99)
@@ -6563,7 +6494,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 161.29) (xy 228.6 161.29)
+			(xy 101.6 161.29) (xy 222.25 161.29)
 		)
 		(stroke
 			(width 0)
@@ -6593,7 +6524,7 @@
 	)
 	(wire
 		(pts
-			(xy 46.99 142.24) (xy 46.99 148.59)
+			(xy 46.99 142.24) (xy 46.99 162.56)
 		)
 		(stroke
 			(width 0)
@@ -6683,6 +6614,16 @@
 	)
 	(wire
 		(pts
+			(xy 224.79 148.59) (xy 232.41 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1634cb09-4c14-47a7-b166-87ea30262cd2")
+	)
+	(wire
+		(pts
 			(xy 129.54 118.11) (xy 139.7 118.11)
 		)
 		(stroke
@@ -6733,23 +6674,13 @@
 	)
 	(wire
 		(pts
-			(xy 226.06 134.62) (xy 226.06 135.89)
+			(xy 224.79 134.62) (xy 224.79 135.89)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "20908176-08bc-451e-a9b6-5c5f67bca68a")
-	)
-	(wire
-		(pts
-			(xy 93.98 162.56) (xy 226.06 162.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "21023a1c-8249-47d9-a45b-a06a93e3b2b9")
 	)
 	(bus
 		(pts
@@ -6783,7 +6714,7 @@
 	)
 	(wire
 		(pts
-			(xy 228.6 143.51) (xy 228.6 161.29)
+			(xy 222.25 143.51) (xy 222.25 161.29)
 		)
 		(stroke
 			(width 0)
@@ -7103,7 +7034,7 @@
 	)
 	(wire
 		(pts
-			(xy 232.41 143.51) (xy 228.6 143.51)
+			(xy 232.41 143.51) (xy 222.25 143.51)
 		)
 		(stroke
 			(width 0)
@@ -7613,7 +7544,7 @@
 	)
 	(wire
 		(pts
-			(xy 226.06 140.97) (xy 226.06 148.59)
+			(xy 224.79 140.97) (xy 224.79 148.59)
 		)
 		(stroke
 			(width 0)
@@ -7663,7 +7594,7 @@
 	)
 	(wire
 		(pts
-			(xy 226.06 148.59) (xy 226.06 162.56)
+			(xy 224.79 148.59) (xy 224.79 162.56)
 		)
 		(stroke
 			(width 0)
@@ -7740,16 +7671,6 @@
 			(type default)
 		)
 		(uuid "85839da1-b7f6-4d28-b1e4-ae3b1db9f875")
-	)
-	(wire
-		(pts
-			(xy 226.06 148.59) (xy 232.41 148.59)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "87bc068e-0a2b-4586-94d3-5b31f59797a0")
 	)
 	(bus
 		(pts
@@ -8040,16 +7961,6 @@
 			(type default)
 		)
 		(uuid "9fd5048e-383a-48f4-b2b3-35b4bc4e3290")
-	)
-	(wire
-		(pts
-			(xy 262.89 88.9) (xy 267.97 88.9)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a01688b0-ca63-4510-8a46-1643584ab8d8")
 	)
 	(wire
 		(pts
@@ -8383,7 +8294,7 @@
 	)
 	(wire
 		(pts
-			(xy 226.06 134.62) (xy 241.3 134.62)
+			(xy 224.79 134.62) (xy 241.3 134.62)
 		)
 		(stroke
 			(width 0)
@@ -8843,7 +8754,7 @@
 	)
 	(wire
 		(pts
-			(xy 46.99 148.59) (xy 86.36 148.59)
+			(xy 46.99 162.56) (xy 224.79 162.56)
 		)
 		(stroke
 			(width 0)
@@ -8890,16 +8801,6 @@
 			(type default)
 		)
 		(uuid "fc85b48f-1a9d-4523-b7cb-0792e636705c")
-	)
-	(wire
-		(pts
-			(xy 93.98 162.56) (xy 93.98 143.51)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fd832037-5f3b-4520-bddd-da2b55cab620")
 	)
 	(wire
 		(pts
@@ -9403,6 +9304,17 @@
 		)
 		(uuid "16c72e7f-906b-4d30-ae9f-142b31cc514d")
 	)
+	(label "RAMRST"
+		(at 232.41 148.59 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "16f11aff-9257-4370-abd7-950d50abc5ec")
+	)
 	(label "A18"
 		(at 190.5 137.16 0)
 		(fields_autoplaced yes)
@@ -9710,17 +9622,6 @@
 			(justify right bottom)
 		)
 		(uuid "65d04d85-c02a-495d-995c-9b4cc0e863f0")
-	)
-	(label "RAMRST"
-		(at 83.82 148.59 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "6dd7aa90-2659-421b-bbd3-7e05f6d297f9")
 	)
 	(label "AD6"
 		(at 50.8 109.22 180)
@@ -10096,17 +9997,6 @@
 		)
 		(uuid "b99445bb-e8bb-45c0-8a15-358735d28465")
 	)
-	(label "SLEEP"
-		(at 232.41 148.59 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "bef0e524-7777-4a04-a3ff-e12badeed61b")
-	)
 	(label "BUS_A8"
 		(at 44.45 46.99 180)
 		(fields_autoplaced yes)
@@ -10305,17 +10195,6 @@
 		)
 		(uuid "ea8cd3b0-1940-4ff7-88da-81fe470d7406")
 	)
-	(label "SLEEP"
-		(at 93.98 143.51 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "ed180e0c-ce45-483c-980f-a67bcc6765a7")
-	)
 	(label "A4"
 		(at 228.6 68.58 180)
 		(fields_autoplaced yes)
@@ -10339,97 +10218,8 @@
 		(uuid "f82689ae-68a3-4827-b2d3-96f8b5503ab0")
 	)
 	(symbol
-		(lib_id "000_LOCAL:BAV70S")
-		(at 86.36 143.51 0)
-		(mirror y)
-		(unit 2)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "02b1fcdc-872d-414a-ad47-88a38b5d998b")
-		(property "Reference" "DA1"
-			(at 86.36 137.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "BAS70DW-05"
-			(at 86.36 139.7 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "000_LOCAL:SOT-363_SC-70-6_symmetric"
-			(at 86.36 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/BAS70.pdf"
-			(at 86.36 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "DIODE ARR SCHOTT 70V 70MA SOT363 2-PAIR COMMON-CATHODE"
-			(at 86.36 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "BAS70DW-05-7-F"
-			(at 86.36 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "26bf0691-1b53-4fb8-8f19-5b99663f5122")
-		)
-		(pin "2"
-			(uuid "1d6c8df9-5640-49b7-82d5-fd0e6db3a256")
-		)
-		(pin "6"
-			(uuid "23b041f0-990a-45f7-aefe-8152c7e8973c")
-		)
-		(pin "3"
-			(uuid "c2c6202c-9d26-407c-b01f-365adaf0e4c3")
-		)
-		(pin "4"
-			(uuid "07ce0c63-2f33-45ad-af05-9b22c3594ceb")
-		)
-		(pin "5"
-			(uuid "b6ef78a6-95f7-4f06-9f27-b198a6e8a770")
-		)
-		(instances
-			(project "MiniNDP_A"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "DA1")
-					(unit 2)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "000_LOCAL:R")
-		(at 226.06 138.43 0)
+		(at 224.79 138.43 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10437,7 +10227,7 @@
 		(dnp no)
 		(uuid "0371d971-d501-4531-a72b-9d1990a28785")
 		(property "Reference" "R2"
-			(at 227.33 137.414 0)
+			(at 226.06 137.414 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10446,7 +10236,7 @@
 			)
 		)
 		(property "Value" "47k"
-			(at 227.33 139.446 0)
+			(at 226.06 139.446 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10455,7 +10245,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:R_0805"
-			(at 226.06 138.43 0)
+			(at 224.79 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10464,7 +10254,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/sei-rmcf_rmcp.pdf"
-			(at 226.06 138.43 0)
+			(at 224.79 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10473,7 +10263,7 @@
 			)
 		)
 		(property "Description" "RES 47K OHM 1% 1/8W 0805"
-			(at 226.06 138.43 0)
+			(at 224.79 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10482,7 +10272,7 @@
 			)
 		)
 		(property "MPN" "RMCF0805FT47K0"
-			(at 226.06 138.43 0)
+			(at 224.79 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11412,84 +11202,6 @@
 		)
 	)
 	(symbol
-		(lib_id "000_LOCAL:R")
-		(at 267.97 86.36 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "2ea40f28-178c-4ff5-9638-590369158311")
-		(property "Reference" "R3"
-			(at 269.24 85.344 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "47k"
-			(at 269.24 87.376 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "000_LOCAL:R_0805"
-			(at 267.97 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/sei-rmcf_rmcp.pdf"
-			(at 267.97 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "RES 47K OHM 1% 1/8W 0805"
-			(at 267.97 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "RMCF0805FT47K0"
-			(at 267.97 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "10472ccc-d5a7-4b6f-9a51-60976ccb6bae")
-		)
-		(pin "2"
-			(uuid "ce67b04d-fdfb-4d99-b76f-6a3a258c5e06")
-		)
-		(instances
-			(project "MiniNDP_A"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "R3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 177.8 154.94 0)
 		(unit 1)
@@ -11682,95 +11394,6 @@
 			(project "MiniNDP_512"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR05")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "000_LOCAL:BAV70S")
-		(at 95.25 180.34 0)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "34a50db5-9eb3-435d-86a3-9d942e06259b")
-		(property "Reference" "DA1"
-			(at 95.25 182.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "BAS70DW-05"
-			(at 91.44 184.912 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "000_LOCAL:SOT-363_SC-70-6_symmetric"
-			(at 95.25 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/BAS70.pdf"
-			(at 95.25 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "DIODE ARR SCHOTT 70V 70MA SOT363 2-PAIR COMMON-CATHODE"
-			(at 95.25 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "BAS70DW-05-7-F"
-			(at 95.25 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "294be582-d474-4dd8-8fde-bd131ced6f9e")
-		)
-		(pin "2"
-			(uuid "5cf43933-87f2-4b0d-8ea3-dae8693bd846")
-		)
-		(pin "6"
-			(uuid "7cb39e17-ff77-4cd7-8c2e-167ae9899175")
-		)
-		(pin "3"
-			(uuid "587c1a12-deaf-4acd-9a23-07dbdc8852bc")
-		)
-		(pin "4"
-			(uuid "ed45d8d9-3a85-4688-8d48-f0731311a78c")
-		)
-		(pin "5"
-			(uuid "c8f5fdc4-27d6-441f-9631-791968554691")
-		)
-		(instances
-			(project "MiniNDP_A"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "DA1")
 					(unit 1)
 				)
 			)
@@ -13927,71 +13550,6 @@
 	)
 	(symbol
 		(lib_id "power:VMEM")
-		(at 267.97 83.82 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "bc975d18-539b-414b-98d9-9a137d846cf9")
-		(property "Reference" "#PWR013"
-			(at 267.97 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "VMEM"
-			(at 267.97 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 267.97 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 267.97 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 267.97 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "bfebad31-bc90-4a7c-bee4-ee41a358570d")
-		)
-		(instances
-			(project "MiniNDP_512"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "#PWR013")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:VMEM")
 		(at 241.3 134.62 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -14180,6 +13738,77 @@
 			(project "MiniNDP_512"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR025")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:BAV70")
+		(at 95.25 180.34 0)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ce062030-9fcc-4197-ba4b-59ccd890e71a")
+		(property "Reference" "D1"
+			(at 95.25 183.134 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BAV70"
+			(at 95.25 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:SOT-23"
+			(at 95.25 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/BAV70.pdf"
+			(at 95.25 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Dual 100V 215mA high-speed switching diodes, common cathode, SOT-23"
+			(at 95.25 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "0c4fc02f-aeb9-4027-b0dc-358b5dfba949")
+		)
+		(pin "1"
+			(uuid "d6ed2f58-95d5-4f92-a903-f90154872fa3")
+		)
+		(pin "3"
+			(uuid "80c6b347-a11f-4e46-bef5-91d83c14fe07")
+		)
+		(instances
+			(project ""
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "D1")
 					(unit 1)
 				)
 			)

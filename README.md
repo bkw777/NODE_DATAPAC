@@ -488,10 +488,20 @@ https://www.digikey.com/short/fzw3bwf8
 For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.  
 
 You can optionally make a thinner card by replacing BT1 and C1 with lower profile alternatives.  
-|BATTERY|estimated life|holders that fit the footprint|height|C1 Capacitor|
-|---|---|---|---|---|
-|CR2032|7.5 years|[Keystone 3034](https://www.digikey.com/short/rmwrc5hv)<br>TE/Linx BAT-HLD-001-SMT<br>Adam Tech BH-67<br>MPD BK-912|4.1mm|[TAJC227K010RNJ](https://www.digikey.com/en/products/detail/kyocera-avx/TAJC227K010RNJ/1833766?s=N4IgTCBcDaICoEEBSBhMYDsBpADARhwCUA5JEAXQF8g) - 6032-28 220u 10v|
-|CR2016|3 years|[Keystone 3028](https://www.digikey.com/short/m93fmzb2)|1.7mm|[TLJW157M010R0200](https://www.digikey.com/en/products/detail/kyocera-avx/TLJW157M010R0200/929982?s=N4IgTCBcDaICoBkBSB1AjAVgOwFkAMaeASnmHniALoC%2BQA) - 6032-15 150u 10v|
+
+|BATTERY|life|holder|height|C1 Capacitor|grace(1)|
+|---|---|---|---|---|---|
+|CR2032|7-13 years|[Keystone 3034](https://www.digikey.com/en/products/detail/keystone-electronics/3034/4499289)<br>TE/Linx BAT-HLD-001-SMT<br>Adam Tech BH-67<br>MPD BK-912|4.1mm|[TAJC227K010RNJ](https://www.digikey.com/en/products/detail/kyocera-avx/TAJC227K010RNJ/1833766?s=N4IgTCBcDaICoEEBSBhMYDsBpADARhwCUA5JEAXQF8g) - 6032-28 220u 10v|1 minute|
+|CR2016|3-6 years|[TE BAT-HLD-002-SMT](https://www.digikey.com/en/products/detail/te-connectivity-linx/BAT-HLD-002-SMT/3044011)(2)|2.8mm|[TLJW157M010R0200](https://www.digikey.com/en/products/detail/kyocera-avx/TLJW157M010R0200/929982?s=N4IgTCBcDaICoBkBSB1AjAVgOwFkAMaeASnmHniALoC%2BQA) - 6032-15 150u 10v|40 seconds|
+|CR2012|1.5-3 years|[Keystone 3028](https://www.digikey.com/en/products/detail/keystone-electronics/3028/4499284) (picture is wrong, part is correct)|1.7mm|||
+
+(1) Grace is the battery-change grace period provided by C1.  
+With no battery installed, how long it takes for C1 to discharge from 2.0v (coin cell about to die) down to 1.5v (sram data retention).
+
+(2) This CR2016 holder is taller than needed for a CR2016, so much that you may as well just use a full CR2032 holder and get double the years.  
+But you can actually stuff a CR2016 into the CR2012 holder. It's just very stiff.  
+You can make the CR2012 holder fit perfect so there will be less strain on the solder joints by either bending the tabs down slightly before soldering,  
+or by soldering with the holder clamped onto piece of PCB in the holder as a filler block. PCB is 1.6mm just like CR2016.
 
 CR2032 height
 ![](PCB/out/MiniNDP_256_CR2032.jpg)
@@ -512,11 +522,12 @@ You can get both the PCB and enclosure at the same time from Elecrow by submitti
 ### MiniNDP 1M
 1 Meg version, has 4 banks.  
 This is tested and works, but is useless unless you write your own software to use Bank2 & Bank3.
-RAMDSK can use Bank0 and Bank1 the same as on a normal 512k version, but does not know anything about Bank2 or Bank3.
+RAMDSK can use Bank0 and Bank1 of this exactly the same as any of these, but does not know anything about Bank2 or Bank3.
 
 The only software that knows about the extra banks is [RAMPAC Inspector](software/CRI) can read the raw data from all 4 banks.  
-Edit line 10 to say NN%=3 to allow access to banks 0-3.
+Edit line 10 to say NN%=3 to enable support for all 4 banks.
 
+How to access all 4 banks:
 ```
 OUT 129,N = select bank 0 block N
 OUT 133,N = select bank 1 block N
@@ -534,27 +545,31 @@ OUT 141,N = select bank 3 block N
 
 This version is not tested yet.
 
-All parts are 1206 & SOIC
+The goal of this version is to use fewer and larger parts to make it easier to DIY.
 
-This uses different parts than the normal version and the circuit works slightly differently.  
-It's the same logic, just with the central BLOCK & BYTE internal control signals inverted from active-low to active-high,
-mostly because I can't find an active-low version of CD4040 (12-bit binary counter).
+In order to get that, all parts changed to other versions and it's not verified yet that this design actually works.
 
-The original DATAPAC uses a HC138 to generate active-low internal control signals #BLOCK & #BYTE,  
-a binary counter made of 3 x HC161, and a HC374 address latch.
+The original 161s have a lot of un-used pins because we don't use the data-preload feature of them, and 3 x 4-bit chips with 3 x power, gnd, reset, clock, ripple carry in & out, is just a lot of pins and traces.  
+A single 4040 provides everything we actually want in a single part, except it is negative-edge triggered while the 161's are positive-edge triggered.
 
-In the original design, \#BLOCK goes low and the HC374 updates it's data from the bus, then when #BLOCK goes back to high at the end of the pulse, that's when the 374 latches the address.  
-Similarly, \#BYTE goes low and enables the SRAM, and then when #BYTE goes back high after the byte hs been read or written, that's when the byte offset counter advances because the 161s clock on the rising edge.
+This version replaces essentially everything with some other equivalent that either outputs or inputs the opposite way from the original.
 
-This version uses a single 4040 for the binary counter instead 3 161s. The 4040 clocks on the falling edge, not the rising edge, and so it needs an active-high BYTE signal.  
-So the 138 is replaced by a 238, which is is the same chip, takes the same inputs and does the same 3-to-8 function, just with active-high outputs.  
-But that means BLOCK is active high too, and and 512k needs 9 bits of address latch, so the 574 is replaced by a FCT841.  
+Original has a 138 which generates active-low /BLOCK and /BYTE, is replaced with 238, the same but with active-high outputs, so it takes the same inputs and generates active-high BLOCK & BYTE.
 
-Switching out the 3 x 161s for the single 4040 trades 48 0.65mm pitch pins for just 16 1.27mm pitch pins.  
-That should be much more likely to solder without errors.  
-The other parts all have the same number of pins, but at least much larger. Everything is 1.27mm pitch instead of 0.5mm and 0.65mm.
+Original has 3 x 161 which trigger on the rising edge, are replaced by 1 x 4040, which triggers on the falling edge.
 
-512k sram doesn't have a CE2 pin, so a HC00 is used to invert RAMRST and then combine with BYTE to generate #CE.
+Original has a 374 (or 574, or 574 plus 1G79, or single FCT821) which latches on the rising edge, is replaced by a FCT841 which latches on the falling edge.
+
+This all *should* still work the same outwardly but it isn't verified yet.
+
+Reducing the chip count and the total pins and traces count also means it's possible to fit larger versions of the chips onto the same pcb space.
+
+Just switching out the 3 x TSSOP 161s for the single SOIC 4040 trades 48 0.65mm pitch pins for just 16 1.27mm pitch pins.  
+Much easier to successfully solder without errors.
+
+It's several steps forward but one step back. Since the 512k SRAM only has a single active-low /CE pin,  
+yet we need to monitor both that RAMRST is low and BYTE is high to enable SRAM, we has to add 2 NAND gates. One to invert RAMRST, and the other to say "if inverted-RAMRST is high and BYTE is high, then output low".  
+2G00 os a chip with 2 NAND, but isn't available in a large package. HC00 has 4 NAND and is available in SOIC package. It's larger than we need but it does still fit on the board and is easier to solder than a TSSOP 2G00.  
 
 ![](PCB/out/MiniNDP_512_F.jpg)  
 ![](PCB/out/MiniNDP_512_F.top.jpg)  
@@ -567,9 +582,12 @@ The other parts all have the same number of pins, but at least much larger. Ever
 This version is not tested yet.
 
 This has the fewest & largest parts and is the easiest to build.  
+Only 256k but that is the same as the original DATAPAC and some of the old software never supported 512k anyway.
 
-Same as above wrt 4040 etc, but being 256k allows to also get rid of the HC00.  
-This version takes advantage of the fact that 256k or smaller sram has a CE2 pin, and uses both #CE1 and CE2 to monitor both RAMRST and BYTE without needing a seperate part.
+Same as 512_F above wrt 4040 etc, but being 256k allows to also get rid of the HC00.  
+256k and 128k versions of the SRAM have both /CE1 and CE2 pins, and we need to monitor for both a high and a low signal,  
+so this version can just connect RAMRST to /CE1 and BYTE to CE2 and doesn't need anything else. Neat and clean and minimal.  
+with the 4040 and 573 it's like a kind of platonic ideal version of the circuit.
 
 ![](PCB/out/MiniNDP_256_F.jpg)  
 ![](PCB/out/MiniNDP_256_F.top.jpg)  
@@ -582,7 +600,9 @@ This version takes advantage of the fact that 256k or smaller sram has a CE2 pin
 This version is not tested yet.
 
 1 Meg version based on 238, 4040, & FCT841  
-1M sram has a CE2 pin so it can have minimal componets like the 256k version.
+
+1M sram has both /CE1 and CE2 pins, and FCT841 is like a 10-bit 573,  
+so this has minimal componets like the 256k version.
 
 ![](PCB/out/MiniNDP_1M_C.jpg)  
 ![](PCB/out/MiniNDP_1M_C.top.jpg)  

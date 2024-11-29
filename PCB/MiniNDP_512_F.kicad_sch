@@ -5185,10 +5185,16 @@
 		(uuid "186b2749-a128-496d-97f8-5155d5bf714f")
 	)
 	(junction
-		(at 114.3 180.34)
+		(at 119.38 186.69)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "232f86ef-0efd-427b-929a-cd1fbc4a55bf")
+	)
+	(junction
+		(at 119.38 162.56)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2bb61b1b-dc29-4eba-8eec-5e5b0e3edc9a")
 	)
 	(junction
 		(at 127 147.32)
@@ -5251,7 +5257,7 @@
 		(uuid "8a855880-9bda-4be8-994c-72c43bc27fbe")
 	)
 	(junction
-		(at 120.65 175.26)
+		(at 125.73 181.61)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "8c23b10b-a0ca-4717-97bd-9026728495f2")
@@ -5263,13 +5269,19 @@
 		(uuid "920cd9a9-839e-4f57-b0aa-4832e2b5c15b")
 	)
 	(junction
-		(at 114.3 175.26)
+		(at 119.38 181.61)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "cb8baf0b-3a00-411f-822f-495ed70191d9")
 	)
 	(junction
-		(at 120.65 180.34)
+		(at 119.38 167.64)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d6e448be-645d-4829-90f8-2afe9d0df018")
+	)
+	(junction
+		(at 125.73 186.69)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ed59625f-0c9c-4cd6-b109-2895fc53aea6")
@@ -6308,6 +6320,16 @@
 	)
 	(wire
 		(pts
+			(xy 114.3 162.56) (xy 119.38 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2fc27ad9-3b92-4a41-aac7-30d33a6c7d86")
+	)
+	(wire
+		(pts
 			(xy 205.74 78.74) (xy 215.9 78.74)
 		)
 		(stroke
@@ -6455,6 +6477,16 @@
 			(type default)
 		)
 		(uuid "41e61aff-9225-4fd8-8cad-3cbf5844b094")
+	)
+	(wire
+		(pts
+			(xy 114.3 167.64) (xy 119.38 167.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "448e3679-a434-4efb-9c63-78699ff35199")
 	)
 	(wire
 		(pts
@@ -6828,7 +6860,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 175.26) (xy 127 175.26)
+			(xy 125.73 181.61) (xy 132.08 181.61)
 		)
 		(stroke
 			(width 0)
@@ -6928,7 +6960,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 180.34) (xy 127 180.34)
+			(xy 125.73 186.69) (xy 132.08 186.69)
 		)
 		(stroke
 			(width 0)
@@ -6968,7 +7000,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 180.34) (xy 120.65 180.34)
+			(xy 119.38 186.69) (xy 125.73 186.69)
 		)
 		(stroke
 			(width 0)
@@ -7276,6 +7308,16 @@
 		)
 		(uuid "a9d08002-9226-4f88-82ff-8fcf08203c4f")
 	)
+	(wire
+		(pts
+			(xy 119.38 162.56) (xy 125.73 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aa9f3a45-c680-4e8a-8489-504d12edcd1e")
+	)
 	(bus
 		(pts
 			(xy 31.75 29.21) (xy 31.75 39.37)
@@ -7468,7 +7510,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 175.26) (xy 120.65 175.26)
+			(xy 119.38 181.61) (xy 125.73 181.61)
 		)
 		(stroke
 			(width 0)
@@ -7568,6 +7610,16 @@
 	)
 	(wire
 		(pts
+			(xy 119.38 167.64) (xy 125.73 167.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c8305b6a-5b4c-4a13-9181-0a4ff5fdbf4c")
+	)
+	(wire
+		(pts
 			(xy 63.5 95.25) (xy 73.66 95.25)
 		)
 		(stroke
@@ -7598,7 +7650,7 @@
 	)
 	(wire
 		(pts
-			(xy 109.22 175.26) (xy 114.3 175.26)
+			(xy 114.3 181.61) (xy 119.38 181.61)
 		)
 		(stroke
 			(width 0)
@@ -7988,7 +8040,7 @@
 	)
 	(wire
 		(pts
-			(xy 109.22 180.34) (xy 114.3 180.34)
+			(xy 114.3 186.69) (xy 119.38 186.69)
 		)
 		(stroke
 			(width 0)
@@ -9406,6 +9458,82 @@
 		(uuid "f8877853-71a0-44f5-83d6-45a5366bd2c6")
 	)
 	(symbol
+		(lib_id "000_LOCAL:C")
+		(at 125.73 165.1 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "090a0393-ddaa-4b6f-bcf6-4c5c0049eb6e")
+		(property "Reference" "C5"
+			(at 125.73 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "47u"
+			(at 125.73 161.036 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:C_1206"
+			(at 125.73 165.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/TDK_MLCC_Cxxxx.pdf"
+			(at 125.73 165.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "CAP CER 47UF 25V X5R 1206"
+			(at 125.73 165.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C3216X5R1E476M160DC"
+			(at 125.73 165.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "099800ce-d311-4c92-9f48-efe1ca243272")
+		)
+		(pin "1"
+			(uuid "6497da95-afca-4cb6-b0ed-1462cd0813d6")
+		)
+		(instances
+			(project "MiniNDP_512_F"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "C5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:VMEM")
 		(at 88.9 170.18 0)
 		(unit 1)
@@ -9472,7 +9600,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C")
-		(at 120.65 177.8 0)
+		(at 125.73 184.15 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9480,7 +9608,7 @@
 		(dnp no)
 		(uuid "1f09aac1-1b5a-4f51-867e-40e024977faa")
 		(property "Reference" "C2"
-			(at 120.65 170.434 0)
+			(at 125.73 176.784 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9488,7 +9616,7 @@
 			)
 		)
 		(property "Value" "1u"
-			(at 120.65 172.974 0)
+			(at 125.73 179.324 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9496,7 +9624,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:C_1206"
-			(at 120.65 177.8 0)
+			(at 125.73 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9505,7 +9633,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/CL05Y105KP6VPN.pdf"
-			(at 120.65 177.8 0)
+			(at 125.73 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9514,7 +9642,7 @@
 			)
 		)
 		(property "Description" "CAP CER 1UF 25V X7R 1206"
-			(at 120.65 177.8 0)
+			(at 125.73 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9523,7 +9651,7 @@
 			)
 		)
 		(property "MPN" "CL31B105KAHNNNE"
-			(at 120.65 177.8 0)
+			(at 125.73 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10535,7 +10663,7 @@
 	)
 	(symbol
 		(lib_id "power:VMEM")
-		(at 137.16 175.26 0)
+		(at 114.3 162.56 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10543,7 +10671,7 @@
 		(dnp no)
 		(uuid "5bb219cd-c7ca-4135-a521-7b5d23fbb0bf")
 		(property "Reference" "#PWR055"
-			(at 137.16 179.07 0)
+			(at 114.3 166.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10552,7 +10680,7 @@
 			)
 		)
 		(property "Value" "VMEM"
-			(at 137.16 170.18 0)
+			(at 114.3 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10560,7 +10688,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 137.16 175.26 0)
+			(at 114.3 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10569,7 +10697,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 137.16 175.26 0)
+			(at 114.3 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10578,7 +10706,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VMEM\""
-			(at 137.16 175.26 0)
+			(at 114.3 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10600,7 +10728,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C")
-		(at 114.3 177.8 0)
+		(at 119.38 184.15 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10608,7 +10736,7 @@
 		(dnp no)
 		(uuid "5d866de5-66e8-4e5f-9801-9ee8ad58ffc0")
 		(property "Reference" "C1"
-			(at 114.3 170.434 0)
+			(at 119.38 176.784 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10616,7 +10744,7 @@
 			)
 		)
 		(property "Value" "1u"
-			(at 114.3 172.974 0)
+			(at 119.38 179.324 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10624,7 +10752,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:C_1206"
-			(at 114.3 177.8 0)
+			(at 119.38 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10633,7 +10761,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/CL05Y105KP6VPN.pdf"
-			(at 114.3 177.8 0)
+			(at 119.38 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10642,7 +10770,7 @@
 			)
 		)
 		(property "Description" "CAP CER 1UF 25V X7R 1206"
-			(at 114.3 177.8 0)
+			(at 119.38 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10651,7 +10779,7 @@
 			)
 		)
 		(property "MPN" "CL31B105KAHNNNE"
-			(at 114.3 177.8 0)
+			(at 119.38 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10987,7 +11115,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 109.22 180.34 0)
+		(at 114.3 186.69 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10995,7 +11123,7 @@
 		(dnp no)
 		(uuid "7db3b346-66f2-4474-8970-b668d1d42290")
 		(property "Reference" "#PWR023"
-			(at 109.22 186.69 0)
+			(at 114.3 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11004,7 +11132,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 109.22 184.15 0)
+			(at 114.3 190.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11013,7 +11141,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 109.22 180.34 0)
+			(at 114.3 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11022,7 +11150,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 109.22 180.34 0)
+			(at 114.3 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11031,7 +11159,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 109.22 180.34 0)
+			(at 114.3 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11118,7 +11246,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C")
-		(at 137.16 177.8 0)
+		(at 119.38 165.1 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11126,7 +11254,7 @@
 		(dnp no)
 		(uuid "8641f200-d9fc-4199-b011-7c100016980c")
 		(property "Reference" "C4"
-			(at 140.208 175.26 0)
+			(at 119.38 158.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11134,7 +11262,7 @@
 			)
 		)
 		(property "Value" "1u"
-			(at 140.462 179.832 0)
+			(at 119.38 161.036 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11142,7 +11270,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:C_1206"
-			(at 137.16 177.8 0)
+			(at 119.38 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11151,7 +11279,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/CL05Y105KP6VPN.pdf"
-			(at 137.16 177.8 0)
+			(at 119.38 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11160,7 +11288,7 @@
 			)
 		)
 		(property "Description" "CAP CER 1UF 25V X7R 1206"
-			(at 137.16 177.8 0)
+			(at 119.38 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11169,7 +11297,7 @@
 			)
 		)
 		(property "MPN" "CL31B105KAHNNNE"
-			(at 137.16 177.8 0)
+			(at 119.38 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11971,7 +12099,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C")
-		(at 127 177.8 0)
+		(at 132.08 184.15 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11979,7 +12107,7 @@
 		(dnp no)
 		(uuid "b8611d5e-8885-4760-9a3f-1d527fcc58ac")
 		(property "Reference" "C3"
-			(at 127 170.434 0)
+			(at 132.08 176.784 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11987,7 +12115,7 @@
 			)
 		)
 		(property "Value" "1u"
-			(at 127 172.974 0)
+			(at 132.08 179.324 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11995,7 +12123,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:C_1206"
-			(at 127 177.8 0)
+			(at 132.08 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12004,7 +12132,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/CL05Y105KP6VPN.pdf"
-			(at 127 177.8 0)
+			(at 132.08 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12013,7 +12141,7 @@
 			)
 		)
 		(property "Description" "CAP CER 1UF 25V X7R 1206"
-			(at 127 177.8 0)
+			(at 132.08 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12022,7 +12150,7 @@
 			)
 		)
 		(property "MPN" "CL31B105KAHNNNE"
-			(at 127 177.8 0)
+			(at 132.08 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12224,7 +12352,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 109.22 175.26 0)
+		(at 114.3 181.61 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12232,7 +12360,7 @@
 		(dnp no)
 		(uuid "cd9c301f-61ae-4e5a-815b-ff67e8f76840")
 		(property "Reference" "#PWR025"
-			(at 109.22 179.07 0)
+			(at 114.3 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12241,7 +12369,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 109.22 171.196 0)
+			(at 114.3 177.546 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12249,7 +12377,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 109.22 175.26 0)
+			(at 114.3 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12258,7 +12386,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 109.22 175.26 0)
+			(at 114.3 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12267,7 +12395,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 109.22 175.26 0)
+			(at 114.3 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12626,7 +12754,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 137.16 180.34 0)
+		(at 114.3 167.64 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12634,7 +12762,7 @@
 		(dnp no)
 		(uuid "d04e6a90-6a68-4e49-b78f-98550ad6fd84")
 		(property "Reference" "#PWR041"
-			(at 137.16 186.69 0)
+			(at 114.3 173.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12643,7 +12771,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 137.16 184.15 0)
+			(at 114.3 171.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12652,7 +12780,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 137.16 180.34 0)
+			(at 114.3 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12661,7 +12789,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 137.16 180.34 0)
+			(at 114.3 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12670,7 +12798,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 137.16 180.34 0)
+			(at 114.3 167.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)

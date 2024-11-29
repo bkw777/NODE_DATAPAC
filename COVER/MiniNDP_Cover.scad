@@ -4,15 +4,12 @@
 // ------------------------------------------------------------------------------
 // options
 
-old_pcb_shape = false; // first few versions of PCB had 1mm corner radius
 low_profile = false; // true for CR2016 , false for CR2032
-loose_fit = false; // true if FDM print is too tight
+loose_fit = false; // set true if FDM print is too tight
 
 // ------------------------------------------------------------------------------
 
-//pcb_stl = "pcb_1M.stl"; assert(!low_profile);
-//pcb_stl = "pcb_512_B.stl"; assert(!low_profile);
-pcb_stl = low_profile ? "pcb_CR2016.stl" : "pcb_CR2032.stl";
+pcb_stl = low_profile ? "lib/pcb_CR2016.stl" : "lib/pcb_CR2032.stl";
 
 parts_height = low_profile ? 1.8 : 4.2;
 
@@ -20,7 +17,7 @@ parts_height = low_profile ? 1.8 : 4.2;
 pcb_thickness = 1.6;
 pcb_length = 34;
 pcb_width = 60;
-pcb_corner_radius = old_pcb_shape ? 1 : 2;
+pcb_corner_radius = 2;
 
 // arc smoothness - comment both out before importing into FreeCAD
 $fs = 0.2;
@@ -59,7 +56,7 @@ outer_length = wall_thickness + inner_length + wall_thickness;
 outer_height = inner_height + wall_thickness;
 outer_corner = pcb_corner_radius + fc;
 
-include <handy.scad>;
+include <lib/handy.scad>;
 
 module pcb_model () {
   import(pcb_stl);
@@ -142,8 +139,5 @@ module main_shell() {
 
 }
 
-// orient & position for printing
-translate([0,0,outer_height]) rotate([180,0,0]) {
- main_shell();
- %pcb_model();
-}
+main_shell();
+%pcb_model();

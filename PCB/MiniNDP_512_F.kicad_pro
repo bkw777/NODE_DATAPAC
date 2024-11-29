@@ -39,7 +39,7 @@
         "pads": {
           "drill": 0.0,
           "height": 0.6,
-          "width": 0.8
+          "width": 1.4
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -66,7 +66,6 @@
         "silk_overlap|127450000|109075707|7d950917-9f3b-4060-9c6b-cffd74cd7e16|cb5bb4f5-5e1a-4448-842f-40c185a505ed",
         "silk_overlap|127450000|109334293|7d950917-9f3b-4060-9c6b-cffd74cd7e16|ee98c3b9-27a1-493e-8b57-c7269c4403ce",
         "silk_overlap|128096060|109525000|21397f30-cc22-43f1-ab40-e5ecae65acaa|7d950917-9f3b-4060-9c6b-cffd74cd7e16",
-        "starved_thermal|148456000|105246000|7264d97b-15d8-4a15-a143-ebe7adc45345|d53e6b22-4fee-4e8a-b819-90dda86a1167|F.Cu",
         "text_thickness|180550000|108925000|0fea7aa3-5e62-481a-891c-d62752819372|00000000-0000-0000-0000-000000000000",
         "via_dangling|168300000|111125000|1ea4dffe-4cd0-451c-8a62-b2b5db2dfffa|00000000-0000-0000-0000-000000000000",
         "via_dangling|168300000|88425000|0cb39934-bf39-4989-9e2c-97dcc3818e56|00000000-0000-0000-0000-000000000000",

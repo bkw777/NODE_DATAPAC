@@ -163,7 +163,7 @@
 	)
 	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/MiniNDP_Cover.step"
 		(offset
-			(xyz 0 0 0)
+			(xyz 0 0 -1.6)
 		)
 		(scale
 			(xyz 1 1 1)
