@@ -5384,12 +5384,6 @@
 		(uuid "a68589e2-465e-4d90-b344-fb4750b121bf")
 	)
 	(junction
-		(at 261.62 92.71)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "afabb7cf-6ccc-452a-8d15-22dc69aa72ac")
-	)
-	(junction
 		(at 95.25 68.58)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6827,7 +6821,7 @@
 	)
 	(wire
 		(pts
-			(xy 261.62 92.71) (xy 261.62 157.48)
+			(xy 257.81 92.71) (xy 257.81 157.48)
 		)
 		(stroke
 			(width 0)
@@ -7127,7 +7121,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 92.71) (xy 261.62 92.71)
+			(xy 247.65 92.71) (xy 257.81 92.71)
 		)
 		(stroke
 			(width 0)
@@ -7977,16 +7971,6 @@
 	)
 	(wire
 		(pts
-			(xy 261.62 90.17) (xy 261.62 92.71)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c574398e-df5f-4798-8a8d-36ffc694f9b3")
-	)
-	(wire
-		(pts
 			(xy 101.6 93.98) (xy 165.1 93.98)
 		)
 		(stroke
@@ -8007,7 +7991,7 @@
 	)
 	(wire
 		(pts
-			(xy 261.62 157.48) (xy 64.77 157.48)
+			(xy 257.81 157.48) (xy 64.77 157.48)
 		)
 		(stroke
 			(width 0)
@@ -8327,7 +8311,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 90.17) (xy 257.81 90.17)
+			(xy 247.65 90.17) (xy 260.35 90.17)
 		)
 		(stroke
 			(width 0)
@@ -8377,7 +8361,7 @@
 	)
 	(wire
 		(pts
-			(xy 257.81 160.02) (xy 257.81 90.17)
+			(xy 260.35 160.02) (xy 260.35 90.17)
 		)
 		(stroke
 			(width 0)
@@ -8577,7 +8561,7 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 160.02) (xy 257.81 160.02)
+			(xy 36.83 160.02) (xy 260.35 160.02)
 		)
 		(stroke
 			(width 0)
@@ -12647,71 +12631,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:VMEM")
-		(at 261.62 85.09 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "99c9e2ce-1fc4-4747-8ce2-0e4f2338b4f5")
-		(property "Reference" "#PWR014"
-			(at 261.62 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "VMEM"
-			(at 261.62 81.026 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 261.62 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 261.62 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"VMEM\""
-			(at 261.62 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "bce83128-9095-471f-9372-c932d143bf9e")
-		)
-		(instances
-			(project "MiniNDP_512_B"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "#PWR014")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "000_LOCAL:Housing")
 		(at 24.13 157.48 0)
 		(unit 1)
@@ -14185,84 +14104,6 @@
 			(project "MiniNDP_512_B"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR011")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "000_LOCAL:R")
-		(at 261.62 87.63 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "eb25acce-3ac5-4956-8910-4e80d9401cc0")
-		(property "Reference" "R3"
-			(at 263.144 86.614 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "47k"
-			(at 263.144 88.646 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "000_LOCAL:R_0805"
-			(at 261.62 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/sei-rmcf_rmcp.pdf"
-			(at 261.62 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "RES 47K OHM 1% 1/8W 0805"
-			(at 261.62 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "RMCF0805FT47K0"
-			(at 261.62 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "d6d0b8e7-4c06-486f-9a21-ebaaba74ad8c")
-		)
-		(pin "1"
-			(uuid "39941a64-f73f-4e45-a5fa-7e4db877ae73")
-		)
-		(instances
-			(project "MiniNDP_512_B"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "R3")
 					(unit 1)
 				)
 			)

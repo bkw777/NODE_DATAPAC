@@ -4066,12 +4066,6 @@
 		)
 	)
 	(junction
-		(at 101.6 146.05)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "05eaabe4-daf3-40af-95f1-4c506878a815")
-	)
-	(junction
 		(at 80.01 181.61)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4520,6 +4514,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ba85d7a6-0bab-4167-af25-c2adf420e3dd")
+	)
+	(junction
+		(at 101.6 140.97)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bc1d6169-3c57-4bfa-b3b9-8e9c5381f7f7")
 	)
 	(junction
 		(at 236.22 31.75)
@@ -5177,7 +5177,7 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 116.84) (xy 88.9 116.84)
+			(xy 36.83 116.84) (xy 69.85 116.84)
 		)
 		(stroke
 			(width 0)
@@ -5287,6 +5287,16 @@
 	)
 	(wire
 		(pts
+			(xy 86.36 140.97) (xy 101.6 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1b34317c-3241-4825-958b-818028c1756f")
+	)
+	(wire
+		(pts
 			(xy 181.61 133.35) (xy 284.48 133.35)
 		)
 		(stroke
@@ -5387,7 +5397,7 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 146.05) (xy 101.6 146.05)
+			(xy 69.85 140.97) (xy 78.74 140.97)
 		)
 		(stroke
 			(width 0)
@@ -5864,6 +5874,16 @@
 			(type default)
 		)
 		(uuid "3d7d2405-a53c-4478-9d0e-a54d98108f47")
+	)
+	(wire
+		(pts
+			(xy 101.6 140.97) (xy 101.6 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3e8b3c91-f690-4f97-b822-d9e32b057bad")
 	)
 	(wire
 		(pts
@@ -6557,7 +6577,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 137.16) (xy 101.6 146.05)
+			(xy 101.6 137.16) (xy 101.6 140.97)
 		)
 		(stroke
 			(width 0)
@@ -8267,7 +8287,7 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 116.84) (xy 88.9 146.05)
+			(xy 69.85 116.84) (xy 69.85 140.97)
 		)
 		(stroke
 			(width 0)
@@ -9423,6 +9443,17 @@
 		)
 		(uuid "65b6d371-3239-4b88-a347-2eec1905a6e3")
 	)
+	(text "D2: Mod found on one\nof two original DATAPACs.\n\nPrevent host battery\ndrain?\n"
+		(exclude_from_sim no)
+		(at 72.39 135.636 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "6664477a-502c-4684-9ac6-2637d70231da")
+	)
 	(text "VDD"
 		(exclude_from_sim no)
 		(at 40.64 60.96 0)
@@ -9533,7 +9564,7 @@
 		)
 		(uuid "cdbaa19d-c25e-46a0-8701-547448a12003")
 	)
-	(text "/--- BUS ---\\\n(A)	~{YO}   A8   A9  ->  ~{BLOCK} ~{BYTE}\nL	X	X	X		X	  X\nX	H	X	X		X	  X\nX	X	L	X		X	  X\nH	L	H	L	->  L	  H  Select BLOCK #\nH	L	H	H	->  H	  L  READ/WRITE BYTE\n\nEach ~{BLOCK} pulse low: sets A0-A9 to 0,\nsets A10-A17 from AD0-AD7,\nthen holds A10-A17 latched while high.\n\nEach ~{BYTE} pulse low: enables SRAM for read or write while low,\nthen disables SRAM and increments A0-A9 by 1 on returning high."
+	(text "/--- BUS ---\\\n(A)	~{YO}   A8   A9  ->  ~{BLOCK} ~{BYTE}\nL	X	X	X		X	  X\nX	H	X	X		X	  X\nX	X	L	X		X	  X\nH	L	H	L	->  L	  H  SELECT BLOCK #\nH	L	H	H	->  H	  L  READ/WRITE BYTE\n\n~{BLOCK}\nL: set A0-A9 to 0, set A10-A17 from AD0-AD7\nH: latch A10-A17\nBASIC: OUT129,N\n\n~{BYTE}\nL: enable SRAM\nH: disable SRAM, increment A0-A9 by 1\nBASIC: READ: N=INP(131)   WRITE: OUT131,N"
 		(exclude_from_sim no)
 		(at 29.21 273.05 0)
 		(effects
@@ -13207,6 +13238,92 @@
 			(project "NODE_DATAPAC_256K_historical_reproduction"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#FLG03")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:1N4148")
+		(at 82.55 140.97 0)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp yes)
+		(uuid "7dc80468-6867-43c9-b153-93da94482a6f")
+		(property "Reference" "D2"
+			(at 82.55 135.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1N4148"
+			(at 82.55 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:D_DO-35_SOD27_P10.16mm_Horizontal"
+			(at 82.55 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/1N4148.pdf"
+			(at 82.55 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 82.55 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 82.55 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 82.55 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "61156bb3-6767-4375-ba75-11f53a7d31fd")
+		)
+		(pin "2"
+			(uuid "2c0af4aa-fcc6-4979-9970-e21ab3f2b499")
+		)
+		(instances
+			(project "NODE_DATAPAC_256K_historical_reproduction"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "D2")
 					(unit 1)
 				)
 			)
