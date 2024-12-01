@@ -514,7 +514,9 @@ There is OpenSCAD source for a snap-on cover, both a thick version for a card wi
 
 There is also an STL for a slip cover by F. D. Singleton.  
 
-The printable STLs are in [COVER/out](COVER/out) and in [releases](../releases/).
+The printable STLs are in [COVER/out](COVER/out) and in [releases](../releases/).  
+Full size for CR2032 [MiniNDP_Cover.stl](COVER/out/MiniNDP_Cover.stl)  
+Thin size for CR2016 [MiniNDP_Cover_THIN.stl](COVER/out/MiniNDP_Cover_THIN.stl)
 
 You can get both the PCB and cover at the same time from Elecrow by submitting the gerber zip and the cover stl, and it arrives in under 2 weeks even with the cheapest economy shipping option.
 
