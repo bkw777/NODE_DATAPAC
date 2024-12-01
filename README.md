@@ -599,8 +599,8 @@ Only 256k but that is the same as the original DATAPAC and some of the old softw
 
 Same as 512_F above wrt 4040 etc, but being 256k allows to also get rid of the HC00.  
 256k and 128k versions of the SRAM have both /CE1 and CE2 pins, and we need to monitor for both a high and a low signal,  
-so this version can just connect RAMRST to /CE1 and BYTE to CE2 and doesn't need anything else. Neat and clean and minimal.  
-with the 4040 and 573 it's like a kind of platonic ideal version of the circuit.
+so this version can just connect RAMRST to /CE1 and BYTE to CE2 and doesn't need anything else.  
+Nice and minimal. With the 4040 and 573 it's like a kind of platonic ideal version of the circuit.
 
 The SRAM part AS6C2008A isn't available in single qty on DigiKey.  
 You can use CY62138FLL-45SXIT instead.
