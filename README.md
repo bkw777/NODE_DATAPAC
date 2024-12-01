@@ -508,10 +508,13 @@ CR2016 height (nominally a CR2012 holder, but can take a CR2016)
 ![](PCB/out/MiniNDP_256_CR2016.jpg)
 
 ## MiniNDP Cover
-There are a few versions of printable cover in the [enclosure](enclosure) directory.  
-There is OpenSCAD source and exported STL for a snap-on cover, with both a thick version for a card with CR2032 holder, and a thin version for a card with a CR2016 holder.  
+There are a few versions of printable cover in the [COVER](COVER) directory.  
+
+There is OpenSCAD source for a snap-on cover, both a thick version for a card with CR2032 holder, and a thin version for a card with a CR2016 holder.  
+
 There is also an STL for a slip cover by F. D. Singleton.  
-The printable STLs are in [releases/out](../releases/out).
+
+The printable STLs are in [COVER/out](COVER/out) and in [releases](../releases/).
 
 You can get both the PCB and cover at the same time from Elecrow by submitting the gerber zip and the cover stl, and it arrives in under 2 weeks even with the cheapest economy shipping option.
 
