@@ -476,6 +476,8 @@ Installed on a TANDY 200
 The pcb supports 128k, 256k, or 512k. There is no real reason to install less than 512k but if you wanted to install a 256k (AS6C2008A) 
 or 128k (AS6C1008, IS62C1024, etc) SRAM, then just omit the U8 part (1G79), and solder-blob JP1 (U8 pads 4 & 5). Those two pads are modified in the footprint to also be a solder-jumper for this purpose.
 
+Install the [font](font) for the bootstrap code on the PCB silkscreen before trying to edit the pcb file in KiCad.
+
 ## MiniNDP PCB & BOM
 BOM [DigiKey](https://www.digikey.com/short/cd3hnw3b)  ([PCB/out/MiniNDP.bom.csv](PCB/out/MiniNDP.bom.csv)),  
 PCB <!-- [OSHPark](https://oshpark.com/shared_projects/), -->[PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html) ([gerber zip](../../releases/))
