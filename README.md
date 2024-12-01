@@ -534,11 +534,15 @@ Thin version for CR2016
 ### MiniNDP 1M
 1 Meg version, has 4 banks.  
 
-This is tested and works, but is useless unless you write your own software to use Bank2 & Bank3.
-RAMDSK can use Bank0 and Bank1 of this, but does not know anything about Bank2 or Bank3.
+This is tested and works, but is 50% useless unless you write your own software to use Banks 2 & 3.
 
-The only software that knows about the extra banks is [RAMPAC Inspector](software/CRI), which can read the raw data from all 4 banks.  
+RAMDSK can use Banks 0 & 1 as normal, but does not know anything about 2 or 3.
+
+[RAMPAC Inspector](software/CRI), can read the raw data from all 4 banks.  
 Edit line 10 to say NN%=3 to enable support for all 4 banks.
+
+The example database code in the magazine articles can probably be adjusted to work with the other banks.  
+Maybe that could be as good as intentional: have 512k for RAMDSK filesystem usage, and a seperate 512k for raw data usage, and you can have both at the same time on the same card and the two don't conflict.
 
 How to access all 4 banks:
 ```
