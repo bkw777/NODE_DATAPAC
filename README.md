@@ -518,8 +518,11 @@ The printable STLs are in [COVER/out](COVER/out) and in [releases](../releases/)
 
 You can get both the PCB and cover at the same time from Elecrow by submitting the gerber zip and the cover stl, and it arrives in under 2 weeks even with the cheapest economy shipping option.
 
+Full size version for CR2032
 ![](COVER/out/MiniNDP_Cover.1.jpg)
 ![](COVER/out/MiniNDP_Cover.2.jpg)
+
+Thin version for CR2016
 ![](COVER/out/MiniNDP_Cover_THIN_start.jpg)
 ![](COVER/out/MiniNDP_Cover_THIN.on2.jpg)
 ![](COVER/out/MiniNDP_Cover_THIN.on3.jpg)
