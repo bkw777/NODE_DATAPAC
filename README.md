@@ -20,7 +20,7 @@
   * [RAMPAC Diagnostic](#rampac-diagnostic)
 * [MiniNDP](#minindp)
   * [PCB & BOM](#minindp-pcb--bom)
-  * [Enclosure](#minindp-enclosure)
+  * [Cover](#minindp-cover)
   * [WIP/Experiments](#works-in-progress)
 
 This repo documents the NODE Systems DATAPAC, RAMPAC, and a new clone, the [MiniNDP](#minindp).
@@ -71,7 +71,7 @@ Other References
 ## Reproduction Schematic & PCB
 This is a new drawing but aims to reflect the original actual device as exactly as possible.  
 It's meant to be a form of documentation or reference describing the original hardware as it was.  
-For instance, the inconsistent thickness of power traces, and the 5V power trace that almost touches one of the mounting screw heads, are both exactly as in the original.  
+For instance, the ungrounded inputs on the 161's, the inconsistent thickness of power traces, and the 5v power trace that almost touches one of the mounting screw heads, are all exactly as in the original.  
 (I added a fiber washer to that screw in my units after noticing that. The case is isolated, not connected to ground, but still...)
 ![](PCB/out/NODE_DATAPAC_256K_historical_reproduction.svg)
 
@@ -85,13 +85,13 @@ The original PCB has no silkscreen. This image has silkscreen added to show wher
 ![](PCB/out/NODE_DATAPAC_256K_historical_reproduction_top_annotated.jpg)
 
 ## Theory of Operation
-The circuit has 2 functions, SELECT-BLOCK and READ/WRITE-BYTE, controlled by the internal signals /BLOCK and /BYTE.
+The circuit has 2 functions, SELECT-BLOCK and READ/WRITE-BYTE, controlled by the internal active-low signals /BLOCK and /BYTE.
 
 The U4 HC138 monitors four lines from the bus, `/Y0` `(A)` `A8` `A9`, and based on that asserts either `/BLOCK` or `/BYTE` or neither.  
 If neither /BLOCK nor /BYTE is asserted then the bus traffic has no effect on any of the other chips.
 
 The 3 HC161 form a 0-1023 counter, setting SRAM address bits A0-A9.  
-Call this the byte-number or byte-position counter.
+Call this the byte-number or byte-position counter or offset.
 
 The HC374 sets SRAM address bits A10-A17 from the bus data bits AD0-AD7, and latches that value on its outputs until triggered to update to a new value.  
 Call this the block-number or block selector.
@@ -460,8 +460,6 @@ Has 512k in 2 banks of 256k like the final versions of RAMPAC.
 
 The connector fits in a Model 200 without having to modify the 200.
 
-The diode on RAMRST is copied from a user mod found on a DATAPAC. It appears to be intended to prevent a battery drain on the host computer while the DATAPAC is left connected to the host while the host is turned off.
-
 Installed on a TANDY 102
 ![](ref/MiniNDP_on_102.jpg)
 
@@ -479,29 +477,29 @@ The pcb supports 128k, 256k, or 512k. There is no real reason to install less th
 or 128k (AS6C1008, IS62C1024, etc) SRAM, then just omit the U8 part (1G79), and solder-blob JP1 (U8 pads 4 & 5). Those two pads are modified in the footprint to also be a solder-jumper for this purpose.
 
 ## MiniNDP PCB & BOM
-BOM [DigiKey](https://www.digikey.com/short/cd3hnw3b)  (there is also a bom.csv generated from the schematic in the [PCB/out](PCB/out) dir, and a copy included in the gerber zip in [releases](../../releases/)  
-PCB <!-- [OSHPark](https://oshpark.com/shared_projects/), -->[PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html), or there is a gerber zip in [releases](../../releases/)
+BOM [DigiKey](https://www.digikey.com/short/cd3hnw3b)  ([PCB/out/MiniNDP.bom.csv](PCB/out/MiniNDP.bom.csv)),  
+PCB <!-- [OSHPark](https://oshpark.com/shared_projects/), -->[PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html) ([gerber zip](../../releases/))
 
 If the SRAM is out of stock, this saved search gives other compatible parts:  
 https://www.digikey.com/short/fzw3bwf8  
 
 For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.  
 
-You can optionally make a thinner card by replacing BT1 and C1 with lower profile alternatives.  
+You can optionally make a thick or thin card with more or less battery life by choosing different parts for BT1 and C1.
 
 |BATTERY|life|holder|height|C1 Capacitor|grace(1)|
 |---|---|---|---|---|---|
 |CR2032|7-13 years|[Keystone 3034](https://www.digikey.com/en/products/detail/keystone-electronics/3034/4499289)<br>TE/Linx BAT-HLD-001-SMT<br>Adam Tech BH-67<br>MPD BK-912|4.1mm|[TAJC227K010RNJ](https://www.digikey.com/en/products/detail/kyocera-avx/TAJC227K010RNJ/1833766?s=N4IgTCBcDaICoEEBSBhMYDsBpADARhwCUA5JEAXQF8g) - 6032-28 220u 10v|1 minute|
 |CR2016|3-6 years|[TE BAT-HLD-002-SMT](https://www.digikey.com/en/products/detail/te-connectivity-linx/BAT-HLD-002-SMT/3044011)(2)|2.8mm|[TLJW157M010R0200](https://www.digikey.com/en/products/detail/kyocera-avx/TLJW157M010R0200/929982?s=N4IgTCBcDaICoBkBSB1AjAVgOwFkAMaeASnmHniALoC%2BQA) - 6032-15 150u 10v|40 seconds|
-|CR2012|1.5-3 years|[Keystone 3028](https://www.digikey.com/en/products/detail/keystone-electronics/3028/4499284) (picture is wrong, part is correct)|1.7mm|||
+|CR2012|1.5-3 years|[Keystone 3028](https://www.digikey.com/en/products/detail/keystone-electronics/3028/4499284) (picture is wrong, part is correct)|1.7mm|[TLJW157M010R0200](https://www.digikey.com/en/products/detail/kyocera-avx/TLJW157M010R0200/929982?s=N4IgTCBcDaICoBkBSB1AjAVgOwFkAMaeASnmHniALoC%2BQA) - 6032-15 150u 10v|40 seconds|
 
 (1) Grace is the battery-change grace period provided by C1.  
 With no battery installed, how long it takes for C1 to discharge from 2.0v (coin cell about to die) down to 1.5v (sram data retention).
 
-(2) This CR2016 holder is taller than needed for a CR2016, so much that you may as well just use a full CR2032 holder and get double the years.  
-But you can actually stuff a CR2016 into the CR2012 holder. It's just very stiff.  
-You can make the CR2012 holder fit perfect so there will be less strain on the solder joints by either bending the tabs down slightly before soldering,  
-or by soldering with the holder clamped onto piece of PCB in the holder as a filler block. PCB is 1.6mm just like CR2016.
+(2) This CR2016 holder is taller than needed for a CR2016, so much so that you may as well just use a full CR2032 holder and get double the years.  
+But you can actually stuff a CR2016 into the CR2012 holder. It's just a stiff fit.  
+You can adjust the CR2012 holder to fit perfect so there will be less strain on the solder joints by either bending the tabs down slightly before soldering,  
+or by soldering with the holder clamped over a piece of PCB in the holder as a filler block in place of a battery. PCB is 1.6mm just like CR2016.
 
 CR2032 height
 ![](PCB/out/MiniNDP_256_CR2032.jpg)
@@ -509,22 +507,23 @@ CR2032 height
 CR2016 height (nominally a CR2012 holder, but can take a CR2016)  
 ![](PCB/out/MiniNDP_256_CR2016.jpg)
 
-## MiniNDP Enclosure
+## MiniNDP Cover
 There are a few versions of printable cover in the [enclosure](enclosure) directory.  
 There is OpenSCAD source and exported STL for a snap-on cover, with both a thick version for a card with CR2032 holder, and a thin version for a card with a CR2016 holder.  
 There is also an STL for a slip cover by F. D. Singleton.  
-The printable STLs are in [releases](../releases).
+The printable STLs are in [releases/out](../releases/out).
 
-You can get both the PCB and enclosure at the same time from Elecrow by submitting the gerber zip and the enclosure stl, and it arrives in under 2 weeks even with the cheapest economy shipping option.
+You can get both the PCB and cover at the same time from Elecrow by submitting the gerber zip and the cover stl, and it arrives in under 2 weeks even with the cheapest economy shipping option.
 
 ## Other Versions
 
 ### MiniNDP 1M
 1 Meg version, has 4 banks.  
-This is tested and works, but is useless unless you write your own software to use Bank2 & Bank3.
-RAMDSK can use Bank0 and Bank1 of this exactly the same as any of these, but does not know anything about Bank2 or Bank3.
 
-The only software that knows about the extra banks is [RAMPAC Inspector](software/CRI) can read the raw data from all 4 banks.  
+This is tested and works, but is useless unless you write your own software to use Bank2 & Bank3.
+RAMDSK can use Bank0 and Bank1 of this, but does not know anything about Bank2 or Bank3.
+
+The only software that knows about the extra banks is [RAMPAC Inspector](software/CRI), which can read the raw data from all 4 banks.  
 Edit line 10 to say NN%=3 to enable support for all 4 banks.
 
 How to access all 4 banks:
