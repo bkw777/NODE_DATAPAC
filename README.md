@@ -600,6 +600,9 @@ Same as 512_F above wrt 4040 etc, but being 256k allows to also get rid of the H
 so this version can just connect RAMRST to /CE1 and BYTE to CE2 and doesn't need anything else. Neat and clean and minimal.  
 with the 4040 and 573 it's like a kind of platonic ideal version of the circuit.
 
+The SRAM part AS6C2008A isn't available in single qty on DigiKey.  
+You can use CY62138FLL-45SXIT instead.
+
 ![](PCB/out/MiniNDP_256_F.jpg)  
 ![](PCB/out/MiniNDP_256_F.top.jpg)  
 ![](PCB/out/MiniNDP_256_F.bottom.jpg)  

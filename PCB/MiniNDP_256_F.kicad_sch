@@ -7454,6 +7454,16 @@
 		)
 		(uuid "135417bc-6280-47f2-9701-261f033a9315")
 	)
+	(text "CY62138FLL-45SXIT"
+		(exclude_from_sim no)
+		(at 259.842 48.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "169ad4c6-3034-4007-ab20-7663d2a3a591")
+	)
 	(text "INTR"
 		(exclude_from_sim no)
 		(at 50.8 125.73 0)
@@ -7498,7 +7508,7 @@
 		)
 		(uuid "31c7ce4d-ee50-4ef1-b4e4-627f9bdda5c4")
 	)
-	(text "SOP-32 or TSOP-II-32"
+	(text "SOP-32 / TSOP-II-32 / SOIC-32"
 		(exclude_from_sim no)
 		(at 234.95 41.91 0)
 		(effects
