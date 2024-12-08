@@ -15043,6 +15043,18 @@
 			(justify left top)
 		)
 	)
+	(gr_text "Install the font from the font\ndirectory for the BASIC code below.\n"
+		(at 151.95 80.025 0)
+		(layer "Cmts.User")
+		(uuid "4143ee94-9f41-4190-9ee9-988adcd3e72b")
+		(effects
+			(font
+				(size 2 2)
+				(thickness 0.2)
+			)
+			(justify bottom mirror)
+		)
+	)
 	(segment
 		(start 123.15 89.675)
 		(end 125.05 89.675)

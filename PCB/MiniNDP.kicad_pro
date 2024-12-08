@@ -59,9 +59,6 @@
         }
       ],
       "drc_exclusions": [
-        "silk_edge_clearance|122610000|119509723|fa3b362c-5fb5-448e-bd5f-6936d5db432b|fb575e91-d79d-4e59-8a89-cb8ca966d597",
-        "silk_edge_clearance|181201560|119585000|a75df812-e675-4181-b73c-9e9882f94196|c6c4c500-1ea7-49e0-a092-34b8000db04e",
-        "silk_edge_clearance|181290000|119509723|a75df812-e675-4181-b73c-9e9882f94196|240064af-4564-455c-80f5-3cfd01b8f01b",
         "starved_thermal|129800000|108475000|7264d97b-15d8-4a15-a143-ebe7adc45345|2a7d1b13-815a-4d9e-b6c4-71b2f3332292|F.Cu",
         "starved_thermal|129800000|111075000|7264d97b-15d8-4a15-a143-ebe7adc45345|59e912af-3da0-4fcc-9dce-c548d97debed|F.Cu",
         "via_dangling|167400000|111125000|1ea4dffe-4cd0-451c-8a62-b2b5db2dfffa|00000000-0000-0000-0000-000000000000",
@@ -514,7 +511,7 @@
       "plot": "GERBER_${TITLE}_${REVISION}",
       "pos_files": "GERBER_${TITLE}_${REVISION}",
       "specctra_dsn": "",
-      "step": "out/MiniNDP_512_CR2016.step",
+      "step": "out/MiniNDP_PCB_THIN.step",
       "svg": "",
       "vrml": ""
     },
