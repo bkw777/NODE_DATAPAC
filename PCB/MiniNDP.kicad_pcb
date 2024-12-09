@@ -15043,14 +15043,26 @@
 			(justify left top)
 		)
 	)
-	(gr_text "Install the font from the font\ndirectory for the BASIC code below.\n"
-		(at 151.95 80.025 0)
-		(layer "Cmts.User")
+	(gr_text "Use ENIG copper finish for\ngold plated battery terminal.\n"
+		(at 169.7 85.025 0)
+		(layer "Eco1.User")
+		(uuid "073ff4f7-0970-48cb-9440-6676b75f1bec")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify bottom)
+		)
+	)
+	(gr_text "Install the font in the font\ndirectory for the BASIC code.\n"
+		(at 151.95 85.025 0)
+		(layer "Eco2.User")
 		(uuid "4143ee94-9f41-4190-9ee9-988adcd3e72b")
 		(effects
 			(font
-				(size 2 2)
-				(thickness 0.2)
+				(size 1 1)
+				(thickness 0.15)
 			)
 			(justify bottom mirror)
 		)
