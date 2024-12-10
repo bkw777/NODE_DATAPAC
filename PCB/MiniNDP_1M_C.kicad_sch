@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP 1M")
-		(date "2024-11-28")
-		(rev "C02")
+		(date "2024-12-10")
+		(rev "C03")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAM100.CO or RAM200.CO")
@@ -4976,6 +4976,12 @@
 		(uuid "6887a7f0-6ed8-4ed6-8108-ef86e22acbd5")
 	)
 	(junction
+		(at 165.1 180.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6d336409-f732-4cad-9694-dd05b6a899eb")
+	)
+	(junction
 		(at 95.25 171.45)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5034,6 +5040,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d9d4b0ee-fd30-4be8-b15a-28fdef3df5dd")
+	)
+	(junction
+		(at 165.1 185.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "dc568fe6-8059-4be5-bbb3-ce17e8aa2cc1")
 	)
 	(junction
 		(at 127 154.94)
@@ -6115,6 +6127,16 @@
 		)
 		(uuid "28ce0a29-2c75-4199-819d-0556ecc7f4df")
 	)
+	(wire
+		(pts
+			(xy 165.1 185.42) (xy 171.45 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "29604ef7-1a62-4680-ad61-05e75024aa02")
+	)
 	(bus
 		(pts
 			(xy 177.8 121.92) (xy 177.8 124.46)
@@ -6574,6 +6596,16 @@
 			(type default)
 		)
 		(uuid "5aff8c16-e695-4ce5-a3eb-18a860333e63")
+	)
+	(wire
+		(pts
+			(xy 165.1 180.34) (xy 171.45 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5eb5b14a-a344-42c1-b31b-ae7edb80b709")
 	)
 	(bus
 		(pts
@@ -11630,6 +11662,82 @@
 			(project "MiniNDP_1M_B"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR09")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:C")
+		(at 171.45 182.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b3925862-fddc-4b2c-8e43-fe7be3aa9af1")
+		(property "Reference" "C6"
+			(at 171.45 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "47u"
+			(at 171.45 178.816 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:C_1206"
+			(at 171.45 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/TDK_MLCC_Cxxxx.pdf"
+			(at 171.45 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "CAP CER 47UF 25V X5R 1206"
+			(at 171.45 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C3216X5R1E476M160DC"
+			(at 171.45 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "98895602-09d6-4d64-b238-f725ba6eea71")
+		)
+		(pin "1"
+			(uuid "d4c347c0-413d-428a-ad0b-b2c796ecedf6")
+		)
+		(instances
+			(project "MiniNDP_1M_C06"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "C6")
 					(unit 1)
 				)
 			)

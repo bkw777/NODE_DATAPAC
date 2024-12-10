@@ -9804,15 +9804,28 @@
 			)
 		)
 	)
-	(gr_text "Use ENIG copper finish\nfor gold plated battery terminal"
-		(at 170.45 84.025 0)
-		(layer "Dwgs.User")
-		(uuid "74107d22-0b5b-4986-83a1-c4c4e2a9bb4c")
+	(gr_text "Use ENIG copper finish\nfor gold battery terminal."
+		(at 170.6 85.025 0)
+		(layer "Eco1.User")
+		(uuid "15b82ca2-f3aa-4c1f-891d-2b95ee4c1dc0")
 		(effects
 			(font
 				(size 1 1)
 				(thickness 0.15)
 			)
+			(justify bottom)
+		)
+	)
+	(gr_text "Install the font in the font\ndirectory for the BASIC code.\n"
+		(at 151.95 85.025 0)
+		(layer "Eco2.User")
+		(uuid "551b8acb-ddc8-474c-bf08-85092cafbef0")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify bottom mirror)
 		)
 	)
 	(segment
