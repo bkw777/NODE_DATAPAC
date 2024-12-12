@@ -1105,7 +1105,7 @@
 		(descr "32-lead plastic TSOP; Type II")
 		(tags "TSOP-II 32")
 		(property "Reference" "U4"
-			(at -3.81 -7.099 90)
+			(at -3.8628 -8.499 90)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "996db935-3698-4fb4-aad2-05b81544bdbb")
@@ -1118,7 +1118,7 @@
 			)
 		)
 		(property "Value" "AS6C2008A"
-			(at 0 0 90)
+			(at 1.7372 0 90)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(uuid "31634204-e6ba-49bd-8ab9-4991c0babdb7")
@@ -12806,8 +12806,8 @@
 			(justify mirror)
 		)
 	)
-	(gr_text "SOP-32 or TSOP-II-32"
-		(at 139.95 97.625 90)
+	(gr_text "CY62138FLL\nSOIC/SOP/TSOPII-32"
+		(at 137.5 97.625 90)
 		(layer "F.SilkS")
 		(uuid "740ca855-e40e-423d-b75f-311430df38f4")
 		(effects
@@ -12815,6 +12815,7 @@
 				(size 0.8 0.8)
 				(thickness 0.1)
 			)
+			(justify top)
 		)
 	)
 	(gr_text "${TITLE} - ${REVISION} - RAM DISK for TANDY 102/200"
@@ -12839,15 +12840,16 @@
 			)
 		)
 	)
-	(gr_text "Use ENIG copper finish\nfor gold plated battery terminal"
-		(at 170.6 84.025 0)
-		(layer "Dwgs.User")
+	(gr_text "Use ENIG copper finish\nfor gold battery terminal"
+		(at 170.6 85.025 0)
+		(layer "Eco1.User")
 		(uuid "146f1137-4ffc-452b-93f2-5f9ed25de0e2")
 		(effects
 			(font
 				(size 1 1)
 				(thickness 0.15)
 			)
+			(justify bottom)
 		)
 	)
 	(via
