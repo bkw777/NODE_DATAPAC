@@ -12852,6 +12852,18 @@
 			(justify bottom)
 		)
 	)
+	(gr_text "Install the font in the font\ndirectory for the BASIC code."
+		(at 151.95 85.025 0)
+		(layer "Eco2.User")
+		(uuid "ab517955-4012-4f84-a182-76c9eb540e8a")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify bottom mirror)
+		)
+	)
 	(via
 		(at 128.375 101.55)
 		(size 0.5)
