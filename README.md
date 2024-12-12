@@ -608,8 +608,11 @@ Same as 512_F above wrt 4040 etc, but being 256k allows to also get rid of the H
 so this version can just connect RAMRST to /CE1 and BYTE to CE2 and doesn't need anything else.  
 Nice and minimal. With the 4040 and 573 it's like a kind of platonic ideal version of the circuit.
 
-The SRAM part AS6C2008A isn't available in single qty on DigiKey.  
-You can use CY62138FLL-45SXIT instead.
+At time of writing DigiKey doesn't have any AS6C2008A.  
+A compatible part that is available is CY62138FLL,  
+and the footprint allows any SOIC-32, SOP-32, or TSOP-II-32 package.  
+DigiKey does have CY62138FLL-45SXIT.  
+Mouser has both AS6C2008A-55SIN and CY62138FLL-45SXI.
 
 ![](PCB/out/MiniNDP_256_F.jpg)  
 ![](PCB/out/MiniNDP_256_F.top.jpg)  
