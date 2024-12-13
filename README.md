@@ -583,7 +583,7 @@ This all *should* still work the same outwardly, but it isn't verified yet.
 ![](PCB/out/MiniNDP_EZ1M.top.jpg)  
 ![](PCB/out/MiniNDP_EZ1M.bottom.jpg)  
 ![](PCB/out/MiniNDP_EZ1M.svg)  
-[MiniNDP_512_F.bom.csv](PCB/out/MiniNDP_EZ1M.bom.csv)
+[MiniNDP_EZ1M.bom.csv](PCB/out/MiniNDP_EZ1M.bom.csv)
 
 ### SL1M - 1 Meg, slim version
 
@@ -597,4 +597,4 @@ The FCT841 is ABT841 in this one.
 ![](PCB/out/MiniNDP_SL1M.top.jpg)  
 ![](PCB/out/MiniNDP_SL1M.bottom.jpg)  
 ![](PCB/out/MiniNDP_SL1M.svg)  
-[MiniNDP_1M_C.bom.csv](PCB/out/MiniNDP_SL1M.bom.csv)
+[MiniNDP_SL1M.bom.csv](PCB/out/MiniNDP_SL1M.bom.csv)
