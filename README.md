@@ -436,7 +436,7 @@ XOS-C does not require a RAMPAC, but leverages one if available.
 
 <!-- 
 ## New Replacement PCB
-Uses all the same through-hole parts, fits in the original enclosure, improves the trace routing a little, for example moving that VCC line away from that screw head, gnd traces replaced by pours, thicker and all the same size vcc lines, decoupling caps, silkscreen.  
+Uses all the same through-hole parts, fits in the original enclosure, improves the trace routing a little, for example moving that VCC line away from that screw head, GND traces replaced by zone fills, thicker and all the same size vcc lines, decoupling caps, silkscreen.  
 There is not much reason to build this instead of a MiniNDP. Even if you had an original DATAPAC that was corroded by the battery, it would be easier and more history-preserving to just repair the corroded traces with bodge wires since all the parts are so big and simple.
 ![](PCB/out/NODE_DATAPAC_256K_bkw.svg)
 ![](PCB/out/NODE_DATAPAC_256K_bkw.top.jpg)
@@ -533,8 +533,8 @@ Thin version for CR2016
 
 ## Other Versions
 
-### MiniNDP 1M
-1 Meg version, has 4 banks.  
+### MiniNDP SL1M
+1 Meg version, has 4 banks.
 
 This is tested and works, but is 50% useless unless you write your own software to use Banks 2 & 3.
 
@@ -560,7 +560,7 @@ OUT 141,N = select bank 3 block N
 ![](PCB/out/MiniNDP_1M.svg)  
 [MiniNDP_1M.bom.csv](PCB/out/MiniNDP_1M.bom.csv)
 
-### 512_F - Easy to Build Version
+### EZ1M - 1 Meg, EZ-build
 
 This version is not tested yet.
 
@@ -568,69 +568,33 @@ The goal of this version is to use fewer and larger parts to make it easier to D
 
 In order to get that, all parts changed to other versions and it's not verified yet that this design actually works.
 
-The original 161s have a lot of un-used pins because we don't use the data-preload feature of them, and 3 x 4-bit chips with 3 x power, gnd, reset, clock, ripple carry in & out, is just a lot of pins and traces.  
-A single 4040 provides everything we actually want in a single part, except it is negative-edge triggered while the 161's are positive-edge triggered.
+3 x HC161 are replaced with a single HC4040.  
+This change requires changing the active-low /BLOCK & /BYTE signals to active-high equivalents.
 
-This version replaces essentially everything with some other equivalent that either outputs or inputs the opposite way from the original.
+HC138 is replaced with HC238.  
+This is the same as HC138 except with active-high outputs.
 
-Original has a 138 which generates active-low /BLOCK and /BYTE, is replaced with 238, the same but with active-high outputs, so it takes the same inputs and generates active-high BLOCK & BYTE.
+HC374/574 plus 1G79/HC79 is replace with FCT841.  
+FCT841 is like HC574 except with 10-bits and active-high latch-enable.
 
-Original has 3 x 161 which trigger on the rising edge, are replaced by 1 x 4040, which triggers on the falling edge.
+This all *should* still work the same outwardly, but it isn't verified yet.
 
-Original has a 374 (or 574, or 574 plus 1G79, or single FCT821) which latches on the rising edge, is replaced by a FCT841 which latches on the falling edge.
+![](PCB/out/MiniNDP_EZ1M.jpg)  
+![](PCB/out/MiniNDP_EZ1M.top.jpg)  
+![](PCB/out/MiniNDP_EZ1M.bottom.jpg)  
+![](PCB/out/MiniNDP_EZ1M.svg)  
+[MiniNDP_512_F.bom.csv](PCB/out/MiniNDP_EZ1M.bom.csv)
 
-This all *should* still work the same outwardly but it isn't verified yet.
-
-Reducing the chip count and the total pins and traces count also means it's possible to fit larger versions of the chips onto the same pcb space.
-
-Just switching out the 3 x TSSOP 161s for the single SOIC 4040 trades 48 0.65mm pitch pins for just 16 1.27mm pitch pins.  
-Much easier to successfully solder without errors.
-
-It's several steps forward but one step back. Since the 512k SRAM only has a single active-low /CE pin,  
-yet we need to monitor both that RAMRST is low and BYTE is high to enable SRAM, we has to add 2 NAND gates. One to invert RAMRST, and the other to say "if inverted-RAMRST is high and BYTE is high, then output low".  
-2G00 os a chip with 2 NAND, but isn't available in a large package. HC00 has 4 NAND and is available in SOIC package. It's larger than we need but it does still fit on the board and is easier to solder than a TSSOP 2G00.  
-
-![](PCB/out/MiniNDP_512_F.jpg)  
-![](PCB/out/MiniNDP_512_F.top.jpg)  
-![](PCB/out/MiniNDP_512_F.bottom.jpg)  
-![](PCB/out/MiniNDP_512_F.svg)  
-[MiniNDP_512_F.bom.csv](PCB/out/MiniNDP_512_F.bom.csv)
-
-### 256_F - Even Easier to Build - 256k
+### SL1M - 1 Meg, slim version
 
 This version is not tested yet.
 
-This has the fewest & largest parts and is the easiest to build.  
-Only 256k but that is the same as the original DATAPAC and some of the old software never supported 512k anyway.
+Same as EZ1M but using all low-profile chip packages.  
+It's not as easy to solder, but it makes a thin card.  
+The FCT841 is ABT841 in this one.
 
-Same as 512_F above wrt 4040 etc, but being 256k allows to also get rid of the HC00.  
-256k and 128k versions of the SRAM have both /CE1 and CE2 pins, and we need to monitor for both a high and a low signal,  
-so this version can just connect RAMRST to /CE1 and BYTE to CE2 and doesn't need anything else.  
-Nice and minimal. With the 4040 and 573 it's like a kind of platonic ideal version of the circuit.
-
-At time of writing DigiKey doesn't have any AS6C2008A.  
-A compatible part that is available is CY62138FLL,  
-and the footprint allows any SOIC-32, SOP-32, or TSOP-II-32 package.  
-DigiKey does have CY62138FLL-45SXIT.  
-Mouser has both AS6C2008A-55SIN and CY62138FLL-45SXI.
-
-![](PCB/out/MiniNDP_256_F.jpg)  
-![](PCB/out/MiniNDP_256_F.top.jpg)  
-![](PCB/out/MiniNDP_256_F.bottom.jpg)  
-![](PCB/out/MiniNDP_256_F.svg)  
-[MiniNDP_256_F.bom.csv](PCB/out/MiniNDP_256_F.bom.csv)
-
-### 1M_C - Easy to build - 1M
-
-This version is not tested yet.
-
-1 Meg version based on 238, 4040, & FCT841  
-
-1M sram has both /CE1 and CE2 pins, and FCT841 is like a 10-bit 573,  
-so this has minimal componets like the 256k version.
-
-![](PCB/out/MiniNDP_1M_C.jpg)  
-![](PCB/out/MiniNDP_1M_C.top.jpg)  
-![](PCB/out/MiniNDP_1M_C.bottom.jpg)  
-![](PCB/out/MiniNDP_1M_C.svg)  
-[MiniNDP_1M_C.bom.csv](PCB/out/MiniNDP_1M_C.bom.csv)
+![](PCB/out/MiniNDP_SL1M.jpg)  
+![](PCB/out/MiniNDP_SL1M.top.jpg)  
+![](PCB/out/MiniNDP_SL1M.bottom.jpg)  
+![](PCB/out/MiniNDP_SL1M.svg)  
+[MiniNDP_1M_C.bom.csv](PCB/out/MiniNDP_SL1M.bom.csv)
