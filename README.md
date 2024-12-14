@@ -533,18 +533,43 @@ Thin version for CR2016
 
 ## Other Versions
 
-### MiniNDP SL1M
-1 Meg version, has 4 banks.
+### EZ1M - 1 Meg, EZ-build
 
-This is tested and works, but is 50% useless unless you write your own software to use Banks 2 & 3.
+![](PCB/out/MiniNDP_EZ1M.jpg)  
+![](PCB/out/MiniNDP_EZ1M.top.jpg)  
+![](PCB/out/MiniNDP_EZ1M.bottom.jpg)  
+![](PCB/out/MiniNDP_EZ1M.svg)  
+[MiniNDP_EZ1M.bom.csv](PCB/out/MiniNDP_EZ1M.bom.csv)
 
-RAMDSK can use Banks 0 & 1 as normal, but does not know anything about 2 or 3.
+The version IS tested and works.
+
+This version will probably become the default version because it's both easier to solder and provides 512K of raw database space on top of 512K of RAMDSK filesystem space, while using actually fewer components.
+
+The goal of this version is to use fewer parts and larger physical chip packages to make it easier to hand-solder.
+
+It also ends up providing twice the space, 4 256k banks,  but RAMDSK only knows how to use banks 0 & 1.  
+In order to use bank 2 or 3 you have to write your own software to use it as raw space.  
+See the database code in the magazine articles.
+
+3 x HC161 are replaced with a single HC4040.  
+This change requires changing the active-low /BLOCK & /BYTE signals to active-high equivalents,  
+and that requires changing all the other parts.
+
+The HC138 is replaced by HC238.  
+HC238 is the same as HC138 except with non-inverting outputs.  
+This generates an active-high version of BLOCK & BYTE signals.
+
+The HC574 plus 1G79 is replace by FCT841.  
+FCT841 is like HC574 except with 10-bits and active-high latch-enable.  
+(loads & passes data while LE is high, latches the data while LE is low.)
+
+And finally unlike the 512K SRAM, the 1M SRAM has both an active-high and an active-low chip-enable pin, so we don't need the 1G32 to combine \/BYTE and RAMRST to generate \/CE.
 
 [RAMPAC Inspector](software/CRI), can read the raw data from all 4 banks.  
 Edit line 10 to say NN%=3 to enable support for all 4 banks.
 
 The example database code in the magazine articles can probably be adjusted to work with the other banks.  
-Maybe that could be as good as intentional: have 512k for RAMDSK filesystem usage, and a seperate 512k for raw data usage, and you can have both at the same time on the same card and the two don't conflict.
+You could pretend it's an intentional feature, to have both 512k of filesystem and another 512k of raw data, both on the same card and accessible at the same time.
 
 How to access all 4 banks:
 ```
@@ -554,44 +579,13 @@ OUT 137,N = select bank 2 block N
 OUT 141,N = select bank 3 block N
 ```
 
-![](PCB/out/MiniNDP_1M.jpg)  
-![](PCB/out/MiniNDP_1M.top.jpg)  
-![](PCB/out/MiniNDP_1M.bottom.jpg)  
-![](PCB/out/MiniNDP_1M.svg)  
-[MiniNDP_1M.bom.csv](PCB/out/MiniNDP_1M.bom.csv)
-
-### EZ1M - 1 Meg, EZ-build
-
-This version is not tested yet.
-
-The goal of this version is to use fewer and larger parts to make it easier to DIY.
-
-In order to get that, all parts changed to other versions and it's not verified yet that this design actually works.
-
-3 x HC161 are replaced with a single HC4040.  
-This change requires changing the active-low /BLOCK & /BYTE signals to active-high equivalents.
-
-HC138 is replaced with HC238.  
-This is the same as HC138 except with active-high outputs.
-
-HC374/574 plus 1G79/HC79 is replace with FCT841.  
-FCT841 is like HC574 except with 10-bits and active-high latch-enable.
-
-This all *should* still work the same outwardly, but it isn't verified yet.
-
-![](PCB/out/MiniNDP_EZ1M.jpg)  
-![](PCB/out/MiniNDP_EZ1M.top.jpg)  
-![](PCB/out/MiniNDP_EZ1M.bottom.jpg)  
-![](PCB/out/MiniNDP_EZ1M.svg)  
-[MiniNDP_EZ1M.bom.csv](PCB/out/MiniNDP_EZ1M.bom.csv)
-
 ### SL1M - 1 Meg, slim version
 
 This version is not tested yet.
 
 Same as EZ1M but using all low-profile chip packages.  
 It's not as easy to solder, but it makes a thin card.  
-The FCT841 is ABT841 in this one.
+The FCT841 is ABT841 in this one, and that is not tested yet.
 
 ![](PCB/out/MiniNDP_SL1M.jpg)  
 ![](PCB/out/MiniNDP_SL1M.top.jpg)  
