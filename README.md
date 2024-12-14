@@ -71,7 +71,7 @@ Other References
 ## Reproduction Schematic & PCB
 This is a new drawing but aims to reflect the original actual device as exactly as possible.  
 It's meant to be a form of documentation or reference describing the original hardware as it was.  
-For instance, the ungrounded inputs on the 161's, the inconsistent thickness of power traces, and the 5v power trace that almost touches one of the mounting screw heads, are all exactly as in the original.  
+For instance, the ungrounded inputs on the 161's, the inconsistent thickness of power traces, the fact that only 1 of the 2 bus VDD pins is connected, the VCC trace that almost touches one of the screw heads, etc, are all exactly as in the original.  
 (I added a fiber washer to that screw in my units after noticing that. The case is isolated, not connected to ground, but still...)
 ![](PCB/out/NODE_DATAPAC_256K_historical_reproduction.svg)
 
@@ -563,7 +563,7 @@ The HC574 plus 1G79 is replace by FCT841.
 FCT841 is like HC574 except with 10-bits and active-high latch-enable.  
 (loads & passes data while LE is high, latches the data while LE is low.)
 
-And finally unlike the 512K SRAM, the 1M SRAM has both an active-high and an active-low chip-enable pin, so we don't need the 1G32 to combine \/BYTE and RAMRST to generate \/CE.
+And finally unlike the 512K SRAM, the 1M SRAM has both an active-high and an active-low chip-enable pin, so we don't need the 1G32 to combine /BYTE and RAMRST to generate /CE.
 
 [RAMPAC Inspector](software/CRI), can read the raw data from all 4 banks.  
 Edit line 10 to say NN%=3 to enable support for all 4 banks.
