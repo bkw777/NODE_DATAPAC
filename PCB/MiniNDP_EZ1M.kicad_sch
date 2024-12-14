@@ -8219,7 +8219,7 @@
 		)
 		(uuid "f8de76ef-74be-4200-aae9-1742eceea0bf")
 	)
-	(text "NOT TESTED\n1M with fewer parts\neasy version"
+	(text "1M with fewer parts\neasy-build version"
 		(exclude_from_sim no)
 		(at 259.588 173.99 0)
 		(effects
