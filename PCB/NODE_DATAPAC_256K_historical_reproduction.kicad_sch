@@ -4066,7 +4066,7 @@
 		)
 	)
 	(junction
-		(at 222.25 228.6)
+		(at 222.25 241.3)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "02cfea4a-42bf-48c6-8c80-91b15b666860")
@@ -5001,7 +5001,7 @@
 	)
 	(wire
 		(pts
-			(xy 222.25 240.03) (xy 222.25 237.49)
+			(xy 222.25 252.73) (xy 222.25 250.19)
 		)
 		(stroke
 			(width 0)
@@ -5991,7 +5991,7 @@
 	)
 	(wire
 		(pts
-			(xy 215.9 228.6) (xy 222.25 228.6)
+			(xy 215.9 241.3) (xy 222.25 241.3)
 		)
 		(stroke
 			(width 0)
@@ -7781,7 +7781,7 @@
 	)
 	(wire
 		(pts
-			(xy 222.25 228.6) (xy 222.25 232.41)
+			(xy 222.25 241.3) (xy 222.25 245.11)
 		)
 		(stroke
 			(width 0)
@@ -8371,7 +8371,7 @@
 	)
 	(wire
 		(pts
-			(xy 203.2 228.6) (xy 208.28 228.6)
+			(xy 203.2 241.3) (xy 208.28 241.3)
 		)
 		(stroke
 			(width 0)
@@ -9513,7 +9513,7 @@
 	)
 	(text "Modern cross reference replacement for PMB3.6B is too tall and does not fit.\n"
 		(exclude_from_sim no)
-		(at 184.15 260.35 0)
+		(at 184.15 273.05 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9799,7 +9799,7 @@
 		(uuid "2a562d8a-3c6b-4135-85e0-b51539435ee8")
 	)
 	(label "BATT+"
-		(at 222.25 240.03 180)
+		(at 222.25 252.73 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11203,7 +11203,7 @@
 	)
 	(symbol
 		(lib_id "power:VMEM")
-		(at 222.25 228.6 0)
+		(at 222.25 241.3 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11211,7 +11211,7 @@
 		(dnp no)
 		(uuid "1ef52839-1e6e-4f7b-9ddf-7a54f8fb9834")
 		(property "Reference" "#PWR010"
-			(at 222.25 232.41 0)
+			(at 222.25 245.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11220,7 +11220,7 @@
 			)
 		)
 		(property "Value" "VMEM"
-			(at 222.25 224.79 0)
+			(at 222.25 237.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11228,7 +11228,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 222.25 228.6 0)
+			(at 222.25 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11237,7 +11237,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 222.25 228.6 0)
+			(at 222.25 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11246,7 +11246,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 222.25 228.6 0)
+			(at 222.25 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11655,7 +11655,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:R")
-		(at 222.25 234.95 0)
+		(at 222.25 247.65 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11663,7 +11663,7 @@
 		(dnp no)
 		(uuid "299bd7fe-5002-4e9d-9ef2-614101e40f7c")
 		(property "Reference" "R1"
-			(at 223.774 234.188 0)
+			(at 223.774 246.888 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11672,7 +11672,7 @@
 			)
 		)
 		(property "Value" "200"
-			(at 223.774 236.22 0)
+			(at 223.774 248.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11681,7 +11681,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
-			(at 222.25 234.95 0)
+			(at 222.25 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11690,7 +11690,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 222.25 234.95 0)
+			(at 222.25 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11699,7 +11699,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 222.25 234.95 0)
+			(at 222.25 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12380,7 +12380,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:Battery")
-		(at 222.25 245.11 0)
+		(at 222.25 257.81 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12388,7 +12388,7 @@
 		(dnp no)
 		(uuid "4fa114e5-adcf-46ed-bf22-d87e18955198")
 		(property "Reference" "BT1"
-			(at 214.63 243.84 0)
+			(at 214.63 256.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12397,7 +12397,7 @@
 			)
 		)
 		(property "Value" "PMB3.6B"
-			(at 218.44 246.38 0)
+			(at 218.44 259.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12406,7 +12406,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:PMB3.6B"
-			(at 222.25 243.586 90)
+			(at 222.25 256.286 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12415,7 +12415,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 222.25 243.586 90)
+			(at 222.25 256.286 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12424,7 +12424,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 222.25 245.11 0)
+			(at 222.25 257.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12627,7 +12627,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 222.25 250.19 0)
+		(at 222.25 262.89 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12635,7 +12635,7 @@
 		(dnp no)
 		(uuid "5565e237-788c-424d-901c-895b3ed9bec2")
 		(property "Reference" "#PWR026"
-			(at 222.25 256.54 0)
+			(at 222.25 269.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12644,7 +12644,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 222.25 255.27 0)
+			(at 222.25 267.97 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12653,7 +12653,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 222.25 250.19 0)
+			(at 222.25 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12662,7 +12662,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 222.25 250.19 0)
+			(at 222.25 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12671,7 +12671,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 222.25 250.19 0)
+			(at 222.25 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13072,7 +13072,7 @@
 	)
 	(symbol
 		(lib_id "power:VMEM")
-		(at 245.11 234.95 180)
+		(at 245.11 247.65 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13080,7 +13080,7 @@
 		(dnp no)
 		(uuid "73a09376-1379-43db-b6c9-ac7b0a9f2f4e")
 		(property "Reference" "#PWR021"
-			(at 245.11 231.14 0)
+			(at 245.11 243.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13089,7 +13089,7 @@
 			)
 		)
 		(property "Value" "VMEM"
-			(at 245.11 238.76 0)
+			(at 245.11 251.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13097,7 +13097,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 245.11 234.95 0)
+			(at 245.11 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13106,7 +13106,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 245.11 234.95 0)
+			(at 245.11 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13115,7 +13115,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 245.11 234.95 0)
+			(at 245.11 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13467,7 +13467,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 254 234.95 0)
+		(at 254 247.65 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13475,7 +13475,7 @@
 		(dnp no)
 		(uuid "8458a578-3680-498c-940a-2bda8429a6b2")
 		(property "Reference" "TP6"
-			(at 254 229.87 0)
+			(at 254 242.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13483,7 +13483,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 254 228.6 0)
+			(at 254 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13492,7 +13492,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:TP_THT_pwr"
-			(at 259.08 234.95 0)
+			(at 259.08 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13501,7 +13501,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 259.08 234.95 0)
+			(at 259.08 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13510,7 +13510,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 254 234.95 0)
+			(at 254 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14145,7 +14145,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 222.25 228.6 270)
+		(at 222.25 241.3 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14153,7 +14153,7 @@
 		(dnp no)
 		(uuid "b1c6021c-c795-4126-99c5-10c85f0b5087")
 		(property "Reference" "#FLG02"
-			(at 224.155 228.6 0)
+			(at 224.155 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14162,7 +14162,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 229.87 228.6 90)
+			(at 229.87 241.3 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14171,7 +14171,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 222.25 228.6 0)
+			(at 222.25 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14180,7 +14180,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 222.25 228.6 0)
+			(at 222.25 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14189,7 +14189,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 222.25 228.6 0)
+			(at 222.25 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14211,7 +14211,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 203.2 228.6 0)
+		(at 203.2 241.3 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14219,7 +14219,7 @@
 		(dnp no)
 		(uuid "b28c2f45-adb6-4792-9a19-44e557adb970")
 		(property "Reference" "#PWR09"
-			(at 203.2 232.41 0)
+			(at 203.2 245.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14228,7 +14228,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 203.2 224.79 0)
+			(at 203.2 237.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14236,7 +14236,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 203.2 228.6 0)
+			(at 203.2 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14245,7 +14245,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 203.2 228.6 0)
+			(at 203.2 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14254,7 +14254,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 203.2 228.6 0)
+			(at 203.2 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14276,7 +14276,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 254 234.95 0)
+		(at 254 247.65 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14284,7 +14284,7 @@
 		(dnp no)
 		(uuid "bb962fc1-074d-45b9-bd50-a91de997f5ff")
 		(property "Reference" "#PWR027"
-			(at 254 241.3 0)
+			(at 254 254 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14293,7 +14293,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 254 240.03 0)
+			(at 254 252.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14302,7 +14302,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 254 234.95 0)
+			(at 254 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14311,7 +14311,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 254 234.95 0)
+			(at 254 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14320,7 +14320,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 254 234.95 0)
+			(at 254 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15029,7 +15029,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 245.11 234.95 0)
+		(at 245.11 247.65 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15037,7 +15037,7 @@
 		(dnp no)
 		(uuid "e289dfda-48de-4959-af17-bc6292399a0c")
 		(property "Reference" "TP5"
-			(at 245.11 229.87 0)
+			(at 245.11 242.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15045,7 +15045,7 @@
 			)
 		)
 		(property "Value" "VMEM"
-			(at 245.11 228.6 0)
+			(at 245.11 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15054,7 +15054,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:TP_THT_pwr"
-			(at 250.19 234.95 0)
+			(at 250.19 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15063,7 +15063,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 250.19 234.95 0)
+			(at 250.19 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15072,7 +15072,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 245.11 234.95 0)
+			(at 245.11 247.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15439,7 +15439,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:1N4148")
-		(at 212.09 228.6 180)
+		(at 212.09 241.3 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15447,7 +15447,7 @@
 		(dnp no)
 		(uuid "f74079b3-09ff-4175-b96e-e1895fe52967")
 		(property "Reference" "D1"
-			(at 212.09 223.52 0)
+			(at 212.09 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15455,7 +15455,7 @@
 			)
 		)
 		(property "Value" "1N4148"
-			(at 212.09 226.06 0)
+			(at 212.09 238.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15463,7 +15463,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:D_DO-35_SOD27_P10.16mm_Horizontal"
-			(at 212.09 228.6 0)
+			(at 212.09 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15472,7 +15472,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/1N4148.pdf"
-			(at 212.09 228.6 0)
+			(at 212.09 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15481,7 +15481,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 212.09 228.6 0)
+			(at 212.09 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15490,7 +15490,7 @@
 			)
 		)
 		(property "Sim.Device" "D"
-			(at 212.09 228.6 0)
+			(at 212.09 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15499,7 +15499,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=K 2=A"
-			(at 212.09 228.6 0)
+			(at 212.09 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
