@@ -521,7 +521,7 @@ Select bank 3, block N: `OUT 141,N`
 
 Everything else works the same as normal DATAPAC/RAMPAC.
 
-The extra 512k is actually sort of just a bonus side-effect of needing to use the 1M sram chip just to get the `/CE1` and `CE2` chip-enable pins.  
+The extra 512k is actually sort of just a bonus side-effect of needing to use the 1M sram chip just to get the `#CE1` and `CE2` chip-enable pins.  
 Even if the extra space were totally unusable it would probably be worth it to use the same chip anyway just to get 512k.
 
 Uses the fewest possible parts and largest possible chip packages to make it as easy as possible to hand-solder (without making the card any larger than the minimum needed to accomodate the bus connector and the battery holder).
