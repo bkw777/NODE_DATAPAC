@@ -513,21 +513,21 @@ RAMDSK only supports 2 banks, so it's really 512k of ram disk plus another 512k 
 
 See the [magazine articles](#documentation) above for example database code.
 
-How to access all 4 banks:
-Select bank 0, block N: `OUT 129,N`
-Select bank 1, block N: `OUT 133,N`
-Select bank 2, block N: `OUT 137,N`
+How to access all 4 banks:  
+Select bank 0, block N: `OUT 129,N`  
+Select bank 1, block N: `OUT 133,N`  
+Select bank 2, block N: `OUT 137,N`  
 Select bank 3, block N: `OUT 141,N`
 
 Everything else works the same as normal DATAPAC/RAMPAC.
 
-The extra 512k is actually sort of just a bonus side-effect of needing to use the 1M sram chip just to get the /CE1 and CE2 chip-enable pins.  
+The extra 512k is actually sort of just a bonus side-effect of needing to use the 1M sram chip just to get the `/CE1` and `CE2` chip-enable pins.  
 Even if the extra space were totally unusable it would probably be worth it to use the same chip anyway just to get 512k.
 
 Uses the fewest possible parts and largest possible chip packages to make it as easy as possible to hand-solder (without making the card any larger than the minimum needed to accomodate the bus connector and the battery holder).
 
 All of the caps are optional. The DATAPAC has several more chips and doesn't have a single cap anywhere.  
-The 1u caps are just overkill decoupling, there on principle because there is rooom on the pcb so why not.  
+The 1u caps are just overkill decoupling, there on principle because there is room on the pcb so why not.  
 The 47u caps provide about 20 seconds of grace period to change the battery without losing data.
 
 You don't actually need any grace period to change the battery, just chage the battery while the card is connected to the computer, with the computer turned off.  
