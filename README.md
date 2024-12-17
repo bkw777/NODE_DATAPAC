@@ -349,7 +349,7 @@ You could do the manual BASIC one-liner `OUT129,0:OUT131,64:OUT131,4`, but RAMDS
 If you get the "Format RAM-Disk?" prompt on power-on, just answer "N".  
 Then it will ask "Fix?", answer "Y".
 
-## [NBOOT](software/NBOOT/)
+### [NBOOT](software/NBOOT/)
 Just for reference, to boot some other CO instead of RAMDSK,  
 here  is a more flexible and generic bootstrapper for any .CO file up to 2038 bytes.  
 * Reads the filename and start/length/exec values from the file itself  
@@ -366,41 +366,58 @@ here  is a more flexible and generic bootstrapper for any .CO file up to 2038 by
 8 N=INP(P)+INP(P)*256:RETURN
 ```
 
-## RAMPAC Inspector
-[RAMPAC Inspector](software/CRI)
+### RAMDSK data format
 
-Smaller than RD or N-DKTR, no machine code or calls, doesn't require the NODE ROM or RAMDSK, supports banks / all 512k.  
-Just displays the raw data, no parsing or interpretation of the directory/file structures created by RAMDSK.CO etc.
+This is not publicly documented that I have found, at least not explicitly.  
+Some things might be be figured out by reading the BASIC source to [N-DKTR](software/N-DKTR/) and [RD](software/Rampac_Diagnostic/), since they include functions to do things like inspect or repair files, except they use the callable machine language routines from the NODE rom or RAMDSK to do some of those functions, so maybe not that much can be gleaned from just the BASIC code.
 
-TODO - display/repair first 2 bytes formatted flag.  
-TODO - display filenames and lengths from the headers.  
+In the past, Paul Globman reverse engineered the format written by the NODE option rom, but he used that to write the commercial product RAMDSK, not to publish the info.
 
-Block 0 is still a mystery, but the filenames and lengths are readable from the first 10 bytes of any block that begins a file.
+I have figured out a very few basic things using [RAMPAC Inspector](software/CRI).
+
+The first 2 bytes of block 0 in each bank holds a special value `0x64 0x04` which indicates that the device is formatted.  
+The design of the circuit means that the first byte is routinely corrupted during power-on/power-off/plug/un-plug events, which is why the steps to manually re-write those bytes are documented and why RAMDSK has a function to repair them built-in.
+
+Other than the first 2 bytes, block 0 is still a mystery.  
+Block 0 only contains some kind of space allocation table, no file data.  
+It's not a directory, there are no filenames stored in block 0.  
+It's probably some form of linked list that defines chains of blocks.  
 
 Files appear to be stored in reverse block number order.  
-Block 0 only contains some kind of allocation table, no file data.  
-It's not a directory either, no filenames.  
-A file that requires 2 blocks uses blocks 1 & 2, but starts at block 2 and ends at block 1.  
-I don't know what happens when files get deleted and new files have to be fragmented. There is probably some kind of linked list in block 0 that chains blocks together
+On a blank device, a file that requires 2 blocks uses blocks 1 & 2, and starts at block 2 and ends at block 1.  
+I don't know what happens when files get deleted and new files have to be fragmented.
 
-The first 10 bytes of the first block (the highest block number of all the blocks used by the file) contains the file name without the dot, and the file length.  
-This header is metadata created and used by RAMDSK, not part of the file itself.
+Filenames and lengths are readable from the first 10 bytes of any block that begins a file.
+
+The first 10 bytes of the first block used by a file contains the file name without the dot, and the file length.
 
 6 bytes - file name  
 2 bytes - file extension  
 2 bytes - file length (LSB first, 7E05 = 0x057E = 1406 for RAM100.CO)
 
-The file data starts immediately after that.  
+These 10 bytes are metadata created and used by RAMDSK, not part of the file.
+
+The length field does not include these 10 bytes.
+
+The file data starts immediately after this and continues for $length bytes.
+
+A block is 1024 bytes, and the first block has 10 bytes used by RAMDSK, so files that are longer than 1014 bytes use more than one block.
+
 The remaining blocks in the file have no metadata headers, the payload data resumes right from byte 0 in the remaining blocks.
 
-We don't really know which blocks contain file data though without block 0.  
-A block that looks like the beginning of a file could just be data within some other file.
+We don't know which blocks contain file data though without knowing how to interpret block 0.  
+Even a block that looks like the beginning of a file with a filename at the beginning could actually just be data within some other file that happens to have that particular data.
 
-Manually you can run CRI.BA and enter: 0,1,0,16 to read the first 16 bytes of block 1,
-then repeat for block 2: 0,2,0,16    block 3: 0,3,0,16   etc
+You can use CRI.BA to just read the first 10 bytes of any block and look for filenames.
+
+Run CRI.BA and enter: 0,1,0,16 to read the first 16 bytes of block 1 in bank 0,  
+(0,1,0,10 = bank 0, block 1, start at offset 0, length 10 bytes.  
+ Block 1 is the 2nd block, the first possible block with data, block 0 has only the allocation table.)
+
+then repeat for block 2: 0,2,0,10    block 3: 0,3,0,10   etc...  
+
 Use F2 to switch between ascii and hex display.  
-In ascii mode you'll see the file names if any, and in hex mode you can see the file length.  
-And in the case of .CO files you can also see the 6-byte CO header.  
+In ascii mode you can see the file names if any, and in hex mode it's easier to get the file length.  
 
 To read the file length:  
 In hex display mode each hex pair is one byte.  
@@ -409,30 +426,62 @@ The next pair is the LSB of the file length
 The next pair is the MSB of the file length  
 Length = MSB * 256 + LSB
 
-In the particular case where the extension is CO, then the next 6 bytes are a CO header  
-This is not part of RAMDSK metadata, this is just part of the CO file format.  
+
+In the particular case of .CO files, the first 6 bytes of a CO file is the CO header, which has the start address, length, and exe address.  
+This isn't metatdata from RAMDSK, it's part of the CO file format.  
+The length in the CO header is 6 bytes less than the length in the RAMDSK header because the CO header length field doesn't include the CO header itself.
 2 bytes - top address, lsb first  
 2 bytes - length, lsb first  
 2 bytes - exe address, lsb first
 
-The length field in the CO header will be 6 bytes less than the full file length, because the CO header only describes the payload of the CO file, it does not include the header itself.
+
+## RAMPAC Inspector
+[RAMPAC Inspector](software/CRI)
+
+It's named CRI.BA because it's a very Crude RAMPAC Inspector.
+
+You supply a bank number, block number, starting byte offset, and byte length, and it reads those bytes and displays them on screen.
+
+bank: 0-1  (or 0-3 if you edit line 10 to enable 1-meg support)
+block: 0-255
+start: 0-1023
+length: 1-1024
+
+Press F2 while it's running to switch between ascii or hex display mode.
+
+Press F8 while it's running or BREAK at the input prompt to quit.
+
+The reason it exists when [RD](software/Rampac_Diagnostic/) and [N-DKTR](software/N-DKTR/) already exist is,  
+* Smaller  
+* No machine code - you can see everything it does or change anything it does all in BASIC  
+* No machine code - stand-alone, does not require either the NODE rom or RAMDSK to work  
+* Supports banks / devices with more than 256k
+
+TODO - display/repair first 2 bytes formatted flag.  
+TODO - display filenames and lengths from the headers.  
 
 ## XOS-C
-[XOS-C](http://www.club100.org/library/libpg.html) is sort of an OS for the Model 200.  
+[XOS-C](http://www.club100.org/library/libpg.html) is "sort of an OS" for the Model 200.  
 XOS-C does not require a RAMPAC, but leverages one if available.  
 [Several of the NODE utils from the M100SIG require XOS-C.](software/Requires_XOS-C/)
 
 ## N-DKTR
+
+NODE Doctor
+
 [N-DKTR](software/N-DKTR/)
 
 ## NODE-PDD-Link
+
+This is likely the best way to move files between the RAMPAC and a PC, by using it in concert with a [TPDD emulator](http://tandy.wiki/TPDD_server) on the PC, though I haven't tried it myself yet.
+
 [NODE-PDD-Link](software/NODE-PDD-Link/)
 
 ## NDEXE
 [NDEXE](software/NDEXE/)
 
 ## RAMPAC Diagnostic
-[Rampac_Diagnostic/](software/Rampac_Diagnostic/)
+[Rampac Diagnostic](software/Rampac_Diagnostic/)
 
 <!-- 
 ## New Replacement PCB
@@ -454,34 +503,82 @@ There is not much reason to build this instead of a MiniNDP. Even if you had an 
 ![](PCB/out/MiniNDP.svg)
 [MiniNDP.bom.csv](PCB/out/MiniNDP.bom.csv)
 
-Functions the same as DATAPAC / RAMPAC. Essentially the same circuit, just with a single 512k ram chip instead of 8 32k chips, surface mount parts instead of through hole, and directly attached instead of connected by a cable.
+Functions the same as DATAPAC / RAMPAC.
 
-Has 512k in 2 banks of 256k like the final versions of RAMPAC.
+Actually fits in a Model 200 without having to enlarge the opening in the 200's case.
 
-The connector fits in a Model 200 without having to modify the 200.
+Has 1 megabyte in 4 banks of 256k.
 
-Installed on a TANDY 102
+RAMDSK only supports 2 banks, so it's really 512k of ram disk plus another 512k of raw database space only usable by software which you probably have to write yourself.
+
+See the [magazine articles](#documentation) above for example database code.
+
+How to access all 4 banks:
+Select bank 0, block N: `OUT 129,N`
+Select bank 1, block N: `OUT 133,N`
+Select bank 2, block N: `OUT 137,N`
+Select bank 3, block N: `OUT 141,N`
+
+Everything else works the same as normal DATAPAC/RAMPAC.
+
+The extra 512k is actually sort of just a bonus side-effect of needing to use the 1M sram chip just to get the /CE1 and CE2 chip-enable pins.  
+Even if the extra space were totally unusable it would probably be worth it to use the same chip anyway just to get 512k.
+
+Uses the fewest possible parts and largest possible chip packages to make it as easy as possible to hand-solder (without making the card any larger than the minimum needed to accomodate the bus connector and the battery holder).
+
+All of the caps are optional. The DATAPAC has several more chips and doesn't have a single cap anywhere.  
+The 1u caps are just overkill decoupling, there on principle because there is rooom on the pcb so why not.  
+The 47u caps provide about 20 seconds of grace period to change the battery without losing data.
+
+You don't actually need any grace period to change the battery, just chage the battery while the card is connected to the computer, with the computer turned off.  
+The 102 or 200 supplies memory power at ALL times, even while turned off, even with no AA's installed, until the internal memory battery dies.
+
+You can also go the other way and add more of the same 47u caps soldered to the sides of the initial 2 if you want more grace period. You can actually get as many as 10 total in there.  
+The spacing of the parts intentionally allows the possibility to add more caps to left, right, & center of the initial 2, and another row of 5 on top of that.  
+(If you take it to that extreme, add glue to support the brick from ripping up the 4 little solder pads.)
+
+An earlier version "type A" installed on a TANDY 102  
 ![](ref/MiniNDP_on_102.jpg)
 
-Installed on a TANDY 200
+An earlier version "type A" installed on a TANDY 200  
 ![](ref/MiniNDP_on_200.jpg)
 
-(low profile version with CR2016 instead of CR2032)
-![](ref/MiniNDP_and_cover.jpg)
-![](ref/MiniNDP_and_cover.back.jpg)
-![](ref/MiniNDP_and_cover.assembled.jpg)
-![](ref/MiniNDP_bank0.jpg)
-![](ref/MiniNDP_bank1.jpg)
+If you want to open the PCB file in KiCAD, first install this [font](font) so that the BASIC code on the PCB silkscreen renders correctly.
 
-The pcb supports 128k, 256k, or 512k. There is no real reason to install less than 512k but if you wanted to install a 256k (AS6C2008A) 
-or 128k (AS6C1008, IS62C1024, etc) SRAM, then just omit the U8 part (1G79), and solder-blob JP1 (U8 pads 4 & 5). Those two pads are modified in the footprint to also be a solder-jumper for this purpose.
+## MiniNDP pcb, bom, & cover
+BOM [DigiKey](https://www.digikey.com/short/m4h7bmh0)  
+PCB & Cover [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html)
 
-Install the [font](font) for the bootstrap code on the PCB silkscreen before trying to edit the pcb file in KiCad.
+Gerber zip and cover stl also in [releases](../../releases/)  
+gerber zip also includes centroid & bom.
 
-## MiniNDP PCB & BOM
-BOM [DigiKey](https://www.digikey.com/short/cd3hnw3b)  ([PCB/out/MiniNDP.bom.csv](PCB/out/MiniNDP.bom.csv)),  
-PCB <!-- [OSHPark](https://oshpark.com/shared_projects/), -->[PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html) ([gerber zip](../../releases/))
+Remember to select the ENIG or "Immersion Gold" copper finish option if you want the battery terminal gold plated.  
 
+The cover can be printed in pretty much any material by pretty much any printing process.  
+Ordinary FDM with ordinary PLA works well but is just a little ugly. SLS or MJF nylon are the best.  
+I wouldn't recommend resin as it will probably be too fragile and also likes to warp after curing.
+
+### Manufacturing options:
+The PCB & Cover link above goes to PCBWAY only because they have the closest thing to a just-buy-it page where the gerbers and cover stl are already uploaded.
+
+Elecrow  
+PCBWAY and JLCPCB are a bit expensive when it comes to adding ENIG, so I actually use Elecrow myself. Just upload the gerber zip and stl from [releases](../../releases/).  
+For the PCB, select "Immersion Gold" copper finish, pick whatever soldermask and silkscreen colors you want, and leave everything else on their defaults.  
+For the cover, select "high strength nylon". That is actually MJF in black nylon. You don't really need the super strength of nylon, it's just that this produces a nice clean product.  
+SLS also excellent, but the surface is porous and the material is white, so it can trap dirt and look grubby after some handling, on the other hand white nylon SLS can be dyed in different colors and that looks fine.  
+Even with the cheapest manufacturing and shipping options you get the parts in about 2 weeks.
+
+OSHPark  
+OSHPark has an even simpler web site, but they don't offer 3d printing for the cover, and they don't produce clean fully routed boards.  
+Their pcb's have panelization break-off tabs that you have to sand down and clean up yourself.  
+If you want to use OSHPark don't upload the kicad_pcb file even though OSHPark supports that, use the gerber zip.  
+The BASIC code on the back uses a special font to disambiguate the number 0 vs letter O, l vs I vs 1 vs |, etc, and OSHPark's renderer won't have it and will use some other font.  
+OSHPark only produces ENIG, so that part is good to go.  
+Then for the cover, it prints just fine on any home FDM printer in ordinary PLA so if you have a printer you can just print it yourself.  
+Or if you need a service I suggest CraftCloud (which is really an aggregator of many other individual providers).  
+Use either FDM or SLS or MJF print process. The best is MJF in black nylon. Or SLS in white or mixed b&w nylon, or white and then dyed in a color.
+
+<!--
 If the SRAM is out of stock, this saved search gives other compatible parts:  
 https://www.digikey.com/short/fzw3bwf8  
 
@@ -508,19 +605,15 @@ CR2032 height
 
 CR2016 height (nominally a CR2012 holder, but can take a CR2016)  
 ![](PCB/out/MiniNDP_256_CR2016.jpg)
+-->
 
+<!-- 
 ## MiniNDP Cover
-There are a few versions of printable cover in the [COVER](COVER) directory.  
 
-There is OpenSCAD source for a snap-on cover, both a thick version for a card with CR2032 holder, and a thin version for a card with a CR2016 holder.  
+There is OpenSCAD source for a snap-on cover in the [COVER](COVER) directory.  
+There is also an STL for a slip cover by F. D. Singleton.
 
-There is also an STL for a slip cover by F. D. Singleton.  
-
-The printable STLs are in [COVER/out](COVER/out) and in [releases](../releases/).  
-Full size for CR2032 [MiniNDP_Cover.stl](COVER/out/MiniNDP_Cover.stl)  
-Thin size for CR2016 [MiniNDP_Cover_THIN.stl](COVER/out/MiniNDP_Cover_THIN.stl)
-
-You can get both the PCB and cover at the same time from Elecrow by submitting the gerber zip and the cover stl, and it arrives in under 2 weeks even with the cheapest economy shipping option.
+The printable STLs are in [releases](../../releases/).  
 
 Full size version for CR2032
 ![](COVER/out/MiniNDP_Cover.1.jpg)
@@ -530,65 +623,46 @@ Thin version for CR2016
 ![](COVER/out/MiniNDP_Cover_THIN_start.jpg)
 ![](COVER/out/MiniNDP_Cover_THIN.on2.jpg)
 ![](COVER/out/MiniNDP_Cover_THIN.on3.jpg)
+-->
 
-## Other Versions
+## MiniNDP other versions
 
-### EZ1M - 1 Meg, EZ-build
-
-![](PCB/out/MiniNDP_EZ1M.jpg)  
-![](PCB/out/MiniNDP_EZ1M.top.jpg)  
-![](PCB/out/MiniNDP_EZ1M.bottom.jpg)  
-![](PCB/out/MiniNDP_EZ1M.svg)  
-[MiniNDP_EZ1M.bom.csv](PCB/out/MiniNDP_EZ1M.bom.csv)
-
-The version IS tested and works.
-
-This version will probably become the default version because it's both easier to solder and provides 512K of raw database space on top of 512K of RAMDSK filesystem space, while using actually fewer components.
-
-The goal of this version is to use fewer parts and larger physical chip packages to make it easier to hand-solder.
-
-It also ends up providing twice the space, 4 256k banks,  but RAMDSK only knows how to use banks 0 & 1.  
-In order to use bank 2 or 3 you have to write your own software to use it as raw space.  
-See the database code in the magazine articles.
-
-3 x HC161 are replaced with a single HC4040.  
-This change requires changing the active-low /BLOCK & /BYTE signals to active-high equivalents,  
-and that requires changing all the other parts.
-
-The HC138 is replaced by HC238.  
-HC238 is the same as HC138 except with non-inverting outputs.  
-This generates an active-high version of BLOCK & BYTE signals.
-
-The HC574 plus 1G79 is replace by FCT841.  
-FCT841 is like HC574 except with 10-bits and active-high latch-enable.  
-(loads & passes data while LE is high, latches the data while LE is low.)
-
-And finally unlike the 512K SRAM, the 1M SRAM has both an active-high and an active-low chip-enable pin, so we don't need the 1G32 to combine /BYTE and RAMRST to generate /CE.
-
-[RAMPAC Inspector](software/CRI), can read the raw data from all 4 banks.  
-Edit line 10 to say NN%=3 to enable support for all 4 banks.
-
-The example database code in the magazine articles can probably be adjusted to work with the other banks.  
-You could pretend it's an intentional feature, to have both 512k of filesystem and another 512k of raw data, both on the same card and accessible at the same time.
-
-How to access all 4 banks:
-```
-OUT 129,N = select bank 0 block N
-OUT 133,N = select bank 1 block N
-OUT 137,N = select bank 2 block N
-OUT 141,N = select bank 3 block N
-```
+There are actually several versions of the card using different combinations of chips.  
+Most have been tested and proven to work, and they might be useful in some cases depending on parts availability or something,  
+But mostly were just experiments along the way to the current default "EZ1M" version above.
 
 ### SL1M - 1 Meg, slim version
 
-This version is not tested yet.
+This version is not tested yet. Specifcally I don't know for sure if the ABT841 works in place of FCT841.
 
-Same as EZ1M but using all low-profile chip packages.  
-It's not as easy to solder, but it makes a thin card.  
-The FCT841 is ABT841 in this one, and that is not tested yet.
+Otherwise it's the same as the default EZ1M just with TSSOP versions of the same chips.
+
+It's not as easy to solder, but allows to make a thin card with a CR2016 stuffed into a CR2012 holder, and the thin CR2016 version of the cover.
 
 ![](PCB/out/MiniNDP_SL1M.jpg)  
+![](PCB/out/MiniNDP_SL1M.2.jpg)  
+![](PCB/out/MiniNDP_SL1M.3.jpg)  
 ![](PCB/out/MiniNDP_SL1M.top.jpg)  
 ![](PCB/out/MiniNDP_SL1M.bottom.jpg)  
 ![](PCB/out/MiniNDP_SL1M.svg)  
 [MiniNDP_SL1M.bom.csv](PCB/out/MiniNDP_SL1M.bom.csv)
+
+### MiniNDP type E
+The "E" version is essentially the legacy version that most closely matches how the original DATAPAC works internally.
+
+It uses more parts and has a more complicated schematic and is more difficult to hand-solder, but in some ways is still the most flexible and practical version.
+
+* All of the parts are more standard and common, produced by multiple manufacturers.  
+* Supports 512k, 256k, or 128k sram in the same footprint.  
+* Supports CR2032, CR2016, or CR2012, so you can choose if you want more battery life or a thinner card.  
+* Supports a big tantalum cap for more grace period.
+
+It is well tested and was actually the default version until recently.
+
+If you want a thin card using a CR2016 battery without taking a chance on the SL1M version, or if the FCT841 becomes hard to find, build this one.
+
+![](PCB/out/MiniNDP_E.jpg)  
+![](PCB/out/MiniNDP_E.top.jpg)  
+![](PCB/out/MiniNDP_E.bottom.jpg)  
+![](PCB/out/MiniNDP_E.svg)  
+[MiniNDP_E.bom.csv](PCB/out/MiniNDP_E.bom.csv)
