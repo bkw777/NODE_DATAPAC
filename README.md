@@ -537,10 +537,10 @@ You can also go the other way and add more of the same 47u caps soldered to the 
 The spacing of the parts intentionally allows the possibility to add more caps to left, right, & center of the initial 2, and another row of 5 on top of that.  
 (If you take it to that extreme, add glue to support the brick from ripping up the 4 little solder pads.)
 
-An earlier version "type A" installed on a TANDY 102  
+Installed on a TANDY 102  
 ![](ref/MiniNDP_on_102.jpg)
 
-An earlier version "type A" installed on a TANDY 200  
+Installed on a TANDY 200  
 ![](ref/MiniNDP_on_200.jpg)
 
 If you want to open the PCB file in KiCAD, first install this [font](font) so that the BASIC code on the PCB silkscreen renders correctly.
@@ -637,7 +637,7 @@ This version is not tested yet. Specifcally I don't know for sure if the ABT841 
 
 Otherwise it's the same as the default EZ1M just with TSSOP versions of the same chips.
 
-It's not as easy to solder, but allows to make a thin card with a CR2016 stuffed into a CR2012 holder, and the thin CR2016 version of the cover.
+It's not as easy to solder, but allows to make a thin card with a CR2016 stuffed into a CR2012 holder, and use the thin CR2016 version of the cover.
 
 ![](PCB/out/MiniNDP_SL1M.jpg)  
 ![](PCB/out/MiniNDP_SL1M.2.jpg)  
