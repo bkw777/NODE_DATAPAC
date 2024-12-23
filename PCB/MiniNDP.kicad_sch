@@ -8285,7 +8285,7 @@
 	)
 	(text "EZ-build, 1MB\nfewer parts, larger packages"
 		(exclude_from_sim no)
-		(at 255.778 176.53 0)
+		(at 255.524 174.244 0)
 		(effects
 			(font
 				(size 2.54 2.54)
