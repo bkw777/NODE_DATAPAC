@@ -10977,7 +10977,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "150u10v"
+		(property "Value" "150u"
 			(at 114.3 186.69 0)
 			(effects
 				(font
@@ -14587,7 +14587,7 @@
 		(dnp no)
 		(uuid "cf008510-7074-4c85-818c-c1df30b497ba")
 		(property "Reference" "R1"
-			(at 111.76 179.07 0)
+			(at 111.76 179.324 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14596,7 +14596,7 @@
 			)
 		)
 		(property "Value" "1k"
-			(at 111.76 181.61 0)
+			(at 111.76 181.356 0)
 			(effects
 				(font
 					(size 1.27 1.27)

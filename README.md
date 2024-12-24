@@ -507,11 +507,9 @@ Functions the same as DATAPAC / RAMPAC.
 
 Actually fits in a Model 200 without having to enlarge the opening in the 200's case.
 
-Has 1 megabyte in 4 banks of 256k.
+Has 1 megabyte in 4 banks of 256k. 512k usable by RAMDSK plus another 512k only usable by software you'd have to write yourself.
 
-RAMDSK only supports 2 banks, so it's really 512k of ram disk plus another 512k of raw database space only usable by software which you probably have to write yourself.
-
-See the [magazine articles](#documentation) above for example database code.
+See the [magazine articles](#documentation) above for example code that could be adjusted to use the upper 512k as raw database space.
 
 How to access all 4 banks:  
 Select bank 0, block N: `OUT 129,N`  
@@ -521,21 +519,13 @@ Select bank 3, block N: `OUT 141,N`
 
 Everything else works the same as normal DATAPAC/RAMPAC.
 
-The extra 512k is actually sort of just a bonus side-effect of needing to use the 1M sram chip just to get the `#CE1` and `CE2` chip-enable pins.  
-Even if the extra space were totally unusable it would probably be worth it to use the same chip anyway just to get 512k.
-
-Uses the fewest possible parts and largest possible chip packages to make it as easy as possible to hand-solder (without making the card any larger than the minimum needed to accomodate the bus connector and the battery holder).
-
 All of the caps are optional. The DATAPAC has several more chips and doesn't have a single cap anywhere.  
 The 1u caps are just overkill decoupling, there on principle because there is room on the pcb so why not.  
-The 47u caps provide about 20 seconds of grace period to change the battery without losing data.
+The 47u caps provide about 20 seconds of grace period to change the battery without losing data.  
+The spacing of the parts allows to add up to 8 more 47u caps solderd to the sides & top of the 2 original.  
 
 You don't actually need any grace period to change the battery, just chage the battery while the card is connected to the computer, with the computer turned off.  
-The 102 or 200 supplies memory power at ALL times, even while turned off, even with no AA's installed, until the internal memory battery dies.
-
-You can also go the other way and add more of the same 47u caps soldered to the sides of the initial 2 if you want more grace period. You can actually get as many as 10 total in there.  
-The spacing of the parts intentionally allows the possibility to add more caps to left, right, & center of the initial 2, and another row of 5 on top of that.  
-(If you take it to that extreme, add glue to support the brick from ripping up the 4 little solder pads.)
+The computer supplies memory power at ALL times, even while turned off, even with no AA's installed, until the internal memory battery dies.
 
 Installed on a TANDY 102  
 ![](ref/MiniNDP_on_102.jpg)
@@ -554,39 +544,16 @@ gerber zip also includes centroid & bom.
 
 Remember to select the ENIG or "Immersion Gold" copper finish option if you want the battery terminal gold plated.  
 
+The PCB & Cover link above goes to PCBWAY only because they have the closest thing to a just-buy-it page where the gerbers and cover stl are already uploaded.  
+But I actually use Elecrow because they are much cheaper for ENIG. Just upload the gerber zip and cover stl.
+
 The cover can be printed in pretty much any material by pretty much any printing process.  
 Ordinary FDM with ordinary PLA works well but is just a little ugly. SLS or MJF nylon are the best.  
 I wouldn't recommend resin as it will probably be too fragile and also likes to warp after curing.
 
-### Manufacturing options:
-The PCB & Cover link above goes to PCBWAY only because they have the closest thing to a just-buy-it page where the gerbers and cover stl are already uploaded.
-
-Elecrow  
-PCBWAY and JLCPCB are a bit expensive when it comes to adding ENIG, so I actually use Elecrow myself. Just upload the gerber zip and stl from [releases](../../releases/).  
-For the PCB, select "Immersion Gold" copper finish, pick whatever soldermask and silkscreen colors you want, and leave everything else on their defaults.  
-For the cover, select "high strength nylon". That is actually MJF in black nylon. You don't really need the super strength of nylon, it's just that this produces a nice clean product.  
-SLS also excellent, but the surface is porous and the material is white, so it can trap dirt and look grubby after some handling, on the other hand white nylon SLS can be dyed in different colors and that looks fine.  
-Even with the cheapest manufacturing and shipping options you get the parts in about 2 weeks.
-
-OSHPark  
-OSHPark has an even simpler web site, but they don't offer 3d printing for the cover, and they don't produce clean fully routed boards.  
-Their pcb's have panelization break-off tabs that you have to sand down and clean up yourself.  
-If you want to use OSHPark don't upload the kicad_pcb file even though OSHPark supports that, use the gerber zip.  
-The BASIC code on the back uses a special font to disambiguate the number 0 vs letter O, l vs I vs 1 vs |, etc, and OSHPark's renderer won't have it and will use some other font.  
-OSHPark only produces ENIG, so that part is good to go.  
-Then for the cover, it prints just fine on any home FDM printer in ordinary PLA so if you have a printer you can just print it yourself.  
-Or if you need a service I suggest CraftCloud (which is really an aggregator of many other individual providers).  
-Use either FDM or SLS or MJF print process. The best is MJF in black nylon. Or SLS in white or mixed b&w nylon, or white and then dyed in a color.
-
 <!--
-If the SRAM is out of stock, this saved search gives other compatible parts:  
-https://www.digikey.com/short/fzw3bwf8  
-
-For the PCB, you want ENIG copper finish so that the battery contact is gold. PCBWAY and JLCPCB are a bit expensive for ENIG. Elecrow is cheaper, and OSHPark is always ENIG.  
-
-You can optionally make a thick or thin card with more or less battery life by choosing different parts for BT1 and C1.
-
-|BATTERY|life|holder|height|C1 Capacitor|grace(1)|
+Max battery vs thinnest card  
+|BATTERY|life|holder|height|tantalum|grace(1)|
 |---|---|---|---|---|---|
 |CR2032|7-13 years|[Keystone 3034](https://www.digikey.com/en/products/detail/keystone-electronics/3034/4499289)<br>TE/Linx BAT-HLD-001-SMT<br>Adam Tech BH-67<br>MPD BK-912|4.1mm|[TAJC227K010RNJ](https://www.digikey.com/en/products/detail/kyocera-avx/TAJC227K010RNJ/1833766?s=N4IgTCBcDaICoEEBSBhMYDsBpADARhwCUA5JEAXQF8g) - 6032-28 220u 10v|1 minute|
 |CR2016|3-6 years|[TE BAT-HLD-002-SMT](https://www.digikey.com/en/products/detail/te-connectivity-linx/BAT-HLD-002-SMT/3044011)(2)|2.8mm|[TLJW157M010R0200](https://www.digikey.com/en/products/detail/kyocera-avx/TLJW157M010R0200/929982?s=N4IgTCBcDaICoBkBSB1AjAVgOwFkAMaeASnmHniALoC%2BQA) - 6032-15 150u 10v|40 seconds|
@@ -607,37 +574,20 @@ CR2016 height (nominally a CR2012 holder, but can take a CR2016)
 ![](PCB/out/MiniNDP_256_CR2016.jpg)
 -->
 
-<!-- 
-## MiniNDP Cover
-
-There is OpenSCAD source for a snap-on cover in the [COVER](COVER) directory.  
-There is also an STL for a slip cover by F. D. Singleton.
-
-The printable STLs are in [releases](../../releases/).  
-
-Full size version for CR2032
-![](COVER/out/MiniNDP_Cover.1.jpg)
-![](COVER/out/MiniNDP_Cover.2.jpg)
-
-Thin version for CR2016
-![](COVER/out/MiniNDP_Cover_THIN_start.jpg)
-![](COVER/out/MiniNDP_Cover_THIN.on2.jpg)
-![](COVER/out/MiniNDP_Cover_THIN.on3.jpg)
--->
-
 ## MiniNDP other versions
 
 There are actually several versions of the card using different combinations of chips.  
 Most have been tested and proven to work, and they might be useful in some cases depending on parts availability or something,  
 But mostly were just experiments along the way to the current default "EZ1M" version above.
 
-### SL1M - 1 Meg, slim version
+### SL1M - slim 1 meg
 
 This version is not tested yet. Specifcally I don't know for sure if the ABT841 works in place of FCT841.
 
 Otherwise it's the same as the default EZ1M just with TSSOP versions of the same chips.
 
-It's not as easy to solder, but allows to make a thin card with a CR2016 stuffed into a CR2012 holder, and use the thin CR2016 version of the cover.
+It's not as easy to solder, but allows to make a thin card with a CR2016 stuffed into a CR2012 holder.  
+Use the thinner CR2016 version of the cover with this.
 
 ![](PCB/out/MiniNDP_SL1M.jpg)  
 ![](PCB/out/MiniNDP_SL1M.2.jpg)  
@@ -652,14 +602,14 @@ The "E" version is essentially the legacy version that most closely matches how 
 
 It uses more parts and has a more complicated schematic and is more difficult to hand-solder, but in some ways is still the most flexible and practical version.
 
-* All of the parts are more standard and common, produced by multiple manufacturers.  
+* All of the parts are more standard and common, still produced by multiple manufacturers.  
 * Supports 512k, 256k, or 128k sram in the same footprint.  
 * Supports CR2032, CR2016, or CR2012, so you can choose if you want more battery life or a thinner card.  
 * Supports a big tantalum cap for more grace period.
 
 It is well tested and was actually the default version until recently.
 
-If you want a thin card using a CR2016 battery without taking a chance on the SL1M version, or if the FCT841 becomes hard to find, build this one.
+If you want a thin card using a CR2016 battery without taking a chance on the SL1M version, or if the FCT841 becomes hard to find or the AS6C8008 becomes expensive etc, build this one.
 
 ![](PCB/out/MiniNDP_E.jpg)  
 ![](PCB/out/MiniNDP_E.top.jpg)  

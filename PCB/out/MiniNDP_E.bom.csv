@@ -1,6 +1,6 @@
 "Reference","Value","Datasheet","Footprint","Qty","DNP","MPN","Description"
 "BT1","Keystone_3028","datasheets/Keystone_3034.pdf","000_LOCAL:Keystone_3028_3034","1","","Keystone_3028","BATTERY RETAINER COIN 20MM x 1.6MM SMT"
-"C1","150u10v","datasheets/TAJ.pdf","000_LOCAL:CP_6032","1","","TLJW157M010R0200","CAP TANT 150UF 10% 10V 6032-15"
+"C1","150u","datasheets/TAJ.pdf","000_LOCAL:CP_6032","1","","TLJW157M010R0200","CAP TANT 150UF 10% 10V 6032-15"
 "C2,C3,C4,C5","1u","datasheets/CL21B105KAFNNNE.pdf","000_LOCAL:C_0805","4","","CL21B105KAFNNNE","CAP CER 1UF 25V X7R 0805"
 "DA1","BAV70","datasheets/BAV70.pdf","000_LOCAL:SOT-23","1","","BAV70-7-F","DIODE ARRAY GP 75V 150MA SOT23-3"
 "J1","Conn_02x20_Odd_Even","datasheets/2x20_male_boxed.pdf","000_LOCAL:IDC-Header_2x20_P2.54mm_Vertical","1","","302-S401","CONN HEADER VERT 40POS 2.54MM"
