@@ -575,24 +575,14 @@ CR2016 height (nominally a CR2012 holder, but can take a CR2016)
 -->
 
 ## MiniNDP other versions
-
-There are actually several versions of the card using different combinations of chips.  
-Most have been tested and proven to work, and they might be useful in some cases depending on parts availability or something,  
-But mostly were just experiments along the way to the current default "EZ1M" version above.
+There are a few other versions of the card just to allow for different parts availability and different soldering difficulty.  
+They all work the same from a software point of view, and all are verified.
 
 ### SL1M - slim 1 meg
+The schematic is like EZ1M, just with tssop versions of the same parts.  
+( HC238, HC4040, ABT841, active-high BYTE & BLOCK internal signals )
 
-SL1M IS NOT VERIFIED YET
-
-Specifcally I don't know for sure if the ABT841 works in place of FCT841.  
-It should, but my first test build does not work.  
-It seems to mostly work but corrupts data, and not randomly, always the same output from a given input.  
-The schematic is essentially the same as EZ1M, and EZ1M is verified working.  
-I'll build another with all new parts to see if it produces the same result.
-
-Otherwise it's the same as the default EZ1M just with TSSOP versions of the same chips.
-
-It's not as easy to solder, but allows to make a thin card with a CR2016 stuffed into a CR2012 holder.  
+Not as easy to solder, but allows to make a thin card with a CR2016 stuffed into a CR2012 holder.  
 Use the thinner CR2016 version of the cover with this.
 
 ![](PCB/out/MiniNDP_SL1M.jpg)  
@@ -604,18 +594,16 @@ Use the thinner CR2016 version of the cover with this.
 [MiniNDP_SL1M.bom.csv](PCB/out/MiniNDP_SL1M.bom.csv)
 
 ### MiniNDP type E
-The "E" version is essentially the legacy version that most closely matches how the original DATAPAC works internally.
+The schematic is like the original DATAPAC.  
+( HC138, 3 x HC161, HC574, active-low BYTE & BLOCK internal signals )
+This was the default version until recently.
 
 It uses more parts and has a more complicated schematic and is more difficult to hand-solder, but in some ways is still the most flexible and practical version.
 
-* All of the parts are more standard and common, still produced by multiple manufacturers.  
-* Supports 512k, 256k, or 128k sram in the same footprint.  
+* All of the parts are more common and more readily available.  
+* Supports 512k, 256k, or 128k.  
 * Supports CR2032, CR2016, or CR2012, so you can choose if you want more battery life or a thinner card.  
 * Supports a big tantalum cap for more grace period.
-
-It is well tested and was actually the default version until recently.
-
-If you want a thin card using a CR2016 battery without taking a chance on the SL1M version, or if the FCT841 becomes hard to find or the AS6C8008 becomes expensive etc, build this one.
 
 ![](PCB/out/MiniNDP_E.jpg)  
 ![](PCB/out/MiniNDP_E.top.jpg)  
