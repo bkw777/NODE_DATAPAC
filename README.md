@@ -582,7 +582,13 @@ But mostly were just experiments along the way to the current default "EZ1M" ver
 
 ### SL1M - slim 1 meg
 
-This version is not tested yet. Specifcally I don't know for sure if the ABT841 works in place of FCT841.
+SL1M IS NOT VERIFIED YET
+
+Specifcally I don't know for sure if the ABT841 works in place of FCT841.  
+It should, but my first test build does not work.  
+It seems to mostly work but corrupts data, and not randomly, always the same output from a given input.  
+The schematic is essentially the same as EZ1M, and EZ1M is verified working.  
+I'll build another with all new parts to see if it produces the same result.
 
 Otherwise it's the same as the default EZ1M just with TSSOP versions of the same chips.
 
