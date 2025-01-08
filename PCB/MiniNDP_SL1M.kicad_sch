@@ -7106,16 +7106,6 @@
 	)
 	(wire
 		(pts
-			(xy 228.6 34.29) (xy 228.6 35.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9c0e2d86-8b8e-40ad-a630-4ad6462139f3")
-	)
-	(wire
-		(pts
 			(xy 107.95 50.8) (xy 107.95 134.62)
 		)
 		(stroke
@@ -9964,7 +9954,7 @@
 	)
 	(symbol
 		(lib_id "power:VMEM")
-		(at 228.6 34.29 0)
+		(at 228.6 35.56 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9972,7 +9962,7 @@
 		(dnp no)
 		(uuid "3594e989-cdf9-46d7-820a-485de3d6f50f")
 		(property "Reference" "#PWR012"
-			(at 228.6 38.1 0)
+			(at 228.6 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9981,7 +9971,7 @@
 			)
 		)
 		(property "Value" "VMEM"
-			(at 228.6 30.226 0)
+			(at 228.6 31.496 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9989,7 +9979,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 228.6 34.29 0)
+			(at 228.6 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9998,7 +9988,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 228.6 34.29 0)
+			(at 228.6 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10007,7 +9997,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VMEM\""
-			(at 228.6 34.29 0)
+			(at 228.6 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
