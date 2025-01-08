@@ -594,9 +594,9 @@ Use the thinner CR2016 version of the cover with this.
 [MiniNDP_SL1M.bom.csv](PCB/out/MiniNDP_SL1M.bom.csv)
 
 ### MiniNDP type E
+This was the default version until recently.  
 The schematic is like the original DATAPAC.  
 ( HC138, 3 x HC161, HC574, active-low BYTE & BLOCK internal signals )
-This was the default version until recently.
 
 It uses more parts and has a more complicated schematic and is more difficult to hand-solder, but in some ways is still the most flexible and practical version.
 
