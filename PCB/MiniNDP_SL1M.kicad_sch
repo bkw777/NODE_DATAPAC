@@ -6,7 +6,7 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP")
-		(date "2024-12-17")
+		(date "2025-01-09")
 		(rev "SL1M_01")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
@@ -8206,7 +8206,7 @@
 		)
 		(uuid "f8de76ef-74be-4200-aae9-1742eceea0bf")
 	)
-	(text "NOT TESTED\n1M with fewer parts\nslim version"
+	(text "1M with fewer parts\nslim version"
 		(exclude_from_sim no)
 		(at 259.588 173.99 0)
 		(effects
