@@ -593,6 +593,23 @@ Use the thinner CR2016 version of the cover with this.
 ![](PCB/out/MiniNDP_SL1M.svg)  
 [MiniNDP_SL1M.bom.csv](PCB/out/MiniNDP_SL1M.bom.csv)
 
+### EZ512 - easy-build 512K
+EZ-build (large parts) version that uses a 512K sram instead of 1M.  
+also all the passives are larger 1206 instead of 0805.
+
+* The 1M sram is getting expensive.  
+* RAMDSK can only use 512K.  
+* The 512K chip has larger 1.27mm pitch legs like the rest of the SOIC parts.
+
+It requires an additional chip vs the 1M because the 512K sram doesn't have a CE2 pin.
+
+![](PCB/out/MiniNDP_EZ512.jpg)  
+![](PCB/out/MiniNDP_EZ512.2.jpg)  
+![](PCB/out/MiniNDP_EZ512.top.jpg)  
+![](PCB/out/MiniNDP_EZ512.bottom.jpg)  
+![](PCB/out/MiniNDP_EZ512.svg)  
+[MiniNDP_EZ512.bom.csv](PCB/out/MiniNDP_EZ512.bom.csv)
+
 ### MiniNDP type E
 This was the default version until recently.  
 The schematic is like the original DATAPAC.  

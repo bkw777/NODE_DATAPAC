@@ -5191,12 +5191,6 @@
 		(uuid "232f86ef-0efd-427b-929a-cd1fbc4a55bf")
 	)
 	(junction
-		(at 119.38 162.56)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "2bb61b1b-dc29-4eba-8eec-5e5b0e3edc9a")
-	)
-	(junction
 		(at 127 147.32)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5225,6 +5219,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "56f64cfb-77eb-4280-b7d5-c061b223497f")
+	)
+	(junction
+		(at 119.38 162.56)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "57057a5f-be28-48db-bb44-20f7b63b4992")
 	)
 	(junction
 		(at 107.95 36.83)
@@ -5278,7 +5278,7 @@
 		(at 119.38 167.64)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "d6e448be-645d-4829-90f8-2afe9d0df018")
+		(uuid "e19d59b4-cf77-459c-948c-3567b4a64025")
 	)
 	(junction
 		(at 125.73 186.69)
@@ -6230,6 +6230,16 @@
 	)
 	(wire
 		(pts
+			(xy 119.38 162.56) (xy 125.73 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "20cb6a51-e66b-401b-bade-48632383ac7e")
+	)
+	(wire
+		(pts
 			(xy 34.29 41.91) (xy 44.45 41.91)
 		)
 		(stroke
@@ -6477,16 +6487,6 @@
 			(type default)
 		)
 		(uuid "41e61aff-9225-4fd8-8cad-3cbf5844b094")
-	)
-	(wire
-		(pts
-			(xy 114.3 167.64) (xy 119.38 167.64)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "448e3679-a434-4efb-9c63-78699ff35199")
 	)
 	(wire
 		(pts
@@ -7308,16 +7308,6 @@
 		)
 		(uuid "a9d08002-9226-4f88-82ff-8fcf08203c4f")
 	)
-	(wire
-		(pts
-			(xy 119.38 162.56) (xy 125.73 162.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "aa9f3a45-c680-4e8a-8489-504d12edcd1e")
-	)
 	(bus
 		(pts
 			(xy 31.75 29.21) (xy 31.75 39.37)
@@ -7520,6 +7510,16 @@
 	)
 	(wire
 		(pts
+			(xy 119.38 167.64) (xy 125.73 167.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bfef58f7-df64-4782-b290-aa98bf44b21f")
+	)
+	(wire
+		(pts
 			(xy 241.3 68.58) (xy 257.81 68.58)
 		)
 		(stroke
@@ -7610,7 +7610,7 @@
 	)
 	(wire
 		(pts
-			(xy 119.38 167.64) (xy 125.73 167.64)
+			(xy 114.3 167.64) (xy 119.38 167.64)
 		)
 		(stroke
 			(width 0)
@@ -8152,7 +8152,7 @@
 		)
 		(uuid "135417bc-6280-47f2-9701-261f033a9315")
 	)
-	(text "NOT TESTED\n512K easy build"
+	(text "512K easy build"
 		(exclude_from_sim no)
 		(at 261.112 173.99 0)
 		(effects
@@ -11245,82 +11245,6 @@
 		)
 	)
 	(symbol
-		(lib_id "000_LOCAL:C")
-		(at 119.38 165.1 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "8641f200-d9fc-4199-b011-7c100016980c")
-		(property "Reference" "C4"
-			(at 119.38 158.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "1u"
-			(at 119.38 161.036 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "000_LOCAL:C_1206"
-			(at 119.38 165.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/CL05Y105KP6VPN.pdf"
-			(at 119.38 165.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "CAP CER 1UF 25V X7R 1206"
-			(at 119.38 165.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CL31B105KAHNNNE"
-			(at 119.38 165.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "44636089-b4c5-4397-bdec-930c3adb30d4")
-		)
-		(pin "1"
-			(uuid "61d6e501-0759-4e83-a4d3-2be2a525443e")
-		)
-		(instances
-			(project "MiniNDP_512_F"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "C4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:VBUS")
 		(at 68.58 85.09 0)
 		(mirror y)
@@ -13055,6 +12979,82 @@
 			(project "MiniNDP_512_B"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR033")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:C")
+		(at 119.38 165.1 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e62e2625-0a7c-4708-adb9-479236b8e31f")
+		(property "Reference" "C4"
+			(at 119.38 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "47u"
+			(at 119.38 161.036 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:C_1206"
+			(at 119.38 165.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/TDK_MLCC_Cxxxx.pdf"
+			(at 119.38 165.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "CAP CER 47UF 25V X5R 1206"
+			(at 119.38 165.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C3216X5R1E476M160DC"
+			(at 119.38 165.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "133235c2-8ae6-4971-974c-085c53ece119")
+		)
+		(pin "1"
+			(uuid "3faef3f3-0fd4-4dc4-96d6-2a9602419da8")
+		)
+		(instances
+			(project "MiniNDP_EZ512"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "C4")
 					(unit 1)
 				)
 			)
