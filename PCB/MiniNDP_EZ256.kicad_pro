@@ -37,8 +37,8 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.0,
-          "height": 0.6,
+          "drill": 0.6,
+          "height": 0.8,
           "width": 0.8
         },
         "silk_line_width": 0.1,
@@ -58,12 +58,7 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [
-        "via_dangling|168300000|111125000|1ea4dffe-4cd0-451c-8a62-b2b5db2dfffa|00000000-0000-0000-0000-000000000000",
-        "via_dangling|168300000|88425000|0cb39934-bf39-4989-9e2c-97dcc3818e56|00000000-0000-0000-0000-000000000000",
-        "via_dangling|172900000|111125000|9fae5576-f8bf-40bc-b594-568c187170d4|00000000-0000-0000-0000-000000000000",
-        "via_dangling|172900000|88425000|e3d645b6-5c90-40b2-b971-b73aae16869a|00000000-0000-0000-0000-000000000000"
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -472,7 +467,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "MiniNDP_256_F.kicad_pro",
+    "filename": "MiniNDP_EZ256.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -518,7 +513,7 @@
   },
   "schematic": {
     "annotate_start_num": 0,
-    "bom_export_filename": "out/MiniNDP_256_F.bom.csv",
+    "bom_export_filename": "out/MiniNDP_EZ256.bom.csv",
     "bom_fmt_presets": [],
     "bom_fmt_settings": {
       "field_delimiter": ",",
