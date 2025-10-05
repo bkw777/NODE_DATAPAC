@@ -178,9 +178,9 @@ No other parts or changes are needed to upgrade an existing 128k unit to 256k.
 
 Any 62256 will work, but for old parts you want the low-power version for standby battery life.  
 New parts already naturally have as low or lower standby current than the low-power versions of old parts even if they don't say "low power".  
-Old standard: HM62256    70uA
-Old lowpower: HM62256LP  4uA
-Old lowpower: P51256SL   2uA
+Old standard: HM62256    70uA  
+Old lowpower: HM62256LP  4uA  
+Old lowpower: P51256SL   2uA  
 New standard: AS6C62256  1uA
 
 ## Model compatibility
