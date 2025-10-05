@@ -4,6 +4,7 @@
   * [Reproduction Schematic & PCB](#reproduction-schematic--pcb)
   * [Theory of Operation](#theory-of-operation)
   * [Battery](#battery)
+  * [Upgrading 128K to 256K](#upgrading-to-256k)
   * [Model Compatibility](#model-compatibility)
 * [RAMPAC Hardware](#rampac-hardware)
 * [Software](#software)
@@ -35,31 +36,23 @@ Here is some disorganized [INFO](software/) mostly gathered from the [M100SIG ar
 
 TLDR: To use the hardware, install [RAMDSK](#ramdsk), and what you get is a ram disk of 128k to 512k depending on model and installed ram.
 
-The printing on the DATAPAC enclosure says 256k, and the circuitry and parts are all there to support 256k, but my two units only had 128k installed.  
-The PCB has footprints for four 32k sram chips (62256 equivalent), for a total of 128k.  
-To get 256k, a second set of chips are soldered piggyback on top of the first four, each with pin 20 bent out and connected to the pcb separately, and all other pins connected to the chip below.  
-No other parts or changes are needed to upgrade an existing 128k unit to 256k.  
-
 ![](ref/NODE_DATAPAC_256K_1.jpg)
 ![](ref/NODE_DATAPAC_256K_2.jpg)
 ![](ref/NODE_DATAPAC_256K_3.jpg)
 ![](ref/NODE_DATAPAC_256K_4.jpg)
 
 # Documentation
-The original manual does not seem to be scanned or archived anywhere.
+The original text file manual [RAMDSK.DO](ROM/100/RAMDSK.DO).  
+The [option rom](ROM) that came with the unit generates this file when formatting a device.
 
-All we have today is a few bits of info from discussions in the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and Paul Globmans software on [club100](http://www.club100.org/library/libpg.html).  
-Some of these are collected in [docs](docs).  
+There are also some discussions in the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and Paul Globmans software on [club100](http://www.club100.org/library/libpg.html).  
+Most of these are collected in [docs](docs).  
 See also the docs for the various bits of [software](software).
 
-A few of those documents say that the device originally shipped with the user manual pre-loaded onto the DATAPAC as a 12k text file, along with at least one BASIC program.  
-If/when the battery died in the device and all data was lost, the Format operation in the option rom would also re-create the text file.  
-
-Neither the option rom nor the text file are archived anywhere that I have been able to find yet.
-
-If anyone has a RAMPAC, they probably also have the option rom, and the original manual could be recovered from that. Maybe one will turn up some day.
-
-The magazine article by Paul Globman below says that the rom was called RAM+, and there IS an archived option rom image available called RAM+, but it is for an entirely different type of device, the [PCSG / Cryptronics RAM Expansion](http://tandy.wiki/PCSG_/_Cryptronics_RAM_Expansion) which provides RAM, like the [PG Designs](http://tandy.wiki/PG_Designs_M100_RAM_Expansion) or [QUAD](https//github.com/bkw777/reQUAD), not a RAM DISK. These devices all replace the internal 32k where the ram files live and where programs run etc. The DATAPAC/RAMPAC does something entirely different, see [Theory of Operation](#theory-of-operation). It is possible the NODE rom was also called RAM+, but PCSG RAM+ definitely does not drive the DATAPAC or RAMPAC.
+The only version of the original rom we have is an early version that only supports the original 256k hardware, and only for Model 100/102.  
+There was also a version for Model 200 (the hardware is the same, but the rom still needs to be made specifically for 200 to run on a 200).  
+And there were later versions that supported up to 512k.  
+The original rom is not needed to use the hardware. Paul Globmans [RAMDSK.CO](software/RAMDSK) can be used instead.
 
 Other References  
 * "Database management with both the Node RAMPAC & DATAPAC."  
@@ -169,10 +162,31 @@ If you wish to keep using a rechargeable battery, then a suitable option is FL3/
 The charging circuit is utterly basic, so do not connect any other type of battery except NiCD or NiMH.  
 You can use any cell form factor and any larger or smaller mAh capacity, but must be 3.6v and only NiCD or NiMH chemistry.
 
+## Upgrading to 256K
+A 128k unit may be upgraded to 256k by just adding 4 more SRAM chips piggy-backed onto the existing chips.
+
+The PCB has 4 DIP-28 footprints for the SRAM chips.  
+Each DIP-28 footprint also has an extra via close to pin 20.
+
+A 128k unit has a low-power 62256 installed in each footprint, and nothing connected to the via near pin 20.
+
+To get 256k, a second set of chips are soldered piggyback on top of the first four.  
+All pins except pin 20 are simply soldered to the chip below.  
+Pin 20 is bent out and connected to the extra via on the pcb (with a short bit of wire to reach) and not connected to the chip below.  
+
+No other parts or changes are needed to upgrade an existing 128k unit to 256k.
+
+Any 62256 will work, but for old parts you want the low-power version for standby battery life.  
+New parts already naturally have as low or lower standby current than the low-power versions of old parts even if they don't say "low power".  
+Old standard: HM62256    70uA
+Old lowpower: HM62256LP  4uA
+Old lowpower: P51256SL   2uA
+New standard: AS6C62256  1uA
+
 ## Model compatibility
 Only Models 100, 102, & 200 were ever supported.
 
-The device is probably hardware compatible with the Olivetti M-10 and Kyotronic KC-85, though RAMDSK was never ported to them.
+The device is probably hardware compatible with the Olivetti M-10 and Kyotronic KC-85, though RAMDSK was (probably) never ported to them.
 
 The device is not compatible with the NEC PC-8201/PC-8300 at all.
 
@@ -190,25 +204,28 @@ The case says "102/200", but it actually works on Model 100 also. It needs an ad
 # RAMPAC Hardware
 About all we can say currently is that we know it was sold in 128k, 256k, 384k, and 512k capacities, and was "about 2 inches square".
 
-We can say how it's banks worked, because we can look at RAMDSK and see what it wants, and verified by the fact that MiniNDP 512 actually works.  
+We know how it's banks worked, because we can look at RAMDSK and see what it tries to do, and verified by the fact that 512k MiniNDP actually works.  
 
 MiniNDP schematic is essentially just a clone of the DATAPAC schematic with the coin cell mod applied and the multiple ram chips replaced by a single big one. RAMPAC schematic might have been different.
 
 # [Software](software)
 
-Originally these shipped with an option rom from NODE (written by Travelling Software), which does not seem to be archived anywhere.  
-Later, each unit was also shipped with a copy of RAMDSK licensed from Paul Globman.
+Originally these shipped with an [option rom](ROM) from NODE (written by Travelling Software) called RAMDSK.  
+Later, each unit also came with a [.CO also called RAMDSK](software/RAMDSK) written by Paul Globman.
 
-Today all we have is RAMDSK, but it claims to do everything that the option rom did. Although it does not reproduce the pre-loaded manual and utility files which the option rom did.
+The only version of the original rom we have is an early version that only supports the original 256k hardware, and only for Model 100/102.  
+There was also a version for Model 200, and there were later versions that supported up to 512k.  
+The original rom is not needed to use the hardware. Instead you can use Paul Globmans RAMDSK.  
+We have versions of that for both 100 and 200, and we have the later versions that support up to 512k.
 
 Some software culled from the M100SIG archive and Club100 are collected here in the [software](software) directory.  
-Much of that software actually requires the original option rom, which is not available. Some of that could possibly be converted to work with RAMDSK instead of the rom by translating the call addresses per the RAMDSK.TIP file.
 
 ## BASIC
 How to access the hardware from BASIC.
 
 ### High level file operations using CALLable machine language routines
-See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP)
+See [RAMDSK.DO](ROM/100/RAMDSK.DO) for the NODE ROM routines.  
+See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP) for the RAM100.CO/RAM200.CO routines.
 
 ### Low level direct access using only BASIC
 There are two low level operations that you use to access the device,  
@@ -285,14 +302,14 @@ One thing RAMDSK does not do which the original option rom did, is re-create the
 ### Installing RAMDSK
 Archived docs mention an 8 line BASIC program called BOOT that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start.
 
-That program does not seem to be archived anywhere, so in it's place there is `RBOOT` and `NBOOT` below which are new.  
+That program does not seem to be archived anywhere, but I have written `RBOOT` and `NBOOT` below which are new.  
 This only works after a copy of RAMDSK has been copied to the RAMPAC.
 
-To get RAMDSK installed the first time, copy RAM100.CO or RAM200.CO to the 100 or 200.
+To get RAMDSK installed the first time, copy RAM100.CO or RAM200.CO to the 100 or 200, then run it to format the device and copy RAM100.CO/RAM200.CO to it as the first file written to it.
 
 The most convenient way is to use a TPDD [client](http://tandy.wiki/TPDD_client) & [server](http://tandy.wiki/TPDD_server) to copy the file, then [adjust HIMEM](https://bitchin100.com/wiki/index.php?title=Loading_a_typical_CO_file) to run it.  
 
-But if you don't already have something like a REX# with a TS-DOS option rom image, a more self-contained option is a BASIC loader:  
+If you don't already have a REX Classic or REX# or an actual TS-DOS rom, I have made these BASIC loaders:  
 [software/RAMDSK/RAM100/RAM100.DO](software/RAMDSK/RAM100/RAM100.DO) for Model 100/102  
 [software/RAMDSK/RAM200/RAM200.DO](software/RAMDSK/RAM200/RAM200.DO) for Model 200  
 
@@ -308,7 +325,10 @@ Another option for mac/linux, [pdd.sh](https://github.com/bkw777/pdd.sh) also ha
 
 Once you have RAMDSK installed, if you save a copy to the RAMPAC as the very first file after a fresh format, then in the future you can re-install RAMDSK from the RAMPAC itself after a cold reset without needing another computer or TPDD drive by manually typing in a short BASIC program.
 
-These are optimized to tetris-pack into the fewest possible 40-column lines, not to be the most efficient code possible, please excuse the inexcusable IF and math inside the byte read loop. :)
+These are optimized to tetris-pack into the fewest possible 40-column lines, not to be the most efficient code, so the entire program actually fits on the screen so you can easily verify it's all correct before trying to run it.  
+Please excuse the inexcusable IF and math inside the byte read loop. :)
+
+These have specific byte size and offset values that are only valid for the exact RAM100.CO and RAM200.CO files shown.
 
 RBOOT for Model 100  
 [software/RAMDSK/RAM100/RBOOT.100](software/RAMDSK/RAM100/RBOOT.100)  
@@ -340,6 +360,7 @@ If you want to get fancy, you could support both model 100 and model 200 at the 
 ```
 
 ### Using RAMDSK
+(RAMDSK.CO not the Node ROM)  
 Usage is mostly pretty self-explanatory.
 
 The F1-Bank button switches between 2 banks of 256k, and is only functional on a RAMPAC that has more than 256k.
@@ -354,7 +375,7 @@ Just for reference, to boot some other CO instead of RAMDSK,
 here  is a more flexible and generic bootstrapper for any .CO file up to 2038 bytes.  
 * Reads the filename and start/length/exec values from the file itself  
 * Works on any .CO file that fits in 2 blocks  
-* Works on both Model 100 and 200
+* Works without changes on both Model 100 and 200
 ```
 1 CLEAR32,59000:CLS:P=131:OUT129,2
 2 FORA=0TO9:F$=F$+CHR$(INP(P)):NEXT
