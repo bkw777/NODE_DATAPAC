@@ -450,7 +450,7 @@ Length = MSB * 256 + LSB
 
 In the particular case of .CO files, the first 6 bytes of a CO file is the CO header, which has the start address, length, and exe address.  
 This isn't metatdata from RAMDSK, it's part of the CO file format.  
-The length in the CO header is 6 bytes less than the length in the RAMDSK header because the CO header length field doesn't include the CO header itself.
+The length in the CO header is 6 bytes less than the length in the RAMDSK header because the CO header length field doesn't include the CO header itself.  
 2 bytes - top address, lsb first  
 2 bytes - length, lsb first  
 2 bytes - exe address, lsb first
