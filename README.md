@@ -540,10 +540,6 @@ Select bank 3, block N: `OUT 141,N`
 
 Everything else works the same as normal DATAPAC/RAMPAC.
 
-All of the caps are optional.  
-The 1u caps are just overkill decoupling, included on general principle, but the original NODE version has several more chips and doesn't have a single cap anywhere.  
-The 47u caps provide about 20-30 seconds of grace period to change the coin battery without losing data, but you don't need any grace period if you just change the battery while the card is plugged in to the computer, turned on or off doesn't matter.
-
 Installed on a TANDY 102  
 ![](ref/MiniNDP_on_102.jpg)
 
