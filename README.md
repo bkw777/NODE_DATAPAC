@@ -540,13 +540,9 @@ Select bank 3, block N: `OUT 141,N`
 
 Everything else works the same as normal DATAPAC/RAMPAC.
 
-All of the caps are optional. The DATAPAC has several more chips and doesn't have a single cap anywhere.  
-The 1u caps are just overkill decoupling, there on principle because there is room on the pcb so why not.  
-The 47u caps provide about 20 seconds of grace period to change the battery without losing data.  
-The spacing of the parts allows to add up to 8 more 47u caps solderd to the sides & top of the 2 original.  
-
-You don't actually need any grace period to change the battery, just chage the battery while the card is connected to the computer, with the computer turned off.  
-The computer supplies memory power at ALL times, even while turned off, even with no AA's installed, until the internal memory battery dies.
+All of the caps are optional.  
+The 1u caps are just overkill decoupling, included on general principle, but the original NODE version has several more chips and doesn't have a single cap anywhere.  
+The 47u caps provide about 20-30 seconds of grace period to change the coin battery without losing data, but you don't need any grace period if you just change the battery while the card is plugged in to the computer, turned on or off doesn't matter.
 
 Installed on a TANDY 102  
 ![](ref/MiniNDP_on_102.jpg)
@@ -597,14 +593,14 @@ CR2016 height (nominally a CR2012 holder, but can take a CR2016)
 
 ## MiniNDP other versions
 There are a few other versions of the card just to allow for different parts availability and different soldering difficulty.  
-They all work the same from a software point of view, and all are verified.
+They all work the same from a software point of view, and all are tested.
 
 ### SL1M - slim 1 meg
-The schematic is like EZ1M, just with tssop versions of the same parts.  
-( HC238, HC4040, ABT841, active-high BYTE & BLOCK internal signals )
+* Same as EZ1M (the default version above), just with TSOP & TSSOP components.  
+* Allows to make a thin card.
 
-Not as easy to solder, but allows to make a thin card with a CR2016 stuffed into a CR2012 holder.  
-Use the thinner CR2016 version of the cover with this.
+Use the thinner CR2016 version of the cover with this.  
+The battery holder is technically for CR2012, but you can stuff a CR2016 in it.
 
 ![](PCB/out/MiniNDP_SL1M.jpg)  
 ![](PCB/out/MiniNDP_SL1M.2.jpg)  
@@ -615,12 +611,9 @@ Use the thinner CR2016 version of the cover with this.
 [MiniNDP_SL1M.bom.csv](PCB/out/MiniNDP_SL1M.bom.csv)
 
 ### EZ512 - easy-build 512K
-EZ-build (large parts) version that uses a 512K sram instead of 1M.  
-also all the passives are larger 1206 instead of 0805.
-
-* The 1M sram is getting expensive.  
-* RAMDSK can only use 512K.  
-* The 512K chip has larger 1.27mm pitch legs like the rest of the SOIC parts.
+* All larger parts for easier hand-soldering.  
+* 1M SOIC/SOJ sram is getting uncommon and expensive.  
+* RAMDSK can only use 512K anyway.  
 
 It requires an additional chip vs the 1M because the 512K sram doesn't have a CE2 pin.
 
@@ -632,16 +625,11 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 [MiniNDP_EZ512.bom.csv](PCB/out/MiniNDP_EZ512.bom.csv)
 
 ### MiniNDP type E
-This was the default version until recently.  
-The schematic is like the original DATAPAC.  
-( HC138, 3 x HC161, HC574, active-low BYTE & BLOCK internal signals )
-
-It uses more parts and has a more complicated schematic and is more difficult to hand-solder, but in some ways is still the most flexible and practical version.
-
-* All of the parts are more common and more readily available.  
-* Supports 512k, 256k, or 128k.  
+* More common components, more likely to always be available.  
+* Circuit is more like the original NODE version.  
+* Supports 512K, 256K, or 128K.  
 * Supports CR2032, CR2016, or CR2012, so you can choose if you want more battery life or a thinner card.  
-* Supports a big tantalum cap for more grace period.
+* Supports a big tantalum cap for more battery-change grace period.
 
 ![](PCB/out/MiniNDP_E.jpg)  
 ![](PCB/out/MiniNDP_E.top.jpg)  
