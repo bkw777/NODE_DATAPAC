@@ -450,7 +450,8 @@ Length = MSB * 256 + LSB
 
 In the particular case of .CO files, the first 6 bytes of a CO file is the CO header, which has the start address, length, and exe address.  
 This isn't metatdata from RAMDSK, it's part of the CO file format.  
-The length in the CO header is 6 bytes less than the length in the RAMDSK header because the CO header length field doesn't include the CO header itself.  
+The length in the CO header is 6 bytes less than the length in the RAMDSK header because the CO header length field doesn't include the CO header itself.
+
 2 bytes - top address, lsb first  
 2 bytes - length, lsb first  
 2 bytes - exe address, lsb first
@@ -620,15 +621,15 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 ![](PCB/out/MiniNDP_EZ512.svg)  
 [MiniNDP_EZ512.bom.csv](PCB/out/MiniNDP_EZ512.bom.csv)
 
-### MiniNDP type E
-* More common components, more likely to always be available.  
+### MiniNDP "OG"
 * Circuit is more like the original NODE version.  
+* Components are more common, more likely to be available.  
 * Supports 512K, 256K, or 128K.  
 * Supports CR2032, CR2016, or CR2012, so you can choose if you want more battery life or a thinner card.  
 * Supports a big tantalum cap for more battery-change grace period.
 
-![](PCB/out/MiniNDP_E.jpg)  
-![](PCB/out/MiniNDP_E.top.jpg)  
-![](PCB/out/MiniNDP_E.bottom.jpg)  
-![](PCB/out/MiniNDP_E.svg)  
-[MiniNDP_E.bom.csv](PCB/out/MiniNDP_E.bom.csv)
+![](PCB/out/MiniNDP_OG.jpg)  
+![](PCB/out/MiniNDP_OG.top.jpg)  
+![](PCB/out/MiniNDP_OG.bottom.jpg)  
+![](PCB/out/MiniNDP_OG.svg)  
+[MiniNDP_OG.bom.csv](PCB/out/MiniNDP_OG.bom.csv)
