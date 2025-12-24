@@ -208,9 +208,10 @@ We know how it's banks worked, because we can look at RAMDSK and see what it tri
 
 MiniNDP schematic is essentially just a clone of the DATAPAC schematic with the coin cell mod applied and the multiple ram chips replaced by a single big one. RAMPAC schematic might have been different.
 
-# [Software](software)
+# Software
 
-Originally these shipped with an [option rom](ROM) from NODE (written by Travelling Software) called RAMDSK.  
+Originally these shipped with an [OPTION ROM](ROM) from NODE called RAMDSK, written by Travelling Software.
+
 Later, each unit also came with a [.CO also called RAMDSK](software/RAMDSK) written by Paul Globman.
 
 The only version of the original rom we have is an early version that only supports the original 256k hardware, and only for Model 100/102.  
