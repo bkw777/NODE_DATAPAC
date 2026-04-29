@@ -634,3 +634,16 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 ![](PCB/out/MiniNDP_OG.bottom.jpg)  
 ![](PCB/out/MiniNDP_OG.svg)  
 [MiniNDP_OG.bom.csv](PCB/out/MiniNDP_OG.bom.csv)
+
+### ChipNDP
+* NOT YET TESTED  
+* Same as [SL1M](#slim---slim-1-meg), but in DIP-40 form to fit in a TRS-80 Model 100 system bus socket.  
+* Should also work in Kyotronic KC-85 and Olivetti M-10, though there is no version of RAMDSK.CO for those.
+
+![](PCB/out/ChipNDP.1.jpg)  
+![](PCB/out/ChipNDP.2.jpg)  
+![](PCB/out/ChipNDP.3.jpg)  
+![](PCB/out/ChipNDP.top.jpg)  
+![](PCB/out/ChipNDP.bottom.jpg)  
+![](PCB/out/ChipNDP.svg)  
+[ChipNDP.bom.csv](PCB/out/ChipNDP.bom.csv)
