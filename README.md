@@ -637,7 +637,6 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 
 ### ChipNDP
 * NOT YET TESTED  
-* 4-layer PCB  
 * Same as [SL1M](#sl1m---slim-1-meg), but in DIP-40 form to fit in a TRS-80 Model 100 system bus socket.  
 * Should also work in Kyotronic KC-85, though there is no version of RAMDSK.CO for KC-85.
 
