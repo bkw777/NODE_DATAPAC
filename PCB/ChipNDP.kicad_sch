@@ -6,8 +6,8 @@
 	(paper "USLetter")
 	(title_block
 		(title "ChipNDP")
-		(date "2026-04-29")
-		(rev "001")
+		(date "2026-05-04")
+		(rev "002")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "1M RAM Disk for TRS-80 Model 100")
@@ -7256,7 +7256,7 @@
 		(uuid "07183984-e553-4865-8c0b-1a2803c9e187")
 	)
 	(label "A12"
-		(at 209.55 55.88 180)
+		(at 209.55 81.28 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7286,7 +7286,7 @@
 		(uuid "1376655e-68ae-406f-b0a4-1eccd5d75805")
 	)
 	(label "A2"
-		(at 209.55 78.74 180)
+		(at 209.55 53.34 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7366,7 +7366,7 @@
 		(uuid "1fecc7dd-2745-4e83-a823-dbc75905f7de")
 	)
 	(label "A18"
-		(at 209.55 45.72 180)
+		(at 209.55 71.12 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7396,7 +7396,7 @@
 		(uuid "2a06611d-6059-4a3d-8abf-88a602f3438b")
 	)
 	(label "AD0"
-		(at 234.95 45.72 0)
+		(at 234.95 55.88 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7436,7 +7436,7 @@
 		(uuid "372e5c8f-dd0b-46c7-8264-4bef2ad6f2b4")
 	)
 	(label "AD7"
-		(at 234.95 55.88 0)
+		(at 234.95 45.72 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7496,7 +7496,7 @@
 		(uuid "49d9ceba-19dd-453d-a7e4-9cb1b19ed3e6")
 	)
 	(label "AD2"
-		(at 234.95 43.18 0)
+		(at 234.95 53.34 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7506,7 +7506,7 @@
 		(uuid "50d87281-e7cb-4384-a7e9-7e1a46e3f7ae")
 	)
 	(label "AD4"
-		(at 234.95 40.64 0)
+		(at 234.95 50.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7526,7 +7526,7 @@
 		(uuid "5364b756-fb57-4c2d-bdfb-56ed459ecb97")
 	)
 	(label "A17"
-		(at 209.55 43.18 180)
+		(at 209.55 68.58 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7546,7 +7546,7 @@
 		(uuid "5b52f54d-cca8-4ed4-bc6e-333d3e4733cc")
 	)
 	(label "A0"
-		(at 209.55 63.5 180)
+		(at 209.55 38.1 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7566,7 +7566,7 @@
 		(uuid "61a5c724-fc3c-4645-8632-5bf1725d747e")
 	)
 	(label "AD1"
-		(at 234.95 48.26 0)
+		(at 234.95 38.1 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7576,7 +7576,7 @@
 		(uuid "64d9f9f7-e9e8-459a-a865-c9657b280048")
 	)
 	(label "AD5"
-		(at 234.95 53.34 0)
+		(at 234.95 43.18 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7596,7 +7596,7 @@
 		(uuid "6b3f1aab-1b22-45f2-aa7d-c99d049d9aaa")
 	)
 	(label "A15"
-		(at 209.55 38.1 180)
+		(at 209.55 63.5 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7606,7 +7606,7 @@
 		(uuid "6c4b5660-c6c9-4581-a330-5acfa53ef351")
 	)
 	(label "A9"
-		(at 209.55 71.12 180)
+		(at 209.55 45.72 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7616,7 +7616,7 @@
 		(uuid "7269ea43-7380-4217-9cfd-a1e19fb8fdc3")
 	)
 	(label "A5"
-		(at 209.55 73.66 180)
+		(at 209.55 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7626,7 +7626,7 @@
 		(uuid "72aca628-9f8c-4b00-8ef0-96e4ba285ed5")
 	)
 	(label "A10"
-		(at 209.55 50.8 180)
+		(at 209.55 76.2 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7636,7 +7636,7 @@
 		(uuid "749e44ee-fc09-4bf4-a2b4-f498c10f8357")
 	)
 	(label "A3"
-		(at 209.55 81.28 180)
+		(at 209.55 55.88 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7656,7 +7656,7 @@
 		(uuid "812d4ba2-2838-43b6-9fc6-0f78b061727c")
 	)
 	(label "AD3"
-		(at 234.95 50.8 0)
+		(at 234.95 40.64 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7696,7 +7696,7 @@
 		(uuid "88280537-0729-46e5-aa8b-567bf59103d2")
 	)
 	(label "A8"
-		(at 209.55 66.04 180)
+		(at 209.55 40.64 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7776,7 +7776,7 @@
 		(uuid "ab9abd79-9abf-4833-a80f-9572b264fb6d")
 	)
 	(label "A14"
-		(at 209.55 60.96 180)
+		(at 209.55 86.36 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7866,7 +7866,7 @@
 		(uuid "bfe6520e-dd0c-4071-97af-868009570094")
 	)
 	(label "A13"
-		(at 209.55 58.42 180)
+		(at 209.55 83.82 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7906,7 +7906,7 @@
 		(uuid "c59bb4c3-13ba-49b4-965c-8a15e50fe6a6")
 	)
 	(label "A6"
-		(at 209.55 83.82 180)
+		(at 209.55 58.42 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7916,7 +7916,7 @@
 		(uuid "c78cf937-186d-44c0-8081-fd6f8a64e5a1")
 	)
 	(label "A4"
-		(at 209.55 86.36 180)
+		(at 209.55 60.96 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7946,7 +7946,7 @@
 		(uuid "cd80e0e2-263d-4803-b5be-67f080411d1f")
 	)
 	(label "AD6"
-		(at 234.95 38.1 0)
+		(at 234.95 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7966,7 +7966,7 @@
 		(uuid "cff57219-afc9-44d3-b90b-f3f4ad085f21")
 	)
 	(label "A11"
-		(at 209.55 53.34 180)
+		(at 209.55 78.74 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8036,7 +8036,7 @@
 		(uuid "eab1d388-e7fd-4eac-a9a2-56f3f49b4592")
 	)
 	(label "A7"
-		(at 209.55 68.58 180)
+		(at 209.55 43.18 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8056,7 +8056,7 @@
 		(uuid "ec5dc06f-d477-4070-beff-715bd230d4c7")
 	)
 	(label "A16"
-		(at 209.55 40.64 180)
+		(at 209.55 66.04 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8096,7 +8096,7 @@
 		(uuid "f54c9096-9cb8-4a82-9bbc-b5ee2448b788")
 	)
 	(label "A1"
-		(at 209.55 76.2 180)
+		(at 209.55 50.8 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8116,7 +8116,7 @@
 		(uuid "f79b35ee-23e6-423e-9d98-85b7abd4ed76")
 	)
 	(label "A19"
-		(at 209.55 48.26 180)
+		(at 209.55 73.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
