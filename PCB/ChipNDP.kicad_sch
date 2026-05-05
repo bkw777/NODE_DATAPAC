@@ -4274,7 +4274,7 @@
 	)
 	(text "		BUS  BUS  BUS  BUS\n(A)	~{YO}   _A8  _A9  _A10  _A11  ->  ~{BLOCK} ~{BYTE}\n L	 X	 X	  X	  X	   X		X	  X\n X	 H	 X	  X	  X	   X		X	  X\n X	 X	 L	  X	  X	   X		X	  X\n H	 L	 H	  L	  L	   L	->  H	  L  Select BLOCK N, BANK0: OUT129,N\n H	 L	 H	  L	  H	   L	->  H	  L  Select BLOCK N, BANK1: OUT133,N\n H	 L	 H	  L	  L	   H	->  H	  L  Select BLOCK N, BANK2: OUT137,N\n H	 L	 H	  L	  H	   H	->  H	  L  Select BLOCK N, BANK3: OUT141,N\n H	 L	 H	  H	  X	   X	->  L	  H  READ N: N=INP(131) or WRITE N: OUT131,N\n\nBLOCK\nH: sets A0-A9 to 0, updates A10-A19 from AD0-AD7 & BUS_A10-BUS_A11\nL: latches A10-A19\n\nBYTE\nH: enables SRAM for read or write\nL: disables SRAM, increments A0-A9 by 1\n"
 		(exclude_from_sim no)
-		(at 16.51 198.628 0)
+		(at 19.05 196.85 0)
 		(effects
 			(font
 				(face "KiCad Font")
@@ -4286,7 +4286,7 @@
 	)
 	(text "3V"
 		(exclude_from_sim no)
-		(at 125.73 171.958 0)
+		(at 127 171.958 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4306,7 +4306,7 @@
 	)
 	(text "CR1025"
 		(exclude_from_sim no)
-		(at 130.302 182.372 0)
+		(at 131.572 182.372 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4340,7 +4340,7 @@
 		(uuid "4b65a558-d5e2-4d0c-a41b-efe02ea461f3")
 	)
 	(junction
-		(at 125.73 177.8)
+		(at 127 177.8)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4beb9a16-9e8c-4b08-89de-8c11743ddbd0")
@@ -6017,7 +6017,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 180.34) (xy 125.73 177.8)
+			(xy 127 180.34) (xy 127 177.8)
 		)
 		(stroke
 			(width 0)
@@ -6067,7 +6067,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 177.8) (xy 121.92 177.8)
+			(xy 127 177.8) (xy 121.92 177.8)
 		)
 		(stroke
 			(width 0)
@@ -7516,7 +7516,7 @@
 		(uuid "528aa9d9-59ab-4db1-b506-2c44e517a59b")
 	)
 	(label "{~{RD},~{WR},RAMRST}"
-		(at 127 144.78 0)
+		(at 176.53 144.78 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7716,7 +7716,7 @@
 		(uuid "946e1faf-dd92-4fd1-8b9f-478aeb7d5410")
 	)
 	(label "{AD[0..7],BUS_A[10..11]}"
-		(at 167.64 137.16 0)
+		(at 172.72 137.16 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7746,7 +7746,7 @@
 		(uuid "a801a352-c063-421b-9bee-f9550554c512")
 	)
 	(label "{BUS_A[8..9],(A),~{Y0}}"
-		(at 27.94 67.31 0)
+		(at 40.64 67.31 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8411,7 +8411,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 50.8 80.01 0)
+			(at 50.8 79.502 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8467,7 +8467,7 @@
 		(dnp no)
 		(uuid "0fe73c06-7c1d-49fc-9fdc-92b070664f04")
 		(property "Reference" "U1"
-			(at 224.79 30.988 0)
+			(at 224.79 30.734 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8476,7 +8476,7 @@
 			)
 		)
 		(property "Value" "AS6C8008_TSOPII"
-			(at 224.79 34.29 0)
+			(at 224.79 34.036 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8671,7 +8671,7 @@
 		(dnp no)
 		(uuid "1a72ff34-04d3-4e35-b8e2-c9b7082e8eca")
 		(property "Reference" "U2"
-			(at 54.356 25.4 0)
+			(at 54.356 25.654 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8680,7 +8680,7 @@
 			)
 		)
 		(property "Value" "HC238"
-			(at 54.356 27.94 0)
+			(at 54.356 28.194 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8931,7 +8931,7 @@
 			)
 		)
 		(property "Value" "VMEM"
-			(at 222.25 28.956 0)
+			(at 222.25 28.448 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9045,7 +9045,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 125.73 187.96 0)
+		(at 127 187.96 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9054,7 +9054,7 @@
 		(fields_autoplaced yes)
 		(uuid "41c3d83b-a2dc-405a-94a6-6e259d914b5a")
 		(property "Reference" "#PWR058"
-			(at 125.73 194.31 0)
+			(at 127 194.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9063,7 +9063,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 125.73 193.04 0)
+			(at 127 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9072,7 +9072,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 125.73 187.96 0)
+			(at 127 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9081,7 +9081,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 125.73 187.96 0)
+			(at 127 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9090,7 +9090,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 125.73 187.96 0)
+			(at 127 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9603,10 +9603,9 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "9a0de3b5-3c6d-4c8f-9134-2e8c16b6aab5")
 		(property "Reference" "U3"
-			(at 148.2441 29.21 0)
+			(at 148.082 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9615,7 +9614,7 @@
 			)
 		)
 		(property "Value" "HC4040"
-			(at 148.2441 31.75 0)
+			(at 148.082 30.734 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9718,7 +9717,7 @@
 	)
 	(symbol
 		(lib_id "power:+BATT")
-		(at 125.73 177.8 0)
+		(at 127 177.8 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9726,7 +9725,7 @@
 		(dnp no)
 		(uuid "9e501b02-dfdf-453a-bb8b-ceee00958554")
 		(property "Reference" "#PWR027"
-			(at 125.73 181.61 0)
+			(at 127 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9735,7 +9734,7 @@
 			)
 		)
 		(property "Value" "+BATT"
-			(at 125.73 173.99 0)
+			(at 127 173.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9743,7 +9742,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 125.73 177.8 0)
+			(at 127 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9752,7 +9751,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 125.73 177.8 0)
+			(at 127 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9761,7 +9760,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+BATT\""
-			(at 125.73 177.8 0)
+			(at 127 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10567,7 +10566,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 50.8 24.13 0)
+			(at 50.8 23.622 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10822,7 +10821,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:Battery_Cell")
-		(at 125.73 185.42 0)
+		(at 127 185.42 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10830,7 +10829,7 @@
 		(dnp no)
 		(uuid "fb1b0d44-26cc-445a-bfa8-fe8689cc2e7e")
 		(property "Reference" "BT1"
-			(at 132.08 184.15 0)
+			(at 133.35 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10838,7 +10837,7 @@
 			)
 		)
 		(property "Value" "Keystone_3031"
-			(at 130.302 186.69 0)
+			(at 131.572 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10847,7 +10846,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:Keystone_3031"
-			(at 125.73 183.896 90)
+			(at 127 183.896 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10856,7 +10855,7 @@
 			)
 		)
 		(property "Datasheet" "datasheet/Keystone_3031.pdf"
-			(at 125.73 183.896 90)
+			(at 127 183.896 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10865,7 +10864,7 @@
 			)
 		)
 		(property "Description" "Battery Retainer Coin, 10.0mm 1 Cell PC Pin"
-			(at 125.73 185.42 0)
+			(at 127 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10874,7 +10873,7 @@
 			)
 		)
 		(property "MPN" "Keystone 3031"
-			(at 125.73 185.42 0)
+			(at 127 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
