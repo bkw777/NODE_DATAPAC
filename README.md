@@ -66,7 +66,9 @@ This is a new drawing but aims to reflect the original actual device as exactly 
 It's meant to be a form of documentation or reference describing the original hardware as it was.  
 For instance, the ungrounded inputs on the 161's, the inconsistent thickness of power traces, the fact that only 1 of the 2 bus VDD pins is connected, the VCC trace that almost touches one of the mounting screw heads, etc, are all exactly as in the original.  
 (I added a fiber washer to that screw in my units after noticing that. The case is not connected to ground, but still...)  
+
 For a historical reproduction version of the original PCB (minus the NODE copyright mark), see: NODE_DATAPAC_256K_historical_reproduction.kicad_pro
+
 For a cleaned up version of the original PCB that still uses the same components and fits in the same case, see: NODE_DATAPAC_256K_bkw.kicad_pro
 
 ![](PCB/out/NODE_DATAPAC_256K_historical_reproduction.svg)
