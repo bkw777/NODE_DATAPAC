@@ -64,8 +64,11 @@ Other References
 ## Reproduction Schematic & PCB
 This is a new drawing but aims to reflect the original actual device as exactly as possible.  
 It's meant to be a form of documentation or reference describing the original hardware as it was.  
-For instance, the ungrounded inputs on the 161's, the inconsistent thickness of power traces, the fact that only 1 of the 2 bus VDD pins is connected, the VCC trace that almost touches one of the screw heads, etc, are all exactly as in the original.  
-(I added a fiber washer to that screw in my units after noticing that. The case is isolated, not connected to ground, but still...)
+For instance, the ungrounded inputs on the 161's, the inconsistent thickness of power traces, the fact that only 1 of the 2 bus VDD pins is connected, the VCC trace that almost touches one of the mounting screw heads, etc, are all exactly as in the original.  
+(I added a fiber washer to that screw in my units after noticing that. The case is not connected to ground, but still...)  
+For a historical reproduction version of the original PCB (minus the NODE copyright mark), see: NODE_DATAPAC_256K_historical_reproduction.kicad_pro
+For a cleaned up version of the original PCB that still uses the same components and fits in the same case, see: NODE_DATAPAC_256K_bkw.kicad_pro
+
 ![](PCB/out/NODE_DATAPAC_256K_historical_reproduction.svg)
 
 PCB TOP
@@ -120,15 +123,15 @@ The device provides up to 256 blocks (8-bit block-number) of 1024 bytes each (10
 
 The host computer first does a SELECT-BLOCK to select a block number from 0-255, then does READ-BYTE or WRITE-BYTE to read or write one byte of data at byte number 0 in that block, then repeats the BYTE operation up to 1023 more times to read or write up to all 1024 bytes in the block.  
 
-It's not really limited to 1024 reads/writes. If you read or write more than 1024 times total without selecting a new block, the byte-number counter just rolls over to 0 again.
+If you read or write more than 1024 times without selecting a new block, the byte-number counter just rolls over to 0 again.
 
-You can also mix reads and writes in the same block. Each read OR write advances the byte-number the same way each time, regardless if the previous operation was a read or a write. For instance in order to skip over 64 bytes without modifying them and then start writing at the 65th byte, you would read-and-ignore 64 times and then start writing.
+You can also mix reads and writes in the same block. Each read OR write advances the byte position the same way each time, regardless if the previous operation was a read or a write. For instance in order to skip over 64 bytes without modifying them and then start writing at the 65th byte, you would read-and-ignore 64 times and then start writing.
 
-It's called a ramdisk because the device actually does operate like a disk even though it has no brains or firmware. The block-select latch acts like a track or sector address, and the binary counter acts like a disk or tape head reading or writing a sequential stream of bytes.
+"ramdisk" is an appropriate term because the device actually does operate like a disk even though it has no brains or firmware. The block-select latch acts like a track or sector address, and the binary counter acts like a disk or tape head reading or writing a sequential stream of bytes.
 
 Later versions of RAMPAC were offered with 384k or 512k by adding a second bank of up to 256k, and later versions of RAMDSK.CO know how to access the 2nd bank.
 
-The extra 256K is accessed by the state of bus address line A10 during a SELECT-BLOCK operation.  
+In 512K units, the extra 256K is accessed by the state of bus address line A10 during a SELECT-BLOCK operation.  
 SELECT-BLOCK with BUS_A10 low accesses bank0, with BUS_A10 high accesses bank1.  
 All other aspects are the same, so accessing bank0 on a a 512K device is the same as accessing the only bank on a 256K device.  Old software is still compatible with bank0 on new hardware, new software is still compatible with old hardware.
 
@@ -156,7 +159,7 @@ STEPS
 ![](PCB/out/NODE_DATAPAC_256K_batt_mod_04.jpg)
 
 
-If you wish to keep using a rechargeable battery, then a suitable option is FL3/V80H. That is 3 16x5.8mm NiMH button cells in a flat in-line pack with wire leads. It fits perfectly in the space next to the ribbon cable. It needs to be secured with hot glue or foam mounting tape, and connected with wires run to the original battery location.  
+If you wish to keep using a rechargeable battery, then one suitable option is FL3/V80H. That is 3 16x5.8mm NiMH button cells in a flat in-line pack with wire leads. It fits perfectly in the space next to the ribbon cable. It needs to be secured with hot glue or foam mounting tape, and connected with wires run to the original battery location.  
 ![](ref/fl3v80h_placement.jpg)
 
 The charging circuit is utterly basic, so do not connect any other type of battery except NiCD or NiMH.  
@@ -250,9 +253,9 @@ Writes the value **n** (0-255) to the current byte position, and advances the by
 
 The first read or write after selecting a block# applies to byte #0 of that block.  
 The byte position advances by one after each read or write, so the next read or write will be byte #1, then byte #2, etc up to 1024.  
-And actually, it's not "up to 1024", it wraps around to 0 of the same block again if you keep reading or writing more than 1024 times without selecting some other block.
+If you read or write more than 1024 times without selecting some other block, the byte position just rolls over to 0 again.
 
-Since the device can only read or write a single byte at a time, it's most efficient to use integer variables with the % suffix, ie, use B%=INP(131) instead of B=INP(131) etc where possible.
+Since the device can only read or write a single byte at a time, it's most efficient to use integer variables with the % suffix, ie, use B%=INP(131) instead of B=INP(131) etc where possible. (or use DEFINT, ex: DEFINT B)
 
 The general sequence is always:  
 1 - select a bank+block  
@@ -326,7 +329,7 @@ Another option for mac/linux, [pdd.sh](https://github.com/bkw777/pdd.sh) also ha
 
 Once you have RAMDSK installed, if you save a copy to the RAMPAC as the very first file after a fresh format, then in the future you can re-install RAMDSK from the RAMPAC itself after a cold reset without needing another computer or TPDD drive by manually typing in a short BASIC program.
 
-These are optimized to tetris-pack into the fewest possible 40-column lines, not to be the most efficient code, so the entire program actually fits on the screen so you can easily verify it's all correct before trying to run it.  
+These are optimized to tetris-pack into the fewest possible 40-column lines, not to be the most efficient code, so the entire program actually fits on the screen so you can easily verify it's all typed-in correctly before trying to run it.  
 Please excuse the inexcusable IF and math inside the byte read loop. :)
 
 These have specific byte size and offset values that are only valid for the exact RAM100.CO and RAM200.CO files shown.
@@ -548,8 +551,6 @@ Installed on a TANDY 102
 Installed on a TANDY 200  
 ![](ref/MiniNDP_on_200.jpg)
 
-If you want to open the PCB file in KiCAD, first install this [font](font) so that the BASIC code on the PCB silkscreen renders correctly.
-
 ## MiniNDP pcb, bom, & cover
 BOM [DigiKey](https://www.digikey.com/short/m4h7bmh0)  
 PCB & Cover [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html)
@@ -638,7 +639,7 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 ### u1M - micro 1 meg
 * NOT YET TESTED, but the circuit is identical to SL1M which is tested.
 * Same as [SL1M](#sl1m---slim-1-meg), but in DIP-40 form to fit in a TRS-80 Model 100 system bus socket.  
-* Should also work in Kyotronic KC-85, though there is no version of RAMDSK.CO for KC-85.
+* Should also work in Kyotronic KC-85, though there is no port of RAMDSK.CO for KC-85.
 
 ![](PCB/out/MiniNDP_u1M.1.jpg)  
 ![](PCB/out/MiniNDP_u1M.2.jpg)  
