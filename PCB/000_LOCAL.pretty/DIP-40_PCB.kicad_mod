@@ -1,7 +1,7 @@
 (footprint "DIP-40_PCB"
-	(version 20240108)
+	(version 20241229)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(layer "F.Cu")
 	(descr "40-lead though-hole mounted DIP package, row spacing 15.24 mm (600 mils)")
 	(tags "THT DIP DIL PDIP 2.54mm 15.24mm 600mil")
@@ -30,18 +30,6 @@
 			(justify left)
 		)
 	)
-	(property "Footprint" ""
-		(at 0 0 0)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "19337a4f-5ea4-431e-9a3c-17e5857590dc")
-		(effects
-			(font
-				(size 1.27 1.27)
-				(thickness 0.15)
-			)
-		)
-	)
 	(property "Datasheet" ""
 		(at 0 0 0)
 		(layer "F.Fab")
@@ -67,17 +55,6 @@
 		)
 	)
 	(attr through_hole)
-	(fp_circle
-		(center -24.13 -5.969)
-		(end -23.495 -5.969)
-		(stroke
-			(width 0.01)
-			(type solid)
-		)
-		(fill solid)
-		(layer "B.SilkS")
-		(uuid "1dd3201f-b66b-4a32-9353-341cc07d8ee0")
-	)
 	(fp_line
 		(start -25.4 -8.89)
 		(end -25.4 -6.35)
@@ -168,42 +145,20 @@
 		(layer "F.SilkS")
 		(uuid "0b6cad88-b8d8-4157-9f25-2806c5892b88")
 	)
-	(fp_arc
-		(start -25.654 -2.159)
-		(mid -25.579605 -2.338605)
-		(end -25.4 -2.413)
+	(fp_circle
+		(center -24.13 -5.715)
+		(end -23.622 -5.715)
 		(stroke
-			(width 0.0254)
-			(type default)
+			(width 0.01)
+			(type solid)
 		)
-		(layer "Eco2.User")
-		(uuid "6cbcc02c-b63c-4270-be6b-833a4887a668")
-	)
-	(fp_arc
-		(start -25.4 -4.953)
-		(mid -25.579605 -5.027395)
-		(end -25.654 -5.207)
-		(stroke
-			(width 0.0254)
-			(type default)
-		)
-		(layer "Eco2.User")
-		(uuid "3a2dc94a-8375-423f-ad1c-eedcee97a6b9")
-	)
-	(fp_arc
-		(start -25.4 -4.953)
-		(mid -24.13 -3.683)
-		(end -25.4 -2.413)
-		(stroke
-			(width 0.0254)
-			(type default)
-		)
-		(layer "Eco2.User")
-		(uuid "e0d96d3c-ee71-425a-b31a-c174bc85046d")
+		(fill yes)
+		(layer "B.SilkS")
+		(uuid "1dd3201f-b66b-4a32-9353-341cc07d8ee0")
 	)
 	(fp_line
-		(start -25.654 -5.207)
-		(end -25.654 -8.636)
+		(start -25.654 -5.207001)
+		(end -25.654 -8.128)
 		(stroke
 			(width 0.0254)
 			(type default)
@@ -212,7 +167,7 @@
 		(uuid "5cb8231a-3686-4dc0-8b79-7ee6791fbddb")
 	)
 	(fp_line
-		(start -25.654 8.636)
+		(start -25.654 8.128001)
 		(end -25.654 -2.159)
 		(stroke
 			(width 0.0254)
@@ -222,8 +177,8 @@
 		(uuid "e96e2781-e538-4416-a616-8d28a3302bd9")
 	)
 	(fp_line
-		(start -25.146 -9.144)
-		(end 25.146 -9.144)
+		(start -24.638 -9.144)
+		(end 24.638 -9.144)
 		(stroke
 			(width 0.0254)
 			(type default)
@@ -232,8 +187,8 @@
 		(uuid "bf482d32-7817-4a5d-8ef9-90fc1a574cff")
 	)
 	(fp_line
-		(start 25.146 9.144)
-		(end -25.146 9.144)
+		(start 24.638001 9.144)
+		(end -24.638001 9.144)
 		(stroke
 			(width 0.0254)
 			(type default)
@@ -242,8 +197,8 @@
 		(uuid "c000d0f2-100a-46b1-ad43-e0eb534ac22d")
 	)
 	(fp_line
-		(start 25.654 -8.636)
-		(end 25.654 8.636)
+		(start 25.653999 -8.128)
+		(end 25.654 8.128)
 		(stroke
 			(width 0.0254)
 			(type default)
@@ -252,15 +207,15 @@
 		(uuid "cd3b5fd0-5c55-4d42-831e-a46f79c94324")
 	)
 	(fp_arc
-		(start -25.654 -8.636)
-		(mid -25.50521 -8.99521)
-		(end -25.146 -9.144)
+		(start -25.654 -8.128)
+		(mid -25.35642 -8.84642)
+		(end -24.638 -9.144)
 		(stroke
 			(width 0.0254)
-			(type default)
+			(type solid)
 		)
 		(layer "Edge.Cuts")
-		(uuid "adb1ed16-5801-498a-b824-e588bf67fa79")
+		(uuid "d75e67b0-60ca-49da-854b-2966a3b7fe25")
 	)
 	(fp_arc
 		(start -25.654 -2.159)
@@ -296,37 +251,37 @@
 		(uuid "47522ef9-8c5c-4567-82d6-0a2a48ee6e28")
 	)
 	(fp_arc
-		(start -25.146 9.144)
-		(mid -25.50521 8.99521)
-		(end -25.654 8.636)
+		(start -24.638 9.143999)
+		(mid -25.35642 8.84642)
+		(end -25.653999 8.128)
 		(stroke
 			(width 0.0254)
-			(type default)
+			(type solid)
 		)
 		(layer "Edge.Cuts")
-		(uuid "21360e46-a6a9-4162-888d-3d71a652fa47")
+		(uuid "57f548d7-78de-4dd2-85cd-df9b42ee4f5c")
 	)
 	(fp_arc
-		(start 25.146 -9.144)
-		(mid 25.50521 -8.99521)
-		(end 25.654 -8.636)
+		(start 24.638 -9.143999)
+		(mid 25.35642 -8.84642)
+		(end 25.653999 -8.128)
 		(stroke
 			(width 0.0254)
-			(type default)
+			(type solid)
 		)
 		(layer "Edge.Cuts")
-		(uuid "7f968483-37cd-48e6-b591-5b1587e0568b")
+		(uuid "39b0f807-d12f-4864-b5e6-93fd01c1d9bc")
 	)
 	(fp_arc
-		(start 25.654 8.636)
-		(mid 25.50521 8.99521)
-		(end 25.146 9.144)
+		(start 25.654 8.128)
+		(mid 25.356421 8.84642)
+		(end 24.638001 9.143999)
 		(stroke
 			(width 0.0254)
-			(type default)
+			(type solid)
 		)
 		(layer "Edge.Cuts")
-		(uuid "37323add-ed94-4b6f-837a-2cbeae237561")
+		(uuid "804947f7-984f-4494-a63c-7a31c8cc09b5")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
@@ -660,6 +615,7 @@
 		(remove_unused_layers no)
 		(uuid "340ddfd8-491e-4a28-9e98-4fb7514a1b52")
 	)
+	(embedded_fonts no)
 	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/pin_header_round_cut_DIP-40.step"
 		(offset
 			(xyz -24.13 -7.62 0)
