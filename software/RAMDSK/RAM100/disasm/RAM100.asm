@@ -702,7 +702,6 @@ Cursor_7_25:
 FormatMSG:
 		cursor_address 7,1
 		DB "Format RAMdisk",CR,LF,"Are you "
-
 SureMSG:
 		DB "Sure?"
 		clr_eol
@@ -732,31 +731,52 @@ VAR_D:
 VAR_E:
 		DB 0
 
+MACRO SelectBank0
+	xor       a
+	out       (PORT_B0),a	; write 0x00 to the bank0 control port
+ENDM
+
+MACRO SelectBank1
+	xor       a
+	out       (PORT_B1),a	; write 0x00 to the bank1 control port
+ENDM
+
+; *****************************************************************************
+; * Here is where we can update to support 1M / 4 banks. (hopefully)
+; * Replace toggle 0/1 with a 0-3 counter
+; * instead of port^4 ; bank^1
+; * do bank=(bank+1)%4 ;port=129+bank*4
+;
+; toggle the bank control port and bank# screen display between bank 0 / bank 1
+MACRO ToggleTargetBankNumber
+                    ld        a,(SelectBlock+1)			;[f5da] 3a ec f5	; read bank control port number (0x81/0x85) from SelectBlock portnumber parameter
+                    xor       $04						;[f5dd] ee 04		; toggle bit 2 (toggle control port between 0x81 & 0x85)
+                    ld        (SelectBlock+1),a			;[f5df] 32 ec f5	; write new control port number to SelectBlock portnumber parameter
+                    ld        a,(BankNumMSG)			;[f5e2] 3a ee f4	; read bank number (0/1) from BankNumMSG (part of TitleMSG)
+                    xor       $01						;[f5e5] ee 01		; toggle bit 0 to switch display bank number between 0/1
+                    ld        (BankNumMSG),a			;[f5e7] 32 ee f4	; write new bank number to BankNumMSG
+ENDM
+
+
 FixFormattedMark:
-                    xor       a                             ;[f5bf] af
-                    out       (PORT_B0),a                       ;[f5c0] d3 81     ; write 0x00 to PORT_B0 (select bank 0 block 0, reset byte position to 0)
-                    ld        a,$41                         ;[f5c2] 3e 41
-                    out       (PORT_RW),a                       ;[f5c4] d3 83     ; write 0x41  (to byte 0 block 0 bank 0)
-                    xor       a                             ;[f5c6] af
-                    out       (PORT_B1),a                       ;[f5c7] d3 85     ; write 0x00 to PORT_B1 (select bank 1 block 0, reset byte position to 0)
-                    in        a,(PORT_RW)                       ;[f5c9] db 83     ; read data  (from byte 0 block 0 bank 1)
-                    ld        b,a                           ;[f5cb] 47            ; save data in B
-                    xor       a                             ;[f5cc] af
-                    out       (PORT_B0),a                       ;[f5cd] d3 81     ; write 0x00 to PORT_B0 (select bank 0 block 0, reset byte position to 0)
-                    ld        a,$40                         ;[f5cf] 3e 40
-                    out       (PORT_RW),a                       ;[f5d1] d3 83     ; write 0x40  (to byte 0 block 0 bank 0)
-                    inc       a                             ;[f5d3] 3c            ; A++ (A=0x41)
-                    cp        b                             ;[f5d4] b8
-                    ret       z                             ;[f5d5] c8            ; return if saved B = A (0x41)
-                    ld        a,b                           ;[f5d6] 78            ; B & A didn't match, copy B to A
-                    cp        PORT_RW                           ;[f5d7] fe 83     ; ??? compare A to the RW port number? 
-                    ret       z                             ;[f5d9] c8
-                    ld        a,(SelectBlock+1)                     ;[f5da] 3a ec f5	; read port number parameter from SelectBlock
-                    xor       $04                           ;[f5dd] ee 04			; toggle bit 2 to switch control port number between bank 0/1 (0x81/0x85)
-                    ld        (SelectBlock+1),a                     ;[f5df] 32 ec f5   ; write new control port number to SelectBlock port number parameter
-                    ld        a,(BankNumMSG)                     ;[f5e2] 3a ee f4   ; read bank number (0/1) from BankNumMSG
-                    xor       $01                           ;[f5e5] ee 01           ; toggle bit 0 to switch bank number display between 0/1
-                    ld        (BankNumMSG),a                     ;[f5e7] 32 ee f4   ; write new bank number to BankNumMSG
+					SelectBank0
+                    ld        a,$41						;[f5c2] 3e 41
+                    out       (PORT_RW),a				;[f5c4] d3 83		; write 0x41  (to byte 0 block 0 bank 0)
+					SelectBank1
+                    in        a,(PORT_RW)				;[f5c9] db 83		; read data  (from byte 0 block 0 bank 1)
+                    ld        b,a						;[f5cb] 47			; save data in B
+					SelectBank0
+                    ld        a,$40						;[f5cf] 3e 40
+                    out       (PORT_RW),a				;[f5d1] d3 83		; write 0x40  (to byte 0 block 0 bank 0)
+                    inc       a							;[f5d3] 3c			; A++ (A=0x41)
+                    cp        b							;[f5d4] b8
+                    ret       z							;[f5d5] c8			; return if saved B = A (0x41)
+                    ld        a,b						;[f5d6] 78			; B & A didn't match, copy B to A
+                    cp        PORT_RW					;[f5d7] fe 83		; ??? compare A to the RW port number? 
+                    ret       z							;[f5d9] c8
+
+					ToggleTargetBankNumber
+
                     xor       a                             ;[f5ea] af              ; zero A, fall through to select block 0 in the current bank
 SelectBlock:
                     out       (PORT_B0),a                       ;[f5eb] d3 81       ; write data from A to the control port. control port starts as PORT_B0 but might be PORT_B0 or PORT_B1 (select block# A in the current bank)
