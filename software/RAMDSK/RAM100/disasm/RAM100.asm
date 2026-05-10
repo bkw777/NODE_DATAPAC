@@ -3,7 +3,8 @@
 ; Compile: z88dk-z80asm -v -m8085 -b -o=RAM100.CO RAM100.asm
 ;
 ; Syntax highlighting for Geany: https://github.com/bkw777/WP-2_IC-Card/blob/master/SOFTWARE/z88dk/_usr_share_geany_filedefs_filetypes.Z80asm.conf
-; This is 8085 code but z88dk-dis outputs z80 mnemonics so the Z80asm filetype is correct for this file.
+; This is 8085 code and does include invalid 8085-isms like "add b",
+; but z88dk-dis outputs z80 mnemonics and so the Z80asm filetype is correct for this file.
 ; Document -> Set Filetype -> Programming Languages -> Z80asm
 ;
 ; Brian K. White - b.kenyon.w@gmail.com
@@ -16,6 +17,9 @@
 ;SAVE  F267  62055
 ;SAVE1 F26D  62061       F26C F26F ?
 ;LOAD  F35C  62300
+;
+; We do have the old version of RAM200, so maybe see if the addresses for 200 match up in the old version of RAM200,
+; and then use that to recognize what the entry points look like, to find the equivalent code here.
 
 
 CR			EQU		0x0A
@@ -23,7 +27,31 @@ FF			EQU		0x0C
 LF			EQU		0x0D
 ESC 		EQU		0x1B
 
-; IO Ports for device
+; vt52 terminfo codes
+; https://github.com/hackerb9/Tandy-Terminfo/blob/master/tandy.terminfo
+MACRO clr_eol
+	DB ESC,"K"
+ENDM
+MACRO cursor_address row,col
+	DB ESC,"Y",row+31,col+31
+ENDM
+MACRO disable_automatic_scroll
+	DB ESC,"V"
+ENDM
+MACRO cursor_normal
+	DB ESC,"P"
+ENDM
+MACRO cursor_invisible
+	DB ESC,"Q"
+ENDM
+MACRO enter_reverse_mode
+	DB ESC,"p"
+ENDM
+MACRO exit_attribute_mode
+	DB ESC,"q"
+ENDM
+
+; RAMPAC IO Ports
 PORT_B0		EQU		0x81	; control port for bank 0
 PORT_RW		EQU		0x83	; data read/write port
 PORT_B1		EQU		0x85	; control port for bank 1
@@ -31,10 +59,12 @@ PORT_B1		EQU		0x85	; control port for bank 1
 ;PORT_B2		EQU		0x89	; control port for bank 2
 ;PORT_B3		EQU		0x8D	; control port for bank 3
 
+;------------------------------------------------------------------------------
 HIMEM		EQU		0xF5EE		; TRS-80 Model 100/102 with 32K installed
 PRGLEN		EQU		0x578		; FIXME how can we get this without hard coding?
-
 ORG HIMEM-PRGLEN-6 ; entry minus length of header
+
+;==============================================================================
 
 ; .CO Header
 DW PRGTOP	; top
@@ -92,8 +122,8 @@ PRGEXE:
                     jp        $f0ac                         ;[f0de] c3 ac f0
 
                     ld        c,$01                         ;[f0e1] 0e 01
-                    call      $f437                         ;[f0e3] cd 37 f4
-                    call      $f44d                         ;[f0e6] cd 4d f4
+                    call      CheckIsBankFormatted                         ;[f0e3] cd 37 f4
+                    call      ReadBA                         ;[f0e6] cd 4d f4
                     ld        a,b                           ;[f0e9] 78
                     cp        d                             ;[f0ea] ba
                     call      z,$f0f3                       ;[f0eb] cc f3 f0
@@ -131,8 +161,8 @@ PRGEXE:
                     call      $39d4                         ;[f125] cd d4 39
                     call      $f14a                         ;[f128] cd 4a f1
                     pop       bc                            ;[f12b] c1
-                    call      $f437                         ;[f12c] cd 37 f4
-                    call      $f445                         ;[f12f] cd 45 f4
+                    call      CheckIsBankFormatted                         ;[f12c] cd 37 f4
+                    call      SkipCx2                         ;[f12f] cd 45 f4
                     pop       bc                            ;[f132] c1
                     pop       de                            ;[f133] d1
                     ret                                     ;[f134] c9
@@ -168,21 +198,21 @@ DrawTitle:
                     ld        h,a                           ;[f166] 67
                     ld        l,a                           ;[f167] 6f
                     call      SelectBlock                         ;[f168] cd eb f5
-                    call      $f44d                         ;[f16b] cd 4d f4
+                    call      ReadBA                         ;[f16b] cd 4d f4
                     or        b                             ;[f16e] b0
                     jp        nz,$f173                      ;[f16f] c2 73 f1
                     inc       hl                            ;[f172] 23
                     dec       d                             ;[f173] 15
                     jp        nz,$f16b                      ;[f174] c2 6b f1
                     push      hl                            ;[f177] e5
-                    ld        hl,ESCYamp8                      ;[f178] 21 7c f5
+                    ld        hl,Cursor_7_25                      ;[f178] 21 7c f5
                     call      $11a2                         ;[f17b] cd a2 11
                     pop       hl                            ;[f17e] e1
                     ld        a,l                           ;[f17f] 7d
                     ld        ($f285),a                     ;[f180] 32 85 f2
                     call      $39d4                         ;[f183] cd d4 39
-                    call      $f437                         ;[f186] cd 37 f4
-                    call      $f445                         ;[f189] cd 45 f4
+                    call      CheckIsBankFormatted                         ;[f186] cd 37 f4
+                    call      SkipCx2                         ;[f189] cd 45 f4
                     jp        $14ed                         ;[f18c] c3 ed 14
 
                     ld        hl,KillMSG                      ;[f18f] 21 3f f5
@@ -191,12 +221,12 @@ DrawTitle:
                     ld        hl,SureMSG                      ;[f198] 21 9d f5
                     call      GetYes                         ;[f19b] cd 53 f4
                     ret       nz                            ;[f19e] c0
-                    call      $f437                         ;[f19f] cd 37 f4
+                    call      CheckIsBankFormatted                         ;[f19f] cd 37 f4
                     ld        a,(BlockNum)                     ;[f1a2] 3a ba f5
                     dec       a                             ;[f1a5] 3d
                     jp        z,$f1ad                       ;[f1a6] ca ad f1
                     ld        c,a                           ;[f1a9] 4f
-                    call      $f445                         ;[f1aa] cd 45 f4
+                    call      SkipCx2                         ;[f1aa] cd 45 f4
                     xor       a                             ;[f1ad] af
                     out       (PORT_RW),a                       ;[f1ae] d3 83
                     out       (PORT_RW),a                       ;[f1b0] d3 83
@@ -205,8 +235,8 @@ DrawTitle:
                     ret       z                             ;[f1b6] c8
                     ld        (BlockNum),a                     ;[f1b7] 32 ba f5
                     ld        c,a                           ;[f1ba] 4f
-                    call      $f437                         ;[f1bb] cd 37 f4
-                    call      $f445                         ;[f1be] cd 45 f4
+                    call      CheckIsBankFormatted                         ;[f1bb] cd 37 f4
+                    call      SkipCx2                         ;[f1be] cd 45 f4
                     ld        (VAR_D),a                     ;[f1c1] 32 bd f5
                     jp        $f19f                         ;[f1c4] c3 9f f1
 FREE:
@@ -313,9 +343,9 @@ SAVE:
                     jp        c,$f35e                       ;[f287] da 5e f3
                     ret                                     ;[f28a] c9
 
-                    call      $f437                         ;[f28b] cd 37 f4
+                    call      CheckIsBankFormatted                         ;[f28b] cd 37 f4
                     ld        c,$00                         ;[f28e] 0e 00
-                    call      $f44d                         ;[f290] cd 4d f4
+                    call      ReadBA                         ;[f290] cd 4d f4
                     inc       c                             ;[f293] 0c
                     or        b                             ;[f294] b0
                     jp        nz,$f290                      ;[f295] c2 90 f2
@@ -323,7 +353,7 @@ SAVE:
                     call      SelectBlock                         ;[f299] cd eb f5
                     ld        a,c                           ;[f29c] 79
                     ld        (BlockNum),a                     ;[f29d] 32 ba f5
-                    call      $f445                         ;[f2a0] cd 45 f4
+                    call      SkipCx2                         ;[f2a0] cd 45 f4
                     call      $f2af                         ;[f2a3] cd af f2
                     ld        a,(BlockNum)                     ;[f2a6] 3a ba f5
                     ld        ($f2c7),a                     ;[f2a9] 32 c7 f2
@@ -473,8 +503,8 @@ SAVE:
                     add       a                             ;[f3c0] 87
                     add       $80                           ;[f3c1] c6 80
                     ld        ($f3db),a                     ;[f3c3] 32 db f3
-                    call      $f437                         ;[f3c6] cd 37 f4
-                    call      $f44d                         ;[f3c9] cd 4d f4
+                    call      CheckIsBankFormatted                         ;[f3c6] cd 37 f4
+                    call      ReadBA                         ;[f3c9] cd 4d f4
                     ld        (VAR_D),a                     ;[f3cc] 32 bd f5
                     ld        a,(BlockNum)                     ;[f3cf] 3a ba f5
                     inc       a                             ;[f3d2] 3c
@@ -497,10 +527,10 @@ SAVE:
                     ld        de,$fc93                      ;[f3f7] 11 93 fc
                     call      $5a6d                         ;[f3fa] cd 6d 5a
                     jp        z,$f40d                       ;[f3fd] ca 0d f4
-                    call      $f437                         ;[f400] cd 37 f4
+                    call      CheckIsBankFormatted                         ;[f400] cd 37 f4
                     ld        a,(BlockNum)                     ;[f403] 3a ba f5
                     ld        c,a                           ;[f406] 4f
-                    call      $f445                         ;[f407] cd 45 f4
+                    call      SkipCx2                         ;[f407] cd 45 f4
                     jp        $f3c9                         ;[f40a] c3 c9 f3
 
                     ld        hl,$fc9c                      ;[f40d] 21 9c fc
@@ -516,28 +546,37 @@ SAVE:
                     ld        (BlockNum),a                     ;[f425] 32 ba f5
                     ld        c,a                           ;[f428] 4f
                     inc       c                             ;[f429] 0c
-                    call      $f445                         ;[f42a] cd 45 f4
+                    call      SkipCx2                         ;[f42a] cd 45 f4
                     ld        (VAR_D),a                     ;[f42d] 32 bd f5
                     ld        a,(BlockNum)                     ;[f430] 3a ba f5
                     call      SelectBlock                         ;[f433] cd eb f5
                     ret                                     ;[f436] c9
 
-                    xor       a                             ;[f437] af
-                    call      SelectBlock                         ;[f438] cd eb f5
-                    call      $f44d                         ;[f43b] cd 4d f4
-                    add       b                             ;[f43e] 80
-                    cp        $44                           ;[f43f] fe 44
+CheckIsBankFormatted:
+                    xor       a                             ;[f437] af					; zero A
+                    call      SelectBlock                         ;[f438] cd eb f5		; select block 0
+                    call      ReadBA                         ;[f43b] cd 4d f4			; read bytes 0 & 1 into B & A
+                    add       b                             ;[f43e] 80					; add B to A
+                    cp        $44                           ;[f43f] fe 44               ; is the total 0x44?
                     jp        nz,$f468                      ;[f441] c2 68 f4
                     ret                                     ;[f444] c9
 
-                    call      $f44d                         ;[f445] cd 4d f4
-                    dec       c                             ;[f448] 0d
-                    jp        nz,$f445                      ;[f449] c2 45 f4
+; Read-and-discard C*2 bytes
+; return final 2 bytes in B & A
+; probably just a way to skip/seek to a desired 2-byte aligned offset
+; although starting from current position not 0
+; repeat ReadBA & decrement C until C=0
+SkipCx2:
+                    call      ReadBA                         ;[f445] cd 4d f4		; read 2 bytes into B & A
+                    dec       c                             ;[f448] 0d				; decrement C
+                    jp        nz,SkipCx2                      ;[f449] c2 45 f4		; repeat until C=0 (discard previous read data)
                     ret                                     ;[f44c] c9
 
-                    in        a,(PORT_RW)                       ;[f44d] db 83
-                    ld        b,a                           ;[f44f] 47
-                    in        a,(PORT_RW)                       ;[f450] db 83
+; Read 2 bytes into B & A
+ReadBA:
+                    in        a,(PORT_RW)                       ;[f44d] db 83			; read data into A
+                    ld        b,a                           ;[f44f] 47					; copy A to B
+                    in        a,(PORT_RW)                       ;[f450] db 83			; read data into A
                     ret                                     ;[f452] c9
 
 GetYes:
@@ -612,58 +651,83 @@ GetYes:
 
 
 TitleMSG:
-DB FF,ESC,"Q",ESC,"V",ESC,"pNODE RAMPAC/DATAPAC Bank"
+		DB FF
+		cursor_invisible
+		disable_automatic_scroll
+		enter_reverse_mode
+		DB "NODE RAMPAC/DATAPAC Bank"
 BankNumMSG:
-DB "0"
-DB "   (c)P.Globman",ESC,"q",ESC,"Y' Bank Load Save Name Kill           Menu",ESC,"Y&<Kbytes free",ESC,"Y  ",0  
+		DB "0"
+		DB "   (c)P.Globman"
+		exit_attribute_mode
+		cursor_address 8,1
+		DB "Bank Load Save Name Kill           Menu"
+		cursor_address 7,29
+		DB "Kbytes free"
+		cursor_address 1,1
+		DB 0
 
 KillMSG:
-DB ESC,"Y& Kill:",0
+		cursor_address 7,1
+		DB "Kill:",0
 
 LoadMSG:
-DB ESC,"Y& Load:",0
+		cursor_address 7,1
+		DB "Load:",0
 
 SaveMSG:
-DB ESC,"Y& Save:",0
+		cursor_address 7,1
+		DB "Save:",0
 
 NameMSG:
-DB ESC,"Y& Name:",0
+		cursor_address 7,1
+		DB "Name:",0
 
 AsMSG:
-DB "  as:",ESC,"K",0
+		DB "  as:"
+		clr_eol
+		DB 0
 
 ReplaceMSG:
-DB ESC,"Y'2Replace?",0
+		cursor_address 8,19
+		DB "Replace?",0
 
-ESCYamp8:
-DB ESC,"Y&8",0
+Cursor_7_25:
+		cursor_address 7,25
+		DB 0
 
 FormatMSG:
-DB ESC,"Y& Format RAMdisk",CR,LF,"Are you "
+		cursor_address 7,1
+		DB "Format RAMdisk",CR,LF,"Are you "
 
 SureMSG:
-DB "Sure?",ESC,"K",0
+		DB "Sure?"
+		clr_eol
+		DB 0
 
 FixMSG:
-DB ESC,"Y' Fix?",ESC,"K",0
+		cursor_address 8,1
+		DB "Fix?"
+		clr_eol
+		DB 0
 
 FilenameMSG:
-DB "filename"
+		DB "filename"
 
 VAR_A:
-DW 0
+		DW 0
 
 BlockNum:
-DB 0
+		DB 0
 
 VAR_C:
-DW 0
+		DW 0
 
 VAR_D:
-DB 0
+		DB 0
 
 VAR_E:
-DB 0
+		DB 0
 
 FixFormattedMark:
                     xor       a                             ;[f5bf] af
