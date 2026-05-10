@@ -3,18 +3,27 @@
 ; Compile: z88dk-z80asm -v -m8085 -b -o=RAM100.CO RAM100.asm
 ;
 ; Syntax highlighting for Geany: https://github.com/bkw777/WP-2_IC-Card/blob/master/SOFTWARE/z88dk/_usr_share_geany_filedefs_filetypes.Z80asm.conf
-; (This is 8085 code but z88dk-dis outputs z80 mnemonics so the Z80asm filetype is correct for this file.)
+; This is 8085 code but z88dk-dis outputs z80 mnemonics so the Z80asm filetype is correct for this file.
+; Document -> Set Filetype -> Programming Languages -> Z80asm
 ;
 ; Brian K. White - b.kenyon.w@gmail.com
 
 ; See RAMDSK.TIP for function call addresses, though they all seem to be wrong.
 ; Possibly the doc was correct for the original version that didn't know about banks?
+;FREE  F1C8  61896       F1C7 ?
+;KILL  F1F6  61942       F1F7 ?
+;NAME  F22E  61998
+;SAVE  F267  62055
+;SAVE1 F26D  62061       F26C F26F ?
+;LOAD  F35C  62300
+
 
 CR			EQU		0x0A
 FF			EQU		0x0C
 LF			EQU		0x0D
 ESC 		EQU		0x1B
 
+; IO Ports for device
 PORT_B0		EQU		0x81	; control port for bank 0
 PORT_RW		EQU		0x83	; data read/write port
 PORT_B1		EQU		0x85	; control port for bank 1
@@ -24,6 +33,7 @@ PORT_B1		EQU		0x85	; control port for bank 1
 
 HIMEM		EQU		0xF5EE		; TRS-80 Model 100/102 with 32K installed
 PRGLEN		EQU		0x578		; FIXME how can we get this without hard coding?
+
 ORG HIMEM-PRGLEN-6 ; entry minus length of header
 
 ; .CO Header
