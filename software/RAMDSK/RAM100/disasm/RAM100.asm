@@ -21,14 +21,11 @@
 ; We do have the old version of RAM200, so maybe see if the addresses for 200 match up in the old version of RAM200,
 ; and then use that to recognize what the entry points look like, to find the equivalent code here.
 
-
+; vt52 terminfo codes
 CR			EQU		0x0A
 FF			EQU		0x0C
 LF			EQU		0x0D
 ESC 		EQU		0x1B
-
-; vt52 terminfo codes
-; https://github.com/hackerb9/Tandy-Terminfo/blob/master/tandy.terminfo
 MACRO clr_eol
 	DB ESC,"K"
 ENDM
@@ -50,6 +47,10 @@ ENDM
 MACRO exit_attribute_mode
 	DB ESC,"q"
 ENDM
+
+; TRS-80 Model 100 Platform Constants
+KC7		EQU		0xFF97		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
+
 
 ; RAMPAC IO Ports
 PORT_B0		EQU		0x81	; control port for bank 0
@@ -73,14 +74,16 @@ DW PRGEXE	; exe
 
 PRGTOP:
 PRGEXE:
+Get_SP:
                     ld        de,sp+$00                     ;[f076] 38 00
                     ex        de,hl                         ;[f078] eb
-                    ld        ($f085),hl                    ;[f079] 22 85 f0
-                    ld        a,($ff97)                     ;[f07c] 3a 97 ff
-                    cp        $80                           ;[f07f] fe 80
-                    call      z,FixFormattedMark                       ;[f081] cc bf f5
+                    ld        (Set_SP+1),hl                    ;[f079] 22 85 f0	; write SP to Set_SP+1
+                    ld        a,(KC7)                     ;[f07c] 3a 97 ff			; get status of keyboard column 7
+                    cp        $80                           ;[f07f] fe 80			; is space (or is it enter?) pressed?
+                    call      z,FixFormattedMark                       ;[f081] cc bf f5		; if (key) is pressed detour to fix format mark bytes
+Set_SP:
                     ld        sp,$0000                      ;[f084] 31 00 00
-                    ld        hl,$f084                      ;[f087] 21 84 f0
+                    ld        hl,Set_SP                      ;[f087] 21 84 f0
                     push      hl                            ;[f08a] e5
                     ld        ($f652),hl                    ;[f08b] 22 52 f6
                     ld        hl,$fc93                      ;[f08e] 21 93 fc
@@ -98,7 +101,7 @@ PRGEXE:
                     call      $7242                         ;[f0ac] cd 42 72
                     jp        z,$f0ac                       ;[f0af] ca ac f0
                     jp        nc,$f0db                      ;[f0b2] d2 db f0
-                    ld        hl,$f084                      ;[f0b5] 21 84 f0
+                    ld        hl,Set_SP                      ;[f0b5] 21 84 f0
                     push      hl                            ;[f0b8] e5
                     cp        $ff                           ;[f0b9] fe ff
                     jp        z,$f207                       ;[f0bb] ca 07 f2
@@ -263,7 +266,7 @@ FREE:
 
                     ld        hl,ReplaceMSG                      ;[f1f1] 21 6f f5
                     call      GetYes                         ;[f1f4] cd 53 f4
-                    jp        nz,$f084                      ;[f1f7] c2 84 f0
+                    jp        nz,Set_SP                      ;[f1f7] c2 84 f0
                     ret                                     ;[f1fa] c9
 
                     call      $f1f1                         ;[f1fb] cd f1 f1
@@ -612,7 +615,7 @@ GetYes:
                     out       (PORT_RW),a                       ;[f493] d3 83
                     ld        a,$04                         ;[f495] 3e 04
                     out       (PORT_RW),a                       ;[f497] d3 83
-                    jp        $f084                         ;[f499] c3 84 f0
+                    jp        Set_SP                         ;[f499] c3 84 f0
 
                     ld        e,d                           ;[f49c] 5a
                     ld        a,b                           ;[f49d] 78
