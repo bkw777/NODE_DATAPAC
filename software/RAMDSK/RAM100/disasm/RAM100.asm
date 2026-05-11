@@ -125,7 +125,7 @@ HIMEM		EQU		0xF5EE		; TRS-80 Model 100/102 with 32K installed
 PRGLEN		EQU		0x578		; FIXME how can we get this without hard coding?
 ORG HIMEM-PRGLEN-6				; entry minus length of header
 
-addr001		EQU		Set_SP+1	; $f085
+addrSP		EQU		Set_SP+1	; $f085
 addr002		EQU		j05+1		; $f14b
 addr003		EQU		j34_1+1		; $f100
 
@@ -138,15 +138,14 @@ DW PRGEXE	; exe
 
 PRGTOP:
 PRGEXE:
-Get_SP:
 	ld		de,sp+0x00				;[f076] 38 00		; save initial SP
 	ex		de,hl					;[f078] eb
-	ld		(addr001),hl			;[f079] 22 85 f0	; write initial SP to Set_SP+1
+	ld		(addrSP),hl				;[f079] 22 85 f0	; write initial SP to addrSP
 	ld		a,(KC7)					;[f07c] 3a 97 ff	; get status bits of keyboard matrix column 7
 	cp		0x80					;[f07f] fe 80		; is ENTER pressed?
 	call	z,FixFormattedMark		;[f081] cc bf f5	; if ENTER is pressed, detour to fix format mark bytes
 Set_SP:
-	ld		sp,0x0000				;[f084] 31 00 00
+	ld		sp,0x0000				;[f084] 31 00 00	; set SP from addrSP, 0x0000 is just initial value gets overwritten
 	ld		hl,Set_SP				;[f087] 21 84 f0
 	push	hl						;[f08a] e5
 	ld		(ETRAP),hl				;[f08b] 22 52 f6
