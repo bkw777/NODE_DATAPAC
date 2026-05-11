@@ -775,10 +775,13 @@ FixFormattedMark:
 	ret		z						;[f5d5] c8			; return if saved B = A (0x41)
 	ld		a,b						;[f5d6] 78			; B & A didn't match, copy B to A
 	cp		PORT_RW					;[f5d7] fe 83		; ??? compare A to the RW port number?
-	ret		z						;[f5d9] c8
-	ToggleTargetBankNumber
-	xor		a						;[f5ea] af			; zero A, fall through to select block 0 in the current bank
+	ret		z						;[f5d9] c8			; return if match ?
+	ToggleTargetBankNumber								; didn't match, switch banks ? (this just changes variables to use a different bank from now on, it doesn't touch the RAMPAC hardware)
+	xor		a						;[f5ea] af			; zero A, fall through to actually select block 0 in the new bank
+
+; select block# A in the current bank
+; "current bank" changes at run-time. PORT_B0 (0x81) below is just the initial condition
 SelectBlock:
-	out		(PORT_B0),a				;[f5eb] d3 81		; write data from A to the control port. control port starts as PORT_B0 but might be PORT_B0 or PORT_B1 (select block# A in the current bank)
+	out		(PORT_B0),a				;[f5eb] d3 81		; write A to the control port
 	ret								;[f5ed] c9
 PRGEND:
