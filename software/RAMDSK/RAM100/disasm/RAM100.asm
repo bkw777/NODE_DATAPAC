@@ -62,7 +62,9 @@ rPRTA		EQU		RST_4
 ; system rom routines
 PRTSP		EQU		0x1E		; write space to console, directed by LCDLPT
 PTILL0		EQU		0x11A2		; print null-terminated string at HL to screen
+POPALL		EQU		0x14ED		; pop all registers
 PRTASC		EQU		0x39D4		; print 16bit value in HL as ascii
+ESCB		EQU		0x446E		; ESC+B - move cursor down one line
 KYREAD		EQU		0x7242		; read keyboard
 MENU		EQU		0x5797		; go to main menu
 
@@ -75,6 +77,7 @@ ENDM
 
 ; addresses
 ETRAP		EQU		0xF652		; error trap? status?
+C_ROW		EQU		0xF639		; cursor row (1-8) [poking changes cursor position]
 LCDLPT		EQU		0xF675		; console output to LCD(0) or LPT(1)
 FNAME		EQU		0xFC93		; 8 bytes padded fname, prog name if not run from menu nor typed on select line
 KC7			EQU		0xFF97		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
@@ -128,6 +131,7 @@ ORG HIMEM-PRGLEN-6				; entry minus length of header
 addrSP		EQU		Set_SP+1	; $f085
 addr002		EQU		j05+1		; $f14b
 addr003		EQU		j34_1+1		; $f100
+addr004		EQU		j16_0+1		; $f285
 
 ;==============================================================================
 
@@ -242,55 +246,61 @@ j39:
 	pop		bc						;[f132] c1
 	pop		de						;[f133] d1
 	ret								;[f134] c9
+
 j03:
-                    ld        hl,($f639)                    ;[f135] 2a 39 f6
-                    ld        a,(addr002)                     ;[f138] 3a 4b f1
-                    and       $01                           ;[f13b] e6 01
-                    jp        nz,$f145                      ;[f13d] c2 45 f1
-                    ld        h,$04                         ;[f140] 26 04
-                    jp        $4476                         ;[f142] c3 76 44
+	ld		hl,(C_ROW)				;[f135] 2a 39 f6	; read cursor position row 1-8
+	ld		a,(addr002)				;[f138] 3a 4b f1
+	and		0x01					;[f13b] e6 01
+	jp		nz,j04					;[f13d] c2 45 f1
+	ld		h,0x04					;[f140] 26 04
+	jp		ESCB+8					;[f142] c3 76 44	; jump into the middle of the system rom ESC+B routine
+
 j04:
-                    ld        h,$18                         ;[f145] 26 18
-                    jp        $4477                         ;[f147] c3 77 44
+	ld		h,0x18					;[f145] 26 18
+	jp		ESCB+9					;[f147] c3 77 44	; jump into the middle of the system rom ESC+B routine
 
 j05:
-                    ld        a,$00                         ;[f14a] 3e 00		; read addr002
-                    inc       a                             ;[f14c] 3c
-                    ld        (addr002),a                     ;[f14d] 32 4b f1	; increment addr002
-                    cp        LF                           ;[f150] fe 0a		; is  it LF?
-                    ret       nz                            ;[f152] c0			; return if LF
-                    xor       a                             ;[f153] af			; not LF,
-                    ld        (addr002),a                     ;[f154] 32 4b f1	; write 0 to addr002
-                    call      j31                         ;[f157] cd a9 f0
+	ld		a,$00					;[f14a] 3e 00		; read addr002
+	inc		a						;[f14c] 3c			; increment
+	ld		(addr002),a				;[f14d] 32 4b f1	; write addr002
+	cp		10						;[f150] fe 0a		; is it 10?
+	ret		nz						;[f152] c0			; return if not 10
+	xor		a						;[f153] af			; if 10,
+	ld	(addr002),a					;[f154] 32 4b f1	; write 0 to addr002
+	call	j31						;[f157] cd a9 f0
 DrawTitle:
-                    ld        hl,TitleMSG                      ;[f15a] 21 cf f4
-                    jp        PTILL0                         ;[f15d] c3 a2 11
+	ld		hl,TitleMSG				;[f15a] 21 cf f4
+	jp		PTILL0					;[f15d] c3 a2 11	; print TitleMSG to screen
+
 j06:
-                    push      hl                            ;[f160] e5
-                    push      de                            ;[f161] d5
-                    push      bc                            ;[f162] c5
-                    push      af                            ;[f163] f5
-                    xor       a                             ;[f164] af
-                    ld        d,a                           ;[f165] 57
-                    ld        h,a                           ;[f166] 67
-                    ld        l,a                           ;[f167] 6f
-                    call      SelectBlock                         ;[f168] cd eb f5
-                    call      ReadWordBA                         ;[f16b] cd 4d f4
-                    or        b                             ;[f16e] b0
-                    jp        nz,$f173                      ;[f16f] c2 73 f1
-                    inc       hl                            ;[f172] 23
-                    dec       d                             ;[f173] 15
-                    jp        nz,$f16b                      ;[f174] c2 6b f1
-                    push      hl                            ;[f177] e5
-                    ld        hl,Cursor_7_25                      ;[f178] 21 7c f5
-                    call      PTILL0                         ;[f17b] cd a2 11
-                    pop       hl                            ;[f17e] e1
-                    ld        a,l                           ;[f17f] 7d
-                    ld        ($f285),a                     ;[f180] 32 85 f2
-                    call      PRTASC                         ;[f183] cd d4 39
-                    call      CheckIsBankFormatted                         ;[f186] cd 37 f4
-                    call      SkipCWords                         ;[f189] cd 45 f4
-                    jp        $14ed                         ;[f18c] c3 ed 14
+	push	hl						;[f160] e5
+	push	de						;[f161] d5
+	push	bc						;[f162] c5
+	push	af						;[f163] f5
+	xor		a						;[f164] af
+	ld		d,a						;[f165] 57
+	ld		h,a						;[f166] 67
+	ld		l,a						;[f167] 6f
+	call	SelectBlock				;[f168] cd eb f5
+j06_0:
+	call	ReadWordBA				;[f16b] cd 4d f4
+	or		b						;[f16e] b0
+	jp		nz,j06_1				;[f16f] c2 73 f1
+	inc		hl						;[f172] 23
+j06_1:
+	dec		d						;[f173] 15
+	jp		nz,j06_0				;[f174] c2 6b f1
+	push	hl						;[f177] e5
+	ld		hl,Cursor_7_25			;[f178] 21 7c f5
+	call	PTILL0					;[f17b] cd a2 11
+	pop		hl						;[f17e] e1
+	ld		a,l						;[f17f] 7d
+	ld		(addr004),a				;[f180] 32 85 f2
+	call	PRTASC					;[f183] cd d4 39
+	call	CheckIsBankFormatted	;[f186] cd 37 f4
+	call	SkipCWords				;[f189] cd 45 f4
+	jp		POPALL					;[f18c] c3 ed 14
+
 j07:
                     ld        hl,KillMSG                      ;[f18f] 21 3f f5
                     call      $f3a8                         ;[f192] cd a8 f3
@@ -417,7 +427,8 @@ j15:
 j16:
                     ld        a,d                           ;[f280] 7a
                     ld        (VAR_E),a                     ;[f281] 32 be f5
-                    ld        a,$00                         ;[f284] 3e 00
+j16_0:
+                    ld        a,$00                         ;[f284] 3e 00		;read addr004
                     cp        d                             ;[f286] ba
                     jp        c,$f35e                       ;[f287] da 5e f3
                     ret                                     ;[f28a] c9
