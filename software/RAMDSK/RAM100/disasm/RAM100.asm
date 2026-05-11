@@ -64,6 +64,7 @@ PRTSP		EQU		0x1E		; write space to console, directed by LCDLPT
 PTILL0		EQU		0x11A2		; print null-terminated string at HL to screen
 POPALL		EQU		0x14ED		; pop all registers
 PRTASC		EQU		0x39D4		; print 16bit value in HL as ascii
+BEEP		EQU		0x4229		; make a beep sound
 ESCB		EQU		0x446E		; ESC+B - move cursor down one line
 KYREAD		EQU		0x7242		; read keyboard
 MENU		EQU		0x5797		; go to main menu
@@ -302,13 +303,13 @@ j06_1:
 	jp		POPALL					;[f18c] c3 ed 14
 
 j07:
-                    ld        hl,KillMSG                      ;[f18f] 21 3f f5
-                    call      $f3a8                         ;[f192] cd a8 f3
-                    jp        nz,$4229                      ;[f195] c2 29 42
-                    ld        hl,SureMSG                      ;[f198] 21 9d f5
-                    call      GetYes                         ;[f19b] cd 53 f4
-                    ret       nz                            ;[f19e] c0
-dt_0:
+	ld		hl,KillMSG				;[f18f] 21 3f f5
+	call	j30						;[f192] cd a8 f3
+	jp		nz,BEEP					;[f195] c2 29 42
+	ld		hl,SureMSG				;[f198] 21 9d f5
+	call	GetYes					;[f19b] cd 53 f4
+	ret		nz						;[f19e] c0
+j07_0:
                     call      CheckIsBankFormatted                         ;[f19f] cd 37 f4
                     ld        a,(BlockNum)                     ;[f1a2] 3a ba f5
                     dec       a                             ;[f1a5] 3d
@@ -326,18 +327,18 @@ dt_0:
                     call      CheckIsBankFormatted                         ;[f1bb] cd 37 f4
                     call      SkipCWords                         ;[f1be] cd 45 f4
                     ld        (VAR_D),a                     ;[f1c1] 32 bd f5
-                    jp        dt_0                         ;[f1c4] c3 9f f1
+                    jp        j07_0                         ;[f1c4] c3 9f f1
 FREE:
                     ld        hl,NameMSG                      ;[f1c7] 21 5d f5
-                    call      $f3a8                         ;[f1ca] cd a8 f3
-                    jp        nz,$4229                      ;[f1cd] c2 29 42
+                    call      j30                         ;[f1ca] cd a8 f3
+                    jp        nz,BEEP                      ;[f1cd] c2 29 42
                     call      $f45f                         ;[f1d0] cd 5f f4
                     ld        a,(BlockNum)                     ;[f1d3] 3a ba f5
                     ld        b,a                           ;[f1d6] 47
                     push      bc                            ;[f1d7] c5
                     call      $f3ab                         ;[f1d8] cd ab f3
                     pop       bc                            ;[f1db] c1
-                    jp        z,$4229                       ;[f1dc] ca 29 42
+                    jp        z,BEEP                       ;[f1dc] ca 29 42
                     ld        a,b                           ;[f1df] 78
                     call      SelectBlock                         ;[f1e0] cd eb f5
                     ld        hl,FNAME                      ;[f1e3] 21 93 fc
@@ -364,7 +365,7 @@ j32:
                     ld        hl,SaveMSG                      ;[f207] 21 53 f5
                     call      $f38d                         ;[f20a] cd 8d f3
                     call      $20af                         ;[f20d] cd af 20
-                    jp        z,$4229                       ;[f210] ca 29 42
+                    jp        z,BEEP                       ;[f210] ca 29 42
                     push      hl                            ;[f213] e5
                     call      $f40d                         ;[f214] cd 0d f4
                     call      $f45f                         ;[f217] cd 5f f4
@@ -488,8 +489,8 @@ j21:
                     jp        $2017                         ;[f2f8] c3 17 20
 j22:
                     ld        hl,LoadMSG                      ;[f2fb] 21 49 f5
-                    call      $f3a8                         ;[f2fe] cd a8 f3
-                    jp        nz,$4229                      ;[f301] c2 29 42
+                    call      j30                         ;[f2fe] cd a8 f3
+                    jp        nz,BEEP                      ;[f301] c2 29 42
                     call      $f45f                         ;[f304] cd 5f f4
                     call      $20af                         ;[f307] cd af 20
                     call      nz,$f2e6                      ;[f30a] c4 e6 f2
@@ -533,7 +534,7 @@ j25:
                     ret                                     ;[f35d] c9
 j26:
                     pop       af                            ;[f35e] f1
-                    jp        $4229                         ;[f35f] c3 29 42
+                    jp        BEEP                         ;[f35f] c3 29 42
 j27:
                     ld        a,$db                         ;[f362] 3e db
                     ld        ($f374),a                     ;[f364] 32 74 f3
