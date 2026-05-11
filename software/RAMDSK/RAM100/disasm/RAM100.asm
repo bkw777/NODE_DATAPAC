@@ -1,17 +1,19 @@
 ; RAM100.CO disassembly
 ; Initial disassembly: z88dk-dis -m8085 -k 0x06 -o 0xF076 RAM100.CO >RAM100.asm
 ; Compile: z88dk-z80asm -v -m8085 -b -o=RAM100.CO RAM100.asm
+;
 ; Currently compiles to reproduce the original binary exactly.
 ;
-; Syntax highlighting for Geany: https://github.com/bkw777/WP-2_IC-Card/blob/master/SOFTWARE/z88dk/_usr_share_geany_filedefs_filetypes.Z80asm.conf
-; This is 8085 code and does include invalid 8085-isms like "add b",
-; but z88dk-dis outputs z80 mnemonics and so the Z80asm filetype is correct for this file.
-; Document -> Set Filetype -> Programming Languages -> Z80asm
+; z88dk-dis outputs z80 mnemonics but this is actually 8085 code including 8085-isms like "add b".
+;
+; Syntax highlighting for Geany:
+; https://github.com/bkw777/WP-2_IC-Card/blob/master/SOFTWARE/z88dk/_usr_share_geany_filedefs_filetypes.Z80asm.conf
 ;
 ; Brian K. White - b.kenyon.w@gmail.com
 
 ; See RAMDSK.TIP for function call addresses, though they all seem to be wrong.
-; Possibly the doc was correct for the original version that didn't know about banks?
+; Maybe the doc was correct for an earlier version of RAM100 from before
+; it was updated to add support for banks/512K?
 ;FREE  F1C8  61896       F1C7 ?
 ;KILL  F1F6  61942       F1F7 ?
 ;NAME  F22E  61998
@@ -20,7 +22,7 @@
 ;LOAD  F35C  62300
 ;
 ; We do have the old version of RAM200, so maybe see if the addresses for 200 match up in the old version of RAM200,
-; and then use that to recognize what the entry points look like, to find the equivalent code here.
+; and then use that to recognize what the function entry points, to find the equivalents here.
 
 ; vt52 terminfo codes
 CR			EQU		0x0A
