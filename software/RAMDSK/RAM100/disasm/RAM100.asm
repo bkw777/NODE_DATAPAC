@@ -25,6 +25,7 @@
 ; and then use that to recognize what the function entry points, to find the equivalents here.
 
 ; vt52 terminfo codes
+ETX			EQU		0x03
 LF			EQU		0x0A
 FF			EQU		0x0C
 CR			EQU		0x0D
@@ -56,19 +57,27 @@ ENDM
 ; TRS-80 Model 100 Platform
 ; rst
 RST_4		EQU		0x20		; write A to console, directed by LCDLPT
-rPRINTA		EQU		RST_4
+rPRTA		EQU		RST_4
 
 ; system rom routines
+PRTSP		EQU		0x1E		; write space to console, directed by LCDLPT
 PTILL0		EQU		0x11A2		; print null-terminated string at HL to screen
+PRTASC		EQU		0x39D4		; print 16bit value in HL as ascii
 KYREAD		EQU		0x7242		; read keyboard
 MENU		EQU		0x5797		; go to main menu
+
+MACRO PrintByte
+	rst rPRTA
+ENDM
+MACRO PrintSpace
+	call PRTSP
+ENDM
 
 ; addresses
 ETRAP		EQU		0xF652		; error trap? status?
 LCDLPT		EQU		0xF675		; console output to LCD(0) or LPT(1)
 FNAME		EQU		0xFC93		; 8 bytes padded fname, prog name if not run from menu nor typed on select line
 KC7			EQU		0xFF97		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
-
 
 ; RAMPAC IO Ports
 PORT_CTL0			EQU		0x81	; control port for bank 0
@@ -118,6 +127,7 @@ ORG HIMEM-PRGLEN-6				; entry minus length of header
 
 addr001		EQU		Set_SP+1	; $f085
 addr002		EQU		j05+1		; $f14b
+addr003		EQU		j34_1+1		; $f100
 
 ;==============================================================================
 
@@ -129,14 +139,14 @@ DW PRGEXE	; exe
 PRGTOP:
 PRGEXE:
 Get_SP:
-	ld		de,sp+$00				;[f076] 38 00		; save initial SP
+	ld		de,sp+0x00				;[f076] 38 00		; save initial SP
 	ex		de,hl					;[f078] eb
 	ld		(addr001),hl			;[f079] 22 85 f0	; write initial SP to Set_SP+1
 	ld		a,(KC7)					;[f07c] 3a 97 ff	; get status bits of keyboard matrix column 7
-	cp		$80						;[f07f] fe 80		; is ENTER pressed?
+	cp		0x80					;[f07f] fe 80		; is ENTER pressed?
 	call	z,FixFormattedMark		;[f081] cc bf f5	; if ENTER is pressed, detour to fix format mark bytes
 Set_SP:
-	ld		sp,$0000				;[f084] 31 00 00
+	ld		sp,0x0000				;[f084] 31 00 00
 	ld		hl,Set_SP				;[f087] 21 84 f0
 	push	hl						;[f08a] e5
 	ld		(ETRAP),hl				;[f08b] 22 52 f6
@@ -145,11 +155,11 @@ Set_SP:
 	call	DrawTitle				;[f093] cd 5a f1
 	xor		a						;[f096] af
 	ld		(addr002),a				;[f097] 32 4b f1
-	ld		d,$80					;[f09a] 16 80
+	ld		d,0x80					;[f09a] 16 80
 	call	j01						;[f09c] cd e1 f0
-	ld		d,$a0					;[f09f] 16 a0
+	ld		d,0xA0					;[f09f] 16 a0
 	call	j01						;[f0a1] cd e1 f0
-	ld		d,$c0					;[f0a4] 16 c0
+	ld		d,0xC0					;[f0a4] 16 c0
 	call	j01						;[f0a6] cd e1 f0
 j31:
 	call	j06						;[f0a9] cd 60 f1
@@ -160,7 +170,7 @@ ReadKeyboard:
 	jp		nc,j00					;[f0b2] d2 db f0
 	ld		hl,Set_SP				;[f0b5] 21 84 f0
 	push	hl						;[f0b8] e5
-	cp		$ff						;[f0b9] fe ff
+	cp		0xFF					;[f0b9] fe ff
 	jp		z,j32					;[f0bb] ca 07 f2
 	and		a						;[f0be] a7
 	jp		z,FixFormattedMark		;[f0bf] ca bf f5
@@ -172,7 +182,7 @@ ReadKeyboard:
 	jp		z,FREE					;[f0cb] ca c7 f1
 	dec		a						;[f0ce] 3d
 	jp		z,j07					;[f0cf] ca 8f f1
-	sub		$03						;[f0d2] d6 03
+	sub		3						;[f0d2] d6 03
 	jp		z,MENU					;[f0d4] ca 97 57
 	pop		hl						;[f0d7] e1
 	jp		ReadKeyboard			;[f0d8] c3 ac f0
@@ -200,36 +210,39 @@ j02:
 	call	SelectBlock				;[f0f6] cd eb f5
 	call	j03						;[f0f9] cd 35 f1
 j34:
-                    in        a,(PORT_DATA)                       ;[f0fc] db 83
-                    rst       $20                           ;[f0fe] e7
-                    ld        a,$08                         ;[f0ff] 3e 08
-                    and       a                             ;[f101] a7
-                    cp        $03                           ;[f102] fe 03
-                    jp        nz,$f10c                      ;[f104] c2 0c f1
-                    push      af                            ;[f107] f5
-                    ld        a,$2e                         ;[f108] 3e 2e
-                    rst       $20                           ;[f10a] e7
-                    pop       af                            ;[f10b] f1
-                    dec       a                             ;[f10c] 3d
-                    ld        ($f100),a                     ;[f10d] 32 00 f1
-                    jp        nz,$f0fc                      ;[f110] c2 fc f0
-                    ld        a,$08                         ;[f113] 3e 08
-                    ld        ($f100),a                     ;[f115] 32 00 f1
-                    push      bc                            ;[f118] c5
-                    in        a,(PORT_DATA)                       ;[f119] db 83
-                    ld        l,a                           ;[f11b] 6f
-                    in        a,(PORT_DATA)                       ;[f11c] db 83
-                    ld        h,a                           ;[f11e] 67
-                    call      $001e                         ;[f11f] cd 1e 00
-                    call      $001e                         ;[f122] cd 1e 00
-                    call      $39d4                         ;[f125] cd d4 39
-                    call      $f14a                         ;[f128] cd 4a f1
-                    pop       bc                            ;[f12b] c1
-                    call      CheckIsBankFormatted                         ;[f12c] cd 37 f4
-                    call      SkipCWords                         ;[f12f] cd 45 f4
-                    pop       bc                            ;[f132] c1
-                    pop       de                            ;[f133] d1
-                    ret                                     ;[f134] c9
+	ReadData						;[f0fc]
+	PrintByte
+; 0x08 is just initial value gets overwritten
+j34_1:
+	ld		a,0x08					;[f0ff] 3e 08		; addr003, 0x08 just initial value gets overwritten
+	and		a						;[f101] a7
+	cp		0x03					;[f102] fe 03
+	jp		nz,j39					;[f104] c2 0c f1
+	push	af						;[f107] f5
+	ld		a,'.'					;[f108] 3e 2e
+	PrintByte
+	pop		af						;[f10b] f1
+j39:
+	dec		a						;[f10c] 3d
+	ld		(addr003),a				;[f10d] 32 00 f1
+	jp		nz,j34					;[f110] c2 fc f0
+	ld		a,0x08					;[f113] 3e 08
+	ld		(addr003),a				;[f115] 32 00 f1
+	push	bc						;[f118] c5
+	ReadData
+	ld		l,a						;[f11b] 6f
+	ReadData
+	ld		h,a						;[f11e] 67
+	PrintSpace
+	PrintSpace
+	call	PRTASC					;[f125] cd d4 39
+	call	j05						;[f128] cd 4a f1
+	pop		bc						;[f12b] c1
+	call	CheckIsBankFormatted	;[f12c] cd 37 f4
+	call	SkipCWords				;[f12f] cd 45 f4
+	pop		bc						;[f132] c1
+	pop		de						;[f133] d1
+	ret								;[f134] c9
 j03:
                     ld        hl,($f639)                    ;[f135] 2a 39 f6
                     ld        a,(addr002)                     ;[f138] 3a 4b f1
@@ -275,7 +288,7 @@ j06:
                     pop       hl                            ;[f17e] e1
                     ld        a,l                           ;[f17f] 7d
                     ld        ($f285),a                     ;[f180] 32 85 f2
-                    call      $39d4                         ;[f183] cd d4 39
+                    call      PRTASC                         ;[f183] cd d4 39
                     call      CheckIsBankFormatted                         ;[f186] cd 37 f4
                     call      SkipCWords                         ;[f189] cd 45 f4
                     jp        $14ed                         ;[f18c] c3 ed 14
