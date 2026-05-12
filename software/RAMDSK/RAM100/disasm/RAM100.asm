@@ -148,7 +148,7 @@ addrSP		EQU		Set_SP+1	; $f085
 addr002		EQU		j05+1		; $f14b
 addr003		EQU		j34@l0+1	; $f100
 addr004		EQU		j16@l0+1	; $f285
-addr005		EQU		j27@l0+1	; $f371
+addr005		EQU		j27@l1+1	; $f371
 addr006		EQU		j41@l0+1	; $f3db
 addr007		EQU		j19@l0+1	; $f2c7
 
@@ -485,36 +485,36 @@ j17:
 	jp		j17						;[f2ac] c3 8b f2
 
 j18:
-                    ld        a,(VAR_E)                     ;[f2af] 3a be f5
-                    dec       a                             ;[f2b2] 3d
-                    ld        (VAR_E),a                     ;[f2b3] 32 be f5
-                    jp        z,$f2c0                       ;[f2b6] ca c0 f2
-                    ld        a,$20                         ;[f2b9] 3e 20
-                    out       (PORT_DATA),a                       ;[f2bb] d3 83
-                    jp        $f2c6                         ;[f2bd] c3 c6 f2
+	ld		a,(VAR_E)				;[f2af] 3a be f5
+	dec		a						;[f2b2] 3d
+	ld		(VAR_E),a				;[f2b3] 32 be f5
+	jp		z,j19					;[f2b6] ca c0 f2
+	WriteDataN SPACE
+	jp		j19@l0					;[f2bd] c3 c6 f2
 
 j19:
-                    pop       af                            ;[f2c0] f1
-                    ld        a,(addr006)                     ;[f2c1] 3a db f3
-                    out       (PORT_DATA),a                       ;[f2c4] d3 83
+	pop		af						;[f2c0] f1
+	ld		a,(addr006)				;[f2c1] 3a db f3
+	WriteData						;[f2c4] d3 83
 @l0:
-                    ld        a,$00                         ;[f2c6] 3e 00	; addr007
-                    ld        (VAR_D),a                     ;[f2c8] 32 bd f5
-                    out       (PORT_DATA),a                       ;[f2cb] d3 83
-                    ret                                     ;[f2cd] c9
+	ld		a,0x00					;[f2c6] 3e 00	; addr007
+	ld		(VAR_D),a				;[f2c8] 32 bd f5
+	WriteData						;[f2cb] d3 83
+	ret								;[f2cd] c9
 
 j20:
-                    ld        a,(BlockNum)                     ;[f2ce] 3a ba f5
-                    call      SelectBlock                         ;[f2d1] cd eb f5
-                    ld        hl,FilenameMSG                      ;[f2d4] 21 b0 f5
-                    ld        b,10                         ;[f2d7] 06 0a
-                    ld        a,(hl)                        ;[f2d9] 7e
-                    out       (PORT_DATA),a                       ;[f2da] d3 83
-                    inc       hl                            ;[f2dc] 23
-                    dec       b                             ;[f2dd] 05
-                    jp        nz,$f2d9                      ;[f2de] c2 d9 f2
-                    ld        a,$d3                         ;[f2e1] 3e d3
-                    jp        $f364                         ;[f2e3] c3 64 f3
+	ld		a,(BlockNum)			;[f2ce] 3a ba f5
+	call	SelectBlock				;[f2d1] cd eb f5
+	ld		hl,FilenameMSG			;[f2d4] 21 b0 f5
+	ld		b,10					;[f2d7] 06 0a
+@l0:
+	ld		a,(hl)					;[f2d9] 7e
+	WriteData						;[f2da] d3 83
+	inc		hl						;[f2dc] 23
+	dec		b						;[f2dd] 05
+	jp		nz,@l0					;[f2de] c2 d9 f2
+	ld		a,0xD3					;[f2e1] 3e d3	; ???  what is 0xD3 ?  ???
+	jp		j27@l0					;[f2e3] c3 64 f3
 
 j21:
                     push      hl                            ;[f2e6] e5
@@ -581,40 +581,43 @@ Beep:
                     jp        BEEP                         ;[f35f] c3 29 42
 
 j27:
-                    ld        a,$db                         ;[f362] 3e db
-                    ld        ($f374),a                     ;[f364] 32 74 f3
-                    ld        hl,$03f6                      ;[f367] 21 f6 03
-                    ld        (VAR_C),hl                    ;[f36a] 22 bb f5
-                    ld        hl,(VAR_A)                    ;[f36d] 2a b8 f5
+	ld		a,0xdb					;[f362] 3e db	; ???  what is 0xDB  ???
 @l0:
-                    ld        de,$0000                      ;[f370] 11 00 00	; addr005
-                    ld        a,(de)                        ;[f373] 1a
-                    in        a,(PORT_DATA)                       ;[f374] db 83
-                    ld        (de),a                        ;[f376] 12
-                    inc       de                            ;[f377] 13
-                    dec       hl                            ;[f378] 2b
-                    ld        a,h                           ;[f379] 7c
-                    or        l                             ;[f37a] b5
-                    ret       z                             ;[f37b] c8
-                    push      hl                            ;[f37c] e5
-                    ld        hl,(VAR_C)                    ;[f37d] 2a bb f5
-                    dec       hl                            ;[f380] 2b
-                    ld        a,l                           ;[f381] 7d
-                    or        h                             ;[f382] b4
-                    call      z,$f418                       ;[f383] cc 18 f4
-                    ld        (VAR_C),hl                    ;[f386] 22 bb f5
-                    pop       hl                            ;[f389] e1
-                    jp        $f373                         ;[f38a] c3 73 f3
+	ld		(@l3),a					;[f364] 32 74 f3
+	ld		hl,1014					;[f367] 21 f6 03	; is it block size minus 10 bytes header?
+	ld		(VAR_C),hl				;[f36a] 22 bb f5
+	ld		hl,(VAR_A)				;[f36d] 2a b8 f5
+@l1:
+	ld		de,0x0000				;[f370] 11 00 00	; addr005
+@l2:
+	ld		a,(de)					;[f373] 1a
+@l3:
+	ReadData						;[f374] db 83
+	ld		(de),a					;[f376] 12
+	inc		de						;[f377] 13
+	dec		hl						;[f378] 2b
+	ld		a,h						;[f379] 7c
+	or		l						;[f37a] b5
+	ret		z						;[f37b] c8
+	push	hl						;[f37c] e5
+	ld		hl,(VAR_C)				;[f37d] 2a bb f5
+	dec		hl						;[f380] 2b
+	ld		a,l						;[f381] 7d
+	or		h						;[f382] b4
+	call	z,j43					;[f383] cc 18 f4
+	ld		(VAR_C),hl				;[f386] 22 bb f5
+	pop		hl						;[f389] e1
+	jp		@l2						;[f38a] c3 73 f3
 
 InputFileNameWithPrompt:
-	call		PTILL0						;[f38d] cd a2 11
-	call		INLIN						;[f390] cd 44 46
-	ret			c							;[f393] d8
-	dec			b							;[f394] 05
-	ret			z							;[f395] c8
-	inc			hl							;[f396] 23
-	ld			e,b							;[f397] 58
-	jp			CKFN						;[f398] c3 0b 4c
+	call		PTILL0				;[f38d] cd a2 11
+	call		INLIN				;[f390] cd 44 46
+	ret			c					;[f393] d8
+	dec			b					;[f394] 05
+	ret			z					;[f395] c8
+	inc			hl					;[f396] 23
+	ld			e,b					;[f397] 58
+	jp			CKFN				;[f398] c3 0b 4c
 
 j29:
                     ld        hl,$fca2                      ;[f39b] 21 a2 fc
