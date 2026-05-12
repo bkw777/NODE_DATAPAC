@@ -192,14 +192,14 @@ ENDM
 ;
 ; Toggle the bank control port and bank# screen display between bank 0 / bank 1
 ; This only updates local variables, does not touch the RAMPAC hardware.
-addrCtlPort		EQU		SelectBlock+1		; addr holding ctl port number, port number parameter of SelectBlock:
+addrCtlPort		EQU		SelectBlock+1	; addr holding ctl port number, port number parameter of SelectBlock:
 MACRO ToggleTargetBankNumber
-	ld		a,(addrCtlPort)					;[f5da] 3a ec f5	; read bank control port number (0x81/0x85) from SelectBlock portnumber parameter
-	xor		BANK_CTL_OFFSET					;[f5dd] ee 04		; toggle bit 2 (toggle control port between 0x81 & 0x85)
-	ld		(addrCtlPort),a					;[f5df] 32 ec f5	; write new control port number to SelectBlock portnumber parameter
-	ld		a,(BankNumMSG)					;[f5e2] 3a ee f4	; read bank number (0/1) from BankNumMSG (part of TitleMSG)
-	xor		0x01							;[f5e5] ee 01		; toggle bit 0 to switch display bank number between ascii "0" & "1"
-	ld		(BankNumMSG),a					;[f5e7] 32 ee f4	; write new bank number to BankNumMSG
+	ld		a,(addrCtlPort)				; read bank control port number (0x81/0x85) from SelectBlock portnumber parameter
+	xor		BANK_CTL_OFFSET				; toggle bit 2 (toggle control port between 0x81 & 0x85)
+	ld		(addrCtlPort),a				; write new control port number to SelectBlock portnumber parameter
+	ld		a,(BankNumMSG)				; read bank number (0/1) from BankNumMSG (part of TitleMSG)
+	xor		0x01						; toggle bit 0 to switch display bank number between ascii "0" & "1"
+	ld		(BankNumMSG),a				; write new bank number to BankNumMSG
 ENDM
 
 ;------------------------------------------------------------------------------
