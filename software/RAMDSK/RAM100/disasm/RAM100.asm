@@ -14,12 +14,12 @@
 ; See RAMDSK.TIP for function call addresses, though they all seem to be wrong.
 ; Maybe the doc was correct for an earlier version of RAM100 from before
 ; it was updated to add support for banks/512K?
-;FREE  F1C8  61896       F1C7 ?
-;KILL  F1F6  61942       F1F7 ?
-;NAME  F22E  61998
-;SAVE  F267  62055
-;SAVE1 F26D  62061       F26C F26F ?
-;LOAD  F35C  62300
+;FREE	61896 = 0xF1C8
+;KILL	61942 = 0xF1F6
+;NAME	61998 = 0xF22E
+;SAVE	62055 = 0xF267
+;SAVE1	62061 = 0xF26D
+;LOAD	62300 = 0xF35C
 ;
 ; We do have the old version of RAM200, so maybe see if the addresses for 200 match up in the old version of RAM200,
 ; and then use that to recognize what the function entry points, to find the equivalents here.
@@ -63,6 +63,7 @@ rPRTA		EQU		RST_4
 PRTSP		EQU		0x1E		; write space to console, directed by LCDLPT
 PTILL0		EQU		0x11A2		; print null-terminated string at HL to screen
 POPALL		EQU		0x14ED		; pop all registers
+FILES		EQU		0x1F3A		; FILES statement
 PRTASC		EQU		0x39D4		; print 16bit value in HL as ascii
 BEEP		EQU		0x4229		; make a beep sound
 ESCB		EQU		0x446E		; ESC+B - move cursor down one line
@@ -71,6 +72,10 @@ MENU		EQU		0x5797		; go to main menu
 
 MACRO PrintByte
 	rst rPRTA
+ENDM
+MACRO PrintByteN n
+	ld		a,n
+	PrintByte
 ENDM
 MACRO PrintSpace
 	call PRTSP
@@ -97,20 +102,21 @@ MACRO ReadData
 	in		a,(PORT_DATA)			; read one byte from the data port
 ENDM
 
-MACRO WriteData n
-	ld		a,n
-	out		(PORT_DATA),a			; write n to the data port
+MACRO WriteData
+	out		(PORT_DATA),a			; write A to the data port
 ENDM
+
+MACRO WriteDataN n
+	ld		a,n
+	WriteData			; write n to the data port
+ENDM
+
 
 ; *****************************************************************************
 ; Here is where we can update to support more than 2 banks (hopefully)
 ; Replace toggle 0/1 with a 0-N counter
 ; instead of bank^1 ; port^BANK_CTL_OFFSET
 ; do bank=(bank+1)%NUMBER_OF_BANKS ; port=PORT_CTL0+bank*BANK_CTL_OFFSET
-;
-; FixFormattedMark might need to be updated since it uses banks 0 & 1.
-; Or it might be ok because I think it's only byte 0 block 0 bank 0
-; that's at risk of getting corrupted by the hardware design.
 ;
 ; Toggle the bank control port and bank# screen display between bank 0 / bank 1
 ; This only updates local variables, does not touch the RAMPAC hardware.
@@ -148,7 +154,7 @@ PRGEXE:
 	ld		(addrSP),hl				;[f079] 22 85 f0	; write initial SP to addrSP
 	ld		a,(KC7)					;[f07c] 3a 97 ff	; get status bits of keyboard matrix column 7
 	cp		0x80					;[f07f] fe 80		; is ENTER pressed?
-	call	z,FixFormattedMark		;[f081] cc bf f5	; if ENTER is pressed, detour to fix format mark bytes
+	call	z,BANK					;[f081] cc bf f5	; if ENTER is pressed, switch banks ?
 Set_SP:
 	ld		sp,0x0000				;[f084] 31 00 00	; set SP from addrSP, 0x0000 is just initial value gets overwritten
 	ld		hl,Set_SP				;[f087] 21 84 f0
@@ -168,29 +174,33 @@ Set_SP:
 j31:
 	call	j06						;[f0a9] cd 60 f1
 
+; Fkeys
+; Bank Load Save Name Kill ---- ---- Menu
+; F1   F2   F3   F4   F5   F6   F7   F8
+
 ReadKeyboard:
-	call	KYREAD					;[f0ac] cd 42 72
-	jp		z,ReadKeyboard			;[f0af] ca ac f0
-	jp		nc,j00					;[f0b2] d2 db f0
+	call	KYREAD					;[f0ac] cd 42 72	; look for keypress
+	jp		z,ReadKeyboard			;[f0af] ca ac f0	; if no key then loop
+	jp		nc,@end					;[f0b2] d2 db f0	; if not Fkey then skip to @end
 	ld		hl,Set_SP				;[f0b5] 21 84 f0
 	push	hl						;[f0b8] e5
 	cp		0xFF					;[f0b9] fe ff
-	jp		z,j32					;[f0bb] ca 07 f2
+	jp		z,SAVE1					;[f0bb] ca 07 f2	; save file without displaying file list
 	and		a						;[f0be] a7
-	jp		z,FixFormattedMark		;[f0bf] ca bf f5
+	jp		z,BANK					;[f0bf] ca bf f5
 	dec		a						;[f0c2] 3d
-	jp		z,j22					;[f0c3] ca fb f2
+	jp		z,LOAD					;[f0c3] ca fb f2
 	dec		a						;[f0c6] 3d
-	jp		z,j10					;[f0c7] ca 01 f2
+	jp		z,SAVE					;[f0c7] ca 01 f2
 	dec		a						;[f0ca] 3d
-	jp		z,FREE					;[f0cb] ca c7 f1
+	jp		z,NAME					;[f0cb] ca c7 f1
 	dec		a						;[f0ce] 3d
-	jp		z,j07					;[f0cf] ca 8f f1
+	jp		z,KILL					;[f0cf] ca 8f f1
 	sub		3						;[f0d2] d6 03
 	jp		z,MENU					;[f0d4] ca 97 57
 	pop		hl						;[f0d7] e1
 	jp		ReadKeyboard			;[f0d8] c3 ac f0
-j00:
+@end:
 	cp		CR						;[f0db] fe 0d		; is it CR?
 	ret		z						;[f0dd] c8			; return if CR
 	jp		ReadKeyboard			;[f0de] c3 ac f0	; loop if not CR
@@ -283,14 +293,14 @@ j06:
 	ld		h,a						;[f166] 67
 	ld		l,a						;[f167] 6f
 	call	SelectBlock				;[f168] cd eb f5
-j06_0:
+@l0:
 	call	ReadWordBA				;[f16b] cd 4d f4
 	or		b						;[f16e] b0
-	jp		nz,j06_1				;[f16f] c2 73 f1
+	jp		nz,@l1				;[f16f] c2 73 f1
 	inc		hl						;[f172] 23
-j06_1:
+@l1:
 	dec		d						;[f173] 15
-	jp		nz,j06_0				;[f174] c2 6b f1
+	jp		nz,@l0				;[f174] c2 6b f1
 	push	hl						;[f177] e5
 	ld		hl,Cursor_7_25			;[f178] 21 7c f5
 	call	PTILL0					;[f17b] cd a2 11
@@ -302,74 +312,82 @@ j06_1:
 	call	SkipCWords				;[f189] cd 45 f4
 	jp		POPALL					;[f18c] c3 ed 14
 
-j07:
+KILL:
 	ld		hl,KillMSG				;[f18f] 21 3f f5
 	call	j30						;[f192] cd a8 f3
 	jp		nz,BEEP					;[f195] c2 29 42
 	ld		hl,SureMSG				;[f198] 21 9d f5
 	call	GetYes					;[f19b] cd 53 f4
 	ret		nz						;[f19e] c0
-j07_0:
-                    call      CheckIsBankFormatted                         ;[f19f] cd 37 f4
-                    ld        a,(BlockNum)                     ;[f1a2] 3a ba f5
-                    dec       a                             ;[f1a5] 3d
-                    jp        z,$f1ad                       ;[f1a6] ca ad f1
-                    ld        c,a                           ;[f1a9] 4f
-                    call      SkipCWords                         ;[f1aa] cd 45 f4
-                    xor       a                             ;[f1ad] af
-                    out       (PORT_DATA),a                       ;[f1ae] d3 83
-                    out       (PORT_DATA),a                       ;[f1b0] d3 83
-                    ld        a,(VAR_D)                     ;[f1b2] 3a bd f5
-                    and       a                             ;[f1b5] a7
-                    ret       z                             ;[f1b6] c8
-                    ld        (BlockNum),a                     ;[f1b7] 32 ba f5
-                    ld        c,a                           ;[f1ba] 4f
-                    call      CheckIsBankFormatted                         ;[f1bb] cd 37 f4
-                    call      SkipCWords                         ;[f1be] cd 45 f4
-                    ld        (VAR_D),a                     ;[f1c1] 32 bd f5
-                    jp        j07_0                         ;[f1c4] c3 9f f1
-FREE:
-                    ld        hl,NameMSG                      ;[f1c7] 21 5d f5
-                    call      j30                         ;[f1ca] cd a8 f3
-                    jp        nz,BEEP                      ;[f1cd] c2 29 42
-                    call      $f45f                         ;[f1d0] cd 5f f4
-                    ld        a,(BlockNum)                     ;[f1d3] 3a ba f5
-                    ld        b,a                           ;[f1d6] 47
-                    push      bc                            ;[f1d7] c5
-                    call      $f3ab                         ;[f1d8] cd ab f3
-                    pop       bc                            ;[f1db] c1
-                    jp        z,BEEP                       ;[f1dc] ca 29 42
-                    ld        a,b                           ;[f1df] 78
-                    call      SelectBlock                         ;[f1e0] cd eb f5
-                    ld        hl,FNAME                      ;[f1e3] 21 93 fc
-                    ld        b,$06                         ;[f1e6] 06 06
-                    ld        a,(hl)                        ;[f1e8] 7e
-                    out       (PORT_DATA),a                       ;[f1e9] d3 83
-                    inc       hl                            ;[f1eb] 23
-                    dec       b                             ;[f1ec] 05
-                    jp        nz,$f1e8                      ;[f1ed] c2 e8 f1
-                    ret                                     ;[f1f0] c9
+@l0:
+	call	CheckIsBankFormatted	;[f19f] cd 37 f4
+	ld		a,(BlockNum)			;[f1a2] 3a ba f5
+	dec		a						;[f1a5] 3d
+	jp		z,@l1					;[f1a6] ca ad f1
+	ld		c,a						;[f1a9] 4f
+	call	SkipCWords				;[f1aa] cd 45 f4
+@l1:
+	xor		a						;[f1ad] af
+	WriteData
+	WriteData
+	ld		a,(VAR_D)				;[f1b2] 3a bd f5
+	and		a						;[f1b5] a7
+	ret		z						;[f1b6] c8
+	ld		(BlockNum),a			;[f1b7] 32 ba f5
+	ld		c,a						;[f1ba] 4f
+	call	CheckIsBankFormatted	;[f1bb] cd 37 f4
+	call	SkipCWords				;[f1be] cd 45 f4
+	ld		(VAR_D),a				;[f1c1] 32 bd f5
+	jp		@l0					;[f1c4] c3 9f f1
+
+
+; RAMDSK.TIP says FREE is F1C8 but this seems wrong
+;------------------------------------------------------------------------------
+NAME:
+	ld		hl,NameMSG				;[f1c7] 21 5d f5
+	call	j30						;[f1ca] cd a8 f3
+	jp		nz,BEEP					;[f1cd] c2 29 42
+	call	j40						;[f1d0] cd 5f f4
+	ld		a,(BlockNum)			;[f1d3] 3a ba f5
+	ld		b,a						;[f1d6] 47
+	push	bc						;[f1d7] c5
+	call	j41						;[f1d8] cd ab f3
+	pop		bc						;[f1db] c1
+	jp		z,BEEP					;[f1dc] ca 29 42
+	ld		a,b						;[f1df] 78
+	call	SelectBlock				;[f1e0] cd eb f5
+	ld		hl,FNAME				;[f1e3] 21 93 fc
+	ld		b,6						;[f1e6] 06 06
+@loop:
+	ld		a,(hl)					;[f1e8] 7e
+	WriteData
+	inc		hl						;[f1eb] 23
+	dec		b						;[f1ec] 05
+	jp		nz,@loop				;[f1ed] c2 e8 f1
+	ret								;[f1f0] c9
+
 j08:
-                    ld        hl,ReplaceMSG                      ;[f1f1] 21 6f f5
-                    call      GetYes                         ;[f1f4] cd 53 f4
-                    jp        nz,Set_SP                      ;[f1f7] c2 84 f0
-                    ret                                     ;[f1fa] c9
+	ld		hl,ReplaceMSG			;[f1f1] 21 6f f5
+	call	GetYes					;[f1f4] cd 53 f4
+	jp		nz,Set_SP				;[f1f7] c2 84 f0
+	ret								;[f1fa] c9
+
 j09:
-                    call      $f1f1                         ;[f1fb] cd f1 f1
-                    jp        $f19f                         ;[f1fe] c3 9f f1
-j10:
-                    ld        a,$0c                         ;[f201] 3e 0c
-                    rst       $20                           ;[f203] e7
-                    call      $1f3a                         ;[f204] cd 3a 1f
-j32:
+	call	j08						;[f1fb] cd f1 f1
+	jp		KILL@l0					;[f1fe] c3 9f f1
+
+SAVE:
+	PrintByteN FF					;[f201]				; clear the screen
+	call	FILES					;[f204] cd 3a 1f	; BASIC FILES statement
+SAVE1:
                     ld        hl,SaveMSG                      ;[f207] 21 53 f5
                     call      $f38d                         ;[f20a] cd 8d f3
                     call      $20af                         ;[f20d] cd af 20
                     jp        z,BEEP                       ;[f210] ca 29 42
                     push      hl                            ;[f213] e5
                     call      $f40d                         ;[f214] cd 0d f4
-                    call      $f45f                         ;[f217] cd 5f f4
-                    call      $f3ab                         ;[f21a] cd ab f3
+                    call      j40                         ;[f217] cd 5f f4
+                    call      j41                         ;[f21a] cd ab f3
                     call      z,$f1fb                       ;[f21d] cc fb f1
                     call      j06                         ;[f220] cd 60 f1
                     pop       hl                            ;[f223] e1
@@ -379,13 +397,12 @@ j32:
                     ld        ($f371),hl                    ;[f227] 22 71 f3
                     call      $f23b                         ;[f22a] cd 3b f2
                     inc       hl                            ;[f22d] 23
-; FIXME   addr f22e from RAMDSK.TIP but nothing jmps or calls here
-NAME:
                     call      $f25e                         ;[f22e] cd 5e f2
-                    call      SAVE                         ;[f231] cd 67 f2
+                    call      SAVE2                         ;[f231] cd 67 f2
                     call      $f28b                         ;[f234] cd 8b f2
                     call      $f2ce                         ;[f237] cd ce f2
                     ret                                     ;[f23a] c9
+
 j11:
                     ld        a,($f3db)                     ;[f23b] 3a db f3
                     cp        $80                           ;[f23e] fe 80
@@ -397,27 +414,32 @@ j11:
                     ld        de,$0005                      ;[f24b] 11 05 00
                     add       hl,de                         ;[f24e] 19
                     ret                                     ;[f24f] c9
+
 j12:
                     push      hl                            ;[f250] e5
                     call      $6b2d                         ;[f251] cd 2d 6b
                     pop       bc                            ;[f254] c1
                     sub       hl,bc                         ;[f255] 08
                     ret                                     ;[f256] c9
+
 j13:
                     push      hl                            ;[f257] e5
                     call      $05f3                         ;[f258] cd f3 05
                     pop       bc                            ;[f25b] c1
                     sub       hl,bc                         ;[f25c] 08
                     ret                                     ;[f25d] c9
+
 j14:
                     ld        (VAR_A),hl                    ;[f25e] 22 b8 f5
                     ld        hl,FilenameMSG                      ;[f261] 21 b0 f5
                     jp        $f410                         ;[f264] c3 10 f4
-SAVE:
+
+SAVE2:
                     ld        hl,(VAR_A)                    ;[f267] 2a b8 f5
                     ld        d,$01                         ;[f26a] 16 01
                     ld        bc,$03f6                      ;[f26c] 01 f6 03
                     jp        $f275                         ;[f26f] c3 75 f2
+
 j15:
                     ld        bc,$0400                      ;[f272] 01 00 04
                     sub       hl,bc                         ;[f275] 08
@@ -425,14 +447,16 @@ j15:
                     jp        m,$f280                       ;[f279] fa 80 f2
                     inc       d                             ;[f27c] 14
                     jp        $f272                         ;[f27d] c3 72 f2
+
 j16:
                     ld        a,d                           ;[f280] 7a
                     ld        (VAR_E),a                     ;[f281] 32 be f5
 j16_0:
                     ld        a,$00                         ;[f284] 3e 00		;read addr004
                     cp        d                             ;[f286] ba
-                    jp        c,$f35e                       ;[f287] da 5e f3
+                    jp        c,Beep                       ;[f287] da 5e f3
                     ret                                     ;[f28a] c9
+
 j17:
                     call      CheckIsBankFormatted                         ;[f28b] cd 37 f4
                     ld        c,$00                         ;[f28e] 0e 00
@@ -449,6 +473,7 @@ j17:
                     ld        a,(BlockNum)                     ;[f2a6] 3a ba f5
                     ld        ($f2c7),a                     ;[f2a9] 32 c7 f2
                     jp        $f28b                         ;[f2ac] c3 8b f2
+
 j18:
                     ld        a,(VAR_E)                     ;[f2af] 3a be f5
                     dec       a                             ;[f2b2] 3d
@@ -457,6 +482,7 @@ j18:
                     ld        a,$20                         ;[f2b9] 3e 20
                     out       (PORT_DATA),a                       ;[f2bb] d3 83
                     jp        $f2c6                         ;[f2bd] c3 c6 f2
+
 j19:
                     pop       af                            ;[f2c0] f1
                     ld        a,($f3db)                     ;[f2c1] 3a db f3
@@ -465,6 +491,7 @@ j19:
                     ld        (VAR_D),a                     ;[f2c8] 32 bd f5
                     out       (PORT_DATA),a                       ;[f2cb] d3 83
                     ret                                     ;[f2cd] c9
+
 j20:
                     ld        a,(BlockNum)                     ;[f2ce] 3a ba f5
                     call      SelectBlock                         ;[f2d1] cd eb f5
@@ -477,9 +504,10 @@ j20:
                     jp        nz,$f2d9                      ;[f2de] c2 d9 f2
                     ld        a,$d3                         ;[f2e1] 3e d3
                     jp        $f364                         ;[f2e3] c3 64 f3
+
 j21:
                     push      hl                            ;[f2e6] e5
-                    call      $f1f1                         ;[f2e7] cd f1 f1
+                    call      j08                         ;[f2e7] cd f1 f1
                     pop       hl                            ;[f2ea] e1
                     call      $20cc                         ;[f2eb] cd cc 20
                     cp        $c0                           ;[f2ee] fe c0
@@ -487,11 +515,12 @@ j21:
                     cp        $a0                           ;[f2f3] fe a0
                     jp        z,$1fd9                       ;[f2f5] ca d9 1f
                     jp        $2017                         ;[f2f8] c3 17 20
-j22:
+
+LOAD:
                     ld        hl,LoadMSG                      ;[f2fb] 21 49 f5
                     call      j30                         ;[f2fe] cd a8 f3
                     jp        nz,BEEP                      ;[f301] c2 29 42
-                    call      $f45f                         ;[f304] cd 5f f4
+                    call      j40                         ;[f304] cd 5f f4
                     call      $20af                         ;[f307] cd af 20
                     call      nz,$f2e6                      ;[f30a] c4 e6 f2
                     call      $f324                         ;[f30d] cd 24 f3
@@ -503,6 +532,7 @@ j22:
                     call      $2239                         ;[f31b] cd 39 22
                     call      $f362                         ;[f31e] cd 62 f3
                     jp        $2146                         ;[f321] c3 46 21
+
 j23:
                     ld        hl,(VAR_A)                    ;[f324] 2a b8 f5
                     ld        b,h                           ;[f327] 44
@@ -517,24 +547,28 @@ j23:
                     call      $6b6d                         ;[f33a] cd 6d 6b
                     pop       hl                            ;[f33d] e1
                     ld        ($fbb0),hl                    ;[f33e] 22 b0 fb
-                    jp        c,$f35e                       ;[f341] da 5e f3
+                    jp        c,Beep                       ;[f341] da 5e f3
                     ret                                     ;[f344] c9
+
 j24:
                     ld        hl,($fbae)                    ;[f345] 2a ae fb
                     call      $6b6d                         ;[f348] cd 6d 6b
-                    jp        c,$f35e                       ;[f34b] da 5e f3
+                    jp        c,Beep                       ;[f34b] da 5e f3
                     ret                                     ;[f34e] c9
+
 j25:
                     ld        hl,($f99a)                    ;[f34f] 2a 9a f9
                     call      $6b6d                         ;[f352] cd 6d 6b
-                    jp        c,$f35e                       ;[f355] da 5e f3
+                    jp        c,Beep                       ;[f355] da 5e f3
                     push      hl                            ;[f358] e5
                     call      $213e                         ;[f359] cd 3e 21
                     pop       hl                            ;[f35c] e1
                     ret                                     ;[f35d] c9
-j26:
+
+Beep:
                     pop       af                            ;[f35e] f1
                     jp        BEEP                         ;[f35f] c3 29 42
+
 j27:
                     ld        a,$db                         ;[f362] 3e db
                     ld        ($f374),a                     ;[f364] 32 74 f3
@@ -580,6 +614,7 @@ j29:
                     ret                                     ;[f3a7] c9
 j30:
                     call      $f38d                         ;[f3a8] cd 8d f3
+j41:
                     xor       a                             ;[f3ab] af
                     ld        (BlockNum),a                     ;[f3ac] 32 ba f5
                     ld        ($f2c7),a                     ;[f3af] 32 c7 f2
@@ -672,7 +707,7 @@ GetYes:
                     call      $0fe9                         ;[f459] cd e9 0f
                     cp        $59                           ;[f45c] fe 59
                     ret                                     ;[f45e] c9
-
+j40:
                     ld        hl,AsMSG                      ;[f45f] 21 67 f5
                     call      $f38d                         ;[f462] cd 8d f3
                     jp        $f39b                         ;[f465] c3 9b f3
@@ -819,23 +854,34 @@ VAR_E:
 ; Code here after the strings & vars shows how the format mark fixer
 ; and the bank support was added later.
 
-FixFormattedMark:
+; I don't fully understand this
+BANK:
 	SelectBank 0
-	WriteData 0x41
+	WriteDataN 0x41										; write 0x41 to Bank0,Block0,byte0
+	; blindly wrote to block0,byte0, hope you didn't have non-RAMDSK data there
+	; maybe it's to detect if the hardware exists
 	SelectBank 1
-	ReadData
-	ld		b,a						;[f5cb] 47			; save data in B
+	ReadData											; read Bank1,Block0,Byte0
+	; Note: if the hardware is 256k or smaller, no banks (original DATAPAC/RAMPAC)
+	; then the Bank1 read will just read Bank0 again
+	ld		b,a						;[f5cb] 47			; save (maybe)Bank1,Block0,Byte0 in B
+	; - if the hardware has bank1:      then B contains whatever was in Bank1,Block0,Byte0 - COULD BE ANYTHING
+	; - if the hardware has no bank1:   then B contains the 0x41 we blindly wrote to bank0
+	; - if the hardware does not exist: then B probably contains 0x00 or 0xFF?
 	SelectBank 0
-	WriteData 0x40
-	inc		a						;[f5d3] 3c			; A++ (A=0x41)
-	cp		b						;[f5d4] b8
-	ret		z						;[f5d5] c8			; return if saved B = A (0x41)
-	ld		a,b						;[f5d6] 78			; B & A didn't match, copy B to A
-	cp		PORT_DATA				;[f5d7] fe 83		; ??? compare A to the data port number?
-	ret		z						;[f5d9] c8			; return if match ?
-	ToggleTargetBankNumber								; didn't match, so switch banks ?
+	WriteDataN 0x40										; write 0x40 to Bank0,Block0,byte0
+	; now we've blindly overwritten bank0,block0,byte0 previous 0x41 now 0x40
+	inc		a						;[f5d3] 3c			; A++ -> A=0x41
+	cp		b						;[f5d4] b8			; does B = 0x41 ?
+	ret		z						;[f5d5] c8			; return if B = 0x41 (conclude the hardware does not have banks?)
+	ld		a,b						;[f5d6] 78			; B & A didn't match, we have hardware with banks, copy B to A 
+	cp		PORT_DATA				;[f5d7] fe 83		; ???  compare A to the data port number?                                 ???
+	ret		z						;[f5d9] c8			; ???  return if match? is this maybe how we detect no hardware present?  ???
+
+	ToggleTargetBankNumber
 	; ToggleTargetBankNumber just updates variables, doesn't touch the hardware
 	; fall through to SelectBlock to actually switch the hardware to the new bank
+
 	xor		a						;[f5ea] af			; zero A to select block 0 in new bank
 
 ; Select block# in the current bank
