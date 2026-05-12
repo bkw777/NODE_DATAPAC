@@ -76,11 +76,14 @@ MYSTERY_20EC	EQU		0x20EC		; unknown
 UPDOFILES	EQU		0x213E		; update DOFILES with BC
 RESETFPS	EQU		0x2146		; reset file pointers
 MKDIRENT	EQU		0x2239		; insert entry into directory
+INSTR_2AB5	EQU		0x2AB5		; middle of INSTR function
+D2H4Bup		EQU		0x3469		; move the memory pointed to by DE to the memory pointed to by HL
 PRTASC		EQU		0x39D4		; print 16bit value in HL as ascii
 BEEP		EQU		0x4229		; make a beep sound
 ESCB		EQU		0x446E		; ESC+B - move cursor down one line
 INLIN		EQU		0x4644		; input line
 CKFN		EQU		0x4C0B		; format filename and check validity
+CMPARE		EQU		0x5A6D		; compare the buffer pointed to by DE to the buffer pointed to by HL
 GETEOF		EQU		0x6B2D		; search for EOF (0x1A)
 MAKHOL		EQU		0x6B6D		; insert BC number of spaces in memory
 KYREAD		EQU		0x7242		; read keyboard
@@ -106,6 +109,9 @@ FNAME		EQU		0xFC93		; 8 bytes padded fname, prog name if not run from menu nor t
 KC7			EQU		0xFF97		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
 DOFILES		EQU		0xFBAE		; pointer to start of DO files
 COFILES		EQU		0xFBB0		; pointer to start of CO files
+MYSTERY_FC99	EQU		0xFC99		; unknown
+MYSTERY_FCA2	EQU		0xFCA2		; unknown
+CFNAME		EQU		0xFC9C		; filename of last program loaded from tape
 
 ; constants
 ; file types, attribute byte A for MKDIRENT
@@ -167,7 +173,7 @@ addr002		EQU		j05+1		; $f14b
 addr003		EQU		j34@l0+1	; $f100
 addr004		EQU		j16@l0+1	; $f285
 addr005		EQU		j27@l1+1	; $f371
-addr006		EQU		j41@l0+1	; $f3db
+addr006		EQU		j41@l1+1	; $f3db
 addr007		EQU		j19@l0+1	; $f2c7
 
 ;==============================================================================
@@ -628,95 +634,97 @@ j27:
 	jp		@l2						;[f38a] c3 73 f3
 
 InputFileNameWithPrompt:
-	call		PTILL0				;[f38d] cd a2 11
-	call		INLIN				;[f390] cd 44 46
-	ret			c					;[f393] d8
-	dec			b					;[f394] 05
-	ret			z					;[f395] c8
-	inc			hl					;[f396] 23
-	ld			e,b					;[f397] 58
-	jp			CKFN				;[f398] c3 0b 4c
+	call	PTILL0					;[f38d] cd a2 11
+	call	INLIN					;[f390] cd 44 46
+	ret		c						;[f393] d8
+	dec		b						;[f394] 05
+	ret		z						;[f395] c8
+	inc		hl						;[f396] 23
+	ld		e,b						;[f397] 58
+	jp		CKFN					;[f398] c3 0b 4c
 
 j29:
-                    ld        hl,$fca2                      ;[f39b] 21 a2 fc
-                    ld        de,$fc99                      ;[f39e] 11 99 fc
-                    ld        a,(hl)                        ;[f3a1] 7e
-                    ld        (de),a                        ;[f3a2] 12
-                    inc       hl                            ;[f3a3] 23
-                    inc       de                            ;[f3a4] 13
-                    ld        a,(hl)                        ;[f3a5] 7e
-                    ld        (de),a                        ;[f3a6] 12
-                    ret                                     ;[f3a7] c9
+	ld		hl,MYSTERY_FCA2			;[f39b] 21 a2 fc
+	ld		de,MYSTERY_FC99			;[f39e] 11 99 fc
+	ld		a,(hl)					;[f3a1] 7e
+	ld		(de),a					;[f3a2] 12
+	inc		hl						;[f3a3] 23
+	inc		de						;[f3a4] 13
+	ld		a,(hl)					;[f3a5] 7e
+	ld		(de),a					;[f3a6] 12
+	ret								;[f3a7] c9
 
 j30:
-                    call      InputFileNameWithPrompt                         ;[f3a8] cd 8d f3
+	call	InputFileNameWithPrompt	;[f3a8] cd 8d f3
 j41:
-                    xor       a                             ;[f3ab] af
-                    ld        (BlockNum),a                     ;[f3ac] 32 ba f5
-                    ld        (addr007),a                     ;[f3af] 32 c7 f2
-                    ld        a,($fc99)                     ;[f3b2] 3a 99 fc
-                    sub       $42                           ;[f3b5] d6 42
-                    cp        $03                           ;[f3b7] fe 03
-                    jp        nc,$2ab5                      ;[f3b9] d2 b5 2a
-                    add       a                             ;[f3bc] 87
-                    add       a                             ;[f3bd] 87
-                    add       a                             ;[f3be] 87
-                    add       a                             ;[f3bf] 87
-                    add       a                             ;[f3c0] 87
-                    add       $80                           ;[f3c1] c6 80
-                    ld        (addr006),a                     ;[f3c3] 32 db f3
-                    call      CheckIsBankFormatted                         ;[f3c6] cd 37 f4
-                    call      ReadWordBA                         ;[f3c9] cd 4d f4
-                    ld        (VAR_D),a                     ;[f3cc] 32 bd f5
-                    ld        a,(BlockNum)                     ;[f3cf] 3a ba f5
-                    inc       a                             ;[f3d2] 3c
-                    jp        z,$2ab5                       ;[f3d3] ca b5 2a
-                    ld        (BlockNum),a                     ;[f3d6] 32 ba f5
-                    ld        a,b                           ;[f3d9] 78
+	xor		a						;[f3ab] af
+	ld		(BlockNum),a			;[f3ac] 32 ba f5
+	ld		(addr007),a				;[f3af] 32 c7 f2
+	ld		a,(MYSTERY_FC99)		;[f3b2] 3a 99 fc
+	sub		0x42					;[f3b5] d6 42
+	cp		0x03					;[f3b7] fe 03
+	jp		nc,INSTR_2AB5			;[f3b9] d2 b5 2a
+	add		a						;[f3bc] 87
+	add		a						;[f3bd] 87
+	add		a						;[f3be] 87
+	add		a						;[f3bf] 87
+	add		a						;[f3c0] 87
+	add		0x80					;[f3c1] c6 80
+	ld		(addr006),a				;[f3c3] 32 db f3
+	call	CheckIsBankFormatted	;[f3c6] cd 37 f4
 @l0:
-                    cp        $3f                           ;[f3da] fe 3f
-                    jp        nz,$f3c9                      ;[f3dc] c2 c9 f3
-                    ld        a,(BlockNum)                     ;[f3df] 3a ba f5
-                    call      SelectBlock                         ;[f3e2] cd eb f5
-                    ld        b,10                         ;[f3e5] 06 0a				; read 10 bytes
-                    ld        hl,FilenameMSG                      ;[f3e7] 21 b0 f5
-                    in        a,(PORT_DATA)                       ;[f3ea] db 83
-                    ld        (hl),a                        ;[f3ec] 77
-                    inc       hl                            ;[f3ed] 23
-                    dec       b                             ;[f3ee] 05
-                    jp        nz,$f3ea                      ;[f3ef] c2 ea f3
-                    ld        c,$08                         ;[f3f2] 0e 08
-                    ld        hl,FilenameMSG                      ;[f3f4] 21 b0 f5
-                    ld        de,FNAME                      ;[f3f7] 11 93 fc
-                    call      $5a6d                         ;[f3fa] cd 6d 5a
-                    jp        z,j42                       ;[f3fd] ca 0d f4
-                    call      CheckIsBankFormatted                         ;[f400] cd 37 f4
-                    ld        a,(BlockNum)                     ;[f403] 3a ba f5
-                    ld        c,a                           ;[f406] 4f
-                    call      SkipCWords                         ;[f407] cd 45 f4
-                    jp        $f3c9                         ;[f40a] c3 c9 f3
+	call	ReadWordBA				;[f3c9] cd 4d f4
+	ld		(VAR_D),a				;[f3cc] 32 bd f5
+	ld		a,(BlockNum)			;[f3cf] 3a ba f5
+	inc		a						;[f3d2] 3c
+	jp		z,INSTR_2AB5			;[f3d3] ca b5 2a
+	ld		(BlockNum),a			;[f3d6] 32 ba f5
+	ld		a,b						;[f3d9] 78
+@l1:
+	cp		0x3F					;[f3da] fe 3f
+	jp		nz,@l0					;[f3dc] c2 c9 f3
+	ld		a,(BlockNum)			;[f3df] 3a ba f5
+	call	SelectBlock				;[f3e2] cd eb f5
+	ld		b,10					;[f3e5] 06 0a		; read 10 bytes
+	ld		hl,FilenameMSG			;[f3e7] 21 b0 f5
+@l2:
+	ReadData						;[f3ea] db 83
+	ld		(hl),a					;[f3ec] 77
+	inc		hl						;[f3ed] 23
+	dec		b						;[f3ee] 05
+	jp		nz,@l2					;[f3ef] c2 ea f3
+	ld		c,8						;[f3f2] 0e 08
+	ld		hl,FilenameMSG			;[f3f4] 21 b0 f5
+	ld		de,FNAME				;[f3f7] 11 93 fc
+	call	CMPARE					;[f3fa] cd 6d 5a
+	jp		z,j42					;[f3fd] ca 0d f4
+	call	CheckIsBankFormatted	;[f400] cd 37 f4
+	ld		a,(BlockNum)			;[f403] 3a ba f5
+	ld		c,a						;[f406] 4f
+	call	SkipCWords				;[f407] cd 45 f4
+	jp		@l0						;[f40a] c3 c9 f3
 
 j42:
-                    ld        hl,$fc9c                      ;[f40d] 21 9c fc
+	ld		hl,CFNAME				;[f40d] 21 9c fc
 j44:
-                    ld        de,FNAME                      ;[f410] 11 93 fc
-                    ld        b,$08                         ;[f413] 06 08
-                    jp        $3469                         ;[f415] c3 69 34
+	ld		de,FNAME				;[f410] 11 93 fc
+	ld		b,8						;[f413] 06 08
+	jp		D2H4Bup					;[f415] c3 69 34
 
 j43:
-                    ld        hl,$0400                      ;[f418] 21 00 04
-                    ld        (VAR_C),hl                    ;[f41b] 22 bb f5
-                    xor       a                             ;[f41e] af
-                    call      SelectBlock                         ;[f41f] cd eb f5
-                    ld        a,(VAR_D)                     ;[f422] 3a bd f5
-                    ld        (BlockNum),a                     ;[f425] 32 ba f5
-                    ld        c,a                           ;[f428] 4f
-                    inc       c                             ;[f429] 0c
-                    call      SkipCWords                         ;[f42a] cd 45 f4
-                    ld        (VAR_D),a                     ;[f42d] 32 bd f5
-                    ld        a,(BlockNum)                     ;[f430] 3a ba f5
-                    call      SelectBlock                         ;[f433] cd eb f5
-                    ret                                     ;[f436] c9
+	ld		hl,1024					;[f418] 21 00 04
+	ld		(VAR_C),hl				;[f41b] 22 bb f5
+	xor		a						;[f41e] af
+	call	SelectBlock				;[f41f] cd eb f5
+	ld		a,(VAR_D)				;[f422] 3a bd f5
+	ld		(BlockNum),a			;[f425] 32 ba f5
+	ld		c,a						;[f428] 4f
+	inc		c						;[f429] 0c
+	call	SkipCWords				;[f42a] cd 45 f4
+	ld		(VAR_D),a				;[f42d] 32 bd f5
+	ld		a,(BlockNum)			;[f430] 3a ba f5
+	call	SelectBlock				;[f433] cd eb f5
+	ret		;[f436] c9
 
 CheckIsBankFormatted:
 	xor		a						;[f437] af			; zero A
