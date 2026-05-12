@@ -305,6 +305,10 @@ RAMDSK claims to provide the same functionality as NODEs option rom, and even NO
 Even the rom calls from the option rom have equivalents in RAMDSK, though at different addresses. (see [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP))  
 One thing RAMDSK does not do which the original option rom did, is re-create the user manual text file as part of the Format operation.
 
+[Disassebled / reconstructed assembly source for RAM100.CO!](software/RAMDSK/RAM100/disasm)  
+Currently compiles to reproduce the original RAM100.CO exactly.  
+Next step is to add support for 4 banks so the full 1M of MiniNDP is usable for files.
+
 ### Installing RAMDSK
 Archived docs mention an 8 line BASIC program called BOOT that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start.
 

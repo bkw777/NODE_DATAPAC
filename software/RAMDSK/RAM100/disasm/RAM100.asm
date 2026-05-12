@@ -799,28 +799,34 @@ j37:
 	jp		nz,@l0					;[f4a4] c2 9d f4
 	ret								;[f4a7] c9
 
+; some kind of hardware test / presence detection
+; reads a byte, writes a trivial edit, reads it back, reverts it, compares the read-back with the original
 j38:
 	ld		d,0x80					;[f4a8] 16 80
 	ld		a,d						;[f4aa] 7a
-	call	SelectBlock				;[f4ab] cd eb f5
-	ReadData						;[f4ae] db 83
-	ld		b,a						;[f4b0] 47
+	call	SelectBlock				;[f4ab] cd eb f5	; select block 128 byte 0
+	ReadData						;[f4ae] db 83		; read byte 0
+	ld		b,a						;[f4b0] 47			; save in B
+	; B should now have a copy of whatever was in byte 0 at start
 	ld		a,d						;[f4b1] 7a
-	call	SelectBlock				;[f4b2] cd eb f5
-	ld		a,b						;[f4b5] 78
-	inc		a						;[f4b6] 3c
-	WriteData						;[f4b7] d3 83
+	call	SelectBlock				;[f4b2] cd eb f5	; reset byte position back to 0
+	ld		a,b						;[f4b5] 78			; get saved byte 0 from B
+	inc		a						;[f4b6] 3c			; increment
+	WriteData						;[f4b7] d3 83		; write incremented value back to byte 0
+	; byte 0 should now be incremented from before
 	ld		a,d						;[f4b9] 7a
-	call	SelectBlock				;[f4ba] cd eb f5
-	ReadData						;[f4bd] db 83
-	ld		c,a						;[f4bf] 4f
+	call	SelectBlock				;[f4ba] cd eb f5	; reset byte position back to 0
+	ReadData						;[f4bd] db 83		; read byte 0
+	ld		c,a						;[f4bf] 4f			; save to C
+	; C should now have the incremented value read back from the hardware
 	ld		a,d						;[f4c0] 7a
-	call	SelectBlock				;[f4c1] cd eb f5
-	ld		a,b						;[f4c4] 78
-	WriteData						;[f4c5] d3 83
-	ld		a,c						;[f4c7] 79
-	cp		b						;[f4c8] b8
-	ld		b,0x40					;[f4c9] 06 40
+	call	SelectBlock				;[f4c1] cd eb f5	; reset byte position back to 0
+	ld		a,b						;[f4c4] 78			; get original saved byte 0 from B
+	WriteData						;[f4c5] d3 83		; write original byte 0 back to byte 0
+	; byte 0 should now be restored to what it was originally
+	ld		a,c						;[f4c7] 79			; get C
+	cp		b						;[f4c8] b8			; compare incremented byte 0 with original byte 0
+	ld		b,0x40					;[f4c9] 06 40		; ???
 	ret		z						;[f4cb] c8
 	xor		a						;[f4cc] af
 	ld		b,a						;[f4cd] 47
