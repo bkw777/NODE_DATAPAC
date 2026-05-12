@@ -126,19 +126,32 @@ PORT_CTL0			EQU		0x81	; control port for bank 0
 PORT_DATA			EQU		0x83	; data read/write port
 BANK_CTL_OFFSET		EQU		0x04	; bank n ctl port is ctl0 + n*4
 
+
+; Switch the hardware to a new bank address
+; by doing SelectBlock 0 to the control port for the desired bank.
+; Block number is reset to 0, byte position is reset to 0.
 MACRO SelectBank n
 	xor		a
 	out		(PORT_CTL0+(n*BANK_CTL_OFFSET)),a		; write 0 to the bank n control port
 ENDM
 
+; SelectBlock is a CALL, see SlectBlock: below
+; Switch the hardware to a new block address.
+; Bank is unchanged, byte position is reset to 0.
+
+; Read one byte of data from the current byte position
+; Bank & block unchanged, byte position is incremented by 1 after read.
 MACRO ReadData
 	in		a,(PORT_DATA)			; read one byte from the data port
 ENDM
 
+; Write one byte of data to the current byte position
+; Bank & block unchanged, byte position is incremented by 1 after write.
 MACRO WriteData
 	out		(PORT_DATA),a			; write A to the data port
 ENDM
 
+; Convenience wrapper for WriteData with argument data
 MACRO WriteDataN n
 	ld		a,n
 	WriteData			; write n to the data port
@@ -349,6 +362,9 @@ j06:
 	call	SkipCWords				;[f189] cd 45 f4
 	jp		POPALL					;[f18c] c3 ed 14
 
+;------------------------------------------------------------------------------
+; KILL
+;
 KILL:
 	ld		hl,KillMSG				;[f18f] 21 3f f5
 	call	j30						;[f192] cd a8 f3
@@ -377,6 +393,9 @@ KILL:
 	ld		(VAR_D),a				;[f1c1] 32 bd f5
 	jp		@l0						;[f1c4] c3 9f f1
 
+;------------------------------------------------------------------------------
+; NAME
+;
 NAME:
 	ld		hl,NameMSG				;[f1c7] 21 5d f5
 	call	j30						;[f1ca] cd a8 f3
@@ -410,6 +429,9 @@ ConfirmReplaceKill:
 	call	ConfirmReplace			;[f1fb] cd f1 f1
 	jp		KILL@l0					;[f1fe] c3 9f f1
 
+;------------------------------------------------------------------------------
+; SAVE
+;
 SAVE:
 	PrintByteN FF					;[f201]				; clear the screen
 	call	FILES					;[f204] cd 3a 1f	; BASIC FILES statement
@@ -553,6 +575,9 @@ j21:
 	jp		z,KILLDO1				;[f2f5] ca d9 1f	; ???
 	jp		KILLDO4					;[f2f8] c3 17 20	; ???
 
+;------------------------------------------------------------------------------
+; LOAD
+;
 LOAD:
 	ld		hl,LoadMSG				;[f2fb] 21 49 f5
 	call	j30						;[f2fe] cd a8 f3
@@ -911,9 +936,7 @@ VAR_E:
 	DB 0
 
 ;------------------------------------------------------------------------------
-; Code here after the strings & vars shows how the format mark fixer
-; and the bank support was added later.
-
+; Switch banks
 ; I don't fully understand this
 BANK:
 	SelectBank 0
