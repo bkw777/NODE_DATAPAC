@@ -1,19 +1,33 @@
 ; RAM100.CO disassembly
+; RAMDSK.CO is originally written by Paul Globman
+; (modulo reverse engineering the NODE ROM)
+;
+; This source reproduces the original binary exactly, but is not the original
+; source. It started as a crude disassembly, then edited into usable source.
+;
 ; Initial disassembly: z88dk-dis -m8085 -k 0x06 -o 0xF076 RAM100.CO >RAM100.asm
 ; Compile: z88dk-z80asm -v -m8085 -b -o=RAM100.CO RAM100.asm
 ;
 ; Currently compiles to reproduce the original binary exactly.
+; make clean all && cmp -l ../RAM100.CO RAM100.CO && echo OK || echo '>>> FAIL <<<'
 ;
-; z88dk-dis outputs z80 mnemonics but this is actually 8085 code including 8085-isms like "add b".
+; original binaries:
+; https://www.club100.org/library/libpg.html -> "pgnode"
+; https://ftp.whtech.com/club100/pg/pgnode/node1/ram100.co		RAM100.CO
+; https://ftp.whtech.com/club100/pg/pgnode/node2/ramdsk.co		RAM200.CO
+;
+; z88dk-dis outputs z80 mnemonics but this is actually 8085 code.
+; The original binary includes 8085-isms like "add b",
+; and the cpu is 80C85 so you must not try to use z80 features.
 ;
 ; Syntax highlighting for Geany:
 ; https://github.com/bkw777/WP-2_IC-Card/blob/master/SOFTWARE/z88dk/_usr_share_geany_filedefs_filetypes.Z80asm.conf
 ;
 ; Brian K. White - b.kenyon.w@gmail.com
 
-; See RAMDSK.TIP for function call addresses, though they all seem to be wrong.
-; Maybe the doc was correct for an earlier version of RAM100
-; from before it was updated to add support for banks/512K?
+; RAMDSK.TIP documents some externally usable function call addresses,
+; but they do not appear to be correct for this version of RAMDSK.
+; Presumably it was correct before RAMDSK was updated to support banks?
 ;FREE	61896 = 0xF1C8
 ;KILL	61942 = 0xF1F6
 ;NAME	61998 = 0xF22E
@@ -21,8 +35,9 @@
 ;SAVE1	62061 = 0xF26D
 ;LOAD	62300 = 0xF35C
 ;
-; We do have the old version of RAM200, so maybe see if the addresses for 200 match up in the old version of RAM200,
-; and then use that to recognize what the function entry points, to find the equivalents here.
+; We don't have the old version of RAM100 to check, but we do have both old and new versions of RAM200.
+; So maybe see if the addresses for 200 match up in the old version of RAM200,
+; and then use that to recognize the entry points by the code, to find the equivalents here.
 
 ; ascii
 ETX			EQU		0x03
@@ -133,31 +148,35 @@ PORT_CTL0			EQU		0x81	; control port for bank 0
 PORT_DATA			EQU		0x83	; data read/write port
 BANK_CTL_OFFSET		EQU		0x04	; bank n ctl port is ctl0 + n*4
 
+; SelectBank
 ; Switch the hardware to a new bank address
 ; by doing SelectBlock 0 to the control port for the desired bank.
 ; Block number is reset to 0, byte position is reset to 0.
 MACRO SelectBank n
 	xor		a
-	out		(PORT_CTL0+(n*BANK_CTL_OFFSET)),a		; write 0 to the bank n control port
+	out		(PORT_CTL0+(n*BANK_CTL_OFFSET)),a	; write 0 to the bank n control port
 ENDM
 
-; SelectBlock is a CALL, see SlectBlock: below
+; SelectBlock
+; not a macro, see SlectBlock: below
 ; Switch the hardware to a new block address.
 ; Bank is unchanged, byte position is reset to 0.
 
+; ReadData
 ; Read one byte of data from the current byte position
 ; Bank & block unchanged, byte position is incremented by 1 after read.
 MACRO ReadData
 	in		a,(PORT_DATA)			; read one byte from the data port
 ENDM
 
+; WriteData
 ; Write one byte of data to the current byte position
 ; Bank & block unchanged, byte position is incremented by 1 after write.
 MACRO WriteData
 	out		(PORT_DATA),a			; write A to the data port
 ENDM
 
-; Convenience wrapper for WriteData with argument data
+; Convenience wrapper for WriteData with argument
 MACRO WriteDataN n
 	ld		a,n
 	WriteData			; write n to the data port
@@ -168,6 +187,8 @@ ENDM
 ; Replace toggle 0/1 with a 0-N counter
 ; instead of bank^1 ; port^BANK_CTL_OFFSET
 ; do bank=(bank+1)%NUMBER_OF_BANKS ; port=PORT_CTL0+bank*BANK_CTL_OFFSET
+; (each time you press [Bank], display bank num increments by 1 or rolls back to 0,
+;  and port num changes to base port num for bank 0 + bank_num*4)
 ;
 ; Toggle the bank control port and bank# screen display between bank 0 / bank 1
 ; This only updates local variables, does not touch the RAMPAC hardware.
@@ -177,7 +198,7 @@ MACRO ToggleTargetBankNumber
 	xor		BANK_CTL_OFFSET					;[f5dd] ee 04		; toggle bit 2 (toggle control port between 0x81 & 0x85)
 	ld		(addrCtlPort),a					;[f5df] 32 ec f5	; write new control port number to SelectBlock portnumber parameter
 	ld		a,(BankNumMSG)					;[f5e2] 3a ee f4	; read bank number (0/1) from BankNumMSG (part of TitleMSG)
-	xor		0x01							;[f5e5] ee 01		; toggle bit 0 to switch display bank number between 0/1
+	xor		0x01							;[f5e5] ee 01		; toggle bit 0 to switch display bank number between ascii "0" & "1"
 	ld		(BankNumMSG),a					;[f5e7] 32 ee f4	; write new bank number to BankNumMSG
 ENDM
 
@@ -196,16 +217,6 @@ StampByte1		EQU		0x04
 HIMEM		EQU		0xF5EE		; TRS-80 Model 100/102 with 32K installed
 PRGLEN		EQU		0x578		; FIXME how can we get this without hard coding?
 ORG HIMEM-PRGLEN-6				; entry minus length of header
-
-; variables that only exist as raw locations to the parameter to some instruction
-; ie self-modifying code
-addrSP		EQU		Set_SP+1	; $f085
-addr002		EQU		j05+1		; $f14b
-addr003		EQU		j34@l0+1	; $f100
-addr004		EQU		j16@l0+1	; $f285
-addr005		EQU		j27@l1+1	; $f371
-addr006		EQU		j41@l1+1	; $f3db
-addr007		EQU		j19@l0+1	; $f2c7
 
 ;==============================================================================
 
@@ -276,7 +287,7 @@ j01:
 	ld		c,1						;[f0e1] 0e 01		; C=1 means SkipCWords will skip 2 bytes later
 	call	CheckIsBankFormatted	;[f0e3] cd 37 f4
 j33:
-	call	ReadWordBA				;[f0e6] cd 4d f4	; read 2 bytes into B & A
+	call	ReadDataW				;[f0e6] cd 4d f4	; read 2 bytes into B & A
 	ld		a,b						;[f0e9] 78
 	cp		d						;[f0ea] ba
 	call	z,j02					;[f0eb] cc f3 f0
@@ -360,7 +371,7 @@ j06:
 	ld		l,a						;[f167] 6f
 	call	SelectBlock				;[f168] cd eb f5
 @l0:
-	call	ReadWordBA				;[f16b] cd 4d f4
+	call	ReadDataW				;[f16b] cd 4d f4
 	or		b						;[f16e] b0
 	jp		nz,@l1					;[f16f] c2 73 f1
 	inc		hl						;[f172] 23
@@ -368,12 +379,12 @@ j06:
 	dec		d						;[f173] 15
 	jp		nz,@l0					;[f174] c2 6b f1
 	push	hl						;[f177] e5
-	ld		hl,Cursor_7_25			;[f178] 21 7c f5
+	ld		hl,FreeMSG				;[f178] 21 7c f5	; really just cursor position sequence
 	call	PTILL0					;[f17b] cd a2 11
 	pop		hl						;[f17e] e1
 	ld		a,l						;[f17f] 7d
-	ld		(addr004),a				;[f180] 32 85 f2
-	call	PRTASC					;[f183] cd d4 39
+	ld		(FreeKB),a				;[f180] 32 85 f2
+	call	PRTASC					;[f183] cd d4 39	; print free KB
 	call	CheckIsBankFormatted	;[f186] cd 37 f4
 	call	SkipCWords				;[f189] cd 45 f4
 	jp		POPALL					;[f18c] c3 ed 14
@@ -386,7 +397,7 @@ KILL:
 	call	j30						;[f192] cd a8 f3
 	jp		nz,BEEP					;[f195] c2 29 42
 	ld		hl,SureMSG				;[f198] 21 9d f5
-	call	GetYes					;[f19b] cd 53 f4
+	call	ConfirmWithPrompt		;[f19b] cd 53 f4
 	ret		nz						;[f19e] c0
 @l0:
 	call	CheckIsBankFormatted	;[f19f] cd 37 f4
@@ -437,7 +448,7 @@ NAME:
 
 ConfirmReplace:
 	ld		hl,ReplaceMSG			;[f1f1] 21 6f f5
-	call	GetYes					;[f1f4] cd 53 f4
+	call	ConfirmWithPrompt		;[f1f4] cd 53 f4
 	jp		nz,Set_SP				;[f1f7] c2 84 f0
 	ret								;[f1fa] c9
 
@@ -523,10 +534,10 @@ j15:
 
 j16:
 	ld		a,d						;[f280] 7a
-	ld		(VAR_E),a				;[f281] 32 be f5
-@l0:
-	ld		a,0x00					;[f284] 3e 00		; addr004
-	cp		d						;[f286] ba
+	ld		(VAR_E),a				;[f281] 32 be f5	; copy D to VAR_E
+@freekb:	; nothing jumps here, we just need the address+1
+	ld		a,0x00					;[f284] 3e 00		; FreeKB
+	cp		d						;[f286] ba			
 	jp		c,Beep					;[f287] da 5e f3
 	ret								;[f28a] c9
 
@@ -534,7 +545,7 @@ j17:
 	call	CheckIsBankFormatted	;[f28b] cd 37 f4
 	ld		c,0x00					;[f28e] 0e 00
 @l0:
-	call	ReadWordBA				;[f290] cd 4d f4
+	call	ReadDataW				;[f290] cd 4d f4
 	inc		c						;[f293] 0c
 	or		b						;[f294] b0
 	jp		nz,@l0					;[f295] c2 90 f2
@@ -716,7 +727,7 @@ j41:
 	ld		(addr006),a				;[f3c3] 32 db f3
 	call	CheckIsBankFormatted	;[f3c6] cd 37 f4
 @l0:
-	call	ReadWordBA				;[f3c9] cd 4d f4
+	call	ReadDataW				;[f3c9] cd 4d f4
 	ld		(VAR_D),a				;[f3cc] 32 bd f5
 	ld		a,(BlockNum)			;[f3cf] 3a ba f5
 	inc		a						;[f3d2] 3c
@@ -748,11 +759,12 @@ j41:
 	jp		@l0						;[f40a] c3 c9 f3
 
 j42:
-	ld		hl,CFNAME				;[f40d] 21 9c fc
+	ld		hl,CFNAME				;[f40d] 21 9c fc	; point HL to "last filename loaded from cassette"
+; copy first 8 bytes of filename from DE buffer to HL buffer
 j44:
-	ld		de,FNAME				;[f410] 11 93 fc
+	ld		de,FNAME				;[f410] 11 93 fc	; point DE to system active filename
 	ld		b,8						;[f413] 06 08
-	jp		D2H4Bup					;[f415] c3 69 34
+	jp		D2H4Bup					;[f415] c3 69 34	; copy B (8) bytes of DE buffer to HL buffer, bottom to top, so bytes 0-7
 
 j43:
 	ld		hl,1024					;[f418] 21 00 04
@@ -767,12 +779,12 @@ j43:
 	ld		(VAR_D),a				;[f42d] 32 bd f5
 	ld		a,(BlockNum)			;[f430] 3a ba f5
 	call	SelectBlock				;[f433] cd eb f5
-	ret		;[f436] c9
+	ret								;[f436] c9
 
 CheckIsBankFormatted:
 	xor		a						;[f437] af			; zero A
 	call	SelectBlock				;[f438] cd eb f5	; select block 0
-	call	ReadWordBA				;[f43b] cd 4d f4	; read bytes 0 & 1 into B & A
+	call	ReadDataW				;[f43b] cd 4d f4	; read bytes 0 & 1 into B & A
 	add		b						;[f43e] 80			; add B to A
 	cp		StampByte0+StampByte1	;[f43f] fe 44		; is the total 0x44?
 	jp		nz,FORMAT				;[f441] c2 68 f4	; if not, ask to format
@@ -780,24 +792,24 @@ CheckIsBankFormatted:
 
 ; Read-and-discard C*2 bytes, final read will be left in B & A
 SkipCWords:
-	call		ReadWordBA			;[f445] cd 4d f4	; read 2 bytes into B & A
+	call		ReadDataW			;[f445] cd 4d f4	; read 2 bytes into B & A
 	dec			c					;[f448] 0d			; decrement C
 	jp			nz,SkipCWords		;[f449] c2 45 f4	; repeat until C=0 (discard previous read data)
 	ret								;[f44c] c9
 
-; Read 2 bytes into B & A
-ReadWordBA:
+; Read a word of data (2 bytes) from device into B & A
+ReadDataW:
 	ReadData
-	ld				b,a				;[f44f] 47			; copy A to B
+	ld				b,a				;[f44f] 47
 	ReadData
 	ret								;[f452] c9
 
-GetYes:
-	call		PTILL0				;[f453] cd a2 11
-	call		CHGET				;[f456] cd cb 12
-	call		LC2UCA				;[f459] cd e9 0f
-	cp			'Y'					;[f45c] fe 59
-	ret								;[f45e] c9
+ConfirmWithPrompt:
+	call		PTILL0				;[f453] cd a2 11	; print prompt
+	call		CHGET				;[f456] cd cb 12	; wait for keypress
+	call		LC2UCA				;[f459] cd e9 0f	; convert to uppercase
+	cp			'Y'					;[f45c] fe 59		; is it "Y" ?
+	ret								;[f45e] c9			; return cp result
 
 j40:
 	ld		hl,AsMSG				;[f45f] 21 67 f5
@@ -809,10 +821,10 @@ j40:
 ;------------------------------------------------------------------------------
 FORMAT:
 	ld		hl,FormatMSG			;[f468] 21 81 f5
-	call	GetYes					;[f46b] cd 53 f4
+	call	ConfirmWithPrompt		;[f46b] cd 53 f4
 	jp		z,@NewFormat			;[f46e] ca 7d f4
 	ld		hl,FixMSG				;[f471] 21 a5 f5
-	call	GetYes					;[f474] cd 53 f4
+	call	ConfirmWithPrompt		;[f474] cd 53 f4
 	jp		z,@WriteStamp			;[f477] ca 8d f4
 	jp		MENU					;[f47a] c3 97 57
 ; write new format
@@ -842,8 +854,11 @@ FORMAT:
 	jp		nz,@l0					;[f4a4] c2 9d f4
 	ret								;[f4a7] c9
 
-; some kind of hardware test / presence detection
-; reads a byte, writes a trivial edit, reads it back, reverts it, compares the read-back with the original
+; hardware test / presence detection
+; this might not be correct, just my best attempt to follow
+; return success: Z = set,   B = 0x40, C = block128byte0+1, D = 0x80
+; return fail:    Z = unset, B = 0x00, C = 0x00 or 0xFF ?,  D = 0x80
+; C on success could be anything, whatever data happened to be stored on the device, incremented by 1
 TestHardware:
 	ld		d,0x80					;[f4a8] 16 80
 	ld		a,d						;[f4aa] 7a
@@ -867,24 +882,37 @@ TestHardware:
 	ld		a,b						;[f4c4] 78			; get original saved byte 0 from B
 	WriteData						;[f4c5] d3 83		; write original byte 0 back to byte 0
 	; byte 0 should now be restored to what it was originally
-	ld		a,c						;[f4c7] 79			; get C
-	cp		b						;[f4c8] b8			; compare incremented byte 0 with original byte 0
-	ld		b,0x40					;[f4c9] 06 40		; ???
-	ret		z						;[f4cb] c8
+	ld		a,c						;[f4c7] 79			; get C (value read back from hardware)
+	cp		b						;[f4c8] b8			; compare test incremented byte 0 with original byte 0
+	ld		b,0x40					;[f4c9] 06 40
+	; Z is set or unset from the CP
+	; B is 0x40 (LD aka 8085 MVI does not change Z)
+	ret		z						;[f4cb] c8			; if match (test write did not work), return with B = 0x40
 	xor		a						;[f4cc] af
 	ld		b,a						;[f4cd] 47
-	ret								;[f4ce] c9
+	ret								;[f4ce] c9			; if not match (test write worked), return with B = 0x00
 
 ;------------------------------------------------------------------------------
-; strings & (some) variables
+; strings & variables
 ;------------------------------------------------------------------------------
+
+; variables that only exist as raw locations to the parameter to some instruction
+; ie self-modifying code
+addrSP		EQU		Set_SP+1		; $f085
+addr002		EQU		j05+1			; $f14b
+addr003		EQU		j34@l0+1		; $f100
+FreeKB		EQU		j16@freekb+1	; $f285
+addr005		EQU		j27@l1+1		; $f371
+addr006		EQU		j41@l1+1		; $f3db
+addr007		EQU		j19@l0+1		; $f2c7
 
 TitleMSG:
 	DB FF
 	cursor_invisible
 	disable_automatic_scroll
 	enter_reverse_mode
-	DB "NODE RAMPAC/DATAPAC Bank"
+;	DB "NODE RAMPAC/Datapac    #"	; original
+	DB "NODE RAMPAC/DATAPAC Bank"	; bkw
 BankNumMSG:
 	DB "0"
 	DB "   (c)P.Globman"
@@ -921,7 +949,7 @@ ReplaceMSG:
 	cursor_address 8,19
 	DB "Replace?",0
 
-Cursor_7_25:
+FreeMSG:
 	cursor_address 7,25
 	DB 0
 
