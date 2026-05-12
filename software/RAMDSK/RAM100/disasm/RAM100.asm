@@ -12,8 +12,8 @@
 ; Brian K. White - b.kenyon.w@gmail.com
 
 ; See RAMDSK.TIP for function call addresses, though they all seem to be wrong.
-; Maybe the doc was correct for an earlier version of RAM100 from before
-; it was updated to add support for banks/512K?
+; Maybe the doc was correct for an earlier version of RAM100
+; from before it was updated to add support for banks/512K?
 ;FREE	61896 = 0xF1C8
 ;KILL	61942 = 0xF1F6
 ;NAME	61998 = 0xF22E
@@ -32,6 +32,10 @@ CR			EQU		0x0D
 ESC 		EQU		0x1B
 SPACE		EQU		0x20
 ;EOF			EQU		0x1A
+
+;------------------------------------------------------------------------------
+; TRS-80 Model 100 Platform
+;------------------------------------------------------------------------------
 
 ; vt52/screen control sequences
 MACRO clr_eol
@@ -56,7 +60,6 @@ MACRO exit_attribute_mode
 	DB ESC,"q"
 ENDM
 
-; TRS-80 Model 100 Platform
 ; rst
 RST_4		EQU		0x20		; write A to console, directed by LCDLPT
 rPRTA		EQU		RST_4
@@ -117,15 +120,18 @@ CFNAME		EQU		0xFC9C		; filename of last program loaded from tape
 
 ; constants
 ; file types, attribute byte A for MKDIRENT
-FattrBA		EQU		0x80
-FattrDO		EQU		0xC0
-FattrCO		EQU		0xA0
+FattrBA		EQU		0x80	; .BA files
+FattrDO		EQU		0xC0	; .DO files
+FattrCO		EQU		0xA0	; .CO files
 
-; RAMPAC IO Ports
+;------------------------------------------------------------------------------
+; DATAPAC/RAMPAC Hardware
+;------------------------------------------------------------------------------
+
+; device IO ports
 PORT_CTL0			EQU		0x81	; control port for bank 0
 PORT_DATA			EQU		0x83	; data read/write port
 BANK_CTL_OFFSET		EQU		0x04	; bank n ctl port is ctl0 + n*4
-
 
 ; Switch the hardware to a new bank address
 ; by doing SelectBlock 0 to the control port for the desired bank.
@@ -157,7 +163,6 @@ MACRO WriteDataN n
 	WriteData			; write n to the data port
 ENDM
 
-
 ; *****************************************************************************
 ; Here is where we can update to support more than 2 banks (hopefully)
 ; Replace toggle 0/1 with a 0-N counter
@@ -175,6 +180,17 @@ MACRO ToggleTargetBankNumber
 	xor		0x01							;[f5e5] ee 01		; toggle bit 0 to switch display bank number between 0/1
 	ld		(BankNumMSG),a					;[f5e7] 32 ee f4	; write new bank number to BankNumMSG
 ENDM
+
+;------------------------------------------------------------------------------
+; NODE ROM / RAMDSK arbitrary magic constants
+;------------------------------------------------------------------------------
+
+; These values have no meaning we can discern, it's just what the original
+; NODE ROM writes to the first 2 bytes of the device to mark
+; the device as being formatted, so RAMDSK has to do the same to be compatible.
+StampByte0		EQU		0x40
+StampByte1		EQU		0x04
+
 
 ;------------------------------------------------------------------------------
 HIMEM		EQU		0xF5EE		; TRS-80 Model 100/102 with 32K installed
@@ -215,8 +231,8 @@ Set_SP:
 	ld		(hl),SPACE				;[f091] 36 20		; write a space to the 1st byte of fname buffer
 	call	DrawTitle				;[f093] cd 5a f1
 	xor		a						;[f096] af
-	ld		(addr002),a				;[f097] 32 4b f1
-	ld		d,FattrBA				;[f09a] 16 80
+	ld		(addr002),a				;[f097] 32 4b f1	; write 0 to add002
+	ld		d,FattrBA				;[f09a] 16 80		; D = BA file attr
 	call	j01						;[f09c] cd e1 f0
 	ld		d,FattrCO				;[f09f] 16 a0
 	call	j01						;[f0a1] cd e1 f0
@@ -758,7 +774,7 @@ CheckIsBankFormatted:
 	call	SelectBlock				;[f438] cd eb f5	; select block 0
 	call	ReadWordBA				;[f43b] cd 4d f4	; read bytes 0 & 1 into B & A
 	add		b						;[f43e] 80			; add B to A
-	cp		0x44					;[f43f] fe 44		; is the total 0x44?
+	cp		StampByte0+StampByte1	;[f43f] fe 44		; is the total 0x44?
 	jp		nz,FORMAT				;[f441] c2 68 f4	; if not, ask to format
 	ret								;[f444] c9
 
@@ -788,32 +804,34 @@ j40:
 	call	InputFileNameWithPrompt	;[f462] cd 8d f3
 	jp		j29						;[f465] c3 9b f3
 
+;------------------------------------------------------------------------------
+; FORMAT - prompt user to format and/or fix
+;------------------------------------------------------------------------------
 FORMAT:
 	ld		hl,FormatMSG			;[f468] 21 81 f5
 	call	GetYes					;[f46b] cd 53 f4
-	jp		z,j36					;[f46e] ca 7d f4
+	jp		z,@NewFormat			;[f46e] ca 7d f4
 	ld		hl,FixMSG				;[f471] 21 a5 f5
 	call	GetYes					;[f474] cd 53 f4
-	jp		z,j36@l0				;[f477] ca 8d f4
+	jp		z,@WriteStamp			;[f477] ca 8d f4
 	jp		MENU					;[f47a] c3 97 57
-
-j36:
-	call	j38						;[f47d] cd a8 f4
+; write new format
+@NewFormat:
+	call	TestHardware						;[f47d] cd a8 f4
 	push	bc						;[f480] c5
 	xor		a						;[f481] af
 	call	SelectBlock				;[f482] cd eb f5
 	ld		b,a						;[f485] 47
-	call	j37						;[f486] cd 9c f4
+	call	@WriteFormat			;[f486] cd 9c f4
 	pop		bc						;[f489] c1
-	call	j37						;[f48a] cd 9c f4
-@l0:
+	call	@WriteFormat						;[f48a] cd 9c f4
+@WriteStamp:
 	xor		a						;[f48d] af
 	call	SelectBlock				;[f48e] cd eb f5
-	WriteDataN		0x40			;[f491] 3e 40
-	WriteDataN		0x04			;[f495] 3e 04
+	WriteDataN		StampByte0		;[f491] 3e 40
+	WriteDataN		StampByte1		;[f495] 3e 04
 	jp	Set_SP						;[f499] c3 84 f0
-
-j37:
+@WriteFormat:
 	ld		e,d						;[f49c] 5a
 @l0:
 	ld		a,b						;[f49d] 78
@@ -826,7 +844,7 @@ j37:
 
 ; some kind of hardware test / presence detection
 ; reads a byte, writes a trivial edit, reads it back, reverts it, compares the read-back with the original
-j38:
+TestHardware:
 	ld		d,0x80					;[f4a8] 16 80
 	ld		a,d						;[f4aa] 7a
 	call	SelectBlock				;[f4ab] cd eb f5	; select block 128 byte 0
@@ -856,6 +874,10 @@ j38:
 	xor		a						;[f4cc] af
 	ld		b,a						;[f4cd] 47
 	ret								;[f4ce] c9
+
+;------------------------------------------------------------------------------
+; strings & (some) variables
+;------------------------------------------------------------------------------
 
 TitleMSG:
 	DB FF
@@ -936,8 +958,8 @@ VAR_E:
 	DB 0
 
 ;------------------------------------------------------------------------------
-; Switch banks
-; I don't fully understand this
+; BANK - switch banks
+;------------------------------------------------------------------------------
 BANK:
 	SelectBank 0
 	WriteDataN 0x41										; write 0x41 to Bank0,Block0,byte0
@@ -967,8 +989,10 @@ BANK:
 
 	xor		a						;[f5ea] af			; zero A to select block 0 in new bank
 
-; Select block# in the current bank
-; PORT_CTL0 is just the initial condition and gets overwritten at run time
+;------------------------------------------------------------------------------
+; SelectBlock - Select block# in the current bank
+;------------------------------------------------------------------------------
+; PORT_CTL0 is just the initial condition (bank0) and gets overwritten at run time
 SelectBlock:
 	out		(PORT_CTL0),a			;[f5eb] d3 81		; write A to the control port
 	ret								;[f5ed] c9
