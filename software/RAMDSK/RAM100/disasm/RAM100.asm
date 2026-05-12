@@ -227,632 +227,623 @@ DW PRGEXE	; exe
 
 PRGTOP:
 PRGEXE:
-	ld		de,sp+0x00				;[f076] 38 00		; save initial SP
-	ex		de,hl					;[f078] eb
-	ld		(addrSP),hl				;[f079] 22 85 f0	; write initial SP to addrSP
-	ld		a,(KC7)					;[f07c] 3a 97 ff	; get status bits of keyboard matrix column 7
-	cp		0x80					;[f07f] fe 80		; is ENTER pressed?
-	call	z,BANK					;[f081] cc bf f5	; if ENTER is pressed, switch banks ?
+	ld		de,sp+0x00				; save initial SP
+	ex		de,hl
+	ld		(addrSP),hl				; write initial SP to addrSP
+	ld		a,(KC7)					; get status bits of keyboard matrix column 7
+	cp		0x80					; is ENTER pressed?
+	call	z,BANK					; if ENTER is pressed, switch banks ?
 Set_SP:
-	ld		sp,0x0000				;[f084] 31 00 00	; set SP from addrSP, 0x0000 is just initial value gets overwritten
-	ld		hl,Set_SP				;[f087] 21 84 f0
-	push	hl						;[f08a] e5
-	ld		(ETRAP),hl				;[f08b] 22 52 f6
-	ld		hl,FNAME				;[f08e] 21 93 fc
-	ld		(hl),SPACE				;[f091] 36 20		; write a space to the 1st byte of fname buffer
-	call	DrawTitle				;[f093] cd 5a f1
-	xor		a						;[f096] af
-	ld		(addr002),a				;[f097] 32 4b f1	; write 0 to add002
-	ld		d,FattrBA				;[f09a] 16 80		; D = BA file attr
-	call	j01						;[f09c] cd e1 f0
-	ld		d,FattrCO				;[f09f] 16 a0
-	call	j01						;[f0a1] cd e1 f0
-	ld		d,FattrDO				;[f0a4] 16 c0
-	call	j01						;[f0a6] cd e1 f0
+	ld		sp,0x0000				; set SP from addrSP, 0x0000 is just initial value gets overwritten
+	ld		hl,Set_SP
+	push	hl
+	ld		(ETRAP),hl
+	ld		hl,FNAME
+	ld		(hl),SPACE				; write a space to the 1st byte of fname buffer
+	call	DrawTitle
+	xor		a
+	ld		(addr002),a
+	ld		d,FattrBA
+	call	j01
+	ld		d,FattrCO
+	call	j01
+	ld		d,FattrDO
+	call	j01
 j31:
-	call	j06						;[f0a9] cd 60 f1
+	call	UpdateFreeKB
 
 ; Fkeys
 ; Bank Load Save Name Kill ---- ---- Menu
 ; F1   F2   F3   F4   F5   F6   F7   F8
 
 ReadKeyboard:
-	call	KYREAD					;[f0ac] cd 42 72	; look for keypress
-	jp		z,ReadKeyboard			;[f0af] ca ac f0	; if no key then loop
-	jp		nc,@end					;[f0b2] d2 db f0	; if not Fkey then skip to @end
-	ld		hl,Set_SP				;[f0b5] 21 84 f0
-	push	hl						;[f0b8] e5
-	cp		0xFF					;[f0b9] fe ff
-	jp		z,SAVE1					;[f0bb] ca 07 f2	; save file without displaying file list
-	and		a						;[f0be] a7
-	jp		z,BANK					;[f0bf] ca bf f5
-	dec		a						;[f0c2] 3d
-	jp		z,LOAD					;[f0c3] ca fb f2
-	dec		a						;[f0c6] 3d
-	jp		z,SAVE					;[f0c7] ca 01 f2
-	dec		a						;[f0ca] 3d
-	jp		z,NAME					;[f0cb] ca c7 f1
-	dec		a						;[f0ce] 3d
-	jp		z,KILL					;[f0cf] ca 8f f1
-	sub		3						;[f0d2] d6 03
-	jp		z,MENU					;[f0d4] ca 97 57
-	pop		hl						;[f0d7] e1
-	jp		ReadKeyboard			;[f0d8] c3 ac f0
+	call	KYREAD					; look for keypress
+	jp		z,ReadKeyboard			; if no key then loop
+	jp		nc,@end					; if not Fkey then skip to @end
+	ld		hl,Set_SP
+	push	hl
+	cp		0xFF
+	jp		z,SAVE1					; save file without displaying file list
+	and		a
+	jp		z,BANK
+	dec		a
+	jp		z,LOAD
+	dec		a
+	jp		z,SAVE
+	dec		a
+	jp		z,NAME
+	dec		a
+	jp		z,KILL
+	sub		3
+	jp		z,MENU
+	pop		hl
+	jp		ReadKeyboard
 @end:
-	cp		CR						;[f0db] fe 0d		; is it CR?
-	ret		z						;[f0dd] c8			; return if CR
-	jp		ReadKeyboard			;[f0de] c3 ac f0	; loop if not CR
+	cp		CR						; is it CR?
+	ret		z						; return if CR
+	jp		ReadKeyboard			; loop if not CR
 
 j01:
-	ld		c,1						;[f0e1] 0e 01		; C=1 means SkipCWords will skip 2 bytes later
-	call	CheckIsBankFormatted	;[f0e3] cd 37 f4
+	ld		c,1						; C=1 means SkipCWords will skip 2 bytes later
+	call	CheckIsBankFormatted
 j33:
-	call	ReadDataW				;[f0e6] cd 4d f4	; read 2 bytes into B & A
-	ld		a,b						;[f0e9] 78
-	cp		d						;[f0ea] ba
-	call	z,j02					;[f0eb] cc f3 f0
-	inc		c						;[f0ee] 0c
-	ret		z						;[f0ef] c8
-	jp		j33						;[f0f0] c3 e6 f0
+	call	ReadDataW				; read 2 bytes into B & A
+	ld		a,b
+	cp		d
+	call	z,j02
+	inc		c
+	ret		z
+	jp		j33
 
 j02:
-	push	de						;[f0f3] d5
-	push	bc						;[f0f4] c5
-	ld		a,c						;[f0f5] 79
-	call	SelectBlock				;[f0f6] cd eb f5
-	call	j03						;[f0f9] cd 35 f1
+	push	de
+	push	bc
+	ld		a,c
+	call	SelectBlock
+	call	j03
 j34:
-	ReadData						;[f0fc]
+	ReadData
 	PrintByte
 @l0:
-	ld		a,0x08					;[f0ff] 3e 08		; addr003, 0x08 just initial value gets overwritten
-	and		a						;[f101] a7
-	cp		0x03					;[f102] fe 03
-	jp		nz,j39					;[f104] c2 0c f1
-	push	af						;[f107] f5
-	ld		a,'.'					;[f108] 3e 2e
+	ld		a,0x08					; addr003, 0x08 just initial value gets overwritten
+	and		a
+	cp		0x03
+	jp		nz,j39
+	push	af
+	ld		a,'.'
 	PrintByte
-	pop		af						;[f10b] f1
+	pop		af
 j39:
-	dec		a						;[f10c] 3d
-	ld		(addr003),a				;[f10d] 32 00 f1
-	jp		nz,j34					;[f110] c2 fc f0
-	ld		a,0x08					;[f113] 3e 08
-	ld		(addr003),a				;[f115] 32 00 f1
-	push	bc						;[f118] c5
+	dec		a
+	ld		(addr003),a
+	jp		nz,j34
+	ld		a,0x08
+	ld		(addr003),a
+	push	bc
 	ReadData
-	ld		l,a						;[f11b] 6f
+	ld		l,a
 	ReadData
-	ld		h,a						;[f11e] 67
+	ld		h,a
 	PrintSpace
 	PrintSpace
-	call	PRTASC					;[f125] cd d4 39
-	call	j05						;[f128] cd 4a f1
-	pop		bc						;[f12b] c1
-	call	CheckIsBankFormatted	;[f12c] cd 37 f4
-	call	SkipCWords				;[f12f] cd 45 f4
-	pop		bc						;[f132] c1
-	pop		de						;[f133] d1
-	ret								;[f134] c9
+	call	PRTASC
+	call	j05
+	pop		bc
+	call	CheckIsBankFormatted
+	call	SkipCWords
+	pop		bc
+	pop		de
+	ret
 
 j03:
-	ld		hl,(C_ROW)				;[f135] 2a 39 f6	; read cursor position row 1-8
-	ld		a,(addr002)				;[f138] 3a 4b f1
-	and		0x01					;[f13b] e6 01
-	jp		nz,j04					;[f13d] c2 45 f1
-	ld		h,0x04					;[f140] 26 04
-	jp		ESCB+8					;[f142] c3 76 44	; jump into the middle of the system rom ESC+B routine
+	ld		hl,(C_ROW)				; read cursor position row 1-8
+	ld		a,(addr002)
+	and		0x01
+	jp		nz,j04
+	ld		h,0x04
+	jp		ESCB+8					; jump into the middle of the system rom ESC+B routine
 
 j04:
-	ld		h,0x18					;[f145] 26 18
-	jp		ESCB+9					;[f147] c3 77 44	; jump into the middle of the system rom ESC+B routine
+	ld		h,0x18
+	jp		ESCB+9					; jump into the middle of the system rom ESC+B routine
 
 j05:
-	ld		a,0x00					;[f14a] 3e 00		; read addr002
-	inc		a						;[f14c] 3c			; increment
-	ld		(addr002),a				;[f14d] 32 4b f1	; write addr002
-	cp		10						;[f150] fe 0a		; is it 10?
-	ret		nz						;[f152] c0			; return if not 10
-	xor		a						;[f153] af			; if 10,
-	ld	(addr002),a					;[f154] 32 4b f1	; write 0 to addr002
-	call	j31						;[f157] cd a9 f0
+	ld		a,0x00					; read addr002
+	inc		a						; increment
+	ld		(addr002),a				; write addr002
+	cp		10						; is it 10?
+	ret		nz						; return if not 10
+	xor		a						; if 10,
+	ld	(addr002),a					; write 0 to addr002
+	call	j31
 DrawTitle:
-	ld		hl,TitleMSG				;[f15a] 21 cf f4
-	jp		PTILL0					;[f15d] c3 a2 11	; print TitleMSG to screen
+	ld		hl,TitleMSG
+	jp		PTILL0					; print TitleMSG to screen
 
-j06:
-	push	hl						;[f160] e5
-	push	de						;[f161] d5
-	push	bc						;[f162] c5
-	push	af						;[f163] f5
-	xor		a						;[f164] af
-	ld		d,a						;[f165] 57
-	ld		h,a						;[f166] 67
-	ld		l,a						;[f167] 6f
-	call	SelectBlock				;[f168] cd eb f5
+UpdateFreeKB:
+	push	hl
+	push	de
+	push	bc
+	push	af
+	xor		a
+	ld		d,a
+	ld		h,a
+	ld		l,a
+	call	SelectBlock
 @l0:
-	call	ReadDataW				;[f16b] cd 4d f4
-	or		b						;[f16e] b0
-	jp		nz,@l1					;[f16f] c2 73 f1
-	inc		hl						;[f172] 23
+	call	ReadDataW
+	or		b
+	jp		nz,@l1
+	inc		hl
 @l1:
-	dec		d						;[f173] 15
-	jp		nz,@l0					;[f174] c2 6b f1
-	push	hl						;[f177] e5
-	ld		hl,FreeMSG				;[f178] 21 7c f5	; really just cursor position sequence
-	call	PTILL0					;[f17b] cd a2 11
-	pop		hl						;[f17e] e1
-	ld		a,l						;[f17f] 7d
-	ld		(FreeKB),a				;[f180] 32 85 f2
-	call	PRTASC					;[f183] cd d4 39	; print free KB
-	call	CheckIsBankFormatted	;[f186] cd 37 f4
-	call	SkipCWords				;[f189] cd 45 f4
-	jp		POPALL					;[f18c] c3 ed 14
+	dec		d
+	jp		nz,@l0
+	push	hl
+	ld		hl,FreeMSG				; really just cursor position sequence
+	call	PTILL0
+	pop		hl
+	ld		a,l
+	ld		(FreeKB),a
+	call	PRTASC					; print free KB
+	call	CheckIsBankFormatted
+	call	SkipCWords
+	jp		POPALL
 
 ;------------------------------------------------------------------------------
 ; KILL
 ;
 KILL:
-	ld		hl,KillMSG				;[f18f] 21 3f f5
-	call	j30						;[f192] cd a8 f3
-	jp		nz,BEEP					;[f195] c2 29 42
-	ld		hl,SureMSG				;[f198] 21 9d f5
-	call	ConfirmWithPrompt		;[f19b] cd 53 f4
-	ret		nz						;[f19e] c0
+	ld		hl,KillMSG
+	call	j30
+	jp		nz,BEEP
+	ld		hl,SureMSG
+	call	ConfirmWithPrompt
+	ret		nz
 @l0:
-	call	CheckIsBankFormatted	;[f19f] cd 37 f4
-	ld		a,(BlockNum)			;[f1a2] 3a ba f5
-	dec		a						;[f1a5] 3d
-	jp		z,@l1					;[f1a6] ca ad f1
-	ld		c,a						;[f1a9] 4f
-	call	SkipCWords				;[f1aa] cd 45 f4
+	call	CheckIsBankFormatted
+	ld		a,(BlockNumA)
+	dec		a
+	jp		z,@l1
+	ld		c,a
+	call	SkipCWords
 @l1:
-	xor		a						;[f1ad] af
+	xor		a
 	WriteData
 	WriteData
-	ld		a,(VAR_D)				;[f1b2] 3a bd f5
-	and		a						;[f1b5] a7
-	ret		z						;[f1b6] c8
-	ld		(BlockNum),a			;[f1b7] 32 ba f5
-	ld		c,a						;[f1ba] 4f
-	call	CheckIsBankFormatted	;[f1bb] cd 37 f4
-	call	SkipCWords				;[f1be] cd 45 f4
-	ld		(VAR_D),a				;[f1c1] 32 bd f5
-	jp		@l0						;[f1c4] c3 9f f1
+	ld		a,(VAR_D)
+	and		a
+	ret		z
+	ld		(BlockNumA),a
+	ld		c,a
+	call	CheckIsBankFormatted
+	call	SkipCWords
+	ld		(VAR_D),a
+	jp		@l0
 
 ;------------------------------------------------------------------------------
 ; NAME
 ;
 NAME:
-	ld		hl,NameMSG				;[f1c7] 21 5d f5
-	call	j30						;[f1ca] cd a8 f3
-	jp		nz,BEEP					;[f1cd] c2 29 42
-	call	j40						;[f1d0] cd 5f f4
-	ld		a,(BlockNum)			;[f1d3] 3a ba f5
-	ld		b,a						;[f1d6] 47
-	push	bc						;[f1d7] c5
-	call	j41						;[f1d8] cd ab f3
-	pop		bc						;[f1db] c1
-	jp		z,BEEP					;[f1dc] ca 29 42
-	ld		a,b						;[f1df] 78
-	call	SelectBlock				;[f1e0] cd eb f5
-	ld		hl,FNAME				;[f1e3] 21 93 fc
-	ld		b,6						;[f1e6] 06 06
+	ld		hl,NameMSG
+	call	j30
+	jp		nz,BEEP
+	call	j40
+	ld		a,(BlockNumA)
+	ld		b,a
+	push	bc
+	call	j41
+	pop		bc
+	jp		z,BEEP
+	ld		a,b
+	call	SelectBlock
+	ld		hl,FNAME
+	ld		b,6
 @l0:
-	ld		a,(hl)					;[f1e8] 7e
+	ld		a,(hl)
 	WriteData
-	inc		hl						;[f1eb] 23
-	dec		b						;[f1ec] 05
-	jp		nz,@l0					;[f1ed] c2 e8 f1
-	ret								;[f1f0] c9
+	inc		hl
+	dec		b
+	jp		nz,@l0
+	ret
 
 ConfirmReplace:
-	ld		hl,ReplaceMSG			;[f1f1] 21 6f f5
-	call	ConfirmWithPrompt		;[f1f4] cd 53 f4
-	jp		nz,Set_SP				;[f1f7] c2 84 f0
-	ret								;[f1fa] c9
+	ld		hl,ReplaceMSG
+	call	ConfirmWithPrompt
+	jp		nz,Set_SP
+	ret
 
 ConfirmReplaceKill:
-	call	ConfirmReplace			;[f1fb] cd f1 f1
-	jp		KILL@l0					;[f1fe] c3 9f f1
+	call	ConfirmReplace
+	jp		KILL@l0
 
 ;------------------------------------------------------------------------------
 ; SAVE
 ;
 SAVE:
-	PrintByteN FF					;[f201]				; clear the screen
-	call	FILES					;[f204] cd 3a 1f	; BASIC FILES statement
+	PrintByteN FF					; clear the screen
+	call	FILES					; display ram files list
 SAVE1:
-	ld		hl,SaveMSG				;[f207] 21 53 f5
-	call	InputFileNameWithPrompt	;[f20a] cd 8d f3
-	call	FINDFN					;[f20d] cd af 20
-	jp		z,BEEP					;[f210] ca 29 42
-	push	hl						;[f213] e5
-	call	j42						;[f214] cd 0d f4
-	call	j40						;[f217] cd 5f f4
-	call	j41						;[f21a] cd ab f3
-	call	z,ConfirmReplaceKill	;[f21d] cc fb f1
-	call	j06						;[f220] cd 60 f1
-	pop		hl						;[f223] e1
-	inc		hl						;[f224] 23
-	ex		de,hl					;[f225] eb
-	ld		hl,(de)					;[f226] ed
-	ld		(addr005),hl			;[f227] 22 71 f3
-	call	j11						;[f22a] cd 3b f2
-	inc		hl						;[f22d] 23
-	call	j14						;[f22e] cd 5e f2
-	call	SAVE2					;[f231] cd 67 f2
-	call	j17						;[f234] cd 8b f2
-	call	j20						;[f237] cd ce f2
-	ret								;[f23a] c9
-
-j11:
-	ld		a,(addr006)				;[f23b] 3a db f3
-	cp		0x80					;[f23e] fe 80
-	jp		z,j13					;[f240] ca 57 f2
-	cp		0xC0					;[f243] fe c0
-	jp		z,j12					;[f245] ca 50 f2
-	ld		de,hl+2					;[f248] 28 02
-	ld		hl,(de)					;[f24a] ed
-	ld		de,0x0005				;[f24b] 11 05 00
-	add		hl,de					;[f24e] 19
-	ret								;[f24f] c9
-
-j12:
-	push	hl						;[f250] e5
-	call	GETEOF					;[f251] cd 2d 6b
-	pop		bc						;[f254] c1
-	sub		hl,bc					;[f255] 08
-	ret								;[f256] c9
-
-j13:
-	push	hl						;[f257] e5
-	call	UBLNAS+3				;[f258] cd f3 05	; jump into the middle of UBLNAS (update BASIC line number addresses)
-	pop		bc						;[f25b] c1
-	sub		hl,bc					;[f25c] 08
-	ret								;[f25d] c9
-
-j14:
-	ld		(VAR_A),hl				;[f25e] 22 b8 f5
-	ld		hl,FilenameMSG			;[f261] 21 b0 f5
-	jp		j44						;[f264] c3 10 f4
-
-SAVE2:
-	ld		hl,(VAR_A)				;[f267] 2a b8 f5
-	ld		d,0x01					;[f26a] 16 01
-	ld		bc,1014					;[f26c] 01 f6 03	; is it block size minus 10 bytes?
-	jp		j15@l0					;[f26f] c3 75 f2
-
-j15:
-	ld		bc,1024					;[f272] 01 00 04	; one full block size
+	ld		hl,SaveMSG
+	call	InputFileNameWithPrompt
+	call	FINDFN
+	jp		z,BEEP
+	push	hl
+	call	j42
+	call	j40
+	call	j41
+	call	z,ConfirmReplaceKill
+	call	UpdateFreeKB
+	pop		hl
+	inc		hl
+	ex		de,hl
+	ld		hl,(de)
+	ld		(addr005),hl
+	call	@l0
+	inc		hl
+	call	@prepfn
+	call	@l2
+	call	@l6
+	call	WriteFilename
+	ret
 @l0:
-	sub		hl,bc					;[f275] 08
-	jp		z,j16					;[f276] ca 80 f2
-	jp		m,j16					;[f279] fa 80 f2
-	inc		d						;[f27c] 14
-	jp		j15						;[f27d] c3 72 f2
-
-j16:
-	ld		a,d						;[f280] 7a
-	ld		(VAR_E),a				;[f281] 32 be f5	; copy D to VAR_E
+	ld		a,(FileAttr)
+	cp		FattrBA
+	jp		z,@ba
+	cp		FattrDO
+	jp		z,@do
+	ld		de,hl+2
+	ld		hl,(de)
+	ld		de,0x0005
+	add		hl,de
+	ret
+@do:
+	push	hl
+	call	GETEOF
+	pop		bc
+	sub		hl,bc
+	ret
+@ba:
+	push	hl
+	call	UBLNAS+3				; jump into the middle of UBLNAS (update BASIC line number addresses)
+	pop		bc
+	sub		hl,bc
+	ret
+@prepfn:
+	ld		(VAR_A),hl
+	ld		hl,FilenameMSG
+	jp		j44
+@l2:
+	ld		hl,(VAR_A)
+	ld		d,0x01
+	ld		bc,1014					; 1024 byte block minus 10 byte filename header
+	jp		@l4
+@l3:
+	ld		bc,1024					; one full block size
+@l4:
+	sub		hl,bc
+	jp		z,@l5
+	jp		m,@l5
+	inc		d
+	jp		@l3
+@l5:
+	ld		a,d
+	ld		(VAR_E),a
 @freekb:	; nothing jumps here, we just need the address+1
-	ld		a,0x00					;[f284] 3e 00		; FreeKB
-	cp		d						;[f286] ba			
-	jp		c,Beep					;[f287] da 5e f3
-	ret								;[f28a] c9
-
-j17:
-	call	CheckIsBankFormatted	;[f28b] cd 37 f4
-	ld		c,0x00					;[f28e] 0e 00
-@l0:
-	call	ReadDataW				;[f290] cd 4d f4
-	inc		c						;[f293] 0c
-	or		b						;[f294] b0
-	jp		nz,@l0					;[f295] c2 90 f2
-	xor		a						;[f298] af
-	call	SelectBlock				;[f299] cd eb f5
-	ld		a,c						;[f29c] 79
-	ld		(BlockNum),a			;[f29d] 32 ba f5
-	call	SkipCWords				;[f2a0] cd 45 f4
-	call	j18						;[f2a3] cd af f2
-	ld		a,(BlockNum)			;[f2a6] 3a ba f5
-	ld		(addr007),a				;[f2a9] 32 c7 f2
-	jp		j17						;[f2ac] c3 8b f2
-
-j18:
-	ld		a,(VAR_E)				;[f2af] 3a be f5
-	dec		a						;[f2b2] 3d
-	ld		(VAR_E),a				;[f2b3] 32 be f5
-	jp		z,j19					;[f2b6] ca c0 f2
+	ld		a,0x00					; FreeKB
+	cp		d
+	jp		c,Beep
+	ret
+@l6:
+	call	CheckIsBankFormatted
+	ld		c,0x00
+@l7:
+	call	ReadDataW
+	inc		c
+	or		b
+	jp		nz,@l7
+	xor		a
+	call	SelectBlock
+	ld		a,c
+	ld		(BlockNumA),a
+	call	SkipCWords
+	call	@l8
+	ld		a,(BlockNumA)
+	ld		(BlockNumB),a
+	jp		@l6
+@l8:
+	ld		a,(VAR_E)
+	dec		a
+	ld		(VAR_E),a
+	jp		z,@l9
 	WriteDataN SPACE
-	jp		j19@l0					;[f2bd] c3 c6 f2
+	jp		@la
+@l9:
+	pop		af
+	ld		a,(FileAttr)
+	WriteData
+@la:
+	ld		a,0x00					; BlockNumB
+	ld		(VAR_D),a
+	WriteData
+	ret
 
-j19:
-	pop		af						;[f2c0] f1
-	ld		a,(addr006)				;[f2c1] 3a db f3
-	WriteData						;[f2c4] d3 83
+; write 10 bytes filename to first 10 bytes of block BlockNumA
+WriteFilename:
+	ld		a,(BlockNumA)
+	call	SelectBlock
+	ld		hl,FilenameMSG
+	ld		b,10					; loop counter write 10 bytes
 @l0:
-	ld		a,0x00					;[f2c6] 3e 00	; addr007
-	ld		(VAR_D),a				;[f2c8] 32 bd f5
-	WriteData						;[f2cb] d3 83
-	ret								;[f2cd] c9
+	ld		a,(hl)
+	WriteData
+	inc		hl
+	dec		b
+	jp		nz,@l0
+	ld		a,0xD3					; ???  what is 0xD3  ???
+	jp		j27@l0
 
-j20:
-	ld		a,(BlockNum)			;[f2ce] 3a ba f5
-	call	SelectBlock				;[f2d1] cd eb f5
-	ld		hl,FilenameMSG			;[f2d4] 21 b0 f5
-	ld		b,10					;[f2d7] 06 0a
-@l0:
-	ld		a,(hl)					;[f2d9] 7e
-	WriteData						;[f2da] d3 83
-	inc		hl						;[f2dc] 23
-	dec		b						;[f2dd] 05
-	jp		nz,@l0					;[f2de] c2 d9 f2
-	ld		a,0xD3					;[f2e1] 3e d3	; ???  what is 0xD3  ???
-	jp		j27@l0					;[f2e3] c3 64 f3
-
-j21:
-	push	hl						;[f2e6] e5
-	call	ConfirmReplace			;[f2e7] cd f1 f1
-	pop		hl						;[f2ea] e1
-	call	FINDFN1					;[f2eb] cd cc 20	; tail end of FINDFN
-	cp		0xC0					;[f2ee] fe c0		; ???  what is 0xC0  ???
-	jp		z,KILLDO				;[f2f0] ca bf 1f
-	cp		0xA0					;[f2f3] fe a0		; ???  what is 0xA0  ???
-	jp		z,KILLDO1				;[f2f5] ca d9 1f	; ???
-	jp		KILLDO4					;[f2f8] c3 17 20	; ???
+DeleteRamFile:
+	push	hl
+	call	ConfirmReplace
+	pop		hl
+	call	FINDFN1					; tail end of FINDFN
+	cp		FattrDO
+	jp		z,KILLDO				; if it's a .DO file
+	cp		FattrCO
+	jp		z,KILLDO1				; if it's a .CO file
+	jp		KILLDO4					; if it's anything else
 
 ;------------------------------------------------------------------------------
 ; LOAD
 ;
 LOAD:
-	ld		hl,LoadMSG				;[f2fb] 21 49 f5
-	call	j30						;[f2fe] cd a8 f3
-	jp		nz,BEEP					;[f301] c2 29 42
-	call	j40						;[f304] cd 5f f4
-	call	FINDFN					;[f307] cd af 20
-	call	nz,j21					;[f30a] c4 e6 f2
-	call	j23						;[f30d] cd 24 f3
-	ld		(addr005),hl			;[f310] 22 71 f3
-	ex		de,hl					;[f313] eb
-	dec		de						;[f314] 1b
-	call	MYSTERY_20EC			;[f315] cd ec 20
-	ld		a,(addr006)				;[f318] 3a db f3
-	call	MKDIRENT				;[f31b] cd 39 22
-	call	j27						;[f31e] cd 62 f3
-	jp		RESETFPS				;[f321] c3 46 21
+	ld		hl,LoadMSG
+	call	j30
+	jp		nz,BEEP
+	call	j40
+	call	FINDFN
+	call	nz,DeleteRamFile
+	call	MakeHole
+	ld		(addr005),hl
+	ex		de,hl
+	dec		de
+	call	MYSTERY_20EC
+	ld		a,(FileAttr)
+	call	MKDIRENT
+	call	j27
+	jp		RESETFPS
 
-j23:
-	ld		hl,(VAR_A)				;[f324] 2a b8 f5
-	ld		b,h						;[f327] 44
-	ld		c,l						;[f328] 4d
-	ld		a,(addr006)				;[f329] 3a db f3
-	cp		FattrDO					;[f32c] fe c0
-	jp		z,j24					;[f32e] ca 45 f3
-	cp		FattrBA					;[f331] fe 80
-	jp		z,j25					;[f333] ca 4f f3
-	ld		hl,(COFILES)			;[f336] 2a b0 fb
-	push	hl						;[f339] e5
-	call	MAKHOL					;[f33a] cd 6d 6b
-	pop		hl						;[f33d] e1
-	ld		(COFILES),hl			;[f33e] 22 b0 fb
-	jp		c,Beep					;[f341] da 5e f3
-	ret								;[f344] c9
+MakeHole:
+	ld		hl,(VAR_A)
+	ld		b,h
+	ld		c,l
+	ld		a,(FileAttr)
+	cp		FattrDO
+	jp		z,MakeHoleDO
+	cp		FattrBA
+	jp		z,MakeHoleBA
+	ld		hl,(COFILES)
+	push	hl
+	call	MAKHOL
+	pop		hl
+	ld		(COFILES),hl
+	jp		c,Beep
+	ret
 
-j24:
-	ld		hl,(DOFILES)			;[f345] 2a ae fb
-	call	MAKHOL					;[f348] cd 6d 6b
-	jp		c,Beep					;[f34b] da 5e f3
-	ret								;[f34e] c9
+MakeHoleDO:
+	ld		hl,(DOFILES)
+	call	MAKHOL
+	jp		c,Beep
+	ret
 
-j25:
-	ld		hl,(UNSBA)				;[f34f] 2a 9a f9
-	call	MAKHOL					;[f352] cd 6d 6b
-	jp		c,Beep					;[f355] da 5e f3
-	push	hl						;[f358] e5
-	call	UPDOFILES				;[f359] cd 3e 21
-	pop		hl						;[f35c] e1
-	ret								;[f35d] c9
+MakeHoleBA:
+	ld		hl,(UNSBA)
+	call	MAKHOL
+	jp		c,Beep
+	push	hl
+	call	UPDOFILES
+	pop		hl
+	ret
 
 Beep:
-	pop		af						;[f35e] f1
-	jp		BEEP					;[f35f] c3 29 42
+	pop		af
+	jp		BEEP
 
 j27:
-	ld		a,0xDB					;[f362] 3e db	; ???  what is 0xDB  ???
+	ld		a,0xDB					; ???  what is 0xDB  ???
 @l0:
-	ld		(@l3),a					;[f364] 32 74 f3
-	ld		hl,1014					;[f367] 21 f6 03	; is it block size minus 10 bytes header?
-	ld		(VAR_C),hl				;[f36a] 22 bb f5
-	ld		hl,(VAR_A)				;[f36d] 2a b8 f5
+	ld		(@l3),a
+	ld		hl,1014					; block size 1024 minus 10 bytes filename we already wrote
+	ld		(VAR_C),hl
+	ld		hl,(VAR_A)
 @l1:
-	ld		de,0x0000				;[f370] 11 00 00	; addr005
+	ld		de,0x0000				; addr005
 @l2:
-	ld		a,(de)					;[f373] 1a
+	ld		a,(de)
 @l3:
-	ReadData						;[f374] db 83
-	ld		(de),a					;[f376] 12
-	inc		de						;[f377] 13
-	dec		hl						;[f378] 2b
-	ld		a,h						;[f379] 7c
-	or		l						;[f37a] b5
-	ret		z						;[f37b] c8
-	push	hl						;[f37c] e5
-	ld		hl,(VAR_C)				;[f37d] 2a bb f5
-	dec		hl						;[f380] 2b
-	ld		a,l						;[f381] 7d
-	or		h						;[f382] b4
-	call	z,j43					;[f383] cc 18 f4
-	ld		(VAR_C),hl				;[f386] 22 bb f5
-	pop		hl						;[f389] e1
-	jp		@l2						;[f38a] c3 73 f3
+	ReadData
+	ld		(de),a
+	inc		de
+	dec		hl
+	ld		a,h
+	or		l
+	ret		z
+	push	hl
+	ld		hl,(VAR_C)
+	dec		hl
+	ld		a,l
+	or		h
+	call	z,j43
+	ld		(VAR_C),hl
+	pop		hl
+	jp		@l2
 
 InputFileNameWithPrompt:
-	call	PTILL0					;[f38d] cd a2 11
-	call	INLIN					;[f390] cd 44 46
-	ret		c						;[f393] d8
-	dec		b						;[f394] 05
-	ret		z						;[f395] c8
-	inc		hl						;[f396] 23
-	ld		e,b						;[f397] 58
-	jp		CKFN					;[f398] c3 0b 4c
+	call	PTILL0
+	call	INLIN
+	ret		c
+	dec		b
+	ret		z
+	inc		hl
+	ld		e,b
+	jp		CKFN
 
 j29:
-	ld		hl,MYSTERY_FCA2			;[f39b] 21 a2 fc
-	ld		de,MYSTERY_FC99			;[f39e] 11 99 fc
-	ld		a,(hl)					;[f3a1] 7e
-	ld		(de),a					;[f3a2] 12
-	inc		hl						;[f3a3] 23
-	inc		de						;[f3a4] 13
-	ld		a,(hl)					;[f3a5] 7e
-	ld		(de),a					;[f3a6] 12
-	ret								;[f3a7] c9
+	ld		hl,MYSTERY_FCA2
+	ld		de,MYSTERY_FC99
+	ld		a,(hl)
+	ld		(de),a
+	inc		hl
+	inc		de
+	ld		a,(hl)
+	ld		(de),a
+	ret
 
 j30:
-	call	InputFileNameWithPrompt	;[f3a8] cd 8d f3
+	call	InputFileNameWithPrompt
 j41:
-	xor		a						;[f3ab] af
-	ld		(BlockNum),a			;[f3ac] 32 ba f5
-	ld		(addr007),a				;[f3af] 32 c7 f2
-	ld		a,(MYSTERY_FC99)		;[f3b2] 3a 99 fc
-	sub		0x42					;[f3b5] d6 42
-	cp		0x03					;[f3b7] fe 03
-	jp		nc,INSTR_2AB5			;[f3b9] d2 b5 2a
-	add		a						;[f3bc] 87
-	add		a						;[f3bd] 87
-	add		a						;[f3be] 87
-	add		a						;[f3bf] 87
-	add		a						;[f3c0] 87
-	add		0x80					;[f3c1] c6 80
-	ld		(addr006),a				;[f3c3] 32 db f3
-	call	CheckIsBankFormatted	;[f3c6] cd 37 f4
+	xor		a
+	ld		(BlockNumA),a
+	ld		(BlockNumB),a
+	ld		a,(MYSTERY_FC99)
+	sub		0x42					; what are these magic values?
+	cp		0x03
+	jp		nc,INSTR_2AB5
+	add		a
+	add		a
+	add		a
+	add		a
+	add		a
+	add		0x80
+	ld		(FileAttr),a
+	call	CheckIsBankFormatted
 @l0:
-	call	ReadDataW				;[f3c9] cd 4d f4
-	ld		(VAR_D),a				;[f3cc] 32 bd f5
-	ld		a,(BlockNum)			;[f3cf] 3a ba f5
-	inc		a						;[f3d2] 3c
-	jp		z,INSTR_2AB5			;[f3d3] ca b5 2a
-	ld		(BlockNum),a			;[f3d6] 32 ba f5
-	ld		a,b						;[f3d9] 78
+	call	ReadDataW
+	ld		(VAR_D),a
+	ld		a,(BlockNumA)
+	inc		a
+	jp		z,INSTR_2AB5
+	ld		(BlockNumA),a
+	ld		a,b
 @l1:
-	cp		0x3F					;[f3da] fe 3f
-	jp		nz,@l0					;[f3dc] c2 c9 f3
-	ld		a,(BlockNum)			;[f3df] 3a ba f5
-	call	SelectBlock				;[f3e2] cd eb f5
-	ld		b,10					;[f3e5] 06 0a		; read 10 bytes
-	ld		hl,FilenameMSG			;[f3e7] 21 b0 f5
+	cp		0x3F					; what is 0x3F ?
+	jp		nz,@l0
+	ld		a,(BlockNumA)
+	call	SelectBlock
+	ld		b,10					; loop counter read 10 bytes
+	ld		hl,FilenameMSG
 @l2:
-	ReadData						;[f3ea] db 83
-	ld		(hl),a					;[f3ec] 77
-	inc		hl						;[f3ed] 23
-	dec		b						;[f3ee] 05
-	jp		nz,@l2					;[f3ef] c2 ea f3
-	ld		c,8						;[f3f2] 0e 08
-	ld		hl,FilenameMSG			;[f3f4] 21 b0 f5
-	ld		de,FNAME				;[f3f7] 11 93 fc
-	call	CMPARE					;[f3fa] cd 6d 5a
-	jp		z,j42					;[f3fd] ca 0d f4
-	call	CheckIsBankFormatted	;[f400] cd 37 f4
-	ld		a,(BlockNum)			;[f403] 3a ba f5
-	ld		c,a						;[f406] 4f
-	call	SkipCWords				;[f407] cd 45 f4
-	jp		@l0						;[f40a] c3 c9 f3
+	ReadData
+	ld		(hl),a
+	inc		hl
+	dec		b
+	jp		nz,@l2
+	ld		c,8
+	ld		hl,FilenameMSG
+	ld		de,FNAME
+	call	CMPARE
+	jp		z,j42
+	call	CheckIsBankFormatted
+	ld		a,(BlockNumA)
+	ld		c,a
+	call	SkipCWords
+	jp		@l0
 
 j42:
-	ld		hl,CFNAME				;[f40d] 21 9c fc	; point HL to "last filename loaded from cassette"
+	ld		hl,CFNAME				; point HL to "last filename loaded from cassette"
 ; copy first 8 bytes of filename from DE buffer to HL buffer
 j44:
-	ld		de,FNAME				;[f410] 11 93 fc	; point DE to system active filename
-	ld		b,8						;[f413] 06 08
-	jp		D2H4Bup					;[f415] c3 69 34	; copy B (8) bytes of DE buffer to HL buffer, bottom to top, so bytes 0-7
+	ld		de,FNAME				; point DE to system active filename
+	ld		b,8
+	jp		D2H4Bup					; copy B (8) bytes of DE buffer to HL buffer, bottom to top, so bytes 0-7
 
 j43:
-	ld		hl,1024					;[f418] 21 00 04
-	ld		(VAR_C),hl				;[f41b] 22 bb f5
-	xor		a						;[f41e] af
-	call	SelectBlock				;[f41f] cd eb f5
-	ld		a,(VAR_D)				;[f422] 3a bd f5
-	ld		(BlockNum),a			;[f425] 32 ba f5
-	ld		c,a						;[f428] 4f
-	inc		c						;[f429] 0c
-	call	SkipCWords				;[f42a] cd 45 f4
-	ld		(VAR_D),a				;[f42d] 32 bd f5
-	ld		a,(BlockNum)			;[f430] 3a ba f5
-	call	SelectBlock				;[f433] cd eb f5
-	ret								;[f436] c9
+	ld		hl,1024
+	ld		(VAR_C),hl
+	xor		a
+	call	SelectBlock
+	ld		a,(VAR_D)
+	ld		(BlockNumA),a
+	ld		c,a
+	inc		c
+	call	SkipCWords
+	ld		(VAR_D),a
+	ld		a,(BlockNumA)
+	call	SelectBlock
+	ret
 
 CheckIsBankFormatted:
-	xor		a						;[f437] af			; zero A
-	call	SelectBlock				;[f438] cd eb f5	; select block 0
-	call	ReadDataW				;[f43b] cd 4d f4	; read bytes 0 & 1 into B & A
-	add		b						;[f43e] 80			; add B to A
-	cp		StampByte0+StampByte1	;[f43f] fe 44		; is the total 0x44?
-	jp		nz,FORMAT				;[f441] c2 68 f4	; if not, ask to format
-	ret								;[f444] c9
+	xor		a						; zero A
+	call	SelectBlock				; select block 0
+	call	ReadDataW				; read bytes 0 & 1 into B & A
+	add		b						; add B to A
+	cp		StampByte0+StampByte1	; is the total 0x44?
+	jp		nz,FORMAT				; if not, ask to format
+	ret
 
 ; Read-and-discard C*2 bytes, final read will be left in B & A
 SkipCWords:
-	call		ReadDataW			;[f445] cd 4d f4	; read 2 bytes into B & A
-	dec			c					;[f448] 0d			; decrement C
-	jp			nz,SkipCWords		;[f449] c2 45 f4	; repeat until C=0 (discard previous read data)
-	ret								;[f44c] c9
+	call		ReadDataW			; read 2 bytes into B & A
+	dec			c					; decrement C
+	jp			nz,SkipCWords		; repeat until C=0 (discard previous read data)
+	ret
 
 ; Read a word of data (2 bytes) from device into B & A
 ReadDataW:
 	ReadData
-	ld				b,a				;[f44f] 47
+	ld				b,a
 	ReadData
-	ret								;[f452] c9
+	ret
 
 ConfirmWithPrompt:
-	call		PTILL0				;[f453] cd a2 11	; print prompt
-	call		CHGET				;[f456] cd cb 12	; wait for keypress
-	call		LC2UCA				;[f459] cd e9 0f	; convert to uppercase
-	cp			'Y'					;[f45c] fe 59		; is it "Y" ?
-	ret								;[f45e] c9			; return cp result
+	call		PTILL0				; print prompt
+	call		CHGET				; wait for keypress
+	call		LC2UCA				; convert to uppercase
+	cp			'Y'					; is it "Y" ?
+	ret								; return cp result
 
 j40:
-	ld		hl,AsMSG				;[f45f] 21 67 f5
-	call	InputFileNameWithPrompt	;[f462] cd 8d f3
-	jp		j29						;[f465] c3 9b f3
+	ld		hl,AsMSG
+	call	InputFileNameWithPrompt
+	jp		j29
 
 ;------------------------------------------------------------------------------
 ; FORMAT - prompt user to format and/or fix
 ;------------------------------------------------------------------------------
 FORMAT:
-	ld		hl,FormatMSG			;[f468] 21 81 f5
-	call	ConfirmWithPrompt		;[f46b] cd 53 f4
-	jp		z,@NewFormat			;[f46e] ca 7d f4
-	ld		hl,FixMSG				;[f471] 21 a5 f5
-	call	ConfirmWithPrompt		;[f474] cd 53 f4
-	jp		z,@WriteStamp			;[f477] ca 8d f4
-	jp		MENU					;[f47a] c3 97 57
+	ld		hl,FormatMSG
+	call	ConfirmWithPrompt
+	jp		z,@NewFormat
+	ld		hl,FixMSG
+	call	ConfirmWithPrompt
+	jp		z,@WriteStamp
+	jp		MENU
 ; write new format
 @NewFormat:
-	call	TestHardware						;[f47d] cd a8 f4
-	push	bc						;[f480] c5
-	xor		a						;[f481] af
-	call	SelectBlock				;[f482] cd eb f5
-	ld		b,a						;[f485] 47
-	call	@WriteFormat			;[f486] cd 9c f4
-	pop		bc						;[f489] c1
-	call	@WriteFormat						;[f48a] cd 9c f4
+	call	TestHardware
+	push	bc
+	xor		a
+	call	SelectBlock
+	ld		b,a
+	call	@WriteFormat
+	pop		bc
+	call	@WriteFormat
 @WriteStamp:
-	xor		a						;[f48d] af
-	call	SelectBlock				;[f48e] cd eb f5
-	WriteDataN		StampByte0		;[f491] 3e 40
-	WriteDataN		StampByte1		;[f495] 3e 04
-	jp	Set_SP						;[f499] c3 84 f0
+	xor		a
+	call	SelectBlock
+	WriteDataN		StampByte0
+	WriteDataN		StampByte1
+	jp	Set_SP
 @WriteFormat:
-	ld		e,d						;[f49c] 5a
+	ld		e,d
 @l0:
-	ld		a,b						;[f49d] 78
-	WriteData						;[f49e] d3 83
-	xor		a						;[f4a0] af
-	WriteData						;[f4a1] d3 83
-	dec		e						;[f4a3] 1d
-	jp		nz,@l0					;[f4a4] c2 9d f4
-	ret								;[f4a7] c9
+	ld		a,b
+	WriteData
+	xor		a
+	WriteData
+	dec		e
+	jp		nz,@l0
+	ret
 
 ; hardware test / presence detection
 ; this might not be correct, just my best attempt to follow
@@ -860,37 +851,37 @@ FORMAT:
 ; return fail:    Z = unset, B = 0x00, C = 0x00 or 0xFF ?,  D = 0x80
 ; C on success could be anything, whatever data happened to be stored on the device, incremented by 1
 TestHardware:
-	ld		d,0x80					;[f4a8] 16 80
-	ld		a,d						;[f4aa] 7a
-	call	SelectBlock				;[f4ab] cd eb f5	; select block 128 byte 0
-	ReadData						;[f4ae] db 83		; read byte 0
-	ld		b,a						;[f4b0] 47			; save in B
+	ld		d,0x80
+	ld		a,d
+	call	SelectBlock				; select block 128 byte 0
+	ReadData						; read byte 0
+	ld		b,a						; save in B
 	; B should now have a copy of whatever was in byte 0 at start
-	ld		a,d						;[f4b1] 7a
-	call	SelectBlock				;[f4b2] cd eb f5	; reset byte position back to 0
-	ld		a,b						;[f4b5] 78			; get saved byte 0 from B
-	inc		a						;[f4b6] 3c			; increment
-	WriteData						;[f4b7] d3 83		; write incremented value back to byte 0
+	ld		a,d
+	call	SelectBlock				; reset byte position back to 0
+	ld		a,b						; get saved byte 0 from B
+	inc		a						; increment
+	WriteData						; write incremented value back to byte 0
 	; byte 0 should now be incremented from before
-	ld		a,d						;[f4b9] 7a
-	call	SelectBlock				;[f4ba] cd eb f5	; reset byte position back to 0
-	ReadData						;[f4bd] db 83		; read byte 0
-	ld		c,a						;[f4bf] 4f			; save to C
+	ld		a,d
+	call	SelectBlock				; reset byte position back to 0
+	ReadData						; read byte 0
+	ld		c,a						; save to C
 	; C should now have the incremented value read back from the hardware
-	ld		a,d						;[f4c0] 7a
-	call	SelectBlock				;[f4c1] cd eb f5	; reset byte position back to 0
-	ld		a,b						;[f4c4] 78			; get original saved byte 0 from B
-	WriteData						;[f4c5] d3 83		; write original byte 0 back to byte 0
+	ld		a,d
+	call	SelectBlock				; reset byte position back to 0
+	ld		a,b						; get original saved byte 0 from B
+	WriteData						; write original byte 0 back to byte 0
 	; byte 0 should now be restored to what it was originally
-	ld		a,c						;[f4c7] 79			; get C (value read back from hardware)
-	cp		b						;[f4c8] b8			; compare test incremented byte 0 with original byte 0
-	ld		b,0x40					;[f4c9] 06 40
+	ld		a,c						; get C (value read back from hardware)
+	cp		b						; compare test incremented byte 0 with original byte 0
+	ld		b,0x40
 	; Z is set or unset from the CP
 	; B is 0x40 (LD aka 8085 MVI does not change Z)
-	ret		z						;[f4cb] c8			; if match (test write did not work), return with B = 0x40
-	xor		a						;[f4cc] af
-	ld		b,a						;[f4cd] 47
-	ret								;[f4ce] c9			; if not match (test write worked), return with B = 0x00
+	ret		z						; if match (test write did not work), return with B = 0x40
+	xor		a
+	ld		b,a
+	ret								; if not match (test write worked), return with B = 0x00
 
 ;------------------------------------------------------------------------------
 ; strings & variables
@@ -898,13 +889,13 @@ TestHardware:
 
 ; variables that only exist as raw locations to the parameter to some instruction
 ; ie self-modifying code
-addrSP		EQU		Set_SP+1		; $f085
-addr002		EQU		j05+1			; $f14b
-addr003		EQU		j34@l0+1		; $f100
-FreeKB		EQU		j16@freekb+1	; $f285
-addr005		EQU		j27@l1+1		; $f371
-addr006		EQU		j41@l1+1		; $f3db
-addr007		EQU		j19@l0+1		; $f2c7
+addrSP		EQU		Set_SP+1
+addr002		EQU		j05+1
+addr003		EQU		j34@l0+1
+FreeKB		EQU		SAVE1@freekb+1
+addr005		EQU		j27@l1+1
+FileAttr	EQU		j41@l1+1
+BlockNumB	EQU		SAVE1@la+1
 
 TitleMSG:
 	DB FF
@@ -973,7 +964,7 @@ FilenameMSG:
 VAR_A:
 	DW 0
 
-BlockNum:
+BlockNumA:
 	DB 0
 
 VAR_C:
@@ -990,38 +981,38 @@ VAR_E:
 ;------------------------------------------------------------------------------
 BANK:
 	SelectBank 0
-	WriteDataN 0x41										; write 0x41 to Bank0,Block0,byte0
+	WriteDataN 0x41					; write 0x41 to Bank0,Block0,byte0
 	; blindly wrote to block0,byte0, hope you didn't have non-RAMDSK data there
 	; maybe it's to detect if the hardware exists
 	SelectBank 1
-	ReadData											; read Bank1,Block0,Byte0
+	ReadData						; read Bank1,Block0,Byte0
 	; Note: if the hardware is 256k or smaller, no banks (original DATAPAC/RAMPAC)
 	; then the Bank1 read will just read Bank0 again
-	ld		b,a						;[f5cb] 47			; save (maybe)Bank1,Block0,Byte0 in B
+	ld		b,a						; save (maybe)Bank1,Block0,Byte0 in B
 	; - if the hardware has bank1:      then B contains whatever was in Bank1,Block0,Byte0 - COULD BE ANYTHING
 	; - if the hardware has no bank1:   then B contains the 0x41 we blindly wrote to bank0
 	; - if the hardware does not exist: then B probably contains 0x00 or 0xFF?
 	SelectBank 0
-	WriteDataN 0x40										; write 0x40 to Bank0,Block0,byte0
+	WriteDataN 0x40					; write 0x40 to Bank0,Block0,byte0
 	; now we've blindly overwritten bank0,block0,byte0 previous 0x41 now 0x40
-	inc		a						;[f5d3] 3c			; A++ -> A=0x41
-	cp		b						;[f5d4] b8			; does B = 0x41 ?
-	ret		z						;[f5d5] c8			; return if B = 0x41 (conclude the hardware does not have banks?)
-	ld		a,b						;[f5d6] 78			; B & A didn't match, we have hardware with banks, copy B to A 
-	cp		PORT_DATA				;[f5d7] fe 83		; ???  compare A to the data port number?                                 ???
-	ret		z						;[f5d9] c8			; ???  return if match? is this maybe how we detect no hardware present?  ???
+	inc		a						; A++ -> A=0x41
+	cp		b						; does B = 0x41 ?
+	ret		z						; return if B = 0x41 (conclude the hardware does not have banks?)
+	ld		a,b						; B & A didn't match, we have hardware with banks, copy B to A 
+	cp		PORT_DATA				; ???  compare A to the data port number?                                 ???
+	ret		z						; ???  return if match? is this maybe how we detect no hardware present?  ???
 
 	ToggleTargetBankNumber
 	; ToggleTargetBankNumber just updates variables, doesn't touch the hardware
 	; fall through to SelectBlock to actually switch the hardware to the new bank
 
-	xor		a						;[f5ea] af			; zero A to select block 0 in new bank
+	xor		a						; zero A to select block 0 in new bank
 
 ;------------------------------------------------------------------------------
 ; SelectBlock - Select block# in the current bank
 ;------------------------------------------------------------------------------
 ; PORT_CTL0 is just the initial condition (bank0) and gets overwritten at run time
 SelectBlock:
-	out		(PORT_CTL0),a			;[f5eb] d3 81		; write A to the control port
-	ret								;[f5ed] c9
+	out		(PORT_CTL0),a			; write A to the control port
+	ret
 PRGEND:
