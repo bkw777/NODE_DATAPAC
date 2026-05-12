@@ -24,14 +24,16 @@
 ; We do have the old version of RAM200, so maybe see if the addresses for 200 match up in the old version of RAM200,
 ; and then use that to recognize what the function entry points, to find the equivalents here.
 
-; vt52 terminfo codes
+; ascii
 ETX			EQU		0x03
 LF			EQU		0x0A
 FF			EQU		0x0C
 CR			EQU		0x0D
 ESC 		EQU		0x1B
 SPACE		EQU		0x20
+;EOF			EQU		0x1A
 
+; vt52/screen control sequences
 MACRO clr_eol
 	DB ESC,"K"
 ENDM
@@ -61,12 +63,17 @@ rPRTA		EQU		RST_4
 
 ; system rom routines
 PRTSP		EQU		0x1E		; write space to console, directed by LCDLPT
+UBLNAS		EQU		0x05F0		; update in-memory line addresses for the current BASIC program lines
 PTILL0		EQU		0x11A2		; print null-terminated string at HL to screen
 POPALL		EQU		0x14ED		; pop all registers
 FILES		EQU		0x1F3A		; FILES statement
+FINDFN		EQU		0x20AF		; Search dir for filename matching 0xFC93
 PRTASC		EQU		0x39D4		; print 16bit value in HL as ascii
 BEEP		EQU		0x4229		; make a beep sound
 ESCB		EQU		0x446E		; ESC+B - move cursor down one line
+INLIN		EQU		0x4644		; input line
+CKFN		EQU		0x4C0B		; format filename and check validity
+GETEOF		EQU		0x6B2D		; search for EOF (0x1A)
 KYREAD		EQU		0x7242		; read keyboard
 MENU		EQU		0x5797		; go to main menu
 
@@ -135,10 +142,14 @@ HIMEM		EQU		0xF5EE		; TRS-80 Model 100/102 with 32K installed
 PRGLEN		EQU		0x578		; FIXME how can we get this without hard coding?
 ORG HIMEM-PRGLEN-6				; entry minus length of header
 
+; variables that only exist as raw locations to the parameter to some instruction
+; ie self-modifying code
 addrSP		EQU		Set_SP+1	; $f085
 addr002		EQU		j05+1		; $f14b
-addr003		EQU		j34_1+1		; $f100
-addr004		EQU		j16_0+1		; $f285
+addr003		EQU		j34@l0+1	; $f100
+addr004		EQU		j16@l0+1	; $f285
+addr005		EQU		j27@l0+1	; $f371
+addr006		EQU		j41@l0+1	; $f3db
 
 ;==============================================================================
 
@@ -226,8 +237,7 @@ j02:
 j34:
 	ReadData						;[f0fc]
 	PrintByte
-; 0x08 is just initial value gets overwritten
-j34_1:
+@l0:
 	ld		a,0x08					;[f0ff] 3e 08		; addr003, 0x08 just initial value gets overwritten
 	and		a						;[f101] a7
 	cp		0x03					;[f102] fe 03
@@ -296,11 +306,11 @@ j06:
 @l0:
 	call	ReadWordBA				;[f16b] cd 4d f4
 	or		b						;[f16e] b0
-	jp		nz,@l1				;[f16f] c2 73 f1
+	jp		nz,@l1					;[f16f] c2 73 f1
 	inc		hl						;[f172] 23
 @l1:
 	dec		d						;[f173] 15
-	jp		nz,@l0				;[f174] c2 6b f1
+	jp		nz,@l0					;[f174] c2 6b f1
 	push	hl						;[f177] e5
 	ld		hl,Cursor_7_25			;[f178] 21 7c f5
 	call	PTILL0					;[f17b] cd a2 11
@@ -338,11 +348,8 @@ KILL:
 	call	CheckIsBankFormatted	;[f1bb] cd 37 f4
 	call	SkipCWords				;[f1be] cd 45 f4
 	ld		(VAR_D),a				;[f1c1] 32 bd f5
-	jp		@l0					;[f1c4] c3 9f f1
+	jp		@l0						;[f1c4] c3 9f f1
 
-
-; RAMDSK.TIP says FREE is F1C8 but this seems wrong
-;------------------------------------------------------------------------------
 NAME:
 	ld		hl,NameMSG				;[f1c7] 21 5d f5
 	call	j30						;[f1ca] cd a8 f3
@@ -358,104 +365,105 @@ NAME:
 	call	SelectBlock				;[f1e0] cd eb f5
 	ld		hl,FNAME				;[f1e3] 21 93 fc
 	ld		b,6						;[f1e6] 06 06
-@loop:
+@l0:
 	ld		a,(hl)					;[f1e8] 7e
 	WriteData
 	inc		hl						;[f1eb] 23
 	dec		b						;[f1ec] 05
-	jp		nz,@loop				;[f1ed] c2 e8 f1
+	jp		nz,@l0					;[f1ed] c2 e8 f1
 	ret								;[f1f0] c9
 
-j08:
+ConfirmReplace:
 	ld		hl,ReplaceMSG			;[f1f1] 21 6f f5
 	call	GetYes					;[f1f4] cd 53 f4
 	jp		nz,Set_SP				;[f1f7] c2 84 f0
 	ret								;[f1fa] c9
 
-j09:
-	call	j08						;[f1fb] cd f1 f1
+ConfirmReplaceKill:
+	call	ConfirmReplace			;[f1fb] cd f1 f1
 	jp		KILL@l0					;[f1fe] c3 9f f1
 
 SAVE:
 	PrintByteN FF					;[f201]				; clear the screen
 	call	FILES					;[f204] cd 3a 1f	; BASIC FILES statement
 SAVE1:
-                    ld        hl,SaveMSG                      ;[f207] 21 53 f5
-                    call      $f38d                         ;[f20a] cd 8d f3
-                    call      $20af                         ;[f20d] cd af 20
-                    jp        z,BEEP                       ;[f210] ca 29 42
-                    push      hl                            ;[f213] e5
-                    call      $f40d                         ;[f214] cd 0d f4
-                    call      j40                         ;[f217] cd 5f f4
-                    call      j41                         ;[f21a] cd ab f3
-                    call      z,$f1fb                       ;[f21d] cc fb f1
-                    call      j06                         ;[f220] cd 60 f1
-                    pop       hl                            ;[f223] e1
-                    inc       hl                            ;[f224] 23
-                    ex        de,hl                         ;[f225] eb
-                    ld        hl,(de)                       ;[f226] ed
-                    ld        ($f371),hl                    ;[f227] 22 71 f3
-                    call      $f23b                         ;[f22a] cd 3b f2
-                    inc       hl                            ;[f22d] 23
-                    call      $f25e                         ;[f22e] cd 5e f2
-                    call      SAVE2                         ;[f231] cd 67 f2
-                    call      $f28b                         ;[f234] cd 8b f2
-                    call      $f2ce                         ;[f237] cd ce f2
-                    ret                                     ;[f23a] c9
+	ld		hl,SaveMSG				;[f207] 21 53 f5
+	call	InputFileNameWithPrompt	;[f20a] cd 8d f3
+	call	FINDFN					;[f20d] cd af 20
+	jp		z,BEEP					;[f210] ca 29 42
+	push	hl						;[f213] e5
+	call	j42						;[f214] cd 0d f4
+	call	j40						;[f217] cd 5f f4
+	call	j41						;[f21a] cd ab f3
+	call	z,ConfirmReplaceKill	;[f21d] cc fb f1
+	call	j06						;[f220] cd 60 f1
+	pop		hl						;[f223] e1
+	inc		hl						;[f224] 23
+	ex		de,hl					;[f225] eb
+	ld		hl,(de)					;[f226] ed
+	ld		(addr005),hl			;[f227] 22 71 f3
+	call	j11						;[f22a] cd 3b f2
+	inc		hl						;[f22d] 23
+	call	j14						;[f22e] cd 5e f2
+	call	SAVE2					;[f231] cd 67 f2
+	call	j17						;[f234] cd 8b f2
+	call	j20						;[f237] cd ce f2
+	ret								;[f23a] c9
 
 j11:
-                    ld        a,($f3db)                     ;[f23b] 3a db f3
-                    cp        $80                           ;[f23e] fe 80
-                    jp        z,$f257                       ;[f240] ca 57 f2
-                    cp        $c0                           ;[f243] fe c0
-                    jp        z,$f250                       ;[f245] ca 50 f2
-                    ld        de,hl+$02                     ;[f248] 28 02
-                    ld        hl,(de)                       ;[f24a] ed
-                    ld        de,$0005                      ;[f24b] 11 05 00
-                    add       hl,de                         ;[f24e] 19
-                    ret                                     ;[f24f] c9
+	ld		a,(addr006)				;[f23b] 3a db f3
+	cp		0x80					;[f23e] fe 80
+	jp		z,j13					;[f240] ca 57 f2
+	cp		0xC0					;[f243] fe c0
+	jp		z,j12					;[f245] ca 50 f2
+	ld		de,hl+2					;[f248] 28 02
+	ld		hl,(de)					;[f24a] ed
+	ld		de,0x0005				;[f24b] 11 05 00
+	add		hl,de					;[f24e] 19
+	ret								;[f24f] c9
 
 j12:
-                    push      hl                            ;[f250] e5
-                    call      $6b2d                         ;[f251] cd 2d 6b
-                    pop       bc                            ;[f254] c1
-                    sub       hl,bc                         ;[f255] 08
-                    ret                                     ;[f256] c9
+	push	hl						;[f250] e5
+	call	GETEOF					;[f251] cd 2d 6b
+	pop		bc						;[f254] c1
+	sub		hl,bc					;[f255] 08
+	ret								;[f256] c9
 
 j13:
-                    push      hl                            ;[f257] e5
-                    call      $05f3                         ;[f258] cd f3 05
-                    pop       bc                            ;[f25b] c1
-                    sub       hl,bc                         ;[f25c] 08
-                    ret                                     ;[f25d] c9
+	push	hl						;[f257] e5
+	call	UBLNAS+3				;[f258] cd f3 05	; jump into the middle of UBLNAS (update BASIC line number addresses)
+	pop		bc						;[f25b] c1
+	sub		hl,bc					;[f25c] 08
+	ret								;[f25d] c9
 
 j14:
-                    ld        (VAR_A),hl                    ;[f25e] 22 b8 f5
-                    ld        hl,FilenameMSG                      ;[f261] 21 b0 f5
-                    jp        $f410                         ;[f264] c3 10 f4
+	ld		(VAR_A),hl				;[f25e] 22 b8 f5
+	ld		hl,FilenameMSG			;[f261] 21 b0 f5
+	jp		j44						;[f264] c3 10 f4
 
 SAVE2:
-                    ld        hl,(VAR_A)                    ;[f267] 2a b8 f5
-                    ld        d,$01                         ;[f26a] 16 01
-                    ld        bc,$03f6                      ;[f26c] 01 f6 03
-                    jp        $f275                         ;[f26f] c3 75 f2
+	ld		hl,(VAR_A)				;[f267] 2a b8 f5
+	ld		d,0x01					;[f26a] 16 01
+	ld		bc,1014					;[f26c] 01 f6 03	; is it block size minus 10 bytes?
+	jp		j15@l0					;[f26f] c3 75 f2
 
 j15:
-                    ld        bc,$0400                      ;[f272] 01 00 04
-                    sub       hl,bc                         ;[f275] 08
-                    jp        z,$f280                       ;[f276] ca 80 f2
-                    jp        m,$f280                       ;[f279] fa 80 f2
-                    inc       d                             ;[f27c] 14
-                    jp        $f272                         ;[f27d] c3 72 f2
+	ld		bc,1024					;[f272] 01 00 04	; one full block size
+@l0:
+	sub		hl,bc					;[f275] 08
+	jp		z,j16					;[f276] ca 80 f2
+	jp		m,j16					;[f279] fa 80 f2
+	inc		d						;[f27c] 14
+	jp		j15						;[f27d] c3 72 f2
 
 j16:
-                    ld        a,d                           ;[f280] 7a
-                    ld        (VAR_E),a                     ;[f281] 32 be f5
-j16_0:
-                    ld        a,$00                         ;[f284] 3e 00		;read addr004
-                    cp        d                             ;[f286] ba
-                    jp        c,Beep                       ;[f287] da 5e f3
-                    ret                                     ;[f28a] c9
+	ld		a,d						;[f280] 7a
+	ld		(VAR_E),a				;[f281] 32 be f5
+@l0:
+	ld		a,$00					;[f284] 3e 00		;read addr004
+	cp		d						;[f286] ba
+	jp		c,Beep					;[f287] da 5e f3
+	ret								;[f28a] c9
 
 j17:
                     call      CheckIsBankFormatted                         ;[f28b] cd 37 f4
@@ -472,7 +480,7 @@ j17:
                     call      $f2af                         ;[f2a3] cd af f2
                     ld        a,(BlockNum)                     ;[f2a6] 3a ba f5
                     ld        ($f2c7),a                     ;[f2a9] 32 c7 f2
-                    jp        $f28b                         ;[f2ac] c3 8b f2
+                    jp        j17                         ;[f2ac] c3 8b f2
 
 j18:
                     ld        a,(VAR_E)                     ;[f2af] 3a be f5
@@ -485,7 +493,7 @@ j18:
 
 j19:
                     pop       af                            ;[f2c0] f1
-                    ld        a,($f3db)                     ;[f2c1] 3a db f3
+                    ld        a,(addr006)                     ;[f2c1] 3a db f3
                     out       (PORT_DATA),a                       ;[f2c4] d3 83
                     ld        a,$00                         ;[f2c6] 3e 00
                     ld        (VAR_D),a                     ;[f2c8] 32 bd f5
@@ -507,7 +515,7 @@ j20:
 
 j21:
                     push      hl                            ;[f2e6] e5
-                    call      j08                         ;[f2e7] cd f1 f1
+                    call      ConfirmReplace                         ;[f2e7] cd f1 f1
                     pop       hl                            ;[f2ea] e1
                     call      $20cc                         ;[f2eb] cd cc 20
                     cp        $c0                           ;[f2ee] fe c0
@@ -521,14 +529,14 @@ LOAD:
                     call      j30                         ;[f2fe] cd a8 f3
                     jp        nz,BEEP                      ;[f301] c2 29 42
                     call      j40                         ;[f304] cd 5f f4
-                    call      $20af                         ;[f307] cd af 20
+                    call      FINDFN                         ;[f307] cd af 20
                     call      nz,$f2e6                      ;[f30a] c4 e6 f2
                     call      $f324                         ;[f30d] cd 24 f3
-                    ld        ($f371),hl                    ;[f310] 22 71 f3
+                    ld        (addr005),hl                    ;[f310] 22 71 f3
                     ex        de,hl                         ;[f313] eb
                     dec       de                            ;[f314] 1b
                     call      $20ec                         ;[f315] cd ec 20
-                    ld        a,($f3db)                     ;[f318] 3a db f3
+                    ld        a,(addr006)                     ;[f318] 3a db f3
                     call      $2239                         ;[f31b] cd 39 22
                     call      $f362                         ;[f31e] cd 62 f3
                     jp        $2146                         ;[f321] c3 46 21
@@ -537,7 +545,7 @@ j23:
                     ld        hl,(VAR_A)                    ;[f324] 2a b8 f5
                     ld        b,h                           ;[f327] 44
                     ld        c,l                           ;[f328] 4d
-                    ld        a,($f3db)                     ;[f329] 3a db f3
+                    ld        a,(addr006)                     ;[f329] 3a db f3
                     cp        $c0                           ;[f32c] fe c0
                     jp        z,$f345                       ;[f32e] ca 45 f3
                     cp        $80                           ;[f331] fe 80
@@ -575,7 +583,8 @@ j27:
                     ld        hl,$03f6                      ;[f367] 21 f6 03
                     ld        (VAR_C),hl                    ;[f36a] 22 bb f5
                     ld        hl,(VAR_A)                    ;[f36d] 2a b8 f5
-                    ld        de,$0000                      ;[f370] 11 00 00
+@l0:
+                    ld        de,$0000                      ;[f370] 11 00 00	; addr005
                     ld        a,(de)                        ;[f373] 1a
                     in        a,(PORT_DATA)                       ;[f374] db 83
                     ld        (de),a                        ;[f376] 12
@@ -593,15 +602,17 @@ j27:
                     ld        (VAR_C),hl                    ;[f386] 22 bb f5
                     pop       hl                            ;[f389] e1
                     jp        $f373                         ;[f38a] c3 73 f3
-j28:
-                    call      PTILL0                         ;[f38d] cd a2 11
-                    call      $4644                         ;[f390] cd 44 46
-                    ret       c                             ;[f393] d8
-                    dec       b                             ;[f394] 05
-                    ret       z                             ;[f395] c8
-                    inc       hl                            ;[f396] 23
-                    ld        e,b                           ;[f397] 58
-                    jp        $4c0b                         ;[f398] c3 0b 4c
+
+InputFileNameWithPrompt:
+	call		PTILL0						;[f38d] cd a2 11
+	call		INLIN						;[f390] cd 44 46
+	ret			c							;[f393] d8
+	dec			b							;[f394] 05
+	ret			z							;[f395] c8
+	inc			hl							;[f396] 23
+	ld			e,b							;[f397] 58
+	jp			CKFN						;[f398] c3 0b 4c
+
 j29:
                     ld        hl,$fca2                      ;[f39b] 21 a2 fc
                     ld        de,$fc99                      ;[f39e] 11 99 fc
@@ -612,8 +623,9 @@ j29:
                     ld        a,(hl)                        ;[f3a5] 7e
                     ld        (de),a                        ;[f3a6] 12
                     ret                                     ;[f3a7] c9
+
 j30:
-                    call      $f38d                         ;[f3a8] cd 8d f3
+                    call      InputFileNameWithPrompt                         ;[f3a8] cd 8d f3
 j41:
                     xor       a                             ;[f3ab] af
                     ld        (BlockNum),a                     ;[f3ac] 32 ba f5
@@ -628,7 +640,7 @@ j41:
                     add       a                             ;[f3bf] 87
                     add       a                             ;[f3c0] 87
                     add       $80                           ;[f3c1] c6 80
-                    ld        ($f3db),a                     ;[f3c3] 32 db f3
+                    ld        (addr006),a                     ;[f3c3] 32 db f3
                     call      CheckIsBankFormatted                         ;[f3c6] cd 37 f4
                     call      ReadWordBA                         ;[f3c9] cd 4d f4
                     ld        (VAR_D),a                     ;[f3cc] 32 bd f5
@@ -637,6 +649,7 @@ j41:
                     jp        z,$2ab5                       ;[f3d3] ca b5 2a
                     ld        (BlockNum),a                     ;[f3d6] 32 ba f5
                     ld        a,b                           ;[f3d9] 78
+@l0:
                     cp        $3f                           ;[f3da] fe 3f
                     jp        nz,$f3c9                      ;[f3dc] c2 c9 f3
                     ld        a,(BlockNum)                     ;[f3df] 3a ba f5
@@ -652,18 +665,21 @@ j41:
                     ld        hl,FilenameMSG                      ;[f3f4] 21 b0 f5
                     ld        de,FNAME                      ;[f3f7] 11 93 fc
                     call      $5a6d                         ;[f3fa] cd 6d 5a
-                    jp        z,$f40d                       ;[f3fd] ca 0d f4
+                    jp        z,j42                       ;[f3fd] ca 0d f4
                     call      CheckIsBankFormatted                         ;[f400] cd 37 f4
                     ld        a,(BlockNum)                     ;[f403] 3a ba f5
                     ld        c,a                           ;[f406] 4f
                     call      SkipCWords                         ;[f407] cd 45 f4
                     jp        $f3c9                         ;[f40a] c3 c9 f3
 
+j42:
                     ld        hl,$fc9c                      ;[f40d] 21 9c fc
+j44:
                     ld        de,FNAME                      ;[f410] 11 93 fc
                     ld        b,$08                         ;[f413] 06 08
                     jp        $3469                         ;[f415] c3 69 34
 
+j43:
                     ld        hl,$0400                      ;[f418] 21 00 04
                     ld        (VAR_C),hl                    ;[f41b] 22 bb f5
                     xor       a                             ;[f41e] af
@@ -709,7 +725,7 @@ GetYes:
                     ret                                     ;[f45e] c9
 j40:
                     ld        hl,AsMSG                      ;[f45f] 21 67 f5
-                    call      $f38d                         ;[f462] cd 8d f3
+                    call      InputFileNameWithPrompt                         ;[f462] cd 8d f3
                     jp        $f39b                         ;[f465] c3 9b f3
 j35:
                     ld        hl,FormatMSG                      ;[f468] 21 81 f5

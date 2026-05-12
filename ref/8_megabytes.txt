@@ -1,0 +1,71 @@
+RAMPAC possible output port addresses to select more than 2 banks
+
+Could theoretically go to 8M though that would consume a whopping 33 port numbers for one device.
+
+Would make it essentially impossible to be compatible with any other bus-attached devices.
+That rarely happens anyway but it is at least theoretically possible.
+For instance PG-Designs and PCSG ram expansions have pass-through headers,
+which could allow also connecting a Disk/Video Interface.
+
+Normally if you wanted 8M, you just wouldn't do it this way.
+This is just to stay compatible with the original single-bank 256k DATAPAC
+and later 2-bank 512k RAMPAC.
+
+512k RAMPAC added the 2nd 256k by using a new port number for the 2nd bank.
+
+1M MiniNDP adds 2 more port numbers for 2 more banks.
+
+Normal RAMPAC has max 2 banks
+To select any block & bank:
+block is set by the data on AD0-AD7
+bank is set by the address bits A10 - A14
+Address bits A8, A9, & A15 are used to select the device
+(the device doesn't look at A15 but only port numbers 128 or higher are usable)
+A8  low
+A9  high
+A10 low=bank0 high=bank1
+A15 high
+
+bank_0 block_N = OUT129,n
+bank_1 block_N = OUT133,n
+
+All possible banks just for completeness:
+
+bus addr bits
+A AAAAA AA
+1 11111 00
+5 43210 98  bank#  OUT
+
+1 00000 01    0    129    bank_0 block_n = OUT129,n    256K
+1 00001 01    1    133    bank_1 block_n = OUT133,n    512K   add 1 bit latch or use 10-bit 841 instead of 8-bit 574
+1 00010 01    2    137
+1 00011 01    3    141                                 1M     add 2 bit latch or use 10-bit 841 instead of 8-bit 574
+1 00100 01    4    145
+1 00101 01    5    149
+1 00110 01    6    153
+1 00111 01    7    157                                 2M     add 3 bit latch, CY62167
+1 01000 01    8    161
+1 01001 01    9    165
+1 01010 01   10    169
+1 01011 01   11    173
+1 01100 01   12    177
+1 01101 01   13    181
+1 01110 01   14    185
+1 01111 01   15    189                                 4M    add 4 bit latch, CY62177
+1 10000 01   16    193
+1 10001 01   17    197
+1 10010 01   18    201
+1 10011 01   19    205
+1 10100 01   20    209
+1 10101 01   21    213
+1 10110 01   22    217
+1 10111 01   23    221
+1 11000 01   24    225
+1 11001 01   25    229
+1 11010 01   26    233
+1 11011 01   27    237
+1 11100 01   28    241
+1 11101 01   29    245
+1 11110 01   30    249
+1 11111 01   31    253                                 8M   2 574s
+
