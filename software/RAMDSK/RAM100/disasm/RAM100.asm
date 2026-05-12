@@ -150,6 +150,7 @@ addr003		EQU		j34@l0+1	; $f100
 addr004		EQU		j16@l0+1	; $f285
 addr005		EQU		j27@l0+1	; $f371
 addr006		EQU		j41@l0+1	; $f3db
+addr007		EQU		j19@l0+1	; $f2c7
 
 ;==============================================================================
 
@@ -281,7 +282,7 @@ j04:
 	jp		ESCB+9					;[f147] c3 77 44	; jump into the middle of the system rom ESC+B routine
 
 j05:
-	ld		a,$00					;[f14a] 3e 00		; read addr002
+	ld		a,0x00					;[f14a] 3e 00		; read addr002
 	inc		a						;[f14c] 3c			; increment
 	ld		(addr002),a				;[f14d] 32 4b f1	; write addr002
 	cp		10						;[f150] fe 0a		; is it 10?
@@ -460,27 +461,28 @@ j16:
 	ld		a,d						;[f280] 7a
 	ld		(VAR_E),a				;[f281] 32 be f5
 @l0:
-	ld		a,$00					;[f284] 3e 00		;read addr004
+	ld		a,0x00					;[f284] 3e 00		; addr004
 	cp		d						;[f286] ba
 	jp		c,Beep					;[f287] da 5e f3
 	ret								;[f28a] c9
 
 j17:
-                    call      CheckIsBankFormatted                         ;[f28b] cd 37 f4
-                    ld        c,$00                         ;[f28e] 0e 00
-                    call      ReadWordBA                         ;[f290] cd 4d f4
-                    inc       c                             ;[f293] 0c
-                    or        b                             ;[f294] b0
-                    jp        nz,$f290                      ;[f295] c2 90 f2
-                    xor       a                             ;[f298] af
-                    call      SelectBlock                         ;[f299] cd eb f5
-                    ld        a,c                           ;[f29c] 79
-                    ld        (BlockNum),a                     ;[f29d] 32 ba f5
-                    call      SkipCWords                         ;[f2a0] cd 45 f4
-                    call      $f2af                         ;[f2a3] cd af f2
-                    ld        a,(BlockNum)                     ;[f2a6] 3a ba f5
-                    ld        ($f2c7),a                     ;[f2a9] 32 c7 f2
-                    jp        j17                         ;[f2ac] c3 8b f2
+	call	CheckIsBankFormatted	;[f28b] cd 37 f4
+	ld		c,0x00					;[f28e] 0e 00
+@l0:
+	call	ReadWordBA				;[f290] cd 4d f4
+	inc		c						;[f293] 0c
+	or		b						;[f294] b0
+	jp		nz,@l0					;[f295] c2 90 f2
+	xor		a						;[f298] af
+	call	SelectBlock				;[f299] cd eb f5
+	ld		a,c						;[f29c] 79
+	ld		(BlockNum),a			;[f29d] 32 ba f5
+	call	SkipCWords				;[f2a0] cd 45 f4
+	call	j18						;[f2a3] cd af f2
+	ld		a,(BlockNum)			;[f2a6] 3a ba f5
+	ld		(addr007),a				;[f2a9] 32 c7 f2
+	jp		j17						;[f2ac] c3 8b f2
 
 j18:
                     ld        a,(VAR_E)                     ;[f2af] 3a be f5
@@ -495,7 +497,8 @@ j19:
                     pop       af                            ;[f2c0] f1
                     ld        a,(addr006)                     ;[f2c1] 3a db f3
                     out       (PORT_DATA),a                       ;[f2c4] d3 83
-                    ld        a,$00                         ;[f2c6] 3e 00
+@l0:
+                    ld        a,$00                         ;[f2c6] 3e 00	; addr007
                     ld        (VAR_D),a                     ;[f2c8] 32 bd f5
                     out       (PORT_DATA),a                       ;[f2cb] d3 83
                     ret                                     ;[f2cd] c9
@@ -629,7 +632,7 @@ j30:
 j41:
                     xor       a                             ;[f3ab] af
                     ld        (BlockNum),a                     ;[f3ac] 32 ba f5
-                    ld        ($f2c7),a                     ;[f3af] 32 c7 f2
+                    ld        (addr007),a                     ;[f3af] 32 c7 f2
                     ld        a,($fc99)                     ;[f3b2] 3a 99 fc
                     sub       $42                           ;[f3b5] d6 42
                     cp        $03                           ;[f3b7] fe 03
