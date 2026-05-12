@@ -64,7 +64,9 @@ rPRTA		EQU		RST_4
 ; system rom routines
 PRTSP		EQU		0x1E		; write space to console, directed by LCDLPT
 UBLNAS		EQU		0x05F0		; update in-memory line addresses for the current BASIC program lines
+LC2UCA		EQU		0x0FE9		; convert the character in A to uppercase
 PTILL0		EQU		0x11A2		; print null-terminated string at HL to screen
+CHGET		EQU		0x12CB		; wait for a key from the keyboard
 POPALL		EQU		0x14ED		; pop all registers
 FILES		EQU		0x1F3A		; FILES statement
 KILLDO		EQU		0x1FBF		; kill a .DO file
@@ -750,80 +752,79 @@ ReadWordBA:
 	ret								;[f452] c9
 
 GetYes:
-                    call      PTILL0                         ;[f453] cd a2 11
-                    call      $12cb                         ;[f456] cd cb 12
-                    call      $0fe9                         ;[f459] cd e9 0f
-                    cp        $59                           ;[f45c] fe 59
-                    ret                                     ;[f45e] c9
+	call		PTILL0				;[f453] cd a2 11
+	call		CHGET				;[f456] cd cb 12
+	call		LC2UCA				;[f459] cd e9 0f
+	cp			'Y'					;[f45c] fe 59
+	ret								;[f45e] c9
 
 j40:
-                    ld        hl,AsMSG                      ;[f45f] 21 67 f5
-                    call      InputFileNameWithPrompt                         ;[f462] cd 8d f3
-                    jp        $f39b                         ;[f465] c3 9b f3
+	ld		hl,AsMSG				;[f45f] 21 67 f5
+	call	InputFileNameWithPrompt	;[f462] cd 8d f3
+	jp		j29						;[f465] c3 9b f3
 
 FORMAT:
-                    ld        hl,FormatMSG                      ;[f468] 21 81 f5
-                    call      GetYes                         ;[f46b] cd 53 f4
-                    jp        z,$f47d                       ;[f46e] ca 7d f4
-                    ld        hl,FixMSG                      ;[f471] 21 a5 f5
-                    call      GetYes                         ;[f474] cd 53 f4
-                    jp        z,$f48d                       ;[f477] ca 8d f4
-                    jp        MENU                         ;[f47a] c3 97 57
+	ld		hl,FormatMSG			;[f468] 21 81 f5
+	call	GetYes					;[f46b] cd 53 f4
+	jp		z,j36					;[f46e] ca 7d f4
+	ld		hl,FixMSG				;[f471] 21 a5 f5
+	call	GetYes					;[f474] cd 53 f4
+	jp		z,j36@l0				;[f477] ca 8d f4
+	jp		MENU					;[f47a] c3 97 57
 
 j36:
-                    call      $f4a8                         ;[f47d] cd a8 f4
-                    push      bc                            ;[f480] c5
-                    xor       a                             ;[f481] af
-                    call      SelectBlock                         ;[f482] cd eb f5
-                    ld        b,a                           ;[f485] 47
-                    call      $f49c                         ;[f486] cd 9c f4
-                    pop       bc                            ;[f489] c1
-                    call      $f49c                         ;[f48a] cd 9c f4
-                    xor       a                             ;[f48d] af
-                    call      SelectBlock                         ;[f48e] cd eb f5
-                    ld        a,$40                         ;[f491] 3e 40
-                    out       (PORT_DATA),a                       ;[f493] d3 83
-                    ld        a,$04                         ;[f495] 3e 04
-                    out       (PORT_DATA),a                       ;[f497] d3 83
-                    jp        Set_SP                         ;[f499] c3 84 f0
+	call	j38						;[f47d] cd a8 f4
+	push	bc						;[f480] c5
+	xor		a						;[f481] af
+	call	SelectBlock				;[f482] cd eb f5
+	ld		b,a						;[f485] 47
+	call	j37						;[f486] cd 9c f4
+	pop		bc						;[f489] c1
+	call	j37						;[f48a] cd 9c f4
+@l0:
+	xor		a						;[f48d] af
+	call	SelectBlock				;[f48e] cd eb f5
+	WriteDataN		0x40			;[f491] 3e 40
+	WriteDataN		0x04			;[f495] 3e 04
+	jp	Set_SP						;[f499] c3 84 f0
 
 j37:
-                    ld        e,d                           ;[f49c] 5a
-                    ld        a,b                           ;[f49d] 78
-                    out       (PORT_DATA),a                       ;[f49e] d3 83
-                    xor       a                             ;[f4a0] af
-                    out       (PORT_DATA),a                       ;[f4a1] d3 83
-                    dec       e                             ;[f4a3] 1d
-                    jp        nz,$f49d                      ;[f4a4] c2 9d f4
-                    ret                                     ;[f4a7] c9
+	ld		e,d						;[f49c] 5a
+@l0:
+	ld		a,b						;[f49d] 78
+	WriteData						;[f49e] d3 83
+	xor		a						;[f4a0] af
+	WriteData						;[f4a1] d3 83
+	dec		e						;[f4a3] 1d
+	jp		nz,@l0					;[f4a4] c2 9d f4
+	ret								;[f4a7] c9
 
 j38:
-                    ld        d,$80                         ;[f4a8] 16 80
-                    ld        a,d                           ;[f4aa] 7a
-                    call      SelectBlock                         ;[f4ab] cd eb f5
-                    in        a,(PORT_DATA)                       ;[f4ae] db 83
-                    ld        b,a                           ;[f4b0] 47
-                    ld        a,d                           ;[f4b1] 7a
-                    call      SelectBlock                         ;[f4b2] cd eb f5
-                    ld        a,b                           ;[f4b5] 78
-                    inc       a                             ;[f4b6] 3c
-                    out       (PORT_DATA),a                       ;[f4b7] d3 83
-                    ld        a,d                           ;[f4b9] 7a
-                    call      SelectBlock                         ;[f4ba] cd eb f5
-                    in        a,(PORT_DATA)                       ;[f4bd] db 83
-                    ld        c,a                           ;[f4bf] 4f
-                    ld        a,d                           ;[f4c0] 7a
-                    call      SelectBlock                         ;[f4c1] cd eb f5
-                    ld        a,b                           ;[f4c4] 78
-                    out       (PORT_DATA),a                       ;[f4c5] d3 83
-                    ld        a,c                           ;[f4c7] 79
-                    cp        b                             ;[f4c8] b8
-                    ld        b,$40                         ;[f4c9] 06 40
-                    ret       z                             ;[f4cb] c8
-                    xor       a                             ;[f4cc] af
-                    ld        b,a                           ;[f4cd] 47
-                    ret                                     ;[f4ce] c9
-
+	ld		d,0x80					;[f4a8] 16 80
+	ld		a,d						;[f4aa] 7a
+	call	SelectBlock				;[f4ab] cd eb f5
+	ReadData						;[f4ae] db 83
+	ld		b,a						;[f4b0] 47
+	ld		a,d						;[f4b1] 7a
+	call	SelectBlock				;[f4b2] cd eb f5
+	ld		a,b						;[f4b5] 78
+	inc		a						;[f4b6] 3c
+	WriteData						;[f4b7] d3 83
+	ld		a,d						;[f4b9] 7a
+	call	SelectBlock				;[f4ba] cd eb f5
+	ReadData						;[f4bd] db 83
+	ld		c,a						;[f4bf] 4f
+	ld		a,d						;[f4c0] 7a
+	call	SelectBlock				;[f4c1] cd eb f5
+	ld		a,b						;[f4c4] 78
+	WriteData						;[f4c5] d3 83
+	ld		a,c						;[f4c7] 79
+	cp		b						;[f4c8] b8
+	ld		b,0x40					;[f4c9] 06 40
+	ret		z						;[f4cb] c8
+	xor		a						;[f4cc] af
+	ld		b,a						;[f4cd] 47
+	ret								;[f4ce] c9
 
 TitleMSG:
 	DB FF
