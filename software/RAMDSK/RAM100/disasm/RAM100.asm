@@ -46,7 +46,6 @@ FF			EQU		0x0C
 CR			EQU		0x0D
 ESC 		EQU		0x1B
 SPACE		EQU		0x20
-;EOF			EQU		0x1A
 
 ;------------------------------------------------------------------------------
 ; TRS-80 Model 100 Platform
