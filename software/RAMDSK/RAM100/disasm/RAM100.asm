@@ -25,12 +25,6 @@
 ; It's fine to use z88dk to compile but it was a mistake to use it
 ; for the initial disassembly, because now this code is difficult
 ; to analyse with 8085 instruction references.
-;
-; For instance, even for ordinary non-special instructions like,
-; what registers are changed by "LD A,num" ?
-; There is no such instruction. You have to find the actual raw opcode
-; and match that up in an opcode table to find that it is "MVI num",
-; THEN you can find out whether it changes Z or not, etc.
 ; 
 ; Sorry about that!
 ;
