@@ -228,13 +228,20 @@ PRGTOP:
 PRGEXE:
 	ld		de,sp+0x00				; save initial SP
 	ex		de,hl
-	ld		(addrSP),hl				; write initial SP to addrSP
+	ld		(_SP),hl				; write initial SP to _SP
+
+; Detect if user is holding ENTER key during start-up.
+; Normally start in bank 0. If ENTER is held then start in bank 1.
+; I don't know why this feature exists.
+; Prime candidate to remove bytes to add 4-bank support without changing the file size
+; so the existing bootstrap BASIC progs (silkscreened on the pcbs) still work.
 	ld		a,(KC7)					; get status bits of keyboard matrix column 7
 	cp		0x80					; is ENTER pressed?
-	call	z,BANK					; if ENTER is pressed, switch banks ?
-Set_SP:
-	ld		sp,0x0000				; set SP from addrSP, 0x0000 is just initial value gets overwritten
-	ld		hl,Set_SP
+	call	z,BANK					; if ENTER is pressed, switch banks.
+
+MAIN:
+	ld		sp,0x0000				; _SP, 0x0000 is just initial value gets overwritten
+	ld		hl,MAIN
 	push	hl
 	ld		(ETRAP),hl
 	ld		hl,FNAME
@@ -259,7 +266,7 @@ ReadKeyboard:
 	call	KYREAD					; look for keypress
 	jp		z,ReadKeyboard			; if no key then loop
 	jp		nc,@end					; if not Fkey then skip to @end
-	ld		hl,Set_SP
+	ld		hl,MAIN
 	push	hl
 	cp		0xFF
 	jp		z,SAVE1					; save file without displaying file list
@@ -283,7 +290,7 @@ ReadKeyboard:
 	jp		ReadKeyboard			; loop if not CR
 
 j01:
-	ld		c,1						; C=1 means SkipCWords will skip 2 bytes later
+	ld		c,1
 	call	CheckIsBankFormatted
 j33:
 	call	ReadDataW				; read 2 bytes into B & A
@@ -448,7 +455,7 @@ NAME:
 ConfirmReplace:
 	ld		hl,ReplaceMSG
 	call	ConfirmWithPrompt
-	jp		nz,Set_SP
+	jp		nz,MAIN
 	ret
 
 ConfirmReplaceKill:
@@ -832,7 +839,7 @@ FORMAT:
 	call	SelectBlock
 	WriteDataN		StampByte0
 	WriteDataN		StampByte1
-	jp	Set_SP
+	jp	MAIN
 @WriteFormat:
 	ld		e,d
 @l0:
@@ -888,7 +895,7 @@ TestHardware:
 
 ; variables that only exist as raw locations to the parameter to some instruction
 ; ie self-modifying code
-addrSP		EQU		Set_SP+1
+_SP			EQU		MAIN+1
 addr002		EQU		j05+1
 addr003		EQU		j34@l0+1
 FreeKB		EQU		SAVE1@freekb+1
