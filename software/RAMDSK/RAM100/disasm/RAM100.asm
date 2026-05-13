@@ -248,7 +248,7 @@ MAIN:
 	ld		(hl),SPACE				; write a space to the 1st byte of fname buffer
 	call	DrawTitle
 	xor		a
-	ld		(addr002),a
+	ld		(_i),a
 	ld		d,FattrBA
 	call	j01
 	ld		d,FattrCO
@@ -343,7 +343,7 @@ j39:
 
 j03:
 	ld		hl,(C_ROW)				; read cursor position row 1-8
-	ld		a,(addr002)
+	ld		a,(_i)
 	and		0x01
 	jp		nz,j04
 	ld		h,0x04
@@ -354,13 +354,13 @@ j04:
 	jp		ESCB+9					; jump into the middle of the system rom ESC+B routine
 
 j05:
-	ld		a,0x00					; read addr002
+	ld		a,0x00					; _i, 0x00 is just initial condition gets overwritten 
 	inc		a						; increment
-	ld		(addr002),a				; write addr002
+	ld		(_i),a					; write _i
 	cp		10						; is it 10?
-	ret		nz						; return if not 10
-	xor		a						; if 10,
-	ld	(addr002),a					; write 0 to addr002
+	ret		nz						; if not 10, return
+	xor		a
+	ld		(_i),a					; if 10, zero _i
 	call	j31
 DrawTitle:
 	ld		hl,TitleMSG
@@ -407,7 +407,7 @@ KILL:
 	ret		nz
 @l0:
 	call	CheckIsBankFormatted
-	ld		a,(BlockNumA)
+	ld		a,(BlockNum)
 	dec		a
 	jp		z,@l1
 	ld		c,a
@@ -419,7 +419,7 @@ KILL:
 	ld		a,(VAR_D)
 	and		a
 	ret		z
-	ld		(BlockNumA),a
+	ld		(BlockNum),a
 	ld		c,a
 	call	CheckIsBankFormatted
 	call	SkipCWords
@@ -434,7 +434,7 @@ NAME:
 	call	j30
 	jp		nz,BEEP
 	call	j40
-	ld		a,(BlockNumA)
+	ld		a,(BlockNum)
 	ld		b,a
 	push	bc
 	call	j41
@@ -550,11 +550,11 @@ SAVE1:
 	xor		a
 	call	SelectBlock
 	ld		a,c
-	ld		(BlockNumA),a
+	ld		(BlockNum),a
 	call	SkipCWords
 	call	@l8
-	ld		a,(BlockNumA)
-	ld		(BlockNumB),a
+	ld		a,(BlockNum)
+	ld		(_BlockNum),a
 	jp		@l6
 @l8:
 	ld		a,(VAR_E)
@@ -568,14 +568,14 @@ SAVE1:
 	ld		a,(FileAttr)
 	WriteData
 @la:
-	ld		a,0x00					; BlockNumB
+	ld		a,0x00					; BlockB, 0x00 gets overwritten
 	ld		(VAR_D),a
 	WriteData
 	ret
 
-; write 10 bytes filename to first 10 bytes of block BlockNumA
+; write 10 bytes filename to first 10 bytes of block BlockNum
 WriteFilename:
-	ld		a,(BlockNumA)
+	ld		a,(BlockNum)
 	call	SelectBlock
 	ld		hl,FilenameMSG
 	ld		b,10					; loop counter write 10 bytes
@@ -709,8 +709,8 @@ j30:
 	call	InputFileNameWithPrompt
 j41:
 	xor		a
-	ld		(BlockNumA),a
-	ld		(BlockNumB),a
+	ld		(BlockNum),a
+	ld		(_BlockNum),a
 	ld		a,(MYSTERY_FC99)
 	sub		0x42					; what are these magic values?
 	cp		0x03
@@ -726,15 +726,15 @@ j41:
 @l0:
 	call	ReadDataW
 	ld		(VAR_D),a
-	ld		a,(BlockNumA)
+	ld		a,(BlockNum)
 	inc		a
 	jp		z,INSTR_2AB5
-	ld		(BlockNumA),a
+	ld		(BlockNum),a
 	ld		a,b
 @l1:
 	cp		0x3F					; what is 0x3F ?
 	jp		nz,@l0
-	ld		a,(BlockNumA)
+	ld		a,(BlockNum)
 	call	SelectBlock
 	ld		b,10					; loop counter read 10 bytes
 	ld		hl,FilenameMSG
@@ -750,7 +750,7 @@ j41:
 	call	CMPARE
 	jp		z,j42
 	call	CheckIsBankFormatted
-	ld		a,(BlockNumA)
+	ld		a,(BlockNum)
 	ld		c,a
 	call	SkipCWords
 	jp		@l0
@@ -769,12 +769,12 @@ j43:
 	xor		a
 	call	SelectBlock
 	ld		a,(VAR_D)
-	ld		(BlockNumA),a
+	ld		(BlockNum),a
 	ld		c,a
 	inc		c
 	call	SkipCWords
 	ld		(VAR_D),a
-	ld		a,(BlockNumA)
+	ld		a,(BlockNum)
 	call	SelectBlock
 	ret
 
@@ -895,13 +895,13 @@ TestHardware:
 
 ; variables that only exist as raw locations to the parameter to some instruction
 ; ie self-modifying code
-_SP			EQU		MAIN+1
-addr002		EQU		j05+1
+_SP			EQU		MAIN+1			; initial stack pointer
+_i			EQU		j05+1			; scratch loop counter
 addr003		EQU		j34@l0+1
-FreeKB		EQU		SAVE1@freekb+1
+FreeKB		EQU		SAVE1@freekb+1	; free KB disk space
 addr005		EQU		j27@l1+1
-FileAttr	EQU		j41@l1+1
-BlockNumB	EQU		SAVE1@la+1
+FileAttr	EQU		j41@l1+1		; file attr byte
+_BlockNum	EQU		SAVE1@la+1		; tmp block number
 
 TitleMSG:
 	DB FF
@@ -970,7 +970,7 @@ FilenameMSG:
 VAR_A:
 	DW 0
 
-BlockNumA:
+BlockNum:
 	DB 0
 
 VAR_C:
