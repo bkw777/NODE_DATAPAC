@@ -1,43 +1,65 @@
 ; RAM100.CO disassembly
+; Brian K. White
 ; RAMDSK.CO is originally written by Paul Globman
 ; (modulo reverse engineering the NODE ROM)
 ;
 ; This source reproduces the original binary exactly, but is not the original
 ; source. It started as a crude disassembly, then edited into usable source.
 ;
-; Initial disassembly: z88dk-dis -m8085 -k 0x06 -o 0xF076 RAM100.CO >RAM100.asm
-; Compile: z88dk-z80asm -v -m8085 -b -o=RAM100.CO RAM100.asm
+; Initial disassembly: z88dk-dis -m8085 -k 6 -o 0xF076 RAM100.CO >RAM100.asm
+; -k 6       = .CO header is 6 bytes long, 2 bytes each, LSB-first: TOP LEN EXE
+; -o 0xF076  = Swap first 2 bytes of header (TOP): 0x76 0xF0 -> 0xF076
 ;
 ; Currently compiles to reproduce the original binary exactly.
 ; make clean all && cmp -l ../RAM100.CO RAM100.CO && echo OK || echo '>>> FAIL <<<'
 ;
 ; original binaries:
-; https://www.club100.org/library/libpg.html -> "pgnode"
+; https://www.club100.org/library/libpg.html "pgnode" section
 ; https://ftp.whtech.com/club100/pg/pgnode/node1/ram100.co		RAM100.CO
 ; https://ftp.whtech.com/club100/pg/pgnode/node2/ramdsk.co		RAM200.CO
 ;
-; z88dk-dis outputs z80 mnemonics but this is actually 8085 code.
-; The original binary includes 8085-isms like "add b",
-; and the cpu is 80C85 so you must not try to use z80 features.
+; z88dk-dis output z80 mnemonics but this is actually 8085 code.
 ;
-; Syntax highlighting for Geany:
+; The original binary does include at least a few 8085-isms like "add b".
+;
+; It's fine to use z88dk to compile but it was a mistake to use it
+; for the initial disassembly, because now this code is difficult
+; to analyse with 8085 instruction references.
+;
+; For instance, even for ordinary non-special instructions like,
+; what registers are changed by "LD A,num" ?
+; There is no such instruction. You have to find the actual raw opcode
+; and match that up in an opcode table to find that it is "MVI num",
+; THEN you can find out whether it changes Z or not, etc.
+; 
+; Sorry about that!
+;
+; z80 asm support for Geany code editor:
 ; https://github.com/bkw777/WP-2_IC-Card/blob/master/SOFTWARE/z88dk/_usr_share_geany_filedefs_filetypes.Z80asm.conf
-;
-; Brian K. White - b.kenyon.w@gmail.com
 
-; RAMDSK.TIP documents some externally usable function call addresses,
+; RAMDSK.TIP documents some function call addresses,
 ; but they do not appear to be correct for this version of RAMDSK.
-; Presumably it was correct before RAMDSK was updated to support banks?
-;FREE	61896 = 0xF1C8
-;KILL	61942 = 0xF1F6
-;NAME	61998 = 0xF22E
-;SAVE	62055 = 0xF267
-;SAVE1	62061 = 0xF26D
-;LOAD	62300 = 0xF35C
+; There was an original version which did not support banks,
+; nor include the format stamp fixer, which we no longer have.
+; Those were added later and apparently changed all the addresses.
+; These are what RAMDSK.TIP says for RAM100:
+;	FREE	61896	(0xF1C8)
+;	KILL	61942	(0xF1F6)
+;	NAME	61998	(0xF22E)
+;	SAVE	62055	(0xF267)
+;	SAVE1	62061	(0xF26D)
+;	LOAD	62300	(0xF35C)
 ;
-; We don't have the old version of RAM100 to check, but we do have both old and new versions of RAM200.
-; So maybe see if the addresses for 200 match up in the old version of RAM200,
-; and then use that to recognize the entry points by the code, to find the equivalents here.
+; We don't have the original version of RAM100 to check,
+; but we do have both old and new versions of RAM200.
+; So maybe see if the addresses RAMDSK.TIP gives for 200 match up in the old version of RAM200,
+; and then use that to recognize the routines by their code, and find the equivalents here.
+;
+; I have initially just used the locations that the main loop F-key scanner jumps to,
+; and gave them these same names.
+; RAMDSK.TIP does say that the routines immediately demand user input,
+; and the way to use them programmatically is to preload the keyboard buffer.
+; That would seem to be consistent with this.
 
 ; ascii
 ETX			EQU		0x03
@@ -121,7 +143,7 @@ ENDM
 
 ; addresses
 ETRAP		EQU		0xF652		; error trap? status?
-C_ROW		EQU		0xF639		; cursor row (1-8) [poking changes cursor position]
+CURSOR_ROW	EQU		0xF639		; cursor row (1-8) [poking changes cursor position]
 LCDLPT		EQU		0xF675		; console output to LCD(0) or LPT(1)
 UNSBA		EQU		0xF99A		; address of current BASIC program not saved
 FNAME		EQU		0xFC93		; 8 bytes padded fname, prog name if not run from menu nor typed on select line
@@ -213,6 +235,13 @@ StampByte1		EQU		0x04
 
 
 ;------------------------------------------------------------------------------
+; ORIGIN AND HEADER
+;
+; Problem: We don't know ORG until after we know LEN, and we don't know LEN
+; until after we compile. Maybe we can use the makefile to do a 2-step process:
+; Replace the values here with variable commandline defines.
+; Compile once with ORG 0, note the length, compile again supplying LEN.
+
 HIMEM		EQU		0xF5EE		; TRS-80 Model 100/102 with 32K installed
 PRGLEN		EQU		0x578		; FIXME how can we get this without hard coding?
 ORG HIMEM-PRGLEN-6				; entry minus length of header
@@ -311,7 +340,7 @@ j34:
 	ReadData
 	PrintByte
 @l0:
-	ld		a,0x08					; addr003, 0x08 just initial value gets overwritten
+	ld		a,0x08					; addr003, 0x08 gets overwritten
 	and		a
 	cp		0x03
 	jp		nz,j39
@@ -342,7 +371,7 @@ j39:
 	ret
 
 j03:
-	ld		hl,(C_ROW)				; read cursor position row 1-8
+	ld		hl,(CURSOR_ROW)			; read cursor position row 1-8
 	ld		a,(_i)
 	and		0x01
 	jp		nz,j04
@@ -354,7 +383,7 @@ j04:
 	jp		ESCB+9					; jump into the middle of the system rom ESC+B routine
 
 j05:
-	ld		a,0x00					; _i, 0x00 is just initial condition gets overwritten 
+	ld		a,0x00					; _i, 0x00 gets overwritten 
 	inc		a						; increment
 	ld		(_i),a					; write _i
 	cp		10						; is it 10?
