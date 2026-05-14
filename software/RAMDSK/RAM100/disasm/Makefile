@@ -4,7 +4,7 @@
 NAME := RAM100
 CO = $(NAME).CO
 
-Z80ASM = z88dk-z80asm
+AS = z88dk-z80asm
 FLAGS := -m8085 # -v
 
 all: CO
@@ -12,8 +12,8 @@ all: CO
 .PHONY: CO
 CO: $(CO)
 
-%.CO: %.asm
-	$(Z80ASM) $(FLAGS) -b -o=$@ $<
+%.CO: %.S85
+	$(AS) $(FLAGS) -b -o=$@ $<
 	@rm *.o
 	@ls -l $@
 
