@@ -192,8 +192,8 @@ ENDM
 ;------------------------------------------------------------------------------
 
 ; These values have no meaning we can discern, it's just what the original
-; NODE ROM writes to the first 2 bytes of the device to mark
-; the device as being formatted, so RAMDSK has to do the same to be compatible.
+; NODE ROM writes to the first 2 bytes of the device to mark the device
+; as being formatted, so RAMDSK has to do the same to be compatible.
 StampByte0		EQU		0x40
 StampByte1		EQU		0x04
 
@@ -204,18 +204,19 @@ StampByte1		EQU		0x04
 ;------------------------------------------------------------------------------
 ; ORIGIN
 ;------------------------------------------------------------------------------
-;
-; Problem: We don't know ORG until after we know LEN, and we don't know LEN
-; until after we compile. Maybe we can use the makefile to do a 2-step process:
-; Replace the values here with variable commandline defines.
-; Compile once with ORG 0, note the length, compile again supplying LEN.
 
-HIMEM		EQU		0xF5EE		; TRS-80 Model 100/102 with 32K installed
-PRGLEN		EQU		0x578		; FIXME how can we get this without hard coding?
-ORG HIMEM-PRGLEN-6				; entry minus length of header
+;IFNDEF PRGLEN
+;	PRGLEN		EQU		0x0578		; FIXME how can we get this without hard coding?
+;ENDIF
 
-;==============================================================================
-;==============================================================================
+; if PRGLEN is not supplied from the commandline via -D,
+; then just compile with no header or org.
+IFDEF PRGLEN
+IFNDEF HIMEM
+	HIMEM		EQU		0xF5EE		; TRS-80 Model 100/102 with 32K installed
+ENDIF
+
+ORG HIMEM-PRGLEN-6						; entry minus length of header
 
 ;------------------------------------------------------------------------------
 ; .CO HEADER
@@ -223,6 +224,7 @@ ORG HIMEM-PRGLEN-6				; entry minus length of header
 DW PRGTOP	; top
 DW PRGLEN	; len
 DW PRGEXE	; exe
+ENDIF
 
 PRGTOP:
 PRGEXE:
