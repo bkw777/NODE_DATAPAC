@@ -1,0 +1,2 @@
+# tell github to display *.S85 files with *.asm syntax highlighting
+*.S85 linguist-language=asm
