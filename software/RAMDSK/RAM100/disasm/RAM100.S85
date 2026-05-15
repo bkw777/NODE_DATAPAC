@@ -449,7 +449,7 @@ NAME:
 	LXI		H,NameMSG
 	CALL	j30
 	JNZ		BEEP
-	call	j40
+	CALL	j40
 	LDA		BlockNum
 	MOV		B,A
 	PUSH	B
@@ -759,7 +759,7 @@ j41:
 	MOV		M,A
 	INX		H
 	DCR		B
-	jp		nz,@l2
+	JMP		nz,@l2
 	MVI		C,8
 	LXI		H,FilenameMSG
 	LXI		D,FNAME
@@ -842,7 +842,7 @@ FORMAT:
 	JMP		MENU					; if not formatted then EXIT
 ; write new format
 @NewFormat:
-	call	TestHardware
+	CALL	TestHardware
 	; hw test returns:
 	; D = 0x80
 	; 128k hw: C = contents of block0,byte0 + 1 maybe?
@@ -899,7 +899,7 @@ TestHardware:
 	MOV		C,A						; save to C
 	; C should now have the incremented value read back from the hardware, if the hardware exists
 	MOV		A,D
-	call	SelectBlock				; reset byte position back to 0
+	CALL	SelectBlock				; reset byte position back to 0
 	MOV		A,B						; get original saved byte 0 from B
 	WriteData						; write original byte 0 back to byte 0
 	; byte 0 should now be restored to what it was originally
