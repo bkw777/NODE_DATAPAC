@@ -209,11 +209,15 @@ StampByte1		EQU		0x04
 ;	PRGLEN		EQU		0x0578		; FIXME how can we get this without hard coding?
 ;ENDIF
 
-; if PRGLEN is not supplied from the commandline via -D,
+; If PRGLEN is not supplied from the commandline via -D,
 ; then just compile with no header or org.
+; Makefile compiles once with no ORG or .CO header just to get the length,
+; then compiles again with -DPRGLEN=num.
 IFDEF PRGLEN
 IFNDEF HIMEM
-	HIMEM		EQU		0xF5EE		; TRS-80 Model 100/102 with 32K installed
+; HIMEM of a freshly reset Model 100 with 32k is actually 0xF5F0
+; Supply custom value via -DHIMEM=num to generate a relocated binary. 
+	HIMEM		EQU		0xF5EE	; 0xF5EE reproduces the original binary
 ENDIF
 
 ORG HIMEM-PRGLEN-6						; entry minus length of header

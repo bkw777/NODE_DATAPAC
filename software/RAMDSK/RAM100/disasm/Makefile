@@ -8,10 +8,8 @@ CO = $(NAME).CO
 # Original RAM100.CO is compiled with TOP 0xF076 LEN 0x0578,
 # which works out to 0xF5EE.
 #
-# Use 0xF5EE to generate a binary identical to the original.
-#
-# Otherwise use whatever you want to generate a custom relocated binary
-# that lives at some other addres.
+# Use 0xF5EE to reproduce the original binary.
+# Otherwise use whatever you want to generate a custom relocated binary.
 HIMEM := 0xF5EE
 
 AS = z88dk-z80asm
@@ -22,8 +20,10 @@ all: CO
 .PHONY: CO
 CO: $(CO)
 
-# compile once with no header or org, get len, compile again with header & org
-# self-indulgent way to get file length without ls/stat/wc/etc
+# We need the length of the binary to set ORG, but we don't know the length
+# until after compile. So we compile once with default org 0 and no CO header
+# just to get the length. Then compile again with correct ORG & CO header.
+# Self-indulgent bash golf way to get file length without ls/stat/wc/etc
 %.CO: SHELL:=/bin/bash  # the read loop needs bash
 %.CO: %.S85
 	rm -f $@ ;$(AS) $(FLAGS) -b -o=$@ $< && n=0 && \
