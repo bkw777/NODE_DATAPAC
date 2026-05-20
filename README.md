@@ -541,6 +541,8 @@ Actually fits in a Model 200 without having to enlarge the opening in the 200's 
 
 Has 1 megabyte in 4 banks of 256k. 512k usable by RAMDSK plus another 512k only usable by software you'd have to write yourself.
 
+For Model 100/102 there is an experimental [RAM100 with support for 4 banks](software/RAMDSK/RAM100/4-bank).
+
 See the [magazine articles](#documentation) above for example code that could be adjusted to use the upper 512k as raw database space.
 
 How to access all 4 banks:  
