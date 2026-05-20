@@ -942,8 +942,8 @@ addrCtlPort		EQU		SelectBlock+1	; addr holding ctl port number
 	LDA		BankNumMSG					; read bank number display
 	INR		A							; add 1
 	CPI		'0'+NBANKS					; compare to total number of banks
-	JC		@UpdateBankNum				; if BankNum <= NBANKS then jump to store it
-	MVI		A,'0'						; if BankNum > NBANKS then reset to '0'
+	JC		@UpdateBankNum				; if BankNum <= highest then jump to store it
+	MVI		A,'0'						; if BankNum > highest then reset to '0'
 @UpdateBankNum:
 	STA		BankNumMSG					; commit new bank number display
 
