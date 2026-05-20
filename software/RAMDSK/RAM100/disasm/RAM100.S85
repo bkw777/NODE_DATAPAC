@@ -234,7 +234,7 @@ PRGTOP:
 PRGEXE:
 	LDSI	0x00					; copy initial SP to DE
 	XCHG							; swap HL & DE
-	SHLD	_SP						; write HL to _SP
+	SHLD	wSP						; write HL to wSP
 
 ; Detect if user is holding ENTER key during start-up.
 ; Normally start in bank 0. If ENTER is held then start in bank 1.
@@ -256,7 +256,7 @@ PRGEXE:
 
 MAIN:
 @setsp:
-	LXI		SP,0x0000				; _SP, 0x0000 is just initial value gets overwritten
+	LXI		SP,0x0000				; [wSP]
 	LXI		H,MAIN
 	PUSH	H
 	SHLD	ETRAP
@@ -264,7 +264,7 @@ MAIN:
 	MVI		M,SPACE					; write a space to the 1st byte of fname buffer
 	CALL	DrawTitle
 	XRA		A
-	STA		_i
+	STA		bI
 	MVI		D,FattrBA
 	CALL	j01
 	MVI		D,FattrCO
@@ -327,7 +327,7 @@ j34:
 	ReadData
 	PrintByte
 @l0:
-	MVI		A,0x08					; addr003, 0x08 gets overwritten
+	MVI		A,0x08					; [bB]
 	ANA		A
 	CPI		0x03
 	JNZ		j39
@@ -337,10 +337,10 @@ j34:
 	POP		PSW
 j39:
 	DCR		A
-	STA		addr003
+	STA		bB
 	JNZ		j34
 	MVI		A,0x08
-	STA		addr003
+	STA		bB
 	PUSH	B
 	ReadData
 	MOV		L,A
@@ -359,7 +359,7 @@ j39:
 
 j03:
 	LHLD	CURSOR_ROW				; read cursor position row 1-8
-	LDA		_i
+	LDA		bI
 	ANI		0x01
 	JNZ		j04
 	MVI		H,0x04
@@ -370,13 +370,13 @@ j04:
 	JMP		ESCB+9					; jump into the middle of the system rom ESC+B routine
 
 j05:
-	MVI		A,0x00					; _i, 0x00 gets overwritten 
+	MVI		A,0x00					; [bI]
 	INR		A						; increment
-	STA		_i						; write _i
+	STA		bI						; write bI
 	CPI		10						; is it 10?
 	RNZ								; if not 10, return
 	XRA		A
-	STA		_i						; if 10, zero _i
+	STA		bI						; if 10, zero bI
 	CALL	MAIN1
 DrawTitle:
 	LXI		H,TitleMSG
@@ -432,14 +432,14 @@ KILL:
 	XRA		A
 	WriteData
 	WriteData
-	LDA		VAR_D
+	LDA		bD
 	ANA		A
 	RZ
 	STA		BlockNum
 	MOV		C,A
 	CALL	CheckIsBankFormatted
 	CALL	SkipCWords
-	STA		VAR_D
+	STA		bD
 	JMP		@l0
 
 ;------------------------------------------------------------------------------
@@ -499,7 +499,7 @@ SAVE1:
 	INX		H
 	XCHG
 	LHLX
-	SHLD	addr005
+	SHLD	wF
 	CALL	@l0
 	INX		H
 	CALL	@prepfn
@@ -531,11 +531,11 @@ SAVE1:
 	DSUB
 	RET
 @prepfn:
-	SHLD	VAR_A
+	SHLD	wA
 	LXI		H,FilenameMSG
 	JMP		j44
 @l2:
-	LHLD	VAR_A
+	LHLD	wA
 	MVI		D,0x01
 	LXI		B,1014					; 1024 byte block minus 10 byte filename header
 	JMP		@l4
@@ -549,9 +549,9 @@ SAVE1:
 	JMP		@l3
 @l5:
 	MOV		A,D
-	STA		VAR_E
+	STA		bE
 @freekb:	; nothing jumps here, we just need the address+1
-	MVI		A,0x00					; FreeKB
+	MVI		A,0x00					; [FreeKB]
 	CMP		D
 	JC		Beep
 	RET
@@ -573,9 +573,9 @@ SAVE1:
 	STA		_BlockNum
 	JMP		@l6
 @l8:
-	LDA		VAR_E
+	LDA		bE
 	DCR		A
-	STA		VAR_E
+	STA		bE
 	JZ		@l9
 	WriteDataN SPACE
 	JMP		@la
@@ -584,8 +584,8 @@ SAVE1:
 	LDA		FileAttr
 	WriteData
 @la:
-	MVI		A,0x00					; BlockB, 0x00 gets overwritten
-	STA		VAR_D
+	MVI		A,0x00					; [_BlockNum]
+	STA		bD
 	WriteData
 	RET
 
@@ -626,7 +626,7 @@ LOAD:
 	CALL	FINDFN
 	CNZ		DeleteRamFile
 	CALL	MakeHole
-	SHLD	addr005
+	SHLD	wF
 	XCHG
 	DCX		D
 	CALL	MYSTERY_20EC
@@ -636,7 +636,7 @@ LOAD:
 	JMP		RESETFPS
 
 MakeHole:
-	LHLD 	VAR_A
+	LHLD 	wA
 	MOV		B,H
 	MOV		C,L
 	LDA		FileAttr
@@ -676,10 +676,10 @@ j27:
 @l0:
 	STA		@l3
 	LXI		H,1014					; block size 1024 minus 10 bytes filename we already wrote
-	SHLD	VAR_C
-	LHLD	VAR_A
+	SHLD	wC
+	LHLD	wA
 @l1:
-	LXI		D,0x0000				; addr005
+	LXI		D,0x0000				; [wF]
 @l2:
 	LDAX	D
 @l3:
@@ -691,12 +691,12 @@ j27:
 	ORA		L
 	RZ
 	PUSH	H
-	LHLD	VAR_C
+	LHLD	wC
 	DCX		H
 	MOV		A,L
 	ORA		H
 	CZ		j43
-	SHLD	VAR_C
+	SHLD	wC
 	POP		H
 	JMP		@l2
 
@@ -741,14 +741,14 @@ j41:
 	CALL	CheckIsBankFormatted
 @l0:
 	CALL	ReadDataW
-	STA		VAR_D
+	STA		bD
 	LDA		BlockNum
 	INR		A
 	JZ		INSTR_2AB5
 	STA		BlockNum
 	MOV		A,B
 @l1:
-	CPI		0x3F					; what is 0x3F ?
+	CPI		0x3F					; [FileAttr]  ??? what is 0x3F ?
 	JNZ		@l0
 	LDA		BlockNum
 	CALL	SelectBlock
@@ -759,7 +759,7 @@ j41:
 	MOV		M,A
 	INX		H
 	DCR		B
-	JMP		nz,@l2
+	JNZ		@l2
 	MVI		C,8
 	LXI		H,FilenameMSG
 	LXI		D,FNAME
@@ -781,15 +781,15 @@ j44:
 
 j43:
 	LXI		H,1024
-	SHLD	VAR_C
+	SHLD	wC
 	XRA		A
 	CALL	SelectBlock
-	LDA		VAR_D
+	LDA		bD
 	STA		BlockNum
 	MOV		C,A
 	INR		C
 	CALL	SkipCWords
-	STA		VAR_D
+	STA		bD
 	LDA		BlockNum
 	CALL	SelectBlock
 	RET
@@ -917,13 +917,12 @@ TestHardware:
 ; strings & variables
 ;------------------------------------------------------------------------------
 
-; variables that only exist as raw locations to the parameter to some instruction
-; ie self-modifying code
-_SP			EQU		MAIN@setsp+1	; initial stack pointer
-_i			EQU		j05+1			; scratch loop counter
-addr003		EQU		j34@l0+1
+; variables that only exist as the address to the operand of a load instruction
+wSP			EQU		MAIN@setsp+1	; initial stack pointer
+bI			EQU		j05+1			; scratch loop counter
+bB			EQU		j34@l0+1
 FreeKB		EQU		SAVE1@freekb+1	; free KB disk space
-addr005		EQU		j27@l1+1
+wF			EQU		j27@l1+1
 FileAttr	EQU		j41@l1+1		; file attr byte
 _BlockNum	EQU		SAVE1@la+1		; tmp block number
 
@@ -991,19 +990,19 @@ FixMSG:
 FilenameMSG:
 	DB "filename"
 
-VAR_A:
+wA:
 	DW 0
 
 BlockNum:
 	DB 0
 
-VAR_C:
+wC:
 	DW 0
 
-VAR_D:
+bD:
 	DB 0
 
-VAR_E:
+bE:
 	DB 0
 
 ;------------------------------------------------------------------------------
@@ -1045,4 +1044,5 @@ BANK:
 SelectBlock:
 	OUT		PORT_CTL0				; write A to the control port
 	RET
+
 PRGEND:
