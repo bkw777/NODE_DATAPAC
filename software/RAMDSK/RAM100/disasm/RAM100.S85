@@ -3,7 +3,10 @@
 ; RAMDSK.CO is originally written by Paul Globman
 ; (modulo reverse engineering the NODE ROM)
 ;
-; Compile: z88dk-z80asm -m8085 -b -o=RAM100.CO RAM100.S85
+; Compile:
+;   z88dk-z80asm -m8085 -b -o=RAM100.CO RAM100.S85
+;   n=`wc -c <RAM100.CO`
+;   z88dk-z80asm -m8085 -DPRGLEN=$n -b -o=RAM100.CO RAM100.S85
 ;
 ; Initial disassembly: z88dk-dis -m8085 -k 6 -o 0xF076 RAM100.CO >RAM100.asm
 ; -k 6       = .CO header is 6 bytes long, 2 bytes each, LSB-first: TOP LEN EXE
@@ -21,6 +24,10 @@
 ; _usr_share_geany_filedefs_filetypes.8085asm.conf
 ;------------------------------------------------------------------------------
 
+;------------------------------------------------------------------------------
+; TRS-80 Model 100 Platform
+;------------------------------------------------------------------------------
+
 ; cpu opcodes
 opcode_IN		EQU		0xDB
 opcode_OUT		EQU		0xD3
@@ -32,10 +39,6 @@ FF			EQU		0x0C
 CR			EQU		0x0D
 ESC 		EQU		0x1B
 SPACE		EQU		0x20
-
-;------------------------------------------------------------------------------
-; TRS-80 Model 100 Platform
-;------------------------------------------------------------------------------
 
 ; vt52/screen control sequences
 MACRO clr_eol
@@ -108,7 +111,6 @@ ENDM
 ; addresses
 ETRAP		EQU		0xF652		; error trap? status?
 CURSOR_ROW	EQU		0xF639		; cursor row (1-8) [poking changes cursor position]
-LCDLPT		EQU		0xF675		; console output to LCD(0) or LPT(1)
 UNSBA		EQU		0xF99A		; address of current BASIC program not saved
 FNAME		EQU		0xFC93		; 8 bytes padded fname, prog name if not run from menu nor typed on select line
 KC7			EQU		0xFF97		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
@@ -167,14 +169,6 @@ MACRO WriteDataN n
 	WriteData			; write n to the data port
 ENDM
 
-; *****************************************************************************
-; Here is where we can update to support more than 2 banks (hopefully)
-; Replace toggle 0/1 with a 0-N counter
-; instead of bank^1 ; port^BANK_CTL_OFFSET
-; do bank=(bank+1)%NUMBER_OF_BANKS ; port=PORT_CTL0+bank*BANK_CTL_OFFSET
-; (each time you press [Bank], display bank num increments by 1 or rolls back to 0,
-;  and port num changes to base port num for bank 0 + bank_num*4)
-;
 ; Toggle the bank control port and bank# screen display between bank 0 / bank 1
 ; This only updates local variables, does not touch the RAMPAC hardware.
 addrCtlPort		EQU		SelectBlock+1	; addr holding ctl port number, port number parameter of SelectBlock:
@@ -204,10 +198,6 @@ StampByte1		EQU		0x04
 ;------------------------------------------------------------------------------
 ; ORIGIN
 ;------------------------------------------------------------------------------
-
-;IFNDEF PRGLEN
-;	PRGLEN		EQU		0x0578		; FIXME how can we get this without hard coding?
-;ENDIF
 
 ; If PRGLEN is not supplied from the commandline via -D,
 ; then just compile with no header or org.
@@ -240,16 +230,12 @@ PRGEXE:
 ; Normally start in bank 0. If ENTER is held then start in bank 1.
 ; I don't know why this feature exists.
 ;
-; Maybe it's a way to have RAMDSK data in bank 1 and non-RAMDSK data in bank 0?
+; Maybe it's meant to be an escape hatch to allow a non-RAMDSK application from
+; before the advent of banks to use bank 0, and allow RAMDSK to use bank 1.
 ; Normally the formatting is checked on startup, and if ram is not formatted
 ; and the user declines to format or repair, then RAMDSK exits immediately.
 ; This ENTER detection happens before that, so it would allow bank 0 to stay
-; unformatted, and switch to bank 1 before test/fix/exit.
-; It would not be perfect. If you pressed the Bank button it would probably
-; immediately ask to format or fix, and then exit immediately if you decline.
-;
-; Possible candidate to remove bytes to add 4-bank support without changing the file
-; size so the existing bootstrap BASIC progs (silkscreened on the pcbs) still work.
+; unformatted or non-RAMDSK, and switch to bank 1 before being forced to exit.
 	LDA		KC7						; get status bits of keyboard matrix column 7
 	CPI		0x80					; is ENTER pressed?
 	CZ		BANK					; if ENTER is pressed, switch banks.

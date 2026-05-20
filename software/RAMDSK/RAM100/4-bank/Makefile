@@ -1,5 +1,6 @@
 # Makefile for RAMDSK.CO
 # Requires https://github.com/z88dk/z88dk
+# Requires https://github.com/bkw777/dl2
 
 NAME := RAM100
 CO = $(NAME).CO
@@ -8,10 +9,12 @@ map = $(NAME).map
 
 # Real HIMEM is 0xF5F0 for a reset 32k machine.
 # Original RAM100.CO is compiled with TOP 0xF076 LEN 0x0578,
-# which works out to 0xF5EE.
+# which works out to HIMEM=0xF5EE.
 #
-# Use 0xF5EE to reproduce the original binary.
+# Use 0xF5EE (and ensure PRGLEN=0x578) to match the original binary len & entry. 
 # Otherwise use whatever you want to generate a custom relocated binary.
+# If you don't care about matching the old binary for the sake of the BASIC bootstrap code,
+# then use HIMEM=$(MAXRAM) and comment-out bkw: at the bottom of *.S85
 MAXRAM32K := 0xF5F0 # hardware himem for 32k Model 100
 MAXRAM24K := 0xD5F0 # hardware himem for 24k Model 100
 MAXRAM16K := 0xB5F0 # hardware himem for 16k Model 100

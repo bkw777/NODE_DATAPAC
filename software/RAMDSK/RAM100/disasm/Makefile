@@ -1,5 +1,6 @@
 # Makefile for RAMDSK.CO
 # Requires https://github.com/z88dk/z88dk
+# Requires https://github.com/bkw777/dl2
 
 NAME := RAM100
 CO = $(NAME).CO
@@ -21,7 +22,6 @@ HIMEM_ORIGINAL_RAM100 = 0xF5EE
 #HIMEM := $(MAXRAM)
 HIMEM := $(HIMEM_ORIGINAL_RAM100)
 
-# z88dk compiler, output .map along with .CO
 AS = z88dk-z80asm
 FLAGS := -m8085 -no-synth # -v
 
