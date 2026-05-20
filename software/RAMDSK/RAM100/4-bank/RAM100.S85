@@ -124,8 +124,6 @@ FattrCO		EQU		0xA0	; .CO files
 ;------------------------------------------------------------------------------
 ; DATAPAC/RAMPAC Hardware
 ;------------------------------------------------------------------------------
-
-; device IO ports
 PORT_CTL0			EQU		0x81	; control port for bank 0
 PORT_DATA			EQU		0x83	; data read/write port
 BANK_CTL_OFFSET		EQU		0x04	; bank n ctl port is ctl0 + n*4
@@ -930,15 +928,13 @@ BANK:
 ;
 ; MULTI-BANK SUPPORT
 ;
-addrCtlPort		EQU		SelectBlock+1	; addr holding ctl port number
-
-	LDA		addrCtlPort					; get current control port number
+	LDA		CtlPort						; get current control port number
 	ADI		BANK_CTL_OFFSET				; add 4
 	CPI		PORT_CTL0+BANK_CTL_OFFSET*NBANKS	; compare to highest valid bank number
 	JC		@SaveCtlPort				; if CtlPort <= highest then jump to store it
 	MVI		A,PORT_CTL0					; if CtlPort > highest then reset to lowest
 @SaveCtlPort:
-	STA		addrCtlPort					; commit new control port number
+	STA		CtlPort						; commit new control port number
 	LDA		BankNumMSG					; read bank number display
 	INR		A							; add 1
 	CPI		'0'+NBANKS					; compare to total number of banks
@@ -970,6 +966,7 @@ FreeKB		EQU		SAVE1@freekb+1	; free KB disk space
 wF			EQU		j27@l1+1
 FileAttr	EQU		j41@l1+1		; file attr byte
 _BlockNum	EQU		SAVE1@la+1		; tmp block number
+CtlPort		EQU		SelectBlock+1	; addr holding ctl port number
 ;----- above were in the original binary, below bkw converted from normal DB/DW -----
 BlockNum	EQU		j43@bn+1		; block number
 bD			EQU		j43@bd+1
