@@ -41,9 +41,9 @@ DO: $(DO)
 # just to get the length. Then compile again with correct ORG & CO header.
 # Also generate map file to provide the function call addresses.
 %.CO: %.S85
-	$(AS) $(FLAGS) -m -b -o=$@ $< && \
+	$(AS) $(FLAGS) -b -o=$@ $< && \
 	n=$$(wc -c <$@) && \
-	$(AS) $(FLAGS) -DHIMEM=$(HIMEM) -DPRGLEN=$$n -b -o=$@ $<
+	$(AS) $(FLAGS) -DHIMEM=$(HIMEM) -DPRGLEN=$$n -m -b -o=$@ $<
 	@rm *.o
 	@ls -l $@
 
