@@ -968,7 +968,7 @@ IF ALT_BANK_LOGIC
 @DoneBN:
 	STA		CtlPort						; commit new control port number
 
-ELSE
+ELSE ; ALT_BANK_LOGIC
 
 ; Shorter (12 inst) and morally equivalent to Paul's original.
 ; If the 2 values both start as valid and in sync and nothing ever goes wrong
