@@ -169,16 +169,16 @@ MACRO WriteDataN n
 	WriteData			; write n to the data port
 ENDM
 
-; Toggle the bank control port and bank# screen display between bank 0 / bank 1
+; Toggle the control port number and bank# screen display between bank 0 / bank 1
 ; This only updates local variables, does not touch the RAMPAC hardware.
-addrCtlPort		EQU		SelectBlock+1	; addr holding ctl port number, port number parameter of SelectBlock:
+CtlPort		EQU		SelectBlock+1		; addr holding ctl port number, port number parameter of SelectBlock:
 MACRO ToggleTargetBankNumber
-	LDA		addrCtlPort					; read bank control port number (0x81/0x85) from SelectBlock portnumber parameter
-	XRI		BANK_CTL_OFFSET				; toggle bit 2 (toggle control port between 0x81 & 0x85)
-	STA		addrCtlPort					; write new control port number to SelectBlock portnumber parameter
-	LDA		BankNumMSG					; read bank number (0/1) from BankNumMSG (part of TitleMSG)
-	XRI		0x01						; toggle bit 0 to switch display bank number between ascii "0" & "1"
-	STA		BankNumMSG					; write new bank number to BankNumMSG
+	LDA		CtlPort						; read control port number (0x81 or 0x85)
+	XRI		BANK_CTL_OFFSET				; toggle bit 2 (toggle between 0x81 & 0x85)
+	STA		CtlPort						; write new control port number
+	LDA		BankNumMSG					; read bank number display ('0' or '1' ascii)
+	XRI		0x01						; toggle bit 0 (toggle between '0' & '1' ascii)
+	STA		BankNumMSG					; write new bank number display
 ENDM
 
 ;------------------------------------------------------------------------------
@@ -1014,7 +1014,7 @@ BANK:
 	CMP		B						; does B = 0x41 ?
 	RZ								; return if B = 0x41 (conclude the hardware does not have banks?)
 	MOV		A,B						; B & A didn't match, we have hardware with banks, copy B to A 
-	CPI		PORT_DATA				; ???  compare A to the data port number?                                 ???
+	CPI		PORT_DATA				; ???  compare B to the data port number?                                 ???
 	RZ								; ???  return if match? is this maybe how we detect no hardware present?  ???
 
 	ToggleTargetBankNumber
@@ -1026,7 +1026,7 @@ BANK:
 ;------------------------------------------------------------------------------
 ; SelectBlock - Select block# in the current bank
 ;------------------------------------------------------------------------------
-; PORT_CTL0 is just the initial condition (bank0) and gets overwritten at run time
+; PORT_CTL0 is just the initial condition, the parameter byte gets overwritten at run time
 SelectBlock:
 	OUT		PORT_CTL0				; write A to the control port
 	RET

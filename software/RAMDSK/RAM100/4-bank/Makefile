@@ -24,7 +24,10 @@ MAXRAM := $(MAXRAM32K)
 HIMEM = 0xF5EE
 
 AS = z88dk-z80asm
-FLAGS := -m8085 -no-synth # -v
+ASFLAGS := -m8085 -no-synth # -v
+# -DALT_BANK_LOGIC    control port number is derived from the displayed bank number rather than incremented in parallel
+# -DBANK_ONE_BASED    display "Bank1" - "Bank4" (doesn't match original, also inconsisntent with block 0, byte 0, etc.)
+XFLAGS := -DALT_BANK_LOGIC
 
 all: DO
 
@@ -42,9 +45,9 @@ map: $(map)
 # just to get the length. Then compile again with correct ORG & CO header.
 # Also generate map file to provide the function call addresses.
 %.CO: %.S85
-	$(AS) $(FLAGS) -b -o=$@ $< && \
+	$(AS) $(ASFLAGS) $(XFLAGS) -b -o=$@ $< && \
 	n=$$(wc -c <$@) && \
-	$(AS) $(FLAGS) -DHIMEM=$(HIMEM) -DPRGLEN=$$n -m -b -o=$@ $<
+	$(AS) $(ASFLAGS) -DHIMEM=$(HIMEM) -DPRGLEN=$$n $(XFLAGS) -m -b -o=$@ $<
 	@rm *.o
 	@ls -l $@
 

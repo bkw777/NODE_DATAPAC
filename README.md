@@ -606,6 +606,8 @@ They all work the same from a software point of view, and all are tested.
 * Same as EZ1M (the default version above), just with TSOP & TSSOP components.  
 * Allows to make a thin card.
 
+[RAM100 with support for 4 banks](software/RAMDSK/RAM100/4-bank)
+
 Use the thinner CR2016 version of the cover with this.  
 The battery holder is technically for CR2012, but you can stuff a CR2016 in it.
 
@@ -648,6 +650,8 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 * NOT YET TESTED, but the circuit is identical to SL1M which is tested.
 * Same as [SL1M](#sl1m---slim-1-meg), but in DIP-40 form to fit in a TRS-80 Model 100 system bus socket.  
 * Should also work in Kyotronic KC-85, though there is no port of RAMDSK.CO for KC-85.
+
+[RAM100 with support for 4 banks](software/RAMDSK/RAM100/4-bank)
 
 ![](PCB/out/MiniNDP_u1M.1.jpg)  
 ![](PCB/out/MiniNDP_u1M.2.jpg)  
