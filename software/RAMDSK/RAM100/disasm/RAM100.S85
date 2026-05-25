@@ -124,8 +124,9 @@ FattrBA		EQU		0x80		; .BA files
 FattrDO		EQU		0xC0		; .DO files
 FattrCO		EQU		0xA0		; .CO files
 
-LCD_NROWS	EQU	8				; LCD screen rows
-LCD_CDOWN	EQU	10				; counter in j03->j05 - maybe cursor-down n times?
+NROWS		EQU		8			; LCD screen rows
+CDNCT		EQU		10			; counter in j03->j05 - maybe cursor-down n times?
+DEFAULT_HIMEM	EQU		0xF5EE
 
 ;------------------------------------------------------------------------------
 ; DATAPAC/RAMPAC Hardware defines
@@ -189,12 +190,10 @@ StampByte1		EQU		0x04
 ; then just compile with no header or org.
 ; Makefile compiles once with no ORG or .CO header just to get the length,
 ; then compiles again with -DPRGLEN=num.
+; Supply -DHIMEM=num to generate a relocated binary.
 IFDEF PRGLEN
 IFNDEF HIMEM
-; HIMEM of a freshly reset Model 100 with 32k is actually 0xF5F0
-; Supply custom value via -DHIMEM=num to generate a relocated binary.
-; HIMEM=0xF5EE makes TOP match the old binary (if LEN also matches).
-	HIMEM		EQU		0xF5EE
+	HIMEM		EQU		DEFAULT_HIMEM
 ENDIF ; HIMEM
 
 ORG HIMEM-PRGLEN-6						; entry minus length of header
@@ -357,10 +356,10 @@ j05:
 	MVI		A,0x00					; [bI]
 	INR		A
 	STA		bI						; incriment bI
-	CPI		LCD_CDOWN
-	RNZ								; if not LCD_CDOWN, return
+	CPI		CDNCT
+	RNZ								; if not CDNCT, return
 	XRA		A
-	STA		bI						; if LCD_CDOWN, reset to 0
+	STA		bI						; if CDNCT, reset to 0
 	CALL	MAIN1
 DrawTitle:
 	LXI		H,TitleMSG
@@ -922,28 +921,28 @@ BankNumMSG:
 	DB '0'
 	DB "   (c)P.Globman"
 	exit_attribute_mode
-	cursor_address LCD_NROWS,1
+	cursor_address NROWS,1
 ;	DB "F1-- F2-- F3-- F4-- F5-- F6-- F7-- F8--"
 	DB "Bank Load Save Name Kill           Menu"
-	cursor_address LCD_NROWS-1,29
+	cursor_address NROWS-1,29
 	DB "Kbytes free"
 	cursor_address 1,1
 	DB 0x00
 
 KillMSG:
-	cursor_address LCD_NROWS-1,1
+	cursor_address NROWS-1,1
 	DB "Kill:",0x00
 
 LoadMSG:
-	cursor_address LCD_NROWS-1,1
+	cursor_address NROWS-1,1
 	DB "Load:",0x00
 
 SaveMSG:
-	cursor_address LCD_NROWS-1,1
+	cursor_address NROWS-1,1
 	DB "Save:",0x00
 
 NameMSG:
-	cursor_address LCD_NROWS-1,1
+	cursor_address NROWS-1,1
 	DB "Name:",0x00
 
 AsMSG:
@@ -952,15 +951,15 @@ AsMSG:
 	DB 0x00
 
 ReplaceMSG:
-	cursor_address LCD_NROWS,19
+	cursor_address NROWS,19
 	DB "Replace?",0x00
 
 FreeMSG:
-	cursor_address LCD_NROWS-1,25
+	cursor_address NROWS-1,25
 	DB 0x00
 
 FormatMSG:
-	cursor_address LCD_NROWS-1,1
+	cursor_address NROWS-1,1
 	DB "Format RAMdisk",LF,CR,"Are you "
 SureMSG:
 	DB "Sure?"
@@ -968,7 +967,7 @@ SureMSG:
 	DB 0x00
 
 FixMSG:
-	cursor_address LCD_NROWS,1
+	cursor_address NROWS,1
 	DB "Fix?"
 	clr_eol
 	DB 0x00
