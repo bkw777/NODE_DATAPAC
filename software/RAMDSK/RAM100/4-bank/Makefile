@@ -14,7 +14,7 @@ map = $(NAME).map
 # Use 0xF5EE (and ensure PRGLEN=0x578) to match the original binary len & entry. 
 # Otherwise use whatever you want to generate a custom relocated binary.
 # If you don't care about matching the old binary for the sake of the BASIC bootstrap code,
-# then use HIMEM=$(MAXRAM) and comment-out bkw: at the bottom of *.S85
+# then use HIMEM=$(MAXRAM) and comment-out padding: at the bottom of *.S85
 MAXRAM32K := 0xF5F0 # hardware himem for 32k Model 100
 MAXRAM24K := 0xD5F0 # hardware himem for 24k Model 100
 MAXRAM16K := 0xB5F0 # hardware himem for 16k Model 100

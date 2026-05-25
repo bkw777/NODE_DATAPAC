@@ -1,12 +1,12 @@
-; RAM100.CO assembly source from disassembly
+; RAM200.CO assembly source from disassembly
 ; Brian K. White
 ; RAMDSK originally by Paul Globman
 ; This copy intentionally only reproduces the original binary exactly for reference.
 ;
 ; Compile:
-;   z88dk-z80asm -m8085 -b -o=RAM100.CO RAM100.S85
-;   n=`wc -c <RAM100.CO`
-;   z88dk-z80asm -m8085 -DPRGLEN=$n -b -o=RAM100.CO RAM100.S85
+;   z88dk-z80asm -m8085 -b -o=RAM200.CO RAM200.S85
+;   n=`wc -c <RAM200.CO`
+;   z88dk-z80asm -m8085 -DPRGLEN=$n -b -o=RAM200.CO RAM200.S85
 ;
 ; original binaries:
 ; https://www.club100.org/library/libpg.html "pgnode" section
@@ -18,7 +18,7 @@
 ;------------------------------------------------------------------------------
 
 ;------------------------------------------------------------------------------
-; TRS-80 Model 100 Platform
+; TANDY Model 200 Platform defines
 ;------------------------------------------------------------------------------
 
 ; cpu opcodes
@@ -62,34 +62,34 @@ rPRTA		EQU		RST_4
 
 ; system rom routines
 PRTSP		EQU		0x001E		; write space to console, directed by LCDLPT
-UBLNAS		EQU		0x05F0		; update in-memory line addresses for the current BASIC program lines
-LC2UCA		EQU		0x0FE9		; convert the character in A to uppercase
-PTILL0		EQU		0x11A2		; print null-terminated string at HL to screen
-CHGET		EQU		0x12CB		; wait for a key from the keyboard
-POPALL		EQU		0x14ED		; pop all registers
-FILES		EQU		0x1F3A		; FILES statement
-KILASC		EQU		0x1FBF		; delete a .DO file
-KILCOM		EQU		0x1FD9		; delete a .CO file
-KILBAS		EQU		0x2017		; delete a .BA file
-;KIL200		EQU		0x2B2C		; delete a file - 200 only
-FINDFN		EQU		0x20AF		; search dir for filename matching 0xFC93
-FINDFN1		EQU		0x20CC		; almost the the end of FINDFN
-SCNEMP		EQU		0x20E4+8	; scan for an empty directory entry
-UPDOFILES	EQU		0x213E		; update DOFILES with BC
-RESETFPS	EQU		0x2146		; reset file pointers
-MKDIRENT	EQU		0x2239		; insert entry into directory
-INSTR_X1	EQU		0x2AB5		; middle of INSTR function
-D2H4Bup		EQU		0x3469		; move the memory pointed to by DE to the memory pointed to by HL
-PRTASC		EQU		0x39D4		; print 16bit value in HL as ascii
-BEEP		EQU		0x4229		; make a beep sound
-ESCB		EQU		0x446E		; ESC+B - move cursor down one line
-INLIN		EQU		0x4644		; input line
-CKFN		EQU		0x4C0B		; format filename and check validity
-MENU		EQU		0x5797		; go to main menu
-CMPARE		EQU		0x5A6D		; compare the buffer pointed to by DE to the buffer pointed to by HL
-GETEOF		EQU		0x6B2D		; search for EOF (0x1A)
-MAKHOL		EQU		0x6B6D		; insert BC number of spaces in memory
-KYREAD		EQU		0x7242		; read keyboard
+UBLNAS		EQU		0x061B		; update in-memory line addresses for the current BASIC program lines
+LC2UCA		EQU		0x1014		; convert the character in A to uppercase
+PTILL0		EQU		0x11CC		; print null-terminated string at HL to screen
+CHGET		EQU		0x12F7		; wait for a key from the keyboard
+POPALL		EQU		0x1604		; pop all registers
+FILES		EQU		0x2A2A+2	; FILES statement
+KILASC		EQU		0x2AB5		; delete a .DO file
+KILCOM		EQU		0x2ACE		; delete a .CO file
+KILBAS		EQU		0x2B0C		; delete a .BA file
+KIL200		EQU		0x2B2C		; delete a file - 200 only
+FINDFN		EQU		0x2BCC		; search dir for filename matching 0xFC93
+FINDFN1		EQU		0x2BE9		; almost the the end of FINDFN
+SCNEMP		EQU		0x2C09		; scan for an empty directory entry
+UPDOFILES	EQU		0x2C5A		; update DOFILES with BC
+RESETFPS	EQU		0x2C62		; reset file pointers
+MKDIRENT	EQU		0x2DAC		; insert entry into directory
+INSTR_X1	EQU		0x2459		; middle of INSTR function
+D2H4Bup		EQU		0x41BA		; move the memory pointed to by DE to the memory pointed to by HL
+PRTASC		EQU		0x470B		; print 16bit value in HL as ascii
+BEEP		EQU		0x4F45		; make a beep sound
+ESCB		EQU		0x519D		; ESC+B - move cursor down one line
+INLIN		EQU		0x54F6		; input line
+CKFN		EQU		0x5ACA		; format filename and check validity
+MENU		EQU		0x67A4		; go to main menu
+CMPARE		EQU		0x6E11		; compare the buffer pointed to by DE to the buffer pointed to by HL
+GETEOF		EQU		0x8268		; search for EOF (0x1A)
+MAKHOL		EQU		0x82A8		; insert BC number of spaces in memory
+KYREAD		EQU		0x8B03		; read keyboard
 
 MACRO PrintByte
 	RST		rPRTA
@@ -103,20 +103,20 @@ MACRO PrintSpace
 ENDM
 
 ; addresses
-CURSOR_ROW	EQU		0xF639		; cursor row [poking changes cursor position]
-ETRAP		EQU		0xF652		; error trap
-CURBAS		EQU		0xF67C		; pointer to start of BA files / TXTTAB? CURBAS? current running BASIC program?
-UNSBA		EQU		0xF99A		; address of current BASIC program not saved
-DOFILES		EQU		0xFBAE		; pointer to start of DO files
-COFILES		EQU		0xFBB0		; pointer to start of CO files
-FNAME		EQU		0xFC93		; 8 (9?) bytes padded fname, prog name if not run from menu nor typed on select line
-FX1			EQU		0xFC99		; unknown, possibly file size or other metadata
-CFNAME		EQU		0xFC9C		; filename of last program loaded from tape
-FX2			EQU		0xFCA2		; unknown, possibly file size or other metadata
-KC7			EQU		0xFF97		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
+CURSOR_ROW	EQU		0xEF06		; cursor row [poking changes cursor position]
+ETRAP		EQU		0xEF34		; error trap
+CURBAS		EQU		0xEF67		; pointer to start of BA files / TXTTAB? CURBAS? current running BASIC program?
+UNSBA		EQU		0xF295		; address of current BASIC program not saved
+DOFILES		EQU		0xF661		; pointer to start of DO files
+COFILES		EQU		0xF663		; pointer to start of CO files
+FNAME		EQU		0xF746		; 8 (9?) bytes padded fname, prog name if not run from menu nor typed on select line
+FX1			EQU		0xF74C		; unknown, possibly file size or other metadata
+CFNAME		EQU		0xF74F		; filename of last program loaded from tape
+FX2			EQU		0xF755		; unknown, possibly file size or other metadata
+KC7			EQU		0xFD0B		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
 
 ; 100 and 200 are using different rom locations for the start of BA files
-BAFILES		EQU		UNSBA
+BAFILES		EQU		CURBAS
 
 ; constants
 ; file types, attribute byte A for MKDIRENT
@@ -188,10 +188,10 @@ StampByte1		EQU		0x04
 ; then compiles again with -DPRGLEN=num.
 IFDEF PRGLEN
 IFNDEF HIMEM
-; HIMEM of a freshly reset Model 100 with 32k is actually 0xF5F0
+; HIMEM of a freshly reset Model 200 is actually 0xEEB0
 ; Supply custom value via -DHIMEM=num to generate a relocated binary.
-; HIMEM=0xF5EE makes TOP match the old binary (if LEN also matches).
-	HIMEM		EQU		0xF5EE
+; HIMEM=0xEEAE makes TOP match the old binary (if LEN also matches).
+	HIMEM		EQU		0xEEAE
 ENDIF ; HIMEM
 
 ORG HIMEM-PRGLEN-6						; entry minus length of header
@@ -333,7 +333,7 @@ j01:
 	CALL	PRTASC
 	CALL	j05
 	POP		B
-	CALL	CheckIsBankFormatted
+	CALL	CheckIsBankFormatted 
 	CALL	SkipCWords
 	POP		B
 	POP		D
@@ -354,10 +354,10 @@ j05:
 	MVI		A,0x00					; [bI]
 	INR		A
 	STA		bI						; incriment bI
-	CPI		10						; is it 10?
-	RNZ								; if not 10, return
+	CPI		26						; is it 26?
+	RNZ								; if not 26, return
 	XRA		A
-	STA		bI						; if 10, zero bI
+	STA		bI						; if 26, zero bI
 	CALL	MAIN1
 DrawTitle:
 	LXI		H,TitleMSG
@@ -589,12 +589,7 @@ DeleteRamFile:
 	PUSH	H
 	CALL	ConfirmReplace
 	POP		H
-	CALL	FINDFN1					; tail end of FINDFN
-	CPI		FattrDO
-	JZ		KILASC					; if it's a .DO file
-	CPI		FattrCO
-	JZ		KILCOM					; if it's a .CO file
-	JMP		KILBAS					; if it's anything else
+	JMP		KIL200
 
 ;------------------------------------------------------------------------------
 ; LOAD
@@ -617,7 +612,7 @@ LOAD:
 	JMP		RESETFPS
 
 MakeHole:
-	LHLD 	wA
+	LHLD	wA
 	MOV		B,H
 	MOV		C,L
 	LDA		FileAttr
@@ -658,7 +653,7 @@ j27:
 	STA		@l3
 	LXI		H,1014					; block size 1024 minus 10 bytes filename we already wrote
 	SHLD	wC
-	LHLD	wA
+	LHLD	wA  
 @l1:
 	LXI		D,0x0000				; [wF]
 @l2:
@@ -919,28 +914,28 @@ BankNumMSG:
 	DB '0'
 	DB "   (c)P.Globman"
 	exit_attribute_mode
-	cursor_address 8,1
+	cursor_address 16,1
 ;	DB "F1-- F2-- F3-- F4-- F5-- F6-- F7-- F8--"
 	DB "Bank Load Save Name Kill           Menu"
-	cursor_address 7,29
+	cursor_address 15,29
 	DB "Kbytes free"
 	cursor_address 1,1
 	DB 0x00
 
 KillMSG:
-	cursor_address 7,1
+	cursor_address 15,1
 	DB "Kill:",0x00
 
 LoadMSG:
-	cursor_address 7,1
+	cursor_address 15,1
 	DB "Load:",0x00
 
 SaveMSG:
-	cursor_address 7,1
+	cursor_address 15,1
 	DB "Save:",0x00
 
 NameMSG:
-	cursor_address 7,1
+	cursor_address 15,1
 	DB "Name:",0x00
 
 AsMSG:
@@ -949,15 +944,15 @@ AsMSG:
 	DB 0x00
 
 ReplaceMSG:
-	cursor_address 8,19
+	cursor_address 16,19
 	DB "Replace?",0x00
 
 FreeMSG:
-	cursor_address 7,25
+	cursor_address 15,25
 	DB 0x00
 
 FormatMSG:
-	cursor_address 7,1
+	cursor_address 15,1
 	DB "Format RAMdisk",LF,CR,"Are you "
 SureMSG:
 	DB "Sure?"
@@ -965,7 +960,7 @@ SureMSG:
 	DB 0x00
 
 FixMSG:
-	cursor_address 8,1
+	cursor_address 16,1
 	DB "Fix?"
 	clr_eol
 	DB 0x00
@@ -1010,7 +1005,7 @@ BANK:
 	INR		A						; A++ -> A=0x41
 	CMP		B						; does B = 0x41 ?
 	RZ								; return if B = 0x41 (conclude the hardware does not have banks?)
-	MOV		A,B						; B & A didn't match, we have hardware with banks, copy B to A 
+	MOV		A,B						; B & A didn't match, we have hardware with banks, copy B to A
 	CPI		PORT_DATA				; ???  compare B to the data port number?                                 ???
 	RZ								; ???  return if match? is this maybe how we detect no hardware present?  ???
 
@@ -1034,7 +1029,7 @@ BANK:
 ;------------------------------------------------------------------------------
 ; PORT_CTL0 is just the initial condition, the parameter byte gets overwritten at run time
 SelectBlock:
-	OUT		PORT_CTL0				; [CtlPort]
+	OUT		PORT_CTL0				; [CtlPort] 
 	RET
 
 PRGEND:

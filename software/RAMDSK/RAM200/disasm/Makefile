@@ -2,48 +2,45 @@
 # Requires https://github.com/z88dk/z88dk
 # Requires https://github.com/bkw777/dl2
 
-NAME := RAM100
+NAME := RAM200
 CO = $(NAME).CO
-map = $(NAME).map
 DO = $(NAME).DO
+map = $(NAME).map
 
-# Real HIMEM is 0xF5F0 for a reset 32k machine.
-# Original RAM100.CO is compiled with TOP 0xF076 LEN 0x0578,
-# which works out to 0xF5EE.
+# Original RAM200.CO is compiled with TOP 0xE943 LEN 0x056B,
+# which works out to HIMEM=0xEEAE.
 #
-# Use 0xF5EE to reproduce the original binary.
+# Use 0xEEAE (and ensure PRGLEN=0x56B) to match the original binary len & entry. 
 # Otherwise use whatever you want to generate a custom relocated binary.
-MAXRAM32K := 0xF5F0 # hardware himem for 32k Model 100
-MAXRAM24K := 0xD5F0 # hardware himem for 24k Model 100
-MAXRAM16K := 0xB5F0 # hardware himem for 16k Model 100
-MAXRAM8K  := 0x95F0 # hardware himem for 8k  Model 100
-MAXRAM := $(MAXRAM32K)
-HIMEM_ORIGINAL_RAM100 = 0xF5EE
+# If you don't care about matching the old binary for the sake of the BASIC bootstrap code,
+# then use HIMEM=$(MAXRAM)
+MAXRAM := 0xEEB0
 #HIMEM := $(MAXRAM)
-HIMEM := $(HIMEM_ORIGINAL_RAM100)
+HIMEM := 0xEEAE
 
 AS = z88dk-z80asm
-FLAGS := -m8085 -no-synth # -v
+ASFLAGS := -m8085 -no-synth # -v
+XFLAGS :=
 
 all: DO
 
 .PHONY: CO
 CO: $(CO)
 
-.PHONY: map
-map: $(map)
-
 .PHONY: DO
 DO: $(DO)
+
+.PHONY: map
+map: $(map)
 
 # We need the length of the binary to set ORG, but we don't know the length
 # until after compile. So we compile once with default org 0 and no CO header
 # just to get the length. Then compile again with correct ORG & CO header.
 # Also generate map file to provide the function call addresses.
 %.CO: %.S85
-	$(AS) $(FLAGS) -b -o=$@ $< && \
+	$(AS) $(ASFLAGS) $(XFLAGS) -b -o=$@ $< && \
 	n=$$(wc -c <$@) && \
-	$(AS) $(FLAGS) -DHIMEM=$(HIMEM) -DPRGLEN=$$n -m -b -o=$@ $<
+	$(AS) $(ASFLAGS) -DHIMEM=$(HIMEM) -DPRGLEN=$$n $(XFLAGS) -m -b -o=$@ $<
 	@rm *.o
 	@ls -l $@
 
@@ -57,15 +54,15 @@ DO: $(DO)
 	co2ba $< savem >$@
 	@ls -l $@
 
+'PHONY: verify
+verify: all
+	cmp -l -b $(CO) ../RAM200.CO && echo "Build is identical to reference."
+#	cmp -l -b $(CO) ../orig/ramdsk.co
+
 .PHONY: install
 install: $(DO)
 	@which dl || echo "Please install https://github.com/bkw777/dl2 to bootstrap $@"
 	dl -v -b $(DO)
-
-'PHONY: verify
-verify: all
-	cmp -l -b $(CO) ../RAM100.CO && echo "Build is identical to reference."
-#	cmp -l -b $(CO) ../orig/ram100.co
 
 .PHONY: clean
 clean:

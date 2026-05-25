@@ -63,7 +63,7 @@ MACRO exit_attribute_mode
 ENDM
 
 ; rst
-RST_4		EQU		0x20		; write A to console, directed by LCDLPT
+RST_4		EQU		0x0020		; write A to console, directed by LCDLPT
 rPRTA		EQU		RST_4
 
 ; system rom routines
@@ -74,9 +74,9 @@ PTILL0		EQU		0x11A2		; print null-terminated string at HL to screen
 CHGET		EQU		0x12CB		; wait for a key from the keyboard
 POPALL		EQU		0x14ED		; pop all registers
 FILES		EQU		0x1F3A		; FILES statement
-KILLDO		EQU		0x1FBF		; kill a .DO file
-KILLDO1		EQU		0x1FD9		; 2nd section in KILLDO
-KILLDO4		EQU		0x2017		; 5th section in KILLDO
+KILASC		EQU		0x1FBF		; delete a .DO file
+KILCOM		EQU		0x1FD9		; delete a .CO file
+KILBAS		EQU		0x2017		; detete a .BA file
 FINDFN		EQU		0x20AF		; search dir for filename matching 0xFC93
 FINDFN1		EQU		0x20CC		; almost the the end of FINDFN
 MYSTERY_20EC	EQU		0x20EC		; unknown
@@ -263,16 +263,29 @@ ReadKeyboard:
 	PUSH	H
 	CPI		0xFF
 	JZ		SAVE1					; save file without displaying file list
+; F1
 	ANA		A
 	JZ		BANK
+; F2
 	DCR		A
 	JZ		LOAD
+; F3
 	DCR		A
 	JZ		SAVE
+; F4
 	DCR		A
 	JZ		NAME
+; F5
 	DCR		A
 	JZ		KILL
+; F6
+;	DCR		A
+;	JZ		F6
+; F7
+;	DCR		A
+;	JZ		F7
+; F8
+;	DCR		A
 	SUI		3
 	JZ		MENU
 	POP		H
@@ -285,37 +298,36 @@ ReadKeyboard:
 j01:
 	MVI		C,1
 	CALL	CheckIsBankFormatted
-j33:
+@l0:
 	CALL	ReadDataW				; read 2 bytes into B & A
 	MOV		A,B
 	CMP		D
-	CZ		j02
+	CZ		@l1
 	INR		C
 	RZ
-	JMP		j33
-
-j02:
+	JMP		@l0
+@l1:
 	PUSH	D
 	PUSH	B
 	MOV		A,C
 	CALL	SelectBlock
 	CALL	j03
-j34:
+@l2:
 	ReadData
 	PrintByte
-@l0:
+@bb:
 	MVI		A,0x08					; [bB]
 	ANA		A
 	CPI		0x03
-	JNZ		j39
+	JNZ		@l3
 	PUSH	PSW
 	MVI		A,'.'
 	PrintByte
 	POP		PSW
-j39:
+@l3:
 	DCR		A
 	STA		bB
-	JNZ		j34
+	JNZ		@l2
 	MVI		A,0x08
 	STA		bB
 	PUSH	B
@@ -390,7 +402,7 @@ UpdateFreeKB:
 
 ;------------------------------------------------------------------------------
 ; KILL
-;
+;------------------------------------------------------------------------------
 KILL:
 	LXI		H,KillMSG
 	CALL	j30
@@ -421,7 +433,7 @@ KILL:
 
 ;------------------------------------------------------------------------------
 ; NAME
-;
+;------------------------------------------------------------------------------
 NAME:
 	LXI		H,NameMSG
 	CALL	j30
@@ -457,7 +469,7 @@ ConfirmReplaceKill:
 
 ;------------------------------------------------------------------------------
 ; SAVE
-;
+;------------------------------------------------------------------------------
 SAVE:
 	PrintByteN FF					; clear the screen
 	CALL	FILES					; display ram files list
@@ -588,14 +600,14 @@ DeleteRamFile:
 	POP		H
 	CALL	FINDFN1					; tail end of FINDFN
 	CPI		FattrDO
-	JZ		KILLDO				; if it's a .DO file
+	JZ		KILASC				; if it's a .DO file
 	CPI		FattrCO
-	JZ		KILLDO1				; if it's a .CO file
-	JMP		KILLDO4					; if it's anything else
+	JZ		KILCOM				; if it's a .CO file
+	JMP		KILBAS					; if it's anything else
 
 ;------------------------------------------------------------------------------
 ; LOAD
-;
+;------------------------------------------------------------------------------
 LOAD:
 	LXI		H,LoadMSG
 	CALL	j30
@@ -718,7 +730,7 @@ j41:
 	ADD		A
 	ADD		A
 	ADD		A
-	ADD		0x80
+	ADI		0x80
 	STA		FileAttr
 	CALL	CheckIsBankFormatted
 @l0:
@@ -999,7 +1011,7 @@ ENDIF ; ALT_BANK_LOGIC
 ;------------------------------------------------------------------------------
 ; PORT_CTL0 is just the initial condition (bank0) and gets overwritten at run time
 SelectBlock:
-	OUT		PORT_CTL0				; write A to the control port
+	OUT		PORT_CTL0				; [CtlPort]
 	RET
 
 ;------------------------------------------------------------------------------
@@ -1009,7 +1021,7 @@ SelectBlock:
 ; variables that only exist as the address to the operand of a load instruction
 wSP			EQU		MAIN@setsp+1	; initial stack pointer
 bI			EQU		j05+1			; scratch loop counter
-bB			EQU		j34@l0+1
+bB			EQU		j01@bb+1
 FreeKB		EQU		SAVE1@freekb+1	; free KB disk space
 wF			EQU		j27@l1+1
 FileAttr	EQU		j41@l1+1		; file attr byte
@@ -1032,12 +1044,13 @@ TitleMSG:
 	disable_automatic_scroll
 	enter_reverse_mode
 ;	DB "NODE RAMPAC/Datapac    #"	; original	matches ../orig/ram100.co
-	DB "NODE RAMPAC/DATAPAC Bank"	; bkw		matches ../RAM100.CO
+	DB "NODE RAMPAC/DATAPAC Bank"
 BankNumMSG:
 	DB BANK0
 	DB "   (c)P.Globman"
 	exit_attribute_mode
 	cursor_address 8,1
+;	DB "F1-- F2-- F3-- F4-- F5-- F6-- F7-- F8--"
 	DB "Bank Load Save Name Kill           Menu"
 	cursor_address 7,29
 	DB "Kbytes free"
