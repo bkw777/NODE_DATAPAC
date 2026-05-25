@@ -305,9 +305,14 @@ RAMDSK claims to provide the same functionality as NODEs option rom, and even NO
 Even the rom calls from the option rom have equivalents in RAMDSK, though at different addresses. (see [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP))  
 One thing RAMDSK does not do which the original option rom did, is re-create the user manual text file as part of the Format operation.
 
-[Disassembled & reconstructed assembly source for RAM100.CO!](software/RAMDSK/RAM100/disasm)  
-Currently compiles to reproduce the original RAM100.CO exactly.  
-Next step is to add support for 4 banks so the full 1M of MiniNDP is usable for files.
+### Assembly source for RAMDSK reconstructed from disassembly
+[assembly source that reproduces the original RAM100.CO exactly](software/RAMDSK/RAM100/disasm)  
+[assembly source that reproduces the original RAM200.CO exactly](software/RAMDSK/RAM200/disasm)  
+For 1Meg MiniNDP [assembly source for RAM100.CO modified for 4 banks](software/RAMDSK/RAM100/4-bank)  
+`make clean all` builds the .CO and also a .DO BASIC loader to install it via `dl -v -b` or [tsend.ps1](https://github.com/bkw777/tsend)  
+`make clean install` builds and then launches `dl -v -b RAMxxx.DO`  
+`make clean verify` builds and then compares the new binary against a reference copy of the original  
+
 
 ### Installing RAMDSK
 Archived docs mention an 8 line BASIC program called BOOT that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start.
@@ -541,7 +546,7 @@ Actually fits in a Model 200 without having to enlarge the opening in the 200's 
 
 Has 1 megabyte in 4 banks of 256k. 512k usable by RAMDSK plus another 512k only usable by software you'd have to write yourself.
 
-For Model 100/102 there is an experimental [RAM100 with support for 4 banks](software/RAMDSK/RAM100/4-bank).
+For Model 100/102 [RAM100 with support for 4 banks](software/RAMDSK/RAM100/4-bank).
 
 See the [magazine articles](#documentation) above for example code that could be adjusted to use the upper 512k as raw database space.
 
