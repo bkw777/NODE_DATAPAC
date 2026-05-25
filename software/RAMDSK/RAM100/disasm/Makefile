@@ -4,8 +4,8 @@
 
 NAME := RAM100
 CO = $(NAME).CO
-map = $(NAME).map
 DO = $(NAME).DO
+map = $(NAME).map
 
 # Real HIMEM is 0xF5F0 for a reset 32k machine.
 # Original RAM100.CO is compiled with TOP 0xF076 LEN 0x0578,
@@ -23,27 +23,29 @@ HIMEM_ORIGINAL_RAM100 = 0xF5EE
 HIMEM := $(HIMEM_ORIGINAL_RAM100)
 
 AS = z88dk-z80asm
-FLAGS := -m8085 -no-synth # -v
+ASFLAGS := -m8085 -no-synth # -v
+XFLAGS :=
 
+.PHONY: all
 all: DO
 
 .PHONY: CO
 CO: $(CO)
 
-.PHONY: map
-map: $(map)
-
 .PHONY: DO
 DO: $(DO)
+
+.PHONY: map
+map: $(map)
 
 # We need the length of the binary to set ORG, but we don't know the length
 # until after compile. So we compile once with default org 0 and no CO header
 # just to get the length. Then compile again with correct ORG & CO header.
 # Also generate map file to provide the function call addresses.
 %.CO: %.S85
-	$(AS) $(FLAGS) -b -o=$@ $< && \
+	$(AS) $(ASFLAGS) $(XFLAGS) -b -o=$@ $< && \
 	n=$$(wc -c <$@) && \
-	$(AS) $(FLAGS) -DHIMEM=$(HIMEM) -DPRGLEN=$$n -m -b -o=$@ $<
+	$(AS) $(ASFLAGS) $(XFLAGS) -DHIMEM=$(HIMEM) -DPRGLEN=$$n -m -b -o=$@ $<
 	@rm *.o
 	@ls -l $@
 
@@ -57,16 +59,16 @@ DO: $(DO)
 	co2ba $< savem >$@
 	@ls -l $@
 
+.PHONY: verify
+verify: all
+	cmp -l -b $(CO) ../RAM100.CO && echo "Build is identical to reference."
+#	cmp -l -b $(CO) ../orig/ram100.co
+
 .PHONY: install
 install: $(DO)
 	@which dl || echo "Please install https://github.com/bkw777/dl2 to bootstrap $@"
 	dl -v -b $(DO)
 
-'PHONY: verify
-verify: all
-	cmp -l -b $(CO) ../RAM100.CO && echo "Build is identical to reference."
-#	cmp -l -b $(CO) ../orig/ram100.co
-
 .PHONY: clean
 clean:
-	rm -f *.o *.bin *.sym *.lis *.map *.def *.CO
+	rm -f *.o *.bin *.sym *.lis *.map *.def *.CO *.DO

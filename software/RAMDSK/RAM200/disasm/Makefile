@@ -22,6 +22,7 @@ AS = z88dk-z80asm
 ASFLAGS := -m8085 -no-synth # -v
 XFLAGS :=
 
+.PHONY: all
 all: DO
 
 .PHONY: CO
@@ -40,7 +41,7 @@ map: $(map)
 %.CO: %.S85
 	$(AS) $(ASFLAGS) $(XFLAGS) -b -o=$@ $< && \
 	n=$$(wc -c <$@) && \
-	$(AS) $(ASFLAGS) -DHIMEM=$(HIMEM) -DPRGLEN=$$n $(XFLAGS) -m -b -o=$@ $<
+	$(AS) $(ASFLAGS) $(XFLAGS) -DHIMEM=$(HIMEM) -DPRGLEN=$$n -m -b -o=$@ $<
 	@rm *.o
 	@ls -l $@
 
@@ -54,7 +55,7 @@ map: $(map)
 	co2ba $< savem >$@
 	@ls -l $@
 
-'PHONY: verify
+.PHONY: verify
 verify: all
 	cmp -l -b $(CO) ../RAM200.CO && echo "Build is identical to reference."
 #	cmp -l -b $(CO) ../orig/ramdsk.co
@@ -66,4 +67,4 @@ install: $(DO)
 
 .PHONY: clean
 clean:
-	rm -f *.o *.bin *.sym *.lis *.map *.def *.CO
+	rm -f *.o *.bin *.sym *.lis *.map *.def *.CO *.DO
