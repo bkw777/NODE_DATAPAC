@@ -306,12 +306,20 @@ Even the rom calls from the option rom have equivalents in RAMDSK, though at dif
 One thing RAMDSK does not do which the original option rom did, is re-create the user manual text file as part of the Format operation.
 
 ### Assembly source for RAMDSK reconstructed from disassembly
+<!--
 [assembly source that reproduces the original RAM100.CO exactly](software/RAMDSK/RAM100/disasm)  
 [assembly source that reproduces the original RAM200.CO exactly](software/RAMDSK/RAM200/disasm)  
-For 1Meg MiniNDP [assembly source for RAM100.CO modified for 4 banks](software/RAMDSK/RAM100/4-bank)  
-`make clean all` builds the .CO and also a .DO BASIC loader to install it via `dl -v -b` or [tsend.ps1](https://github.com/bkw777/tsend)  
-`make clean install` builds and then launches `dl -v -b RAMxxx.DO`  
-`make clean verify` builds and then compares the new binary against a reference copy of the original  
+-->
+
+[Assembly source that generates both RAM100.CO and RAM200.CO](software/RAMDSK/src)  
+
+For 1Meg MiniNDP [Assembly source for RAM100.CO modified for 4 banks](software/RAMDSK/RAM100/4-bank)  
+
+`make clean all` builds the .CO and also a .DO BASIC loader for both 100 and 200.
+The .DO loaders may be used to bootstrap install via `dl -v -b` or [tsend.ps1](https://github.com/bkw777/tsend)  
+<!-- `make clean install` builds and then launches `dl -v -b RAMxxx.DO`  -->
+
+`make clean verify` builds and then compares the new binaries against reference copies of the originals.  
 
 
 ### Installing RAMDSK
