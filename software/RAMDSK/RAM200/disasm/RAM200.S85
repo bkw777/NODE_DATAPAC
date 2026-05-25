@@ -124,6 +124,9 @@ FattrBA		EQU		0x80		; .BA files
 FattrDO		EQU		0xC0		; .DO files
 FattrCO		EQU		0xA0		; .CO files
 
+LCD_NROWS	EQU	16				; LCD screen rows
+LCD_CDOWN	EQU	26				; counter in j03->j05 - maybe cursor-down n times?
+
 ;------------------------------------------------------------------------------
 ; DATAPAC/RAMPAC Hardware defines
 ;------------------------------------------------------------------------------
@@ -333,7 +336,7 @@ j01:
 	CALL	PRTASC
 	CALL	j05
 	POP		B
-	CALL	CheckIsBankFormatted 
+	CALL	CheckIsBankFormatted
 	CALL	SkipCWords
 	POP		B
 	POP		D
@@ -354,10 +357,10 @@ j05:
 	MVI		A,0x00					; [bI]
 	INR		A
 	STA		bI						; incriment bI
-	CPI		26						; is it 26?
-	RNZ								; if not 26, return
+	CPI		LCD_CDOWN
+	RNZ								; if not LCD_CDOWN, return
 	XRA		A
-	STA		bI						; if 26, zero bI
+	STA		bI						; if LCD_CDOWN, reset to 0
 	CALL	MAIN1
 DrawTitle:
 	LXI		H,TitleMSG
@@ -653,7 +656,7 @@ j27:
 	STA		@l3
 	LXI		H,1014					; block size 1024 minus 10 bytes filename we already wrote
 	SHLD	wC
-	LHLD	wA  
+	LHLD	wA
 @l1:
 	LXI		D,0x0000				; [wF]
 @l2:
@@ -914,28 +917,28 @@ BankNumMSG:
 	DB '0'
 	DB "   (c)P.Globman"
 	exit_attribute_mode
-	cursor_address 16,1
+	cursor_address LCD_NROWS,1
 ;	DB "F1-- F2-- F3-- F4-- F5-- F6-- F7-- F8--"
 	DB "Bank Load Save Name Kill           Menu"
-	cursor_address 15,29
+	cursor_address LCD_NROWS-1,29
 	DB "Kbytes free"
 	cursor_address 1,1
 	DB 0x00
 
 KillMSG:
-	cursor_address 15,1
+	cursor_address LCD_NROWS-1,1
 	DB "Kill:",0x00
 
 LoadMSG:
-	cursor_address 15,1
+	cursor_address LCD_NROWS-1,1
 	DB "Load:",0x00
 
 SaveMSG:
-	cursor_address 15,1
+	cursor_address LCD_NROWS-1,1
 	DB "Save:",0x00
 
 NameMSG:
-	cursor_address 15,1
+	cursor_address LCD_NROWS-1,1
 	DB "Name:",0x00
 
 AsMSG:
@@ -944,15 +947,15 @@ AsMSG:
 	DB 0x00
 
 ReplaceMSG:
-	cursor_address 16,19
+	cursor_address LCD_NROWS,19
 	DB "Replace?",0x00
 
 FreeMSG:
-	cursor_address 15,25
+	cursor_address LCD_NROWS-1,25
 	DB 0x00
 
 FormatMSG:
-	cursor_address 15,1
+	cursor_address LCD_NROWS-1,1
 	DB "Format RAMdisk",LF,CR,"Are you "
 SureMSG:
 	DB "Sure?"
@@ -960,7 +963,7 @@ SureMSG:
 	DB 0x00
 
 FixMSG:
-	cursor_address 16,1
+	cursor_address LCD_NROWS,1
 	DB "Fix?"
 	clr_eol
 	DB 0x00
@@ -1029,7 +1032,7 @@ BANK:
 ;------------------------------------------------------------------------------
 ; PORT_CTL0 is just the initial condition, the parameter byte gets overwritten at run time
 SelectBlock:
-	OUT		PORT_CTL0				; [CtlPort] 
+	OUT		PORT_CTL0				; [CtlPort]
 	RET
 
 PRGEND:
