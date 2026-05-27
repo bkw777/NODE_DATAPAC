@@ -2,7 +2,7 @@
 # Requires https://github.com/z88dk/z88dk
 # Requires https://github.com/bkw777/dl2
 
-MODELS := 100 200
+MODELS := 100 200 # K85
 NAME := RAM
 SRC = RAMDSK.S85
 INC = $(patsubst %,%.S85,$(MODELS))

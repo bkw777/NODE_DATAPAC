@@ -304,7 +304,7 @@ j01:
 	RET
 
 j03:
-	LHLD	CURSOR_ROW				; read cursor position row
+	LHLD	CSRY					; read cursor row position
 	LDA		bI
 	ANI		0x01
 	JNZ		@l0
@@ -670,7 +670,7 @@ j41:
 	LDA		FX1
 	SUI		0x42					; what are these magic values?
 	CPI		0x03
-	JNC		INSTR_X1
+	JNC		INR_A_RET
 	ADD		A
 	ADD		A
 	ADD		A
@@ -684,7 +684,7 @@ j41:
 	STA		bD
 	LDA		BlockNum
 	INR		A
-	JZ		INSTR_X1
+	JZ		INR_A_RET
 	STA		BlockNum
 	MOV		A,B
 @l1:
@@ -976,12 +976,12 @@ BANK:
 ;------------------------------------------------------------------------------
 ; Toggle Bank Number
 ;------------------------------------------------------------------------------
-	LDA		CtlPort						; read control port number (0x81 or 0x85)
-	XRI		BANK_CTL_OFFSET				; toggle bit 2 (toggle between 0x81 & 0x85)
-	STA		CtlPort						; write new control port number
-	LDA		BankNumMSG					; read bank number display ('0' or '1' ascii)
-	XRI		0x01						; toggle bit 0 (toggle between '0' & '1' ascii)
-	STA		BankNumMSG					; write new bank number display
+	LDA		CtlPort					; read control port number (0x81 or 0x85)
+	XRI		BANK_CTL_OFFSET			; toggle bit 2 (toggle between 0x81 & 0x85)
+	STA		CtlPort					; write new control port number
+	LDA		BankNumMSG				; read bank number display ('0' or '1' ascii)
+	XRI		0x01					; toggle bit 0 (toggle between '0' & '1' ascii)
+	STA		BankNumMSG				; write new bank number display
 ;------------------------------------------------------------------------------
 
 ; relies on falling through to SelectBlock
