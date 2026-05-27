@@ -2,6 +2,8 @@
 # Requires https://github.com/z88dk/z88dk
 # Requires https://github.com/bkw777/dl2
 
+# this makefile is too complicated and fragile
+
 MODELS := 100 200 # K85
 NAME := RAM
 SRC = RAMDSK.S85
@@ -12,13 +14,22 @@ map = $(patsubst %.CO,%.map,$(CO))
 
 AS = z88dk-z80asm
 ASFLAGS := -m8085 -no-synth # -v
-XFLAGS :=
+#XFLAGS :=
 
 .PHONY: all
 all: $(MODELS)
 
 .PHONY: $(MODELS)
 $(MODELS): $(CO) $(DO)
+
+.PHONY: K85
+K85: RAMK85.CO RAMK85.DO
+
+.PHONY: legacy
+legacy:
+	make clean all XFLAGS='-DLEGACY'
+	make verify
+	echo "Built duplicates of legacy binaries"
 
 # We need the length of the binary to set ORG, but we don't know the length
 # until after compile. So we compile once with default org 0 and no CO header
@@ -43,13 +54,13 @@ $(MODELS): $(CO) $(DO)
 	@ls -l $@
 
 .PHONY: verify
-verify: all
+verify:
 	cmp -l -b RAM100.CO ../RAM100/RAM100.CO && echo "Built RAM100.CO is identical to reference."
 	cmp -l -b RAM200.CO ../RAM200/RAM200.CO && echo "Built RAM200.CO is identical to reference."
 
 #.PHONY: install
-#install: $(DO)
-#	@which dl || echo "Please install https://github.com/bkw777/dl2 to bootstrap $@"
+#install:
+#	@which dl || echo "Please install https://github.com/bkw777/dl2 to bootstrap $(DO)"
 #	dl -v -b $(DO)
 
 .PHONY: clean

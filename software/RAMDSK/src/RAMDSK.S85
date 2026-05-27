@@ -35,6 +35,12 @@ ENDIF
 ; 100 vs 200 vs other
 ;------------------------------------------------------------------------------
 
+IF LEGACY
+NBANKS EQU 2
+ELSE
+NBANKS EQU 4
+ENDIF
+
 ; cpu opcodes
 opcode_IN		EQU		0xDB
 opcode_OUT		EQU		0xD3
@@ -184,9 +190,12 @@ PRGEXE:
 ; and the user declines to format or repair, then RAMDSK exits immediately.
 ; This ENTER detection happens before that, so it would allow bank 0 to stay
 ; unformatted or non-RAMDSK, and switch to bank 1 before being forced to exit.
+IF LEGACY
 	LDA		KC7						; get status bits of keyboard matrix column 7
 	CPI		0x80					; is ENTER pressed?
 	CZ		BANK					; if ENTER is pressed, switch banks.
+ELSE
+ENDIF
 
 MAIN:
 @setsp:
@@ -518,7 +527,11 @@ SAVE1:
 	STA		TmpBlockNum
 	JMP		@l6
 @l8:
+IF LEGACY
 	LDA		bE
+ELSE
+	MVI		A,0x00					; [bE]
+ENDIF
 	DCR		A
 	STA		bE
 	JZ		@l9
@@ -631,7 +644,12 @@ j27:
 	ORA		L
 	RZ
 	PUSH	H
+IF LEGACY
 	LHLD	wC
+ELSE
+@wc:
+	LXI		H,0x0000				; [wC]
+ENDIF
 	DCX		H
 	MOV		A,L
 	ORA		H
@@ -724,12 +742,22 @@ j43:
 	SHLD	wC
 	XRA		A
 	CALL	SelectBlock
+IF LEGACY
 	LDA		bD
+ELSE
+@bd:
+	MVI		A,0x00					; [bD]
+ENDIF
 	STA		BlockNum
 	MOV		C,A
 	INR		C
 	CALL	SkipCWords
+IF LEGACY
 	STA		bD
+ELSE
+@bn:
+	MVI		A,0x00					; [BlockNum]
+ENDIF
 	LDA		BlockNum
 	CALL	SelectBlock
 	RET
@@ -853,6 +881,106 @@ TestHardware:
 	MOV		B,A
 	RET								; if C != B, test write worked, return with B = 0x00
 
+; this is a macro so that it can be relocated for legacy vs non-legacy
+MACRO BANK_SWITCH_CODE_BLOCK
+;------------------------------------------------------------------------------
+; BANK - switch banks
+;------------------------------------------------------------------------------
+BANK:
+	SelectBank 0
+	WriteDataN 0x41					; write 0x41 to Bank0,Block0,byte0
+	; blindly wrote to block0,byte0, hope you didn't have non-RAMDSK data there
+	; maybe it's to detect if the hardware exists
+	SelectBank 1
+	ReadData						; read Bank1,Block0,Byte0
+	; Note: if the hardware is 256k or smaller, no banks (original DATAPAC/RAMPAC)
+	; then the Bank1 read will just read Bank0 again
+	MOV		B,A						; save (maybe)Bank1,Block0,Byte0 in B
+	; - if the hardware has bank1:      then B contains whatever was in Bank1,Block0,Byte0 - COULD BE ANYTHING
+	; - if the hardware has no bank1:   then B contains the 0x41 we blindly wrote to bank0
+	; - if the hardware does not exist: then B probably contains 0x00 or 0xFF?
+	SelectBank 0
+	WriteDataN 0x40					; write 0x40 to Bank0,Block0,byte0
+	; now we've blindly overwritten bank0,block0,byte0 previous 0x41 now 0x40
+	INR		A						; A++ -> A=0x41
+	CMP		B						; does B = 0x41 ?
+	RZ								; return if B = 0x41 (conclude the hardware does not have banks?)
+	MOV		A,B						; B & A didn't match, we have hardware with banks, copy B to A
+	CPI		PORT_DATA				; ???  compare B to the data port number?                                 ???
+	RZ								; ???  return if match? is this maybe how we detect no hardware present?  ???
+
+IF (NBANKS>2)
+
+IF BANKS_ONE_BASED
+BANK0		EQU		'1'				; display Bank1 - Bank4
+ELSE
+BANK0		EQU		'0'				; display Bank0 - Bank3 (matches original, consistent with block 0, byte 0)
+ENDIF
+
+;------------------------------------------------------------------------------
+; Incriment Bank Number
+; Add 1 to bank#, roll over at NBANKS-1, 0->1->2->3->0...
+; Set control port to control port for bank0 + 4*bank#
+;------------------------------------------------------------------------------
+	LDA		BankNumMSG				; read current bank number (ascii)
+	INR		A						; add 1
+	CPI		BANK0+NBANKS			; is it > highest valid bank number?
+	JC		@UpdateBankNum			; BankNum <= highest, jump to commit
+	MVI		A,BANK0					; BankNum > highest, reset to '0'
+@UpdateBankNum:
+	STA		BankNumMSG				; commit new bank number display (ascii)
+	SUI		BANK0					; convert ascii 'n' to n
+	MOV		B,A						; copy bank num to B
+	MVI		A,PORT_CTL0				; start with control port for bank 0
+@LoopBN:
+	JZ		@DoneBN					; SUI above or DCR below set Z, jump to commit
+	ADI		BANK_CTL_OFFSET			; add 4 to control port number
+	DCR		B						; decriment B
+	JMP		@LoopBN					; loop
+@DoneBN:
+	STA		CtlPort					; commit new control port number
+;------------------------------------------------------------------------------
+
+ELSE ; !NBANKS>2
+
+BANK0		EQU		'0'
+
+;------------------------------------------------------------------------------
+; Toggle Bank Number
+; control port# xor 4, bank number xor 1
+;------------------------------------------------------------------------------
+	LDA		CtlPort					; read control port number (0x81 or 0x85)
+	XRI		BANK_CTL_OFFSET			; toggle bit 2 (toggle between 0x81 & 0x85)
+	STA		CtlPort					; write new control port number
+	LDA		BankNumMSG				; read bank number display ('0' or '1' ascii)
+	XRI		0x01					; toggle bit 0 (toggle between '0' & '1' ascii)
+	STA		BankNumMSG				; write new bank number display
+;------------------------------------------------------------------------------
+
+ENDIF ; NBANKS>2
+
+; relies on falling through to SelectBlock
+
+	XRA		A						; zero A to select block 0 in new bank
+
+;------------------------------------------------------------------------------
+; SelectBlock - Select block# in the current bank
+;------------------------------------------------------------------------------
+; PORT_CTL0 is just the initial condition, the parameter byte gets overwritten at run time
+SelectBlock:
+	OUT		PORT_CTL0				; [CtlPort]
+	RET
+
+ENDM ; BANK_SWITCH_CODE_BLOCK
+
+;------------------------------------------------------------------------------
+; place bank switch code here if not legacy
+;------------------------------------------------------------------------------
+IF LEGACY
+ELSE
+	BANK_SWITCH_CODE_BLOCK
+ENDIF
+
 ;------------------------------------------------------------------------------
 ; strings & variables
 ;------------------------------------------------------------------------------
@@ -866,6 +994,13 @@ FreeKB		EQU		SAVE1@freekb+1	; free KB disk space
 wF			EQU		j27@l1+1
 FileAttr	EQU		j41@l1+1		; file attr byte
 TmpBlockNum	EQU		SAVE1@la+1		; tmp block number
+IF LEGACY
+ELSE
+BlockNum	EQU		j43@bn+1		; block number
+bD			EQU		j43@bd+1
+bE			EQU		SAVE1@l8+1
+wC			EQU		j27@wc+1
+ENDIF
 
 TitleMSG:
 	DB FF
@@ -875,7 +1010,7 @@ TitleMSG:
 ;	DB "NODE RAMPAC/Datapac    #"	; original	matches ../orig/ram*.co
 	DB "NODE RAMPAC/DATAPAC Bank"	; bkw		matches ../RAM*.CO
 BankNumMSG:
-	DB '0'
+	DB BANK0
 	DB "   (c)P.Globman"
 	exit_attribute_mode
 	cursor_address NROWS,1
@@ -935,6 +1070,8 @@ FilenameMSG:
 wA:
 	DW 0x0000
 
+IF LEGACY
+
 BlockNum:
 	DB 0x00
 
@@ -947,53 +1084,15 @@ bD:
 bE:
 	DB 0x00
 
-;------------------------------------------------------------------------------
-; BANK - switch banks
-;------------------------------------------------------------------------------
-BANK:
-	SelectBank 0
-	WriteDataN 0x41					; write 0x41 to Bank0,Block0,byte0
-	; blindly wrote to block0,byte0, hope you didn't have non-RAMDSK data there
-	; maybe it's to detect if the hardware exists
-	SelectBank 1
-	ReadData						; read Bank1,Block0,Byte0
-	; Note: if the hardware is 256k or smaller, no banks (original DATAPAC/RAMPAC)
-	; then the Bank1 read will just read Bank0 again
-	MOV		B,A						; save (maybe)Bank1,Block0,Byte0 in B
-	; - if the hardware has bank1:      then B contains whatever was in Bank1,Block0,Byte0 - COULD BE ANYTHING
-	; - if the hardware has no bank1:   then B contains the 0x41 we blindly wrote to bank0
-	; - if the hardware does not exist: then B probably contains 0x00 or 0xFF?
-	SelectBank 0
-	WriteDataN 0x40					; write 0x40 to Bank0,Block0,byte0
-	; now we've blindly overwritten bank0,block0,byte0 previous 0x41 now 0x40
-	INR		A						; A++ -> A=0x41
-	CMP		B						; does B = 0x41 ?
-	RZ								; return if B = 0x41 (conclude the hardware does not have banks?)
-	MOV		A,B						; B & A didn't match, we have hardware with banks, copy B to A
-	CPI		PORT_DATA				; ???  compare B to the data port number?                                 ???
-	RZ								; ???  return if match? is this maybe how we detect no hardware present?  ???
+ELSE ; !LEGACY
 
-;------------------------------------------------------------------------------
-; Toggle Bank Number
-;------------------------------------------------------------------------------
-	LDA		CtlPort					; read control port number (0x81 or 0x85)
-	XRI		BANK_CTL_OFFSET			; toggle bit 2 (toggle between 0x81 & 0x85)
-	STA		CtlPort					; write new control port number
-	LDA		BankNumMSG				; read bank number display ('0' or '1' ascii)
-	XRI		0x01					; toggle bit 0 (toggle between '0' & '1' ascii)
-	STA		BankNumMSG				; write new bank number display
-;------------------------------------------------------------------------------
+padding:
+	DB 0x00
 
-; relies on falling through to SelectBlock
+ENDIF ; LEGACY
 
-	XRA		A						; zero A to select block 0 in new bank
-
-;------------------------------------------------------------------------------
-; SelectBlock - Select block# in the current bank
-;------------------------------------------------------------------------------
-; PORT_CTL0 is just the initial condition, the parameter byte gets overwritten at run time
-SelectBlock:
-	OUT		PORT_CTL0				; [CtlPort]
-	RET
+IF LEGACY
+	BANK_SWITCH_CODE_BLOCK
+ENDIF
 
 PRGEND:

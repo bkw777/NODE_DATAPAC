@@ -25,8 +25,8 @@ HIMEM = 0xF5EE
 
 AS = z88dk-z80asm
 ASFLAGS := -m8085 -no-synth # -v
-# -DALT_BANK_LOGIC    control port number is derived from the displayed bank number rather than incremented in parallel
-# -DBANK_ONE_BASED    display "Bank1" - "Bank4" (doesn't match original, also inconsisntent with block 0, byte 0, etc.)
+# -DALT_BANK_LOGIC    slightly shorter but more fragile bank switch logic
+# -DBANKS_ONE_BASED   display "Bank1" - "Bank4" (doesn't match original, also inconsisntent with block 0, byte 0, etc.)
 XFLAGS := -DALT_BANK_LOGIC
 
 all: DO

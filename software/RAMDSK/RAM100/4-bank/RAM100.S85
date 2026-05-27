@@ -945,61 +945,59 @@ BANK:
 ; BankNum + 1, if > '3' then reset to '0' (ascii)
 ;
 ; Original 2-bank code
-;	LDA		CtlPort						; read control port number (0x81 or 0x85)
-;	XRI		BANK_CTL_OFFSET				; toggle bit 2 (toggle between 0x81 & 0x85)
-;	STA		CtlPort						; write new control port number
-;	LDA		BankNumMSG					; read bank number display ('0' or '1' ascii)
-;	XRI		0x01						; toggle bit 0 (toggle between '0' & '1' ascii)
-;	STA		BankNumMSG					; write new bank number display
+;	LDA		CtlPort					; read control port number (0x81 or 0x85)
+;	XRI		BANK_CTL_OFFSET			; toggle bit 2 (toggle between 0x81 & 0x85)
+;	STA		CtlPort					; write new control port number
+;	LDA		BankNumMSG				; read bank number display ('0' or '1' ascii)
+;	XRI		0x01					; toggle bit 0 (toggle between '0' & '1' ascii)
+;	STA		BankNumMSG				; write new bank number display
 
-IF BANK_ONE_BASED
-BANK0		EQU		'1'					; display Bank1 - Bank4
+IF BANKS_ONE_BASED
+BANK0		EQU		'1'				; display Bank1 - Bank4
 ELSE
-BANK0		EQU		'0'					; display Bank0 - Bank3 (matches original, consistent with block 0, byte 0)
+BANK0		EQU		'0'				; display Bank0 - Bank3 (matches original, consistent with block 0, byte 0)
 ENDIF
 
 IF ALT_BANK_LOGIC
 
-; Longer (14 inst), but the control port number is derived from the bank number.
-; The displayed bank number can never not reflect the current control port number.
-	LDA		BankNumMSG					; read current bank number (ascii)
-	INR		A							; add 1
-	CPI		BANK0+NBANKS				; is it > highest valid bank number?
-	JC		@UpdateBankNum				; BankNum <= highest, jump to commit
-	MVI		A,BANK0						; BankNum > highest, reset to '0'
-@UpdateBankNum:
-	STA		BankNumMSG					; commit new bank number display (ascii)
-	SUI		BANK0						; convert ascii 'n' to n
-	MOV		B,A							; copy bank num to B
-	MVI		A,PORT_CTL0					; start with control port for bank 0
-@LoopBN:
-	JZ		@DoneBN						; SUI above or DCR below set Z, jump to commit
-	ADI		BANK_CTL_OFFSET				; add 4 to control port number
-	DCR		B							; decriment B
-	JMP		@LoopBN						; loop
-@DoneBN:
-	STA		CtlPort						; commit new control port number
-
-ELSE ; ALT_BANK_LOGIC
-
-; Shorter (12 inst) and morally equivalent to Paul's original.
-; If the 2 values both start as valid and in sync and nothing ever goes wrong
-; then they stay valid and in sync. There's really no room for anything
-; to go wrong, but I just don't like how the 2 values are independant.
-	LDA		CtlPort						; get current control port number
-	ADI		BANK_CTL_OFFSET				; add 4
+; Slightly shorter but the control port & bank display values aren't
+; derived from each other.
+	LDA		CtlPort					; get current control port number
+	ADI		BANK_CTL_OFFSET			; add 4
 	CPI		PORT_CTL0+BANK_CTL_OFFSET*(NBANKS-1)+1	; is it > highest valid ctl port number?
-	JC		@SaveCtlPort				; CtlPort <= highest, jump to commit
-	MVI		A,PORT_CTL0					; CtlPort > highest, reset to lowest
+	JC		@SaveCtlPort			; CtlPort <= highest, jump to commit
+	MVI		A,PORT_CTL0				; CtlPort > highest, reset to lowest
 @SaveCtlPort:
-	STA		CtlPort						; commit new control port number
-	LDA		BankNumMSG					; read bank number display
-	INR		A							; add 1
-	CPI		BANK0+NBANKS				; is it > highest valid bank number?
-	JC		@UpdateBankNum				; BankNum <= highest, jump to commit
-	MVI		A,BANK0						; BankNum > highest, reset to '0'
+	STA		CtlPort					; commit new control port number
+	LDA		BankNumMSG				; read bank number display
+	INR		A						; add 1
+	CPI		BANK0+NBANKS			; is it > highest valid bank number?
+	JC		@UpdateBankNum			; BankNum <= highest, jump to commit
+	MVI		A,BANK0					; BankNum > highest, reset to '0'
 @UpdateBankNum:
-	STA		BankNumMSG					; commit new bank number display
+	STA		BankNumMSG				; commit new bank number display
+
+ELSE ; !ALT_BANK_LOGIC
+
+; Slightly longer but the control port number is derived from the bank number.
+; Can't go out of sync, and allows future possible hotkey to jump to any bank.
+	LDA		BankNumMSG				; read current bank number (ascii)
+	INR		A						; add 1
+	CPI		BANK0+NBANKS			; is it > highest valid bank number?
+	JC		@UpdateBankNum			; BankNum <= highest, jump to commit
+	MVI		A,BANK0					; BankNum > highest, reset to '0'
+@UpdateBankNum:
+	STA		BankNumMSG				; commit new bank number display (ascii)
+	SUI		BANK0					; convert ascii 'n' to n
+	MOV		B,A						; copy bank num to B
+	MVI		A,PORT_CTL0				; start with control port for bank 0
+@LoopBN:
+	JZ		@DoneBN					; SUI above or DCR below set Z, jump to commit
+	ADI		BANK_CTL_OFFSET			; add 4 to control port number
+	DCR		B						; decriment B
+	JMP		@LoopBN					; loop
+@DoneBN:
+	STA		CtlPort					; commit new control port number
 
 ENDIF ; ALT_BANK_LOGIC
 
