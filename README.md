@@ -206,13 +206,6 @@ The only connector that fits in a 200 without hacking on the 200s case is a [sol
 The case says "102/200", but it actually works on Model 100 also. It needs an adapter cable, but the cable is simple. It's just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
 [The Model 100 part](https://github.com/bkw777/TRS-80_Disk_Video_Interface_Cable/blob/main/README.md#part-3---model-100-adapter) of this [3-part cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable) is exactly the same thing.
 
-# RAMPAC Hardware
-About all we can say currently is that we know it was sold in 128k, 256k, 384k, and 512k capacities, and was "about 2 inches square".
-
-We know how it's banks worked, because we can look at RAMDSK and see what it tries to do, and verified by the fact that 512k MiniNDP actually works.  
-
-MiniNDP schematic is essentially just a clone of the DATAPAC schematic with the coin cell mod applied and the multiple ram chips replaced by a single big one. RAMPAC schematic might have been different.
-
 # Software
 
 Originally these shipped with an [OPTION ROM](ROM) from NODE called RAMDSK, written by Travelling Software.  
@@ -325,18 +318,15 @@ This source currently generates several variants:
 - a K85 equivalent of the legacy RAM100.CO
 - (default) new versions for 100, 200, & K85 that supports 4 banks
 
-"all models" currently means 100, 200, & K85
-
-`make clean all` builds RAMxxx.CO and RAMxxx.DO for all models.  
-The .DO loaders may be used to bootstrap install via `dl -v -b` or [tsend.ps1](https://github.com/bkw777/tsend)  
+`make clean all` builds RAMxxx.CO and RAMxxx.DO for all models. (100, 200, K85)  
 
 `make clean legacy` builds legacy versions for 100 & 200 and compares them against preserved copies of the originals to verify they match exactly.
 
-`make load_100` or load_200, or load_K85, builds the .DO if not already, and runs `dl -v -b ...` to send it to the portable for convenient devel & test.
+`make load_100` or 200, or K85: convenience wrapper that builds and then runs `dl -v -b ...` to install to the portable.
 
-`RAMnnn.map` are alo generated for each `RAMnnn.CO`, which contains subroutine addresses.  
+`RAMxxx.map` are also generated for each `RAMxxx.CO`, which contains all the labelled addresses.  
 A few of the main jump targets are usable from BASIC via CALL.  
-See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP) and [RAMDSK.DO](ROM/100/RAMDSK.DO) but ignore the addresses in both.
+See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP) and [RAMDSK.DO](ROM/100/RAMDSK.DO) but ignore those addresses.
 
 ### Installing RAMDSK
 
@@ -345,7 +335,7 @@ Archived docs mention an 8 line BASIC program called BOOT that could be manually
 That program does not seem to be archived anywhere, but I have written `RBOOT` and `NBOOT` new below.  
 This only works after a copy of RAMDSK has been copied to the RAMPAC.
 
-To get [RAMDSK](software/RAMDSK) installed for the first time, use the matching RAMnnn.DO BASIC loader.
+To get [RAMDSK](software/RAMDSK) installed for the first time, use the matching RAMxxx.DO BASIC loader.
 
 To bootstrap the BASIC loader from a PC running Windows:  
 Install [tsend](https://github.com/bkw777/tsend)  
