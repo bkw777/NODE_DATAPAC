@@ -1,3 +1,7 @@
+Deprecated.  
+Now there is a unified source that builds all variants in RAMDSK/src.  
+This will be removed sometime soon, but the unified source is very new and kind of complicated with a lot of IFDEFS and makefile gymnastics.
+
 This version of RAM100 is modified to support 4 banks.
 
 Removed the feature to start in bank 1 instead of bank 0 by holding enter while launching.
