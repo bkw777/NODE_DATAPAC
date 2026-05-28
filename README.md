@@ -224,7 +224,8 @@ How to access the hardware from BASIC.
 
 ### High level file operations using CALLable machine language routines
 See [RAMDSK.DO](ROM/100/RAMDSK.DO) for the NODE ROM routines.  
-See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP) for the RAM100.CO/RAM200.CO routines.
+See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP) for the RAM100.CO/RAM200.CO routines.  
+(See RAMDSK/\*/\*.map for correct addresses.)
 
 ### Low level direct access using only BASIC
 There are two low level operations that you use to access the device,  
