@@ -215,14 +215,14 @@ MiniNDP schematic is essentially just a clone of the DATAPAC schematic with the 
 
 # Software
 
-Originally these shipped with an [OPTION ROM](ROM) from NODE called RAMDSK, written by Travelling Software.
+Originally these shipped with an [OPTION ROM](ROM) from NODE called RAMDSK, written by Travelling Software.  
 
-Later, each unit also came with a [.CO also called RAMDSK](software/RAMDSK) written by Paul Globman.
+Later, each unit also shipped with [RAMDSK.CO](software/RAMDSK) written by Paul Globman.
 
-The only version of the original rom we have is an early version that only supports the original 256k hardware, and only for Model 100/102.  
-There was also a version for Model 200, and there were later versions that supported up to 512k.  
-The original rom is not needed to use the hardware. Instead you can use Paul Globmans RAMDSK.  
-We have versions of that for both 100 and 200, and we have the later versions that support up to 512k.
+We have several versions of RAMDSK, including:  
+ - original versions for 100 & 200 which supported 512K (2 banks), in the `orig` directories
+ - an earlier version for 200 that only supports 256K
+ - new versions for 100, 200 and K85 which support 1M (4 banks)
 
 Some software culled from the M100SIG archive and Club100 are collected here in the [software](software) directory.  
 
@@ -299,42 +299,53 @@ This means:
 (BTW you usually don't need to do that manually because RAMDSK.CO will do it for you if you just answer "Y" at the "Fix?" prompt.)
 
 ## RAMDSK
-The "driver" software for the device is [RAMDSK](software/RAMDSK/)
+The "driver" software for the device is either the [NODE ROM](ROM) or [RAMDSK.CO](software/RAMDSK/)  
+(if you want to use the device for files and not as raw space for a custom application)
 
-RAMDSK claims to provide the same functionality as NODEs option rom, and even NODE themselves later licensed RAMDSK and included a copy with each unit.  
-Even the rom calls from the option rom have equivalents in RAMDSK, though at different addresses. (see [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP))  
-One thing RAMDSK does not do which the original option rom did, is re-create the user manual text file as part of the Format operation.
+RAMDSK provides the same functionality as the NODE ROM, and is compatible with it.  
+(they both write the same filesystem format to the device, either one can read/write a device that was formatted by the other)  
 
-### Assembly source for RAMDSK reconstructed from disassembly
-<!--
-[assembly source that reproduces the original RAM100.CO exactly](software/RAMDSK/RAM100/disasm)  
-[assembly source that reproduces the original RAM200.CO exactly](software/RAMDSK/RAM200/disasm)  
--->
+Differences between the NODE ROM and RAMDSK.CO:
 
-[Assembly source that generates both RAM100.CO and RAM200.CO](software/RAMDSK/src)  
+The NODE ROM creates a text file when it formats a blank device, RAMDSK does not.
 
-For 1Meg MiniNDP [Assembly source for RAM100.CO modified for 4 banks](software/RAMDSK/RAM100/4-bank)  
+The NODE ROM docs claim it also supports PG Designs and PCSG ram expansions, which are NOT clones or work-alikes of the DATAPAC/RAMPAC. RAMDSK only supports the DATAPAC/RAMPAC or anything that works exactly the same way such as MiniNDP.
 
-`make clean all` builds the .CO and also a .DO BASIC loader for both 100 and 200.
+RAMDSK supports banks (devices with more than 256K of ram), the NODE ROM only supports up to 256K.
+
+RAMDISK includes a feature to automatically repair the format stamp in the first 2 bytes of the device, the NODE ROM does not.
+
+### Assembly Source Reconstructed from Disassembly
+
+[RAMDSK Source](software/RAMDSK/src)  
+
+This source currently generates several variants:
+
+- exact replications of the legacy RAM100.CO & RAM200.CO
+- a K85 equivalent of the legacy RAM100.CO
+- (default) new versions for 100, 200, & K85 that supports 4 banks
+
+"all models" currently means 100, 200, & K85
+
+`make clean all` builds RAMxxx.CO and RAMxxx.DO for all models.  
 The .DO loaders may be used to bootstrap install via `dl -v -b` or [tsend.ps1](https://github.com/bkw777/tsend)  
-<!-- `make clean install` builds and then launches `dl -v -b RAMxxx.DO`  -->
 
-`make clean verify` builds and then compares the new binaries against reference copies of the originals.  
+`make clean legacy` builds legacy versions for 100 & 200 and compares them against preserved copies of the originals to verify they match exactly.
 
+`make load_100` or load_200, or load_K85, builds the .DO if not already, and runs `dl -v -b ...` to send it to the portable for convenient devel & test.
+
+`RAMnnn.map` are alo generated for each `RAMnnn.CO`, which contains subroutine addresses.  
+A few of the main jump targets are usable from BASIC via CALL.  
+See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP) and [RAMDSK.DO](ROM/100/RAMDSK.DO) but ignore the addresses in both.
 
 ### Installing RAMDSK
+
 Archived docs mention an 8 line BASIC program called BOOT that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start.
 
-That program does not seem to be archived anywhere, but I have written `RBOOT` and `NBOOT` below which are new.  
+That program does not seem to be archived anywhere, but I have written `RBOOT` and `NBOOT` new below.  
 This only works after a copy of RAMDSK has been copied to the RAMPAC.
 
-To get RAMDSK installed the first time, copy RAM100.CO or RAM200.CO to the 100 or 200, then run it to format the device and copy RAM100.CO/RAM200.CO to it as the first file written to it.
-
-The most convenient way is to use a TPDD [client](http://tandy.wiki/TPDD_client) & [server](http://tandy.wiki/TPDD_server) to copy the file, then [adjust HIMEM](https://bitchin100.com/wiki/index.php?title=Loading_a_typical_CO_file) to run it.  
-
-If you don't already have a REX Classic or REX# or an actual TS-DOS rom, I have made these BASIC loaders:  
-[software/RAMDSK/RAM100/RAM100.DO](software/RAMDSK/RAM100/RAM100.DO) for Model 100/102  
-[software/RAMDSK/RAM200/RAM200.DO](software/RAMDSK/RAM200/RAM200.DO) for Model 200  
+To get [RAMDSK](software/RAMDSK) installed for the first time, use the matching RAMnnn.DO BASIC loader.
 
 To bootstrap the BASIC loader from a PC running Windows:  
 Install [tsend](https://github.com/bkw777/tsend)  
@@ -342,7 +353,10 @@ Then: `C:> tsend.ps1 -file RAM100.DO`
 
 To bootstrap the BASIC loader from a PC running Linux, MACOS, FreeBSD, any unix, Cygwin/MSYS2:  
 Install [dl2](https://github.com/bkw777/dl2)  
-Then: `$ dl -v -b RAM100.DO`  
+Then: `$ dl -v -b RAM100.DO`
+
+Then run it to format the device and copy RAMDSK.CO to it as the first file written to it.
+In order for RBOOT or NBOOT to work, RAMxxx.CO must be the first file on bank0.
 
 Another option for mac/linux, [pdd.sh](https://github.com/bkw777/pdd.sh) also has a bootstrap function and does not require you to compile anything.
 
@@ -353,15 +367,17 @@ Please excuse the inexcusable IF and math inside the byte read loop. :)
 
 These have specific byte size and offset values that are only valid for the exact RAM100.CO and RAM200.CO files shown.
 
-RBOOT for Model 100  
+RBOOT for Model 100, 102, & KC-85
 [software/RAMDSK/RAM100/RBOOT.100](software/RAMDSK/RAM100/RBOOT.100)  
-for [software/RAMDSK/RAM100/RAM100.CO](software/RAMDSK/RAM100/RAM100.CO)
+for [software/RAMDSK/RAM100/RAM100.CO](software/RAMDSK/RAM100/RAM100.CO)  
+and [software/RAMDSK/RAM100/RAMK85.CO](software/RAMDSK/RAM100/RAMK85.CO)
 ```
 1 CLEAR0,61558:T=61558:E=62957:OUT129,2
 2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
 3 POKEA,INP(131):IFA=T+1007THENOUT129,1
 4 ?".";:NEXT:SAVEM"RAM100",T,E,T
 ```
+(for K85 just change the name but the top & end addresses are the same for 100 & k85)
 
 RBOOT for Model 200  
 [software/RAMDSK/RAM200/RBOOT.200](software/RAMDSK/RAM200/RBOOT.200)  
@@ -373,8 +389,9 @@ for [software/RAMDSK/RAM200/RAM200.CO](software/RAMDSK/RAM200/RAM200.CO)
 4 ?".";:NEXT:SAVEM"RAM200",T,E,T
 ```
 
-RBOOT for Model 200, booting from Bank1  
-If you want to get fancy, you could support both model 100 and model 200 at the same time on the same RAMPAC by putting a copy of RAM100.CO in Bank0 and a copy of RAM200.CO in Bank1, and modify RBOOT.200 to read from bank1 instead of bank0 by just changing `OUT129` to `OUT133`.
+Either of above may be adjusted to boot from a different bank instead of bank0.  
+For bank1, 2, or 3, chamge all (2) occurances of OUT129 to OUT133, 137, or 141.  
+Example, Model 200 booting from Bank1 (requres RAM200.CO saved as the first file in bank1):  
 ```
 1 CLEAR0,59715:T=59715:E=61101:OUT133,2
 2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
@@ -382,23 +399,28 @@ If you want to get fancy, you could support both model 100 and model 200 at the 
 4 ?".";:NEXT:SAVEM"RAM200",T,E,T
 ```
 
+If you want to get fancy, you could support both model 100 and model 200 at the same time on the same RAMPAC by saving RAM100.CO to Bank0 and RAM200.CO to Bank1.
+
+
 ### Using RAMDSK
 (RAMDSK.CO not the Node ROM)  
 Usage is mostly pretty self-explanatory.
 
-The F1-Bank button switches between 2 banks of 256k, and is only functional on a RAMPAC that has more than 256k.
+The F1-Bank button switches between banks of 256k, and is only functional on a RAMPAC that has more than 256k.
 
 [It is fairly common for the first byte to get corrupted](software/RAMDSK/RAMPAC.001) ...Don't Panic(tm)  
 You could do the manual BASIC one-liner `OUT129,0:OUT131,64:OUT131,4`, but RAMDSK also has a first-byte-fixer built-in.  
 If you get the "Format RAM-Disk?" prompt on power-on, just answer "N".  
-Then it will ask "Fix?", answer "Y".
+It will then ask "Fix?", answer "Y".
 
 ### [NBOOT](software/NBOOT/)
+The only reason the 4-line RBOOT above can be so short is because the filename and top & end addresses are all pre-known and hard-coded.
+
 Just for reference, to boot some other CO instead of RAMDSK,  
-here  is a more flexible and generic bootstrapper for any .CO file up to 2038 bytes.  
+here is a more flexible and generic bootstrapper for any .CO file up to 2038 bytes.  
 * Reads the filename and start/length/exec values from the file itself  
-* Works on any .CO file that fits in 2 blocks  
-* Works without changes on both Model 100 and 200
+* Works on any .CO file that fits in 2 blocks (2048 minus 10 bytes that RAMDSK uses = 2038 bytes)  
+* Works without changes on all machines, 100, 200, K85
 ```
 1 CLEAR32,59000:CLS:P=131:OUT129,2
 2 FORA=0TO9:F$=F$+CHR$(INP(P)):NEXT
@@ -528,16 +550,14 @@ This is likely the best way to move files between the RAMPAC and a PC, by using 
 ## RAMPAC Diagnostic
 [Rampac Diagnostic](software/Rampac_Diagnostic/)
 
-<!-- 
-## New Replacement PCB
+## Updated Replacement PCB that fits the original case
+
 Uses all the same through-hole parts, fits in the original enclosure, improves the trace routing a little, for example moving that VCC line away from that screw head, GND traces replaced by zone fills, thicker and all the same size vcc lines, decoupling caps, silkscreen.  
-There is not much reason to build this instead of a MiniNDP. Even if you had an original DATAPAC that was corroded by the battery, it would be easier and more history-preserving to just repair the corroded traces with bodge wires since all the parts are so big and simple.
 ![](PCB/out/NODE_DATAPAC_256K_bkw.svg)
 ![](PCB/out/NODE_DATAPAC_256K_bkw.top.jpg)
 ![](PCB/out/NODE_DATAPAC_256K_bkw.bottom.jpg)
 ![](PCB/out/NODE_DATAPAC_256K_bkw.f.jpg)
 ![](PCB/out/NODE_DATAPAC_256K_bkw.b.jpg)
--->
 
 # MiniNDP
 
@@ -552,11 +572,7 @@ Functions the same as DATAPAC / RAMPAC.
 
 Actually fits in a Model 200 without having to enlarge the opening in the 200's case.
 
-Has 1 megabyte in 4 banks of 256k. 512k usable by RAMDSK plus another 512k only usable by software you'd have to write yourself.
-
-For Model 100/102 [RAM100 with support for 4 banks](software/RAMDSK/RAM100/4-bank).
-
-See the [magazine articles](#documentation) above for example code that could be adjusted to use the upper 512k as raw database space.
+Has 1 megabyte in 4 banks of 256k.
 
 How to access all 4 banks:  
 Select bank 0, block N: `OUT 129,N`  
@@ -615,11 +631,21 @@ CR2016 height (nominally a CR2012 holder, but can take a CR2016)
 There are a few other versions of the card just to allow for different parts availability and different soldering difficulty.  
 They all work the same from a software point of view, and all are tested.
 
+### u1M - micro 1 meg
+* NOT YET TESTED, but the circuit is identical to SL1M which is tested.
+* Same as [SL1M](#sl1m---slim-1-meg), but in DIP-40 form to fit in a TRS-80 Model 100 or Kyotronic KC-85 system bus socket.  
+
+![](PCB/out/MiniNDP_u1M.1.jpg)  
+![](PCB/out/MiniNDP_u1M.2.jpg)  
+![](PCB/out/MiniNDP_u1M.3.jpg)  
+![](PCB/out/MiniNDP_u1M.top.jpg)  
+![](PCB/out/MiniNDP_u1M.bottom.jpg)  
+![](PCB/out/MiniNDP_u1M.svg)  
+[MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
+
 ### SL1M - slim 1 meg
 * Same as EZ1M (the default version above), just with TSOP & TSSOP components.  
 * Allows to make a thin card.
-
-[RAM100 with support for 4 banks](software/RAMDSK/RAM100/4-bank)
 
 Use the thinner CR2016 version of the cover with this.  
 The battery holder is technically for CR2012, but you can stuff a CR2016 in it.
@@ -635,7 +661,6 @@ The battery holder is technically for CR2012, but you can stuff a CR2016 in it.
 ### EZ512 - easy-build 512K
 * All larger parts for easier hand-soldering.  
 * 1M SOIC/SOJ sram is getting uncommon and expensive.  
-* RAMDSK can only use 512K anyway.  
 
 It requires an additional chip vs the 1M because the 512K sram doesn't have a CE2 pin.
 
@@ -648,7 +673,7 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 
 ### MiniNDP "OG"
 * Circuit is more like the original NODE version.  
-* Components are more common, more likely to be available.  
+* Components are more common & available.  
 * Supports 512K, 256K, or 128K.  
 * Supports CR2032, CR2016, or CR2012, so you can choose if you want more battery life or a thinner card.  
 * Supports a big tantalum cap for more battery-change grace period.
@@ -658,18 +683,3 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 ![](PCB/out/MiniNDP_OG.bottom.jpg)  
 ![](PCB/out/MiniNDP_OG.svg)  
 [MiniNDP_OG.bom.csv](PCB/out/MiniNDP_OG.bom.csv)
-
-### u1M - micro 1 meg
-* NOT YET TESTED, but the circuit is identical to SL1M which is tested.
-* Same as [SL1M](#sl1m---slim-1-meg), but in DIP-40 form to fit in a TRS-80 Model 100 system bus socket.  
-* Should also work in Kyotronic KC-85, though there is no port of RAMDSK.CO for KC-85.
-
-[RAM100 with support for 4 banks](software/RAMDSK/RAM100/4-bank)
-
-![](PCB/out/MiniNDP_u1M.1.jpg)  
-![](PCB/out/MiniNDP_u1M.2.jpg)  
-![](PCB/out/MiniNDP_u1M.3.jpg)  
-![](PCB/out/MiniNDP_u1M.top.jpg)  
-![](PCB/out/MiniNDP_u1M.bottom.jpg)  
-![](PCB/out/MiniNDP_u1M.svg)  
-[MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)

@@ -2,10 +2,6 @@
 ; Kyotronic KC-85 header for RAMDSK.S85
 ; Brian K. White
 
-; These addresses all check out by looking in both M100 and KC85 system roms in a hex editor,
-; never the less the binary doesn't work. Screen clears and prints "Ok",
-; must press the reset button to get back to the main menu.
-
 ; system rom routines
 PRTSP		EQU		0x001E		; write space to console, directed by LCDLPT
 UBLNAS		EQU		0x05F7		; update in-memory line addresses for the current BASIC program lines
@@ -13,7 +9,7 @@ LC2UCA		EQU		0x0FF0		; convert the character in A to uppercase
 PTILL0		EQU		0x11A9		; print null-terminated string at HL to screen
 CHGET		EQU		0x12D4		; wait for a key from the keyboard
 POPALL		EQU		0x14F8		; pop all registers
-FILES		EQU		0x1F05+2	; FILES statement - k85 has 2 extra instructions at the start, RST_7 & STC
+FILES		EQU		0x1F05+2	; FILES statement
 KILASC		EQU		0x1F90		; delete a .DO file
 KILCOM		EQU		0x1FAA		; delete a .CO file
 KILBAS		EQU		0x1FE8		; delete a .BA file
@@ -49,7 +45,7 @@ CFNAME		EQU		0xFCAE		; 6 bytes filename of last program loaded from tape
 FX2			EQU		0xFCB4		; unknown, possibly file size or other metadata
 KC7			EQU		0xFF58	;GUESS	; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
 
-BAFILES		EQU		UNSAVBA		; start of BA files - RAM100 uses UNSBA, RAM200 uses CURBAS
+BAFILES		EQU		UNSAVBA		; start of BA files - RAM100 uses UNSAVBA, RAM200 uses CURBAS
 
 NROWS		EQU		8			; LCD screen rows
 CDNCT		EQU		10			; counter in j03->j05 - maybe cursor-down n times?

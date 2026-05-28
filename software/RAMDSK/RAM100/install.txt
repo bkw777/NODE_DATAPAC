@@ -1,34 +1,41 @@
 Installation options
 
---- Initial Install ---
+--- Install via TPDD ---
 
-If you have a TPDD client like TS-DOS and a TPDD emulator like LaddieAlpha or dl2:
-just copy RAM100.CO to the 100 and run it.
-(http://bitchin100.com/wiki/index.php?title=Loading_a_typical_CO_file)
+If you already have a TPDD client & server
+then just use them to copy RAM100.CO to the Model 100/102
+and then LOADM like any other .CO file.
 
-Otherwise you can bootstrap using the BASIC loader over serial from a PC.
+  LOADM "RAM100.CO"
+  note the TOP address in the error message
+  CLEAR 0,<topaddr>
 
-For Windows, using https://github.com/bkw777/tsend
+If you want to CALL the various functions from BASIC,
+then repeat the LOADM after the CLEAR, or just execute
+RAM100.CO from the main menu at least once.
+
+--- Initial via BASIC loader ---
+
+For Windows, https://github.com/bkw777/tsend
 
   C:> tsend.ps1 -file RAM100.DO
 
-For Mac/Linux, using https://github.com/bkw777/dl2
+For Mac/Linux/Cygwin, https://github.com/bkw777/dl2
 
   $ dl -v -b RAM100.DO
 
+--- Install from the RAMPAC itself after a cold reset ---
 
-If you want to be able to re-install from the RAMPAC itself in the future,
-then once installed, copy RAM100.CO to the RAMPAC as the first file.
+If you set this up, then you don't need a PC to reinstall any more.
 
+Copy RAM100.CO to the RAMPAC.
+RAM100.CO must be the first file on bank0.
 
---- Re-install from the RAMPAC itself after a cold reset ---
+Type-in the 4-line BASIC program RBOOT.100
 
-If you have a RAMPAC with a copy of RAM100.CO already on it,
-and a Model 100 or 102 that is wiped from a cold reset,
-you can type-in RBOOT.100 to reinstall RAMDSK from the RAMPAC.
+You can use any bank instead of bank0 by making these changes:
 
-RAM100.CO must be the first file saved on the RAMPAC.
+Copy RAM100.CO to desired bank instead of bank0.
+RAM100.CO must be the first file in the bank.
 
-RBOOT.100 may be customized to load from bank1 instead of bank0
-by changing the two occurances of OUT129 to OUT133.
-In this case RAM100.CO must be the first file saved in bank1.
+In RBOOT change all (2) occurances of OUT129 to OUT133, 137, or 141

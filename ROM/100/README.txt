@@ -1,7 +1,7 @@
 Oct 2025 - Thanks to Michael Brigham for dumping this rom which was otherwise lost.
 The text file manual was also lost until the rom was available to regenerate it.
 
-This ROM is not needed to use the hardware. RAM100.CO/RAM200.CO can be used in place of the ROM.
+This ROM is not needed to use the hardware. RAMDSK.CO can be used in place of the ROM.
 
 NODE-DATAPAC-100-1.04.ROM is the NODE option rom v1.04 for 100/102
 

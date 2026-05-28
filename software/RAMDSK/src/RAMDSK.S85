@@ -1,49 +1,56 @@
-; RAMDSK assembly source from disassembly
+; Assembly source for RAMDSK.CO
 ; Brian K. White
-; RAMDSK originally by Paul Globman
-; This copy intentionally only reproduces the original binaries exactly for reference.
-; Single common source generates both RAM100.CO and RAM200.CO
-; All machine differences are in 100.S85 & 200.S85
+; Originally from disassembly of v2 RAM100.CO & RAM200.CO by Paul Globman
+; Single unified source that generates:
+;   identical reproduction of legacy RAM100.CO & RAM200.CO
+;   "legacy" version of RAMK85.CO that never existed originally
+;   new 4-bank RAM100.CO, RAM200.CO, & RAMK85.CO
+; All machine differences are in 100.S85, 200.S85, K85.S85
+;
+; Uses the 8085 undocumented instructions!
 ;
 ; Compile:
-;   M=100 # 100 or 200
+;   M=100 # 100/200/K85
 ;   z88dk-z80asm -m8085 -no-synth -DMODEL_$M -b -o=RAM$M.CO RAMDSK.S85
 ;   L=`wc -c <RAM$M.CO`
 ;   z88dk-z80asm -m8085 -no-synth -DMODEL_$M -DPRGLEN=$L -b -o=RAM$M.CO RAMDSK.S85
 ;
-; original binaries:
+; Original legacy binaries:
 ; https://www.club100.org/library/libpg.html "pgnode" section
-; https://ftp.whtech.com/club100/pg/pgnode/node1/ram100.co		RAM100.CO
-; https://ftp.whtech.com/club100/pg/pgnode/node2/ramdsk.co		RAM200.CO
+; https://ftp.whtech.com/club100/pg/pgnode/node1/ram100.co		RAM100.CO  (v2 that supports banks)
+; https://ftp.whtech.com/club100/pg/pgnode/node2/ramdsk.co		RAM200.CO  (v1 that does not support banks)
+; https://www.club100.org/library/libeme.html "RAMPAC files..." section
+; https://ftp.whtech.com/club100/eme/r200ld.200 (BASIC loader)  RAM200.CO  (v2 that supports banks)
 ;
 ; 8085 asm support for Geany code editor (directions inside):
 ; _usr_share_geany_filedefs_filetypes.8085asm.conf
 ;------------------------------------------------------------------------------
 
 ;------------------------------------------------------------------------------
-; TRS-80 Model 100 / TANDY Model 200 Platform
+; "Model T" Platform (TANDY 100/102/200, Kyotronic KC-85)
 ;------------------------------------------------------------------------------
 
 ;------------------------------------------------------------------------------
-; 100 vs 200 vs other
-; all platform-specific differences are in <model>.S85
+; Target model differences
+;------------------------------------------------------------------------------
 IF MODEL_200
 INCLUDE		"200.S85"
+ELIF MODEL_K85
+INCLUDE		"K85.S85"
 ELSE
 INCLUDE		"100.S85"
 ENDIF
-; 100 vs 200 vs other
 ;------------------------------------------------------------------------------
 
 IF LEGACY
-NBANKS EQU 2
+NBANKS		EQU		2
 ELSE
-NBANKS EQU 4
+NBANKS		EQU		4
 ENDIF
 
 ; cpu opcodes
-opcode_IN		EQU		0xDB
-opcode_OUT		EQU		0xD3
+opcode_IN	EQU		0xDB
+opcode_OUT	EQU		0xD3
 
 ; ascii
 ETX			EQU		0x03
@@ -1007,8 +1014,11 @@ TitleMSG:
 	cursor_invisible
 	disable_automatic_scroll
 	enter_reverse_mode
-;	DB "NODE RAMPAC/Datapac    #"	; original	matches ../orig/ram*.co
-	DB "NODE RAMPAC/DATAPAC Bank"	; bkw		matches ../RAM*.CO
+IF LEGACY
+	DB "NODE RAMPAC/Datapac    #"
+ELSE
+	DB "NODE RAMPAC/DATAPAC Bank"
+ENDIF
 BankNumMSG:
 	DB BANK0
 	DB "   (c)P.Globman"

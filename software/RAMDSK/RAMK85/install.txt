@@ -3,39 +3,39 @@ Installation options
 --- Install via TPDD ---
 
 If you already have a TPDD client & server
-then just use them to copy RAM200.CO to the Model 200
+then just use them to copy RAM100.CO to the KC-85
 and then LOADM like any other .CO file.
 
-  LOADM "RAM200.CO"
+  LOADM "RAMK85.CO"
   note the TOP address in the error message
   CLEAR 0,<topaddr>
 
 If you want to CALL the various functions from BASIC,
 then repeat the LOADM after the CLEAR, or just execute
-RAM200.CO from the main menu at least once.
+RAMK85.CO from the main menu at least once.
 
 --- Initial via BASIC loader ---
 
 For Windows, https://github.com/bkw777/tsend
 
-  C:> tsend.ps1 -file RAM200.DO
+  C:> tsend.ps1 -file RAMK85.DO
 
 For Mac/Linux/Cygwin, https://github.com/bkw777/dl2
 
-  $ dl -v -b RAM200.DO
+  $ dl -v -b RAMK85.DO
 
 --- Install from the RAMPAC itself after a cold reset ---
 
 If you set this up, then you don't need a PC to reinstall any more.
 
-Copy RAM200.CO to the RAMPAC.
-RAM200.CO must be the first file on bank0.
+Copy RAMK85.CO to the RAMPAC.
+RAMK85.CO must be the first file on bank0.
 
-Type-in the 4-line BASIC program RBOOT.200
+Type-in the 4-line BASIC program RBOOT.K85
 
 You can use any bank instead of bank0 by making these changes:
 
-Copy RAM200.CO to desired bank instead of bank0.
-RAM200.CO must be the first file in the bank.
+Copy RAMK85.CO to desired bank instead of bank0.
+RAMK85.CO must be the first file in the bank.
 
 In RBOOT change all (2) occurances of OUT129 to OUT133, 137, or 141
