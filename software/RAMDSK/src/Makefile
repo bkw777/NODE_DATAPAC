@@ -8,13 +8,17 @@ MODELS := 100 200 K85
 NAME := RAM
 SRC = RAMDSK.S85
 INC = $(patsubst %,%.S85,$(MODELS))
-CO = $(patsubst %,RAM%.CO,$(MODELS))
-DO = $(patsubst %.CO,%.DO,$(CO))
+CO  = $(patsubst %,RAM%.CO,$(MODELS))
+DO  = $(patsubst %.CO,%.DO,$(CO))
 map = $(patsubst %.CO,%.map,$(CO))
 
 AS = z88dk-z80asm
 ASFLAGS := -m8085 -no-synth # -v
+
+# -DBANKS_ONE_BASED    # display the bank number as Bank1-Bank4 instead of Bank0-Bank3
+# -DNBANKS=n           # support n banks instead of the default 4 (or 2 for legacy)
 #XFLAGS :=
+# example: make clean all XFLAGS='-DNBANKS=8 -DBANKS_ONE_BASED'
 
 # don't delete .CO when building .DO etc.
 .SECONDARY:
@@ -38,8 +42,6 @@ $(CO): RAM%.CO : $(SRC) %.S85
 
 %.map: %.CO
 
-# co2ba comes from https://github.com/bkw777/dl2
-# generate a BASIC loader *.DO to install *.CO
 %.DO: %.CO
 	@which -s co2ba || echo "Please install https://github.com/bkw777/dl2 for co2ba to generate $@"
 	co2ba $< savem >$@
@@ -55,14 +57,14 @@ load_%: $(NAME)%.DO
 
 .PHONY: legacy
 legacy:
-	make clean all XFLAGS='-DLEGACY'
+	make clean all XFLAGS+=' -DLEGACY'
 	make verify
 	@echo "Built duplicates of legacy binaries"
 
 .PHONY: verify
 verify:
 	# hard coded models 100 & 200 because there is no legacy K85
-	@for m in 100 200 ;do n=RAM$$m ;c=$$n.CO ;r=../$$n/orig/$$c ;cmp -l -b $$c $$r && echo "Built $$c is identical to $$r." ;done
+	@for m in 100 200 ;do n=RAM$$m c=$$n.CO r=../$$n/orig/$$c ;cmp -l -b $$c $$r && echo "Built $$c is identical to $$r." ;done
 
 .PHONY: clean
 clean:

@@ -42,10 +42,12 @@ INCLUDE		"100.S85"
 ENDIF
 ;------------------------------------------------------------------------------
 
+IFNDEF NBANKS
 IF LEGACY
 NBANKS		EQU		2
 ELSE
 NBANKS		EQU		4
+ENDIF
 ENDIF
 
 ; cpu opcodes
@@ -201,7 +203,6 @@ IF LEGACY
 	LDA		KC7						; get status bits of keyboard matrix column 7
 	CPI		0x80					; is ENTER pressed?
 	CZ		BANK					; if ENTER is pressed, switch banks.
-ELSE
 ENDIF
 
 MAIN:
@@ -447,7 +448,7 @@ SAVE:
 	CALL	FILES					; display ram files list
 SAVE1:
 	LXI		H,SaveMSG
-	CALL	InputFileNameWithPrompt
+	CALL	InputFilenameWithPrompt
 	CALL	FINDFN
 	JZ		BEEP
 	PUSH	H
@@ -665,7 +666,7 @@ ENDIF
 	POP		H
 	JMP		@l2
 
-InputFileNameWithPrompt:
+InputFilenameWithPrompt:
 	CALL	PTILL0
 	CALL	INLIN
 	RC
@@ -687,7 +688,7 @@ j29:
 	RET
 
 j30:
-	CALL	InputFileNameWithPrompt
+	CALL	InputFilenameWithPrompt
 j41:
 	XRA		A
 	STA		BlockNum
@@ -778,11 +779,11 @@ CheckIsBankFormatted:
 	JNZ		FORMAT					; if not, ask to format
 	RET
 
-; Read-and-discard C*2 bytes, final read will be left in B & A
+; Read-and-discard C words (C*2 bytes), final read will be left in B & A
 SkipCWords:
 	CALL	ReadDataW				; read 2 bytes into B & A
 	DCR		C						; decrement C
-	JNZ		SkipCWords				; repeat until C=0 (discard previous read data)
+	JNZ		SkipCWords				; repeat until C=0 (discard previous data)
 	RET
 
 ; Read a word of data (2 bytes) from device into B & A
@@ -797,11 +798,11 @@ ConfirmWithPrompt:
 	CALL	CHGET					; wait for keypress
 	CALL	LC2UCA					; convert to uppercase
 	CPI		'Y'						; is it "Y" ?
-	RET								; return cp result
+	RET								; return cpi result
 
 j40:
 	LXI		H,AsMSG
-	CALL	InputFileNameWithPrompt
+	CALL	InputFilenameWithPrompt
 	JMP		j29
 
 ;------------------------------------------------------------------------------
@@ -983,8 +984,7 @@ ENDM ; BANK_SWITCH_CODE_BLOCK
 ;------------------------------------------------------------------------------
 ; place bank switch code here if not legacy
 ;------------------------------------------------------------------------------
-IF LEGACY
-ELSE
+IFNDEF LEGACY
 	BANK_SWITCH_CODE_BLOCK
 ENDIF
 
@@ -1001,8 +1001,7 @@ FreeKB		EQU		SAVE1@freekb+1	; free KB disk space
 wF			EQU		j27@l1+1
 FileAttr	EQU		j41@l1+1		; file attr byte
 TmpBlockNum	EQU		SAVE1@la+1		; tmp block number
-IF LEGACY
-ELSE
+IFNDEF LEGACY
 BlockNum	EQU		j43@bn+1		; block number
 bD			EQU		j43@bd+1
 bE			EQU		SAVE1@l8+1

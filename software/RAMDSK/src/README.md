@@ -33,5 +33,5 @@ for the old binaries works on the new binaries also, because although the
 contents of the binaries changed to add the 4-bank support,
 the total file size and ORG address are kept the same as the old binaries.
 
-So even the BASIC code silkscreened on MiniNDP PCBs the last few year years
-is still correct for these new binaries.
+The BASIC code silkscreened on MiniNDP PCBs is still correct for these new binaries.  
+For K85, use the code for 100 on the silkscreen.
