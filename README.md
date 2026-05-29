@@ -82,6 +82,17 @@ PCB BOTTOM
 The original PCB has no silkscreen. This image has silkscreen added to show where the components from the schematic go.
 ![](PCB/out/NODE_DATAPAC_256K_historical_reproduction_top_annotated.jpg)
 
+<!--
+## Updated Replacement PCB that fits the original case
+
+Uses all the same through-hole parts, fits in the original enclosure, improves the trace routing a little, for example moving that VCC line away from that screw head, GND traces replaced by zone fills, thicker and all the same size vcc lines, decoupling caps, silkscreen.  
+![](PCB/out/NODE_DATAPAC_256K_bkw.svg)
+![](PCB/out/NODE_DATAPAC_256K_bkw.top.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw.bottom.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw.f.jpg)
+![](PCB/out/NODE_DATAPAC_256K_bkw.b.jpg)
+-->
+
 ## Theory of Operation
 The circuit has 2 functions, SELECT-BLOCK and READ/WRITE-BYTE, controlled by the internal active-low signals /BLOCK and /BYTE.
 
@@ -540,15 +551,6 @@ This is likely the best way to move files between the RAMPAC and a PC, by using 
 
 ## RAMPAC Diagnostic
 [Rampac Diagnostic](software/Rampac_Diagnostic/)
-
-## Updated Replacement PCB that fits the original case
-
-Uses all the same through-hole parts, fits in the original enclosure, improves the trace routing a little, for example moving that VCC line away from that screw head, GND traces replaced by zone fills, thicker and all the same size vcc lines, decoupling caps, silkscreen.  
-![](PCB/out/NODE_DATAPAC_256K_bkw.svg)
-![](PCB/out/NODE_DATAPAC_256K_bkw.top.jpg)
-![](PCB/out/NODE_DATAPAC_256K_bkw.bottom.jpg)
-![](PCB/out/NODE_DATAPAC_256K_bkw.f.jpg)
-![](PCB/out/NODE_DATAPAC_256K_bkw.b.jpg)
 
 # MiniNDP
 
