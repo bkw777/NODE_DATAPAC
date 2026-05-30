@@ -937,7 +937,11 @@ IF (NBANKS>2)
 
 ELSE ; !NBANKS>2
 
-BANK0		EQU		'0'
+IF BANKS_ONE_BASED
+BANK_NUM_XOR	EQU		0x03
+ELSE
+BANK_NUM_XOR	EQU		0x01
+ENDIF
 
 ;------------------------------------------------------------------------------
 ; Bank-switch code that only supports 2 banks can be a lot smaller
@@ -948,7 +952,7 @@ BANK0		EQU		'0'
 	XRI		BANK_CTL_OFFSET			; toggle bit 2 (toggle between 0x81 & 0x85)
 	STA		CtlPort					; write new control port number
 	LDA		BankNumMSG				; read bank number display ('0' or '1' ascii)
-	XRI		0x01					; toggle bit 0 (toggle between '0' & '1' ascii)
+	XRI		BANK_NUM_XOR			; toggle bit 0 (toggle between '0' & '1' ascii)
 	STA		BankNumMSG				; write new bank number display
 ;------------------------------------------------------------------------------
 
