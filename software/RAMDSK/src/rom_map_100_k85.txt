@@ -5,12 +5,20 @@ https://github.com/LivingM100SIG/Living_M100SIG/blob/main/M100SIG/Lib-12-NEC-OLI
 https://github.com/LivingM100SIG/Living_M100SIG/blob/main/M100SIG/Lib-12-NEC-OLIVETTI/KYROM1.EQU
 https://github.com/LivingM100SIG/Living_M100SIG/blob/main/M100SIG/Lib-08-TECH-PROGRAMMING/100ROM.RC0 - RC6
 https://club100.org/memfiles/index.php?&direction=0&order=&directory=Ken%20Pettit/M100%20ROM%20Disassembly
-just looking at both M100 and KC-85 roms in a hex editor
+https://archive.org/details/Kyrotronic_KC-85_Review/
+
+But the final boss is just looking at both M100 and KC-85 roms in a hex editor
 http://tandy.wiki/File:TRS-80_Model_100.orig.bin
 http://tandy.wiki/File:KC-85.orig.bin
 
+
+TODO: not everything has been copied back from K85.S85
+
+
 M100 KC85 offset NAME DESCRIPTION
 
+0 to
+0396 0396  0000 (unverified, but according to KC-85_Review above)
 05F0 05F7  0007 UBLNAS update in-memory line addresses for the current BASIC program lines
 05F3 05FA  0007 
 0726 072D  0007 FOR
@@ -99,7 +107,7 @@ M100 KC85 offset NAME DESCRIPTION
 4644 45F8 -004C INLIN get kbd line
 
 478B 4741 -004A DIM
-4C0B            CKFN format filename and check validity
+4C0B 4BC1       CKFN format filename and check validity
 4CCB 4C81 -004A OPEN
 4D70 4D26 -004A LOAD
 4D71 4D27 -004A MERGE
@@ -108,7 +116,10 @@ M100 KC85 offset NAME DESCRIPTION
 4E28 4DDE -004A CLOSE
 506F 501E -0051 LFILES
 5071 5020 -0051 DSKO$
-507F 507F  0000 USING
+507F 502E -0051 USING
+50F1 50A0 -0051 DEVICES
+5146 50F1 -0055 TELCOM
+5455 518D -02C8 TERM
 5797 54A4 -02F3 MENU
 58B6 55C3 -02F3 ROM1 unk
 58C3 55D0 -02F3 ROM2 unk
@@ -120,17 +131,20 @@ M100 KC85 offset NAME DESCRIPTION
 59E5 56F2 -02F3 ROM14 unk
 5A58 5763 -02F5 PRTSTR string to lcd
 5A62 576D -02F5 MOV1 DE --> HL
-5A6D            CMPARE compare the buffer pointed to by DE to the buffer pointed to by HL
+5A6D 5778       CMPARE compare the buffer pointed to by DE to the buffer pointed to by HL
 5A79 5784 -02F5 CLRFNK clr f-key tbl
 5AE3 57EE -02F5 ADDR get file ads
 5AE4 57EF -02F5 ADDR2 file ads + 1
 5B1A 5825 -02F5 EMPTY '-.-' msg
+5B68 5873 -02F5 ADRS
+5B6F 587A -02FS SCHDL
 5D70 5A78 -02F8 SHOWTD time-date
+5DEE 5AF6 -02F8 TEXT
 5E51 5B59 -02F8 EDIT
 5F2F 5C37 -02F8 WTSPC wait space bar
 5F4B 5C53 -02F8 SPCMSG '..Space Bar.'
 63CD 60D5 -02F8
-6B2D            GETEOF search for EOF (0x1A)
+6B2D 6835       GETEOF search for EOF (0x1A)
 6B6D 6875 -02F8 MAKHOL ins spaces
 6B9F 68A7 -02F8 DELCHR delete char
 6D6D 6A75 -02F8 RCVX ck rs for char
@@ -144,6 +158,7 @@ M100 KC85 offset NAME DESCRIPTION
 7EAC 7B5C -0350 FREMEM free bytes
 7F0B 7BBB -0350 MAX
 7F98 7C48 -0350 FREMSG 'bytes free'
+7FF9 7CCC -0332 MAXROM
 F639 F640  0007 CSRY Hor curs posit
 F63A F641  0007 CSRX Ver curs posit
 F652 F659  0007 ERROR Bas error trap
@@ -174,3 +189,4 @@ FF97            8 bits for space, del, tab, esc, paste, label, print, enter
 FF98            8 bits for storing function key recognition
 FFA2 FF63 -003F 8 bits for storing shift, ctrl, grph, code, num, and caps lock.
 FFAA FF6B -003F KBUFN chrs in kb buf
+F5F0 F5F0  0000 MAXRAM
