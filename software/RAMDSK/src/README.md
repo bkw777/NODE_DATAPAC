@@ -23,7 +23,7 @@ then `?HIMEM`, and use that number. Ex: Model 200, TEENY is 747 bytes, MAXRAM is
 to just install the normal RAMDSK first and let TEENY install itself below RAMDSK)
 
 ## Install  
-`make load_100`
+`make load_100`  
 `make load_200`  
 `make load_K85`  
 
