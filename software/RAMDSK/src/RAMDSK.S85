@@ -1,11 +1,6 @@
 ; Assembly source for RAMDSK.CO
 ; Brian K. White
-; Originally from disassembly of v2 RAM100.CO & RAM200.CO by Paul Globman
-; Single unified source that generates:
-;   identical reproduction of legacy RAM100.CO & RAM200.CO
-;   "legacy" version of RAMK85.CO that never existed originally
-;   new 4-bank RAM100.CO, RAM200.CO, & RAMK85.CO
-; All machine differences are in 100.S85, 200.S85, K85.S85
+; Originally from disassembly of RAM100.CO v2 & RAM200.CO v2 by Paul Globman
 ;
 ; Uses the 8085 undocumented instructions!
 ;
@@ -43,11 +38,7 @@ ENDIF
 ;------------------------------------------------------------------------------
 
 IFNDEF NBANKS
-IF LEGACY
-NBANKS		EQU		2
-ELSE
 NBANKS		EQU		4
-ENDIF
 ENDIF
 
 ; cpu opcodes
@@ -55,7 +46,7 @@ opcode_IN	EQU		0xDB
 opcode_OUT	EQU		0xD3
 
 ; ascii
-ETX			EQU		0x03
+;ETX			EQU		0x03
 LF			EQU		0x0A
 FF			EQU		0x0C
 CR			EQU		0x0D
@@ -111,6 +102,12 @@ ENDM
 PORT_CTL0			EQU		0x81	; control port for bank 0
 PORT_DATA			EQU		0x83	; data read/write port
 BANK_CTL_OFFSET		EQU		0x04	; bank n ctl port is ctl0 + n*4
+
+IF BANKS_ONE_BASED
+BANK0		EQU		'1'				; display bank numbers as Bank1 - Bank4
+ELSE
+BANK0		EQU		'0'				; display bank numbers as Bank0 - Bank3
+ENDIF
 
 ; SelectBank
 ; Switch the hardware to a new bank address
@@ -170,7 +167,11 @@ StampByte1		EQU		0x04
 ; Supply -DHIMEM=num to generate a relocated binary.
 IFDEF PRGLEN
 IFNDEF HIMEM
+IF MATCH_LEGACY_CO_HEADER
 	HIMEM		EQU		DEFAULT_HIMEM
+ELSE
+	HIMEM		EQU		MAXRAM
+ENDIF
 ENDIF ; HIMEM
 
 ORG HIMEM-PRGLEN-6						; entry minus length of header
@@ -191,15 +192,8 @@ PRGEXE:
 
 ; Detect if user is holding ENTER key during start-up.
 ; Normally start in bank 0. If ENTER is held then start in bank 1.
-; I don't know why this feature exists.
-;
-; Maybe it's meant to be an escape hatch to allow a non-RAMDSK application from
-; before the advent of banks to use bank 0, and allow RAMDSK to use bank 1.
-; Normally the formatting is checked on startup, and if ram is not formatted
-; and the user declines to format or repair, then RAMDSK exits immediately.
-; This ENTER detection happens before that, so it would allow bank 0 to stay
-; unformatted or non-RAMDSK, and switch to bank 1 before being forced to exit.
-IF LEGACY
+; Remove to make room for N-banks without exceeding original file size.
+IFNDEF MATCH_LEGACY_CO_HEADER
 	LDA		KC7						; get status bits of keyboard matrix column 7
 	CPI		0x80					; is ENTER pressed?
 	CZ		BANK					; if ENTER is pressed, switch banks.
@@ -222,8 +216,8 @@ MAIN:
 	CALL	j01
 	MVI		D,FattrDO
 	CALL	j01
-MAIN1:
-	CALL	UpdateFreeKB
+@end:
+	CALL	FREE
 
 ; Fkeys
 ; Bank Load Save Name Kill ---- ---- Menu
@@ -339,12 +333,15 @@ j05:
 	RNZ								; if not CDNCT, return
 	XRA		A
 	STA		bI						; if CDNCT, reset to 0
-	CALL	MAIN1
+	CALL	MAIN@end
 DrawTitle:
 	LXI		H,TitleMSG
 	JMP		PTILL0					; print TitleMSG to screen
 
-UpdateFreeKB:
+;------------------------------------------------------------------------------
+; FREE - Update FreeKB
+;------------------------------------------------------------------------------
+FREE:
 	PUSH	H
 	PUSH	D
 	PUSH	B
@@ -378,7 +375,7 @@ UpdateFreeKB:
 ;------------------------------------------------------------------------------
 KILL:
 	LXI		H,KillMSG
-	CALL	j30
+	CALL	Ask_From_Filename
 	JNZ		BEEP
 	LXI		H,SureMSG
 	CALL	ConfirmWithPrompt
@@ -409,9 +406,9 @@ KILL:
 ;------------------------------------------------------------------------------
 NAME:
 	LXI		H,NameMSG
-	CALL	j30
+	CALL	Ask_From_Filename
 	JNZ		BEEP
-	CALL	j40
+	CALL	Ask_To_Filename
 	LDA		BlockNum
 	MOV		B,A
 	PUSH	B
@@ -453,10 +450,10 @@ SAVE1:
 	JZ		BEEP
 	PUSH	H
 	CALL	j42
-	CALL	j40
+	CALL	Ask_To_Filename
 	CALL	j41
 	CZ		ConfirmReplaceKill
-	CALL	UpdateFreeKB
+	CALL	FREE
 	POP		H
 	INX		H
 	XCHG
@@ -498,6 +495,7 @@ SAVE1:
 	JMP		j44
 @l2:
 	LHLD	wA
+;	LXI		H,0x0000					; [wA]
 	MVI		D,0x01
 	LXI		B,1014					; 1024 byte block minus 10 byte filename header
 	JMP		@l4
@@ -535,21 +533,17 @@ SAVE1:
 	STA		TmpBlockNum
 	JMP		@l6
 @l8:
-IF LEGACY
-	LDA		bE
-ELSE
 	MVI		A,0x00					; [bE]
-ENDIF
 	DCR		A
 	STA		bE
 	JZ		@l9
 	WriteDataN SPACE
-	JMP		@la
+	JMP		@bn
 @l9:
 	POP		PSW
 	LDA		FileAttr
 	WriteData
-@la:
+@bn:
 	MVI		A,0x00					; [TmpBlockNum]
 	STA		bD
 	WriteData
@@ -581,9 +575,9 @@ ConfirmDeleteRamFile:
 ;------------------------------------------------------------------------------
 LOAD:
 	LXI		H,LoadMSG
-	CALL	j30
+	CALL	Ask_From_Filename
 	JNZ		BEEP
-	CALL	j40
+	CALL	Ask_To_Filename
 	CALL	FINDFN
 	CNZ		ConfirmDeleteRamFile
 	CALL	MakeHole
@@ -598,6 +592,7 @@ LOAD:
 
 MakeHole:
 	LHLD	wA
+;	LXI		H,0x0000					; [wA]
 	MOV		B,H
 	MOV		C,L
 	LDA		FileAttr
@@ -638,7 +633,9 @@ j27:
 	STA		@l3
 	LXI		H,1014					; block size 1024 minus 10 bytes filename we already wrote
 	SHLD	wC
+;@wa
 	LHLD	wA
+;	LXI		H,0x0000					; [wA]
 @l1:
 	LXI		D,0x0000				; [wF]
 @l2:
@@ -652,12 +649,8 @@ j27:
 	ORA		L
 	RZ
 	PUSH	H
-IF LEGACY
-	LHLD	wC
-ELSE
 @wc:
 	LXI		H,0x0000				; [wC]
-ENDIF
 	DCX		H
 	MOV		A,L
 	ORA		H
@@ -687,7 +680,7 @@ j29:
 	STAX	D
 	RET
 
-j30:
+Ask_From_Filename:
 	CALL	InputFilenameWithPrompt
 j41:
 	XRA		A
@@ -713,7 +706,7 @@ j41:
 	JZ		INR_A_RET
 	STA		BlockNum
 	MOV		A,B
-@l1:
+@fileattr:
 	CPI		0x3F					; [FileAttr]  ??? what is 0x3F ?
 	JNZ		@l0
 	LDA		BlockNum
@@ -750,22 +743,14 @@ j43:
 	SHLD	wC
 	XRA		A
 	CALL	SelectBlock
-IF LEGACY
-	LDA		bD
-ELSE
 @bd:
 	MVI		A,0x00					; [bD]
-ENDIF
 	STA		BlockNum
 	MOV		C,A
 	INR		C
 	CALL	SkipCWords
-IF LEGACY
-	STA		bD
-ELSE
 @bn:
 	MVI		A,0x00					; [BlockNum]
-ENDIF
 	LDA		BlockNum
 	CALL	SelectBlock
 	RET
@@ -800,7 +785,7 @@ ConfirmWithPrompt:
 	CPI		'Y'						; is it "Y" ?
 	RET								; return cpi result
 
-j40:
+Ask_To_Filename:
 	LXI		H,AsMSG
 	CALL	InputFilenameWithPrompt
 	JMP		j29
@@ -830,16 +815,17 @@ FORMAT:
 	XRA		A
 	CALL	SelectBlock
 	MOV		B,A
-	CALL	@WriteFormat
+	CALL	WriteFormat
 	POP		B
-	CALL	@WriteFormat
+	CALL	WriteFormat
 @WriteStamp:
 	XRA		A
 	CALL	SelectBlock
 	WriteDataN		StampByte0
 	WriteDataN		StampByte1
 	JMP		MAIN
-@WriteFormat:
+
+WriteFormat:
 	MOV		E,D						; I think D is 0x80, written by TestHardware
 @l0:
 	MOV		A,B
@@ -889,12 +875,14 @@ TestHardware:
 	MOV		B,A
 	RET								; if C != B, test write worked, return with B = 0x00
 
-; this is a macro so that it can be relocated for legacy vs non-legacy
-MACRO BANK_SWITCH_CODE_BLOCK
 ;------------------------------------------------------------------------------
 ; BANK - switch banks
 ;------------------------------------------------------------------------------
 BANK:
+	; Before trying to switch banks, test if the destination bank exists.
+	; Test write 2 different values to block0,byte0 of banks 0 & 1
+	; FIXME - Now that there are more than 2 banks it should be bank 0 & current+1
+	; this will probably grow the filesize and break the old bootstrap BASIC.
 	SelectBank 0
 	WriteDataN 0x41					; write 0x41 to Bank0,Block0,byte0
 	; blindly wrote to block0,byte0, hope you didn't have non-RAMDSK data there
@@ -919,13 +907,8 @@ BANK:
 
 IF (NBANKS>2)
 
-IF BANKS_ONE_BASED
-BANK0		EQU		'1'				; display Bank1 - Bank4
-ELSE
-BANK0		EQU		'0'				; display Bank0 - Bank3 (matches original, consistent with block 0, byte 0)
-ENDIF
-
 ;------------------------------------------------------------------------------
+; Bank-switch code that supports N banks (max 32 assuming none of the 32 port numbers collides with something else)
 ; Incriment Bank Number
 ; Add 1 to bank#, roll over at NBANKS-1, 0->1->2->3->0...
 ; Set control port to control port for bank0 + 4*bank#
@@ -954,6 +937,7 @@ ELSE ; !NBANKS>2
 BANK0		EQU		'0'
 
 ;------------------------------------------------------------------------------
+; Bank-switch code that only supports 2 banks can be a lot smaller
 ; Toggle Bank Number
 ; control port# xor 4, bank number xor 1
 ;------------------------------------------------------------------------------
@@ -979,48 +963,38 @@ SelectBlock:
 	OUT		PORT_CTL0				; [CtlPort]
 	RET
 
-ENDM ; BANK_SWITCH_CODE_BLOCK
-
-;------------------------------------------------------------------------------
-; place bank switch code here if not legacy
-;------------------------------------------------------------------------------
-IFNDEF LEGACY
-	BANK_SWITCH_CODE_BLOCK
-ENDIF
-
 ;------------------------------------------------------------------------------
 ; strings & variables
 ;------------------------------------------------------------------------------
 
 ; variables that only exist as the address to the operand of a load instruction
+; (saves space, The filesize is reduced by the combined size of all of these)
 wSP			EQU		MAIN@setsp+1	; initial stack pointer
 CtlPort		EQU		SelectBlock+1	; rampac control port number
 bI			EQU		j05+1			; scratch loop counter
 bB			EQU		j01@bb+1
 FreeKB		EQU		SAVE1@freekb+1	; free KB disk space
 wF			EQU		j27@l1+1
-FileAttr	EQU		j41@l1+1		; file attr byte
-TmpBlockNum	EQU		SAVE1@la+1		; tmp block number
-IFNDEF LEGACY
+FileAttr	EQU		j41@fileattr+1	; file attr byte
+TmpBlockNum	EQU		SAVE1@bn+1		; tmp block number
 BlockNum	EQU		j43@bn+1		; block number
 bD			EQU		j43@bd+1
 bE			EQU		SAVE1@l8+1
 wC			EQU		j27@wc+1
-ENDIF
+; for some reason we can't do the above trick for wA
+;wA			EQU		SAVE1@l2+1
+;wA			EQU		MakeHole+1
+;wA			EQU		j27@wa+1
 
 TitleMSG:
 	DB FF
 	cursor_invisible
 	disable_automatic_scroll
 	enter_reverse_mode
-IF LEGACY
-	DB "NODE RAMPAC/Datapac    #"
-ELSE
 	DB "NODE RAMPAC/DATAPAC Bank"
-ENDIF
 BankNumMSG:
 	DB BANK0
-	DB "   (c)P.Globman"
+	DB "  P.Globman/BKW"
 	exit_attribute_mode
 	cursor_address NROWS,1
 ;	DB "F1-- F2-- F3-- F4-- F5-- F6-- F7-- F8--"
@@ -1079,29 +1053,9 @@ FilenameMSG:
 wA:
 	DW 0x0000
 
-IF LEGACY
-
-BlockNum:
-	DB 0x00
-
-wC:
-	DW 0x0000
-
-bD:
-	DB 0x00
-
-bE:
-	DB 0x00
-
-ELSE ; !LEGACY
-
+IF MATCH_LEGACY_CO_HEADER
 padding:
 	DB 0x00
-
-ENDIF ; LEGACY
-
-IF LEGACY
-	BANK_SWITCH_CODE_BLOCK
 ENDIF
 
 PRGEND:

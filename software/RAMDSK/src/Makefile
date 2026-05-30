@@ -15,9 +15,11 @@ map = $(patsubst %.CO,%.map,$(CO))
 AS = z88dk-z80asm
 ASFLAGS := -m8085 -no-synth # -v
 
+# -DHIMEM=addr         # generate a relocated binary with specified HIMEM/END address
 # -DBANKS_ONE_BASED    # display the bank number as Bank1-Bank4 instead of Bank0-Bank3
 # -DNBANKS=n           # support n banks instead of the default 4 (or 2 for legacy)
-#XFLAGS :=
+# -DMATCH_LEGACY_CO_HEADER  # make TOP/END/EXE match the legacy binaries
+XFLAGS := -DMATCH_LEGACY_CO_HEADER
 # example: make clean all XFLAGS='-DNBANKS=8 -DBANKS_ONE_BASED'
 
 # don't delete .CO when building .DO etc.
@@ -54,17 +56,6 @@ publish: all
 load_%: $(NAME)%.DO
 	@which -s dl || echo "Please install https://github.com/bkw777/dl2 to bootstrap $<"
 	dl -v -b $<
-
-.PHONY: legacy
-legacy:
-	make clean all XFLAGS+=' -DLEGACY'
-	make verify
-	@echo "Built duplicates of legacy binaries"
-
-.PHONY: verify
-verify:
-	# hard coded models 100 & 200 because there is no legacy K85
-	@for m in 100 200 ;do n=RAM$$m c=$$n.CO r=../$$n/orig/$$c ;cmp -l -b $$c $$r && echo "Built $$c is identical to $$r." ;done
 
 .PHONY: clean
 clean:
