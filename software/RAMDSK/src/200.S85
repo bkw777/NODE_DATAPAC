@@ -46,12 +46,11 @@ FX1			EQU		0xF74C		; unknown, possibly file size or other metadata
 CFNAME		EQU		0xF74F		; 6 bytes filename of last program loaded from tape
 FX2			EQU		0xF755		; unknown, possibly file size or other metadata
 KC7			EQU		0xFD0B		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
+MAXRAM		EQU		0xEEB0
 
 BAFILES		EQU		CURBAS		; start of BA files - RAM100 uses UNSAVBA, RAM200 uses CURBAS
-
 NROWS		EQU		16			; LCD screen rows
 CDNCT		EQU		26			; counter in j03->j05 - maybe cursor-down n times?
-MAXRAM		EQU		0xEEB0
 LEGACY_HIMEM	EQU		0xEEAE	; 0xEEAE matches the original RAM200.CO v2
 
 MACRO	DeleteRamFile
