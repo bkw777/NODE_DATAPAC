@@ -52,7 +52,7 @@ BAFILES		EQU		CURBAS		; start of BA files - RAM100 uses UNSAVBA, RAM200 uses CUR
 NROWS		EQU		16			; LCD screen rows
 CDNCT		EQU		26			; counter in j03->j05 - maybe cursor-down n times?
 MAXRAM		EQU		0xEEB0
-DEFAULT_HIMEM	EQU		0xEEAE	; 0xEEAE matches the original RAM200.CO v2
+LEGACY_HIMEM	EQU		0xEEAE	; 0xEEAE matches the original RAM200.CO v2
 
 MACRO	DeleteRamFile
 	JMP		KILLFILE

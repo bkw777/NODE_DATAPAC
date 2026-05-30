@@ -18,9 +18,9 @@ ASFLAGS := -m8085 -no-synth # -v
 # -DHIMEM=addr         # generate a relocated binary with specified HIMEM/END address
 # -DBANKS_ONE_BASED    # display the bank number as Bank1-Bank4 instead of Bank0-Bank3
 # -DNBANKS=n           # support n banks instead of the default 4 (or 2 for legacy)
-# -DMATCH_LEGACY_CO_HEADER  # make TOP/END/EXE match the legacy binaries
+# -DPRE_INIT_BANKSW    # enable the legacy feature that looks for ENTER key at start
+# -DMATCH_LEGACY_CO_HEADER  # add/remove padding/code to make TOP/END/EXE match the legacy binaries
 XFLAGS := -DMATCH_LEGACY_CO_HEADER
-# example: make clean all XFLAGS='-DNBANKS=8 -DBANKS_ONE_BASED'
 
 # don't delete .CO when building .DO etc.
 .SECONDARY:

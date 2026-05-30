@@ -168,7 +168,7 @@ StampByte1		EQU		0x04
 IFDEF PRGLEN
 IFNDEF HIMEM
 IF MATCH_LEGACY_CO_HEADER
-	HIMEM		EQU		DEFAULT_HIMEM
+	HIMEM		EQU		LEGACY_HIMEM
 ELSE
 	HIMEM		EQU		MAXRAM
 ENDIF
@@ -190,10 +190,13 @@ PRGEXE:
 	XCHG							; swap HL & DE
 	SHLD	wSP						; write HL to wSP
 
-; Detect if user is holding ENTER key during start-up.
-; Normally start in bank 0. If ENTER is held then start in bank 1.
-; Remove to make room for N-banks without exceeding original file size.
 IFNDEF MATCH_LEGACY_CO_HEADER
+DEFINE PRE_INIT_BANKSW
+ENDIF
+
+; If user is holding ENTER key during start, switch banks before anything else.
+; Remove to make room for N-banks without exceeding original file size.
+IF PRE_INIT_BANKSW
 	LDA		KC7						; get status bits of keyboard matrix column 7
 	CPI		0x80					; is ENTER pressed?
 	CZ		BANK					; if ENTER is pressed, switch banks.
@@ -513,7 +516,7 @@ SAVE1:
 @freekb:	; nothing jumps here, we just need the address+1
 	MVI		A,0x00					; [FreeKB]
 	CMP		D
-	JC		POP_BBEP
+	JC		POP_BEEP
 	RET
 @l6:
 	CALL	CheckIsBankFormatted
@@ -605,25 +608,25 @@ MakeHole:
 	CALL	MAKHOL
 	POP		H
 	SHLD	COFILES
-	JC		POP_BBEP
+	JC		POP_BEEP
 	RET
 
 MakeHoleDO:
 	LHLD	DOFILES
 	CALL	MAKHOL
-	JC		POP_BBEP
+	JC		POP_BEEP
 	RET
 
 MakeHoleBA:
 	LHLD	BAFILES
 	CALL	MAKHOL
-	JC		POP_BBEP
+	JC		POP_BEEP
 	PUSH	H
 	CALL	UPDOFILES
 	POP		H
 	RET
 
-POP_BBEP:
+POP_BEEP:
 	POP		PSW
 	JMP		BEEP
 
@@ -633,9 +636,9 @@ j27:
 	STA		@l3
 	LXI		H,1014					; block size 1024 minus 10 bytes filename we already wrote
 	SHLD	wC
-;@wa
+;@wa:
 	LHLD	wA
-;	LXI		H,0x0000					; [wA]
+;	LXI		H,0x0000				; [wA]
 @l1:
 	LXI		D,0x0000				; [wF]
 @l2:
@@ -981,10 +984,10 @@ BlockNum	EQU		j43@bn+1		; block number
 bD			EQU		j43@bd+1
 bE			EQU		SAVE1@l8+1
 wC			EQU		j27@wc+1
-; for some reason we can't do the above trick for wA
-;wA			EQU		SAVE1@l2+1
-;wA			EQU		MakeHole+1
-;wA			EQU		j27@wa+1
+; For some reason we can't do the above trick for wA, even though it's the same as WF & wC above which work fine?
+;wA			EQU		SAVE1@l2+1		; filesize always says 1406 for new saves, even when no files are that size, not even RAMDSK.CO??? where could that value even be coming from? Bizarre that it matches the normal size of RAM100.CO, yet file is actually saved and loaded back accurately. It's only the display on the RAMDSK file list. File is not trucated or expanded or corrupted all the way from pc to 100 via dl & TEENY, to rampac, back to 100, back to pc, and the returning copy is perfect. RAMDSK is 1403 and TOP is MAXRAM-1403, all different from normal 1406 RAMDSK
+;wA			EQU		MakeHole+1		; crazy nonsense 35k filesize display, again only the display. load back to 100 and loadm produces correct top/end/exe
+;wA			EQU		j27@wa+1		; same as above
 
 TitleMSG:
 	DB FF
