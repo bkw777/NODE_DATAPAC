@@ -11,10 +11,6 @@ But the final boss is just looking at both M100 and KC-85 roms in a hex editor
 http://tandy.wiki/File:TRS-80_Model_100.orig.bin
 http://tandy.wiki/File:KC-85.orig.bin
 
-
-TODO: not everything has been copied back from K85.S85
-
-
 M100 KC85 offset NAME DESCRIPTION
 
 0 to
@@ -45,7 +41,7 @@ M100 KC85 offset NAME DESCRIPTION
 1140 1147  0007 LIST
 11A2 11A9  0007 PTILL0
 128B 1294  0009 POKE
-12CB 12D4  0009 GETCH wait for chr
+12CB 12D4  0009 CHGET wait for chr
 1419 1422  0009 POWER
 14ED 14F8  000B POPALL
 17E6 17C8 -001E SETSER com on
@@ -103,9 +99,7 @@ M100 KC85 offset NAME DESCRIPTION
 427C 4258 -0024 SETCUR set curs posit
 4469 4449 -0020 ESC+A
 446E 444E -0020 ESC+B
-
 4644 45F8 -004C INLIN get kbd line
-
 478B 4741 -004A DIM
 4C0B 4BC1       CKFN format filename and check validity
 4CCB 4C81 -004A OPEN
@@ -163,8 +157,8 @@ F639 F640  0007 CSRY Hor curs posit
 F63A F641  0007 CSRX Ver curs posit
 F652 F659  0007 ERROR Bas error trap
 F65B F662  0007 STAT Comm stat
-F67A F681  0007 LINENO FFFF if no pgm
-F67C F683  0007 CURBAS pointer to start of BA files / current running BASIC program?
+F67A F681  0007 LINENO current executing BASIC line number, FFFF if no pgm
+F67C F683  0007 CURBAS pointer to start of BASIC program
 F685 F68C  0007 LINBUF Bfr for kb lin
 F99A F98B -000F UNSAVBA Unsaved BA addr
 F9AF F9A0 -000F EDITBA edit attr byte
@@ -176,7 +170,7 @@ FBB0 FBC2  0012 STCO strt CO store
 FBB2 FBC4  0012 TOPFIL end of top fil
 FBB4 FBC6  0012 STAR strt arr store
 FBB6 FBC8  0012 STUN 1st unusd byte
-FC93 FCA5  0012 CURBA current BA pgm
+FC93 FCA5  0012 FNAME 8 (9?) bytes padded fname / current BA pgm / prog name if not run from menu nor typed on select line
 FC99 FCAB           
 FC9C FCAE       CFNAME filename of last program loaded from tape
 FCA2 FCB4
