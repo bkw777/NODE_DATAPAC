@@ -4,13 +4,13 @@ Disassembled & reassembled source for Paul Globman's RAMDSK for NODE DATAPAC/RAM
 
 This version adds support for more than 2 banks, and makes a few minor cosmetic changes.
 
-Generates RAMxxx.CO matching BASIC loader RAMxxx.DO for 100, 200, and K85
+Generates RAMxxx.CO and matching BASIC loader RAMxxx.DO for 100, 200, and K85.
 
-Also generates `RAMxxx.map`, which contains CALL addresses. A few of those addresses are usable from BASIC.  
+Also generates RAMxxx.map, which contains CALL addresses. A few of those addresses are usable from BASIC.  
 See [RAMDSK.TIP](../RAMDSK.TIP) and [RAMDSK.DO](../../../ROM/100/RAMDSK.DO) but ignore the addresses.
 
 ## Build
-Build all, .CO & .DO for 100, 200, & K85  
+Build all: .CO & .DO for 100, 200, & K85  
 `make clean all`
 
 ## Build a custom relocated binary
