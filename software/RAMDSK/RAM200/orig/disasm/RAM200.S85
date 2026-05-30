@@ -910,14 +910,13 @@ TitleMSG:
 	cursor_invisible
 	disable_automatic_scroll
 	enter_reverse_mode
-;	DB "NODE RAMPAC/Datapac    #"	; original	matches ../orig/ram*.co
-	DB "NODE RAMPAC/DATAPAC Bank"	; bkw		matches ../RAM*.CO
+	DB "NODE RAMPAC/Datapac    #"
 BankNumMSG:
 	DB '0'
 	DB "   (c)P.Globman"
 	exit_attribute_mode
 	cursor_address NROWS,1
-;	DB "F1-- F2-- F3-- F4-- F5-- F6-- F7-- F8--"
+	;  "F1-- F2-- F3-- F4-- F5-- F6-- F7-- F8--"
 	DB "Bank Load Save Name Kill           Menu"
 	cursor_address NROWS-1,29
 	DB "Kbytes free"

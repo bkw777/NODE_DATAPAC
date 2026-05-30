@@ -1,0 +1,817 @@
+; RAMDSK v1 for Model 200 - Paul Globman
+; Disassembly - Brian K. White
+; v1 is the early version without banks or format-repair
+; original binary:
+; https://www.club100.org/library/libpg.html "pgnode" section
+; https://ftp.whtech.com/club100/pg/pgnode/node2/ramdsk.co
+;
+; Uses the 8085 undocumented instructions!
+;
+; Compile:
+;   z88dk-z80asm -m8085 -no-synth -b -o=RAM200v1.CO RAM200v1.S85
+;   L=`wc -c <RAM200v1.CO`
+;   z88dk-z80asm -m8085 -no-synth -DPRGLEN=$L -b -o=RAM200v1.CO RAM200v1.S85
+;
+; Verify:
+;   cmp -l -b RAM200v1.CO ../RAMDSK.CO && echo PASS || echo FAIL
+
+;------------------------------------------------------------------------------
+; system rom routines
+PRTSP		EQU		0x001E		; write space to console, directed by LCDLPT
+UBLNAS		EQU		0x061B		; update in-memory line addresses for the current BASIC program lines
+LC2UCA		EQU		0x1014		; convert the character in A to uppercase
+PTILL0		EQU		0x11CC		; print null-terminated string at HL to screen
+CHGET		EQU		0x12F7		; wait for a key from the keyboard
+POPALL		EQU		0x1604		; pop all registers
+FILES		EQU		0x2A2A+2	; FILES statement
+KILASC		EQU		0x2AB5		; delete a .DO file
+KILCOM		EQU		0x2ACE		; delete a .CO file
+KILBAS		EQU		0x2B0C		; delete a .BA file
+KILLFILE	EQU		0x2B2C		; delete a file - 200 only
+FINDFN		EQU		0x2BCC		; search dir for filename matching FNAME
+FINDFN1		EQU		0x2BE9		; almost the the end of FINDFN
+SCNEMP		EQU		0x2C09		; scan for an empty directory entry
+UPDOFILES	EQU		0x2C5A		; update DOFILES with BC
+RESETFPS	EQU		0x2C62		; reset file pointers
+MKDIRENT	EQU		0x2DAC		; insert entry into directory
+INR_A_RET	EQU		0x2459		; INR A; RET;
+D2H4Bup		EQU		0x41BA		; move the memory pointed to by DE to the memory pointed to by HL
+PRTASC		EQU		0x470B		; print 16bit value in HL as ascii
+BEEP_MENU	EQU		0x32D2		; CALL BEEP; JMP MENU; (not used in RAMDSK v2)
+BEEP		EQU		0x4F45		; make a beep sound
+ESCB		EQU		0x519D		; ESC+B - move cursor down one line
+INLIN		EQU		0x54F6		; input line
+CKFN		EQU		0x5ACA		; format filename and check validity
+MENU		EQU		0x67A4		; go to main menu
+CMPARE		EQU		0x6E11		; compare the buffer pointed to by DE to the buffer pointed to by HL
+GETEOF		EQU		0x8268		; search for EOF (0x1A)
+MAKHOL		EQU		0x82A8		; insert BC number of spaces in memory
+KYREAD		EQU		0x8B03		; read keyboard
+
+; addresses
+CSRY		EQU		0xEF06		; cursor row position [poking changes cursor position]
+ETRAP		EQU		0xEF34		; error trap
+CURBAS		EQU		0xEF67		; pointer to start of BA files / current running BASIC program
+UNSAVBA		EQU		0xF295		; address of current BASIC program not saved
+DOFILES		EQU		0xF661		; pointer to start of DO files
+COFILES		EQU		0xF663		; pointer to start of CO files
+FNAME		EQU		0xF746		; 8 (9?) bytes padded fname, prog name if not run from menu nor typed on select line
+FX1			EQU		0xF74C		; unknown, possibly file size or other metadata
+CFNAME		EQU		0xF74F		; 6 bytes filename of last program loaded from tape
+FX2			EQU		0xF755		; unknown, possibly file size or other metadata
+KC7			EQU		0xFD0B		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
+
+BAFILES		EQU		CURBAS		; start of BA files - RAM100 uses UNSAVBA, RAM200 uses CURBAS
+
+NROWS		EQU		16			; LCD screen rows
+CDNCT		EQU		26			; counter in j03->j05 - maybe cursor-down n times?
+MAXRAM		EQU		0xEEB0
+;------------------------------------------------------------------------------
+
+; cpu opcodes
+opcode_IN	EQU		0xDB
+opcode_OUT	EQU		0xD3
+
+; ascii
+;ETX			EQU		0x03
+LF			EQU		0x0A
+FF			EQU		0x0C
+CR			EQU		0x0D
+ESC 		EQU		0x1B
+SPACE		EQU		0x20
+
+; vt52/screen control sequences
+MACRO clr_eol
+	DB ESC,'K'
+ENDM
+MACRO cursor_address row,col
+	DB ESC,'Y',row+31,col+31
+ENDM
+MACRO disable_automatic_scroll
+	DB ESC,'V'
+ENDM
+MACRO cursor_normal
+	DB ESC,'P'
+ENDM
+MACRO cursor_invisible
+	DB ESC,'Q'
+ENDM
+MACRO enter_reverse_mode
+	DB ESC,'p'
+ENDM
+MACRO exit_attribute_mode
+	DB ESC,'q'
+ENDM
+
+; file types, attribute byte A for MKDIRENT
+FattrBA		EQU		0x80		; .BA files
+FattrDO		EQU		0xC0		; .DO files
+FattrCO		EQU		0xA0		; .CO files
+
+; rst
+RST_4		EQU		0x0020		; write A to console, directed by LCDLPT
+rPRTA		EQU		RST_4
+
+; DATAPAC/RAMPAC Hardware defines
+PORT_CONTROL	EQU		0x81	; control port for bank 0
+PORT_DATA		EQU		0x83	; data read/write port
+StampByte0		EQU		0x40
+StampByte1		EQU		0x04
+
+;------------------------------------------------------------------------------
+; ORG
+;------------------------------------------------------------------------------
+IFDEF PRGLEN
+IFNDEF HIMEM
+	HIMEM		EQU		MAXRAM
+ENDIF ; HIMEM
+
+ORG HIMEM-PRGLEN-6						; entry minus length of header
+
+;------------------------------------------------------------------------------
+; .CO HEADER
+;------------------------------------------------------------------------------
+DW PRGTOP	; top
+DW PRGLEN	; len
+DW PRGEXE	; exe
+ENDIF ; PRGLEN
+
+;------------------------------------------------------------------------------
+; TOP
+;------------------------------------------------------------------------------
+PRGTOP:
+PRGEXE:
+	LDSI	0x00
+	XCHG
+	SHLD       MAIN+1
+MAIN:
+	LXI        SP,0
+	LXI        H,MAIN
+	PUSH       H
+	SHLD       ETRAP
+	LXI        H,FNAME
+	MVI        M,SPACE
+	CALL       DrawTitle
+	XRA        A
+	STA        FUN_ram_ea7f+1
+	MVI        D,FattrBA
+	CALL       FUN_ram_ea17
+	MVI        D,FattrCO
+	CALL       FUN_ram_ea17
+	MVI        D,FattrDO
+	CALL       FUN_ram_ea17
+MAIN1:
+	CALL       FREE
+ReadKeyboard:
+	CALL       KYREAD
+	JZ         ReadKeyboard
+	JNC        @end
+	LXI        H,MAIN
+	PUSH       H
+	ANA        A
+	JZ         MENU
+	DCR        A
+	JZ         LOAD
+	DCR        A
+	JZ         SAVE
+	DCR        A
+	JZ         NAME
+	DCR        A
+	JZ         KILL
+	POP        H
+	JMP        ReadKeyboard
+@end:
+	CPI        CR
+	RZ
+	JMP        ReadKeyboard
+FUN_ram_ea17:
+	MVI        C,1
+	CALL       CheckFormatStamp
+LAB_ram_ea1c:
+	CALL       ReadWord_B_A
+	MOV        A,B
+	CMP        D
+	CZ         FUN_ram_ea29
+	INR        C
+	RZ
+	JMP        LAB_ram_ea1c
+FUN_ram_ea29:
+	PUSH       D
+	PUSH       B
+	MOV        A,C
+	OUT        PORT_CONTROL
+	CALL       FUN_ram_ea6a
+LAB_ram_ea31:
+	IN         PORT_DATA
+	RST        rPRTA
+LAB_ram_ea34:
+	MVI        A,0x8
+	ANA        A
+	CPI        0x03
+	JNZ        LAB_ram_ea41
+	PUSH       PSW
+	MVI        A,'.'
+	RST        rPRTA
+	POP        PSW
+LAB_ram_ea41:
+	DCR        A
+	STA        LAB_ram_ea34+1
+	JNZ        LAB_ram_ea31
+	MVI        A,0x8
+	STA        LAB_ram_ea34+1
+	PUSH       B
+	IN         PORT_DATA
+	MOV        L,A
+	IN         PORT_DATA
+	MOV        H,A
+	CALL       PRTSP
+	CALL       PRTSP
+	CALL       PRTASC
+	CALL       FUN_ram_ea7f
+	POP        B
+	CALL       CheckFormatStamp
+	CALL       SkipCWords
+	POP        B
+	POP        D
+	RET
+
+FUN_ram_ea6a:
+	LHLD       CSRY
+	LDA        FUN_ram_ea7f+1
+	ANI        0x1
+	JNZ        @l0
+	MVI        H,0x4
+	JMP        ESCB+8
+@l0:
+	MVI        H,0x18
+	JMP        ESCB+9
+
+FUN_ram_ea7f:
+	MVI        A,0
+	INR        A
+	STA        FUN_ram_ea7f+1
+	CPI        0x1a
+	RNZ
+	XRA        A
+	STA        FUN_ram_ea7f+1
+	CALL       MAIN1
+
+DrawTitle:
+	LXI        H,TitleMSG
+	JMP        PTILL0
+FREE:
+	PUSH       H
+	PUSH       D
+	PUSH       B
+	PUSH       PSW
+	XRA        A
+	MOV        D,A
+	MOV        H,A
+	MOV        L,A
+	OUT        PORT_CONTROL
+LAB_ram_ea9f:
+	CALL       ReadWord_B_A
+	ORA        B
+	JNZ        LAB_ram_eaa7
+	INX        H
+LAB_ram_eaa7:
+	DCR        D
+	JNZ        LAB_ram_ea9f
+	PUSH       H
+	LXI        H,FreeMSG
+	CALL       PTILL0
+	POP        H
+	MOV        A,L
+	STA        LAB_ram_ebb4+1
+	CALL       PRTASC
+	CALL       CheckFormatStamp
+	CALL       SkipCWords
+	JMP        POPALL
+
+KILL:
+	LXI        H,KillMSG
+	CALL       Ask_From_Filename
+	JNZ        BEEP
+	LXI        H,SureMSG
+	CALL       ConfirmWithPrompt
+	RNZ
+LAB_ram_ead3:
+	CALL       CheckFormatStamp
+	LDA        BlockNum
+	DCR        A
+	JZ         LAB_ram_eae1
+	MOV        C,A
+	CALL       SkipCWords
+LAB_ram_eae1:
+	XRA        A
+	OUT        PORT_DATA
+	OUT        PORT_DATA
+	LDA        BYTE_ram_eeae
+	ANA        A
+	RZ
+	STA        BlockNum
+	MOV        C,A
+	CALL       CheckFormatStamp
+	CALL       SkipCWords
+	STA        BYTE_ram_eeae
+	JMP        LAB_ram_ead3
+NAME:
+	LXI        H,NameMSG
+	CALL       Ask_From_Filename
+	JNZ        BEEP
+	CALL       Ask_To_Filename
+	LDA        BlockNum
+	MOV        B,A
+	PUSH       B
+	CALL       FUN_ram_eccc
+	POP        B
+	JZ         BEEP
+	MOV        A,B
+	OUT        PORT_CONTROL
+	LXI        H,FNAME
+	MVI        B,0x6
+LAB_ram_eb1b:
+	MOV        A,M
+	OUT        PORT_DATA
+	INX        H
+	DCR        B
+	JNZ        LAB_ram_eb1b
+	RET
+ConfirmReplace:
+	LXI        H,ReplaceMSG
+	CALL       ConfirmWithPrompt
+	JNZ        MAIN
+	RET
+ConfirmReplaceKill:
+	CALL       ConfirmReplace
+	JMP        LAB_ram_ead3
+
+SAVE:
+	MVI        A,FF
+	RST        rPRTA
+	CALL       FILES
+SAVE1:
+	LXI        H,SaveMSG
+	CALL       InputFilenameWithPrompt
+	CALL       FINDFN
+	JZ         BEEP
+	PUSH       H
+	CALL       FUN_ram_ed2d
+	CALL       Ask_To_Filename
+	CALL       FUN_ram_eccc
+	CZ         ConfirmReplaceKill
+	POP        H
+	INX        H
+	XCHG
+	LHLX
+	SHLD       LAB_ram_ec91+1
+	CALL       SAVE2
+	INX        H
+	CALL       FUN_ram_eb8e
+	CALL       FUN_ram_eb97
+	CALL       FUN_ram_ebbb
+	CALL       FUN_ram_ebfd
+	RET
+SAVE2:
+	LDA        FileAttr
+	CPI        FattrBA
+	JZ         @ba
+	CPI        FattrDO
+	JZ         @do
+	LDHI       2
+	LHLX
+	LXI        D,0x5
+	DAD        D
+	RET
+@do:
+	PUSH       H
+	CALL       GETEOF
+	POP        B
+	DSUB
+	RET
+@ba:
+	PUSH       H
+	CALL       UBLNAS+3
+	POP        B
+	DSUB
+	RET
+FUN_ram_eb8e:
+	SHLD       WORD_ram_eea9
+	LXI        H,FilenameMSG
+	JMP        LAB_ram_ed30
+FUN_ram_eb97:
+	LHLD       WORD_ram_eea9
+	MVI        D,0x1
+	LXI        B,0x3f6
+	JMP        LAB_ram_eba5
+LAB_ram_eba2:
+	LXI        B,0x400
+LAB_ram_eba5:
+	DSUB
+	JZ         LAB_ram_ebb0
+	JM         LAB_ram_ebb0
+	INR        D
+	JMP        LAB_ram_eba2
+LAB_ram_ebb0:
+	MOV        A,D
+	STA        BYTE_ram_eeaf
+LAB_ram_ebb4:
+	MVI        A,0
+	CMP        D
+	JC         LAB_ram_ec7f
+	RET
+FUN_ram_ebbb:
+	CALL       CheckFormatStamp
+	MVI        C,0
+LAB_ram_ebc0:
+	CALL       ReadWord_B_A
+	INR        C
+	ORA        B
+	JNZ        LAB_ram_ebc0
+	XRA        A
+	OUT        PORT_CONTROL
+	MOV        A,C
+	STA        BlockNum
+	CALL       SkipCWords
+	CALL       FUN_ram_ebde
+	LDA        BlockNum
+	STA        LAB_ram_ebf5+1
+	JMP        FUN_ram_ebbb
+FUN_ram_ebde:
+	LDA        BYTE_ram_eeaf
+	DCR        A
+	STA        BYTE_ram_eeaf
+	JZ         LAB_ram_ebef
+	MVI        A,SPACE
+	OUT        PORT_DATA
+	JMP        LAB_ram_ebf5
+LAB_ram_ebef:
+	POP        PSW
+	LDA        FileAttr
+	OUT        PORT_DATA
+LAB_ram_ebf5:
+	MVI        A,0
+	STA        BYTE_ram_eeae
+	OUT        PORT_DATA
+	RET
+FUN_ram_ebfd:
+	LDA        BlockNum
+	OUT        PORT_CONTROL
+	LXI        H,FilenameMSG
+	MVI        B,0xa
+LAB_ram_ec07:
+	MOV        A,M
+	OUT        PORT_DATA
+	INX        H
+	DCR        B
+	JNZ        LAB_ram_ec07
+	MVI        A,opcode_OUT
+	JMP        LAB_ram_ec85
+
+ConfirmDeleteRamFile:
+	PUSH       H
+	CALL       ConfirmReplace
+	POP        H
+	JMP        KILLFILE
+
+LOAD:
+	LXI        H,LoadMSG
+	CALL       Ask_From_Filename
+	JNZ        BEEP
+	CALL       Ask_To_Filename
+	CALL       FINDFN
+	CNZ        ConfirmDeleteRamFile
+	CALL       FUN_ram_ec45
+	SHLD       LAB_ram_ec91+1
+	XCHG
+	DCX        D
+	CALL       SCNEMP
+	LDA        FileAttr
+	CALL       MKDIRENT
+	CALL       FUN_ram_ec83
+	JMP        RESETFPS
+
+FUN_ram_ec45:
+	LHLD       WORD_ram_eea9
+	MOV        B,H
+	MOV        C,L
+	LDA        FileAttr
+	CPI        FattrDO
+	JZ         LAB_ram_ec66
+	CPI        FattrBA
+	JZ         LAB_ram_ec70
+	LHLD       COFILES
+	PUSH       H
+	CALL       MAKHOL
+	POP        H
+	SHLD       COFILES
+	JC         LAB_ram_ec7f
+	RET
+
+LAB_ram_ec66:
+	LHLD       DOFILES
+	CALL       MAKHOL
+	JC         LAB_ram_ec7f
+	RET
+
+LAB_ram_ec70:
+	LHLD       BAFILES
+	CALL       MAKHOL
+	JC         LAB_ram_ec7f
+	PUSH       H
+	CALL       UPDOFILES
+	POP        H
+	RET
+
+LAB_ram_ec7f:
+	POP        PSW
+	JMP        BEEP
+
+FUN_ram_ec83:
+	MVI        A,opcode_IN
+LAB_ram_ec85:
+	STA        LAB_ram_ec95
+	LXI        H,0x3f6
+	SHLD       WORD_ram_eeac
+	LHLD       WORD_ram_eea9
+LAB_ram_ec91:
+	LXI        D,0
+LAB_ram_ec94:
+	LDAX       D
+LAB_ram_ec95:
+	IN         PORT_DATA
+	STAX       D
+	INX        D
+	DCX        H
+	MOV        A,H
+	ORA        L
+	RZ
+	PUSH       H
+	LHLD       WORD_ram_eeac
+	DCX        H
+	MOV        A,L
+	ORA        H
+	CZ         FUN_ram_ed38
+	SHLD       WORD_ram_eeac
+	POP        H
+	JMP        LAB_ram_ec94
+
+InputFilenameWithPrompt:
+	CALL       PTILL0
+	CALL       INLIN
+	RC
+	DCR        B
+	RZ
+	INX        H
+	MOV        E,B
+	JMP        CKFN
+
+FUN_ram_ecbc:
+	LXI        H,FX2
+	LXI        D,FX1
+	MOV        A,M
+	STAX       D
+	INX        H
+	INX        D
+	MOV        A,M
+	STAX       D
+	RET
+
+Ask_From_Filename:
+	CALL       InputFilenameWithPrompt
+FUN_ram_eccc:
+	XRA        A
+	STA        BlockNum
+	STA        LAB_ram_ebf5+1
+	LDA        FX1
+	SUI        0x42
+	CPI        0x03
+	JNC        INR_A_RET
+	ADD        A
+	ADD        A
+	ADD        A
+	ADD        A
+	ADD        A
+	ADI        0x80
+	STA        FileAttr
+	CALL       CheckFormatStamp
+LAB_ram_ecea:
+	CALL       ReadWord_B_A
+	STA        BYTE_ram_eeae
+	LDA        BlockNum
+	INR        A
+	JZ         INR_A_RET
+	STA        BlockNum
+	MOV        A,B
+@fileattr:
+	CPI        0x3f
+	JNZ        LAB_ram_ecea
+	LDA        BlockNum
+	OUT        PORT_CONTROL
+	MVI        B,0xa
+	LXI        H,FilenameMSG
+LAB_ram_ed0a:
+	IN         PORT_DATA
+	MOV        M,A
+	INX        H
+	DCR        B
+	JNZ        LAB_ram_ed0a
+	MVI        C,0x8
+	LXI        H,FilenameMSG
+	LXI        D,FNAME
+	CALL       CMPARE
+	JZ         FUN_ram_ed2d
+	CALL       CheckFormatStamp
+	LDA        BlockNum
+	MOV        C,A
+	CALL       SkipCWords
+	JMP        LAB_ram_ecea
+FUN_ram_ed2d:
+	LXI        H,CFNAME
+LAB_ram_ed30:
+	LXI        D,FNAME
+	MVI        B,0x8
+	JMP        D2H4Bup
+FUN_ram_ed38:
+	LXI        H,0x400
+	SHLD       WORD_ram_eeac
+	XRA        A
+	OUT        PORT_CONTROL
+	LDA        BYTE_ram_eeae
+	STA        BlockNum
+	MOV        C,A
+	INR        C
+	CALL       SkipCWords
+	STA        BYTE_ram_eeae
+	LDA        BlockNum
+	OUT        PORT_CONTROL
+	RET
+
+CheckFormatStamp:
+	XRA        A
+	OUT        PORT_CONTROL
+	CALL       ReadWord_B_A
+	ADD        B
+	CPI        StampByte0+StampByte1
+	JNZ        FORMAT
+	RET
+
+SkipCWords:
+	CALL       ReadWord_B_A
+	DCR        C
+	JNZ        SkipCWords
+	RET
+
+ReadWord_B_A:
+	IN         PORT_DATA
+	MOV        B,A
+	IN         PORT_DATA
+	RET
+
+ConfirmWithPrompt:
+	CALL       PTILL0
+	CALL       CHGET
+	CALL       LC2UCA
+	CPI        'Y'
+	RET
+
+Ask_To_Filename:
+	LXI        H,AsMSG
+	CALL       InputFilenameWithPrompt
+	JMP        FUN_ram_ecbc
+
+FORMAT:
+	LXI        H,FormatMSG
+	CALL       ConfirmWithPrompt
+	JNZ        BEEP_MENU
+	CALL       TestHardware
+	PUSH       B
+	XRA        A
+	OUT        PORT_CONTROL
+	MOV        B,A
+	CALL       WriteFormat
+	POP        B
+	CALL       WriteFormat
+	XRA        A
+	OUT        PORT_CONTROL
+	MVI        A,StampByte0
+	OUT        PORT_DATA
+	MVI        A,StampByte1
+	OUT        PORT_DATA
+	JMP        MAIN
+
+WriteFormat:
+	MOV        E,D
+@l0:
+	MOV        A,B
+	OUT        PORT_DATA
+	XRA        A
+	OUT        PORT_DATA
+	DCR        E
+	JNZ        @l0
+	RET
+
+TestHardware:
+	MVI        D,0x80
+	MOV        A,D
+	OUT        PORT_CONTROL
+	IN         PORT_DATA
+	MOV        B,A
+	MOV        A,D
+	OUT        PORT_CONTROL
+	MOV        A,B
+	INR        A
+	OUT        PORT_DATA
+	MOV        A,D
+	OUT        PORT_CONTROL
+	IN         PORT_DATA
+	MOV        C,A
+	MOV        A,D
+	OUT        PORT_CONTROL
+	MOV        A,B
+	OUT        PORT_DATA
+	MOV        A,C
+	CMP        B
+	MVI        B,0x40
+	RZ
+	XRA        A
+	MOV        B,A
+	RET
+
+;------------------------------------------------------------------------------
+; strings & variables
+;------------------------------------------------------------------------------
+
+TitleMSG:
+	DB FF
+	cursor_invisible
+	disable_automatic_scroll
+	enter_reverse_mode
+	DB "NODE Rampac/Datapac         (c)P.Globman"
+	exit_attribute_mode
+	cursor_address NROWS,1
+	;  "F1-- F2-- F3-- F4-- F5-- F6-- F7-- F8--"
+	DB "Menu Load Save Name Kill"
+	cursor_address NROWS-1,29
+	DB "Kbytes free"
+	cursor_address 1,1
+	DB 0
+
+KillMSG:
+	cursor_address NROWS-1,1
+	DB "Kill:",0
+
+LoadMSG:
+	cursor_address NROWS-1,1
+	DB "Load:",0
+
+SaveMSG:
+	cursor_address NROWS-1,1
+	DB "Save:",0
+
+NameMSG:
+	cursor_address NROWS-1,1
+	DB "Name:",0
+
+AsMSG:
+	DB "  as:"
+	clr_eol
+	DB 0
+
+ReplaceMSG:
+	cursor_address NROWS,19
+	DB "Replace?",0
+
+FreeMSG:
+	cursor_address NROWS-1,25
+	DB 0
+
+FormatMSG:
+	cursor_address NROWS-1,1
+	DB "Format RAMdisk",LF,CR,"Are you "
+SureMSG:
+	DB "Sure?"
+	clr_eol
+	DB 0
+
+FilenameMSG:
+	DB         "filename"
+WORD_ram_eea9:
+	DW         0
+BlockNum:
+	DB         0
+WORD_ram_eeac:
+	DW         0
+BYTE_ram_eeae:
+	DB         0
+BYTE_ram_eeaf:
+	DB         0
+
+PRGEND:
+;------------------------------------------------------------------------------
+; END
+;------------------------------------------------------------------------------
+
+
+FileAttr EQU LAB_ram_ecea@fileattr+1
+

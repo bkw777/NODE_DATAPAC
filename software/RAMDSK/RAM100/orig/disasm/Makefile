@@ -1,4 +1,4 @@
-# Makefile for RAMDSK.CO
+# Makefile for RAM100.CO
 # Requires https://github.com/z88dk/z88dk
 # Requires https://github.com/bkw777/dl2
 
@@ -7,24 +7,12 @@ CO = $(NAME).CO
 DO = $(NAME).DO
 map = $(NAME).map
 
-# Real HIMEM is 0xF5F0 for a reset 32k machine.
-# Original RAM100.CO is compiled with TOP 0xF076 LEN 0x0578,
-# which works out to 0xF5EE.
-#
-# Use 0xF5EE to reproduce the original binary.
-# Otherwise use whatever you want to generate a custom relocated binary.
-MAXRAM32K := 0xF5F0 # hardware himem for 32k Model 100
-MAXRAM24K := 0xD5F0 # hardware himem for 24k Model 100
-MAXRAM16K := 0xB5F0 # hardware himem for 16k Model 100
-MAXRAM8K  := 0x95F0 # hardware himem for 8k  Model 100
-MAXRAM := $(MAXRAM32K)
-HIMEM_ORIGINAL_RAM100 = 0xF5EE
-#HIMEM := $(MAXRAM)
-HIMEM := $(HIMEM_ORIGINAL_RAM100)
-
 AS = z88dk-z80asm
 ASFLAGS := -m8085 -no-synth # -v
 XFLAGS :=
+
+# don't delete .CO when building .DO etc.
+.SECONDARY:
 
 .PHONY: all
 all: DO
@@ -45,29 +33,23 @@ map: $(map)
 %.CO: %.S85
 	$(AS) $(ASFLAGS) $(XFLAGS) -b -o=$@ $< && \
 	n=$$(wc -c <$@) && \
-	$(AS) $(ASFLAGS) $(XFLAGS) -DHIMEM=$(HIMEM) -DPRGLEN=$$n -m -b -o=$@ $<
+	$(AS) $(ASFLAGS) $(XFLAGS) -DPRGLEN=$$n -m -b -o=$@ $<
 	@rm *.o
-	@ls -l $@
 
 %.map: %.CO
-	@ls -l $@
 
-# co2ba comes from https://github.com/bkw777/dl2
-# generate a BASIC loader *.DO to install *.CO
 %.DO: %.CO
 	@which co2ba >/dev/null || echo "Please install https://github.com/bkw777/dl2 for co2ba to generate $@"
 	co2ba $< savem >$@
-	@ls -l $@
 
 .PHONY: verify
-verify: all
-	cmp -l -b $(CO) ../RAM100.CO && echo "Build is identical to reference."
-#	cmp -l -b $(CO) ../orig/ram100.co
+verify: $(CO)
+	@cmp -l -b $< ../$< && echo "Built $< is identical to reference ../$<."
 
-.PHONY: install
+.PHONY: load
 install: $(DO)
-	@which dl || echo "Please install https://github.com/bkw777/dl2 to bootstrap $@"
-	dl -v -b $(DO)
+	@which dl || echo "Please install https://github.com/bkw777/dl2 to bootstrap $<"
+	dl -v -b $<
 
 .PHONY: clean
 clean:

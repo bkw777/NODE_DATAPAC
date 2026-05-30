@@ -1,11 +1,8 @@
-# Makefile for RAMDSK.CO
+# Makefile for RAM200.CO
 # Requires https://github.com/z88dk/z88dk
 # Requires https://github.com/bkw777/dl2
 
 NAME := RAM200
-CO = $(NAME).CO
-DO = $(NAME).DO
-map = $(NAME).map
 
 # Original RAM200.CO is compiled with TOP 0xE943 LEN 0x056B,
 # which works out to HIMEM=0xEEAE.
@@ -22,17 +19,20 @@ AS = z88dk-z80asm
 ASFLAGS := -m8085 -no-synth # -v
 XFLAGS :=
 
+# don't delete .CO when building .DO etc.
+.SECONDARY:
+
 .PHONY: all
-all: DO
-
-.PHONY: CO
-CO: $(CO)
-
-.PHONY: DO
-DO: $(DO)
+all: v1 v2
 
 .PHONY: map
 map: $(map)
+
+.PHONY: v1
+v1: $(NAME)v1.DO
+
+.PHONY: v2
+v2: $(NAME).DO
 
 # We need the length of the binary to set ORG, but we don't know the length
 # until after compile. So we compile once with default org 0 and no CO header
@@ -41,29 +41,30 @@ map: $(map)
 %.CO: %.S85
 	$(AS) $(ASFLAGS) $(XFLAGS) -b -o=$@ $< && \
 	n=$$(wc -c <$@) && \
-	$(AS) $(ASFLAGS) $(XFLAGS) -DHIMEM=$(HIMEM) -DPRGLEN=$$n -m -b -o=$@ $<
+	$(AS) $(ASFLAGS) $(XFLAGS) -DPRGLEN=$$n -m -b -o=$@ $<
 	@rm *.o
-	@ls -l $@
 
 %.map: %.CO
-	@ls -l $@
 
-# co2ba comes from https://github.com/bkw777/dl2
-# generate a BASIC loader *.DO to install *.CO
 %.DO: %.CO
 	@which co2ba >/dev/null || echo "Please install https://github.com/bkw777/dl2 for co2ba to generate $@"
 	co2ba $< savem >$@
-	@ls -l $@
 
 .PHONY: verify
-verify: all
-	cmp -l -b $(CO) ../RAM200.CO && echo "Build is identical to reference."
-#	cmp -l -b $(CO) ../orig/ramdsk.co
+verify: all verify_v1 verify_v2
 
-.PHONY: install
-install: $(DO)
-	@which dl || echo "Please install https://github.com/bkw777/dl2 to bootstrap $@"
-	dl -v -b $(DO)
+.PHONY: verify_v1
+verify_v1: v1
+	@c=$(NAME)v1.CO ;cmp -l -b $$c ../$$c && echo "Built $$c is identical to reference ../$$c."
+
+.PHONY: verify_v2
+verify_v2: v2
+	@c=$(NAME).CO ;cmp -l -b $$c ../$$c && echo "Built $$c is identical to reference ../$$c."
+
+.PHONY: load
+load: $(NAME).DO
+	@which dl || echo "Please install https://github.com/bkw777/dl2 to bootstrap $<"
+	dl -v -b $<
 
 .PHONY: clean
 clean:

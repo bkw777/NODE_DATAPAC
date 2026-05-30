@@ -8,10 +8,9 @@
 ;   n=`wc -c <RAM100.CO`
 ;   z88dk-z80asm -m8085 -DPRGLEN=$n -b -o=RAM100.CO RAM100.S85
 ;
-; original binaries:
+; original binary:
 ; https://www.club100.org/library/libpg.html "pgnode" section
 ; https://ftp.whtech.com/club100/pg/pgnode/node1/ram100.co		RAM100.CO
-; https://ftp.whtech.com/club100/pg/pgnode/node2/ramdsk.co		RAM200.CO
 ;
 ; 8085 asm support for Geany code editor (directions inside):
 ; _usr_share_geany_filedefs_filetypes.8085asm.conf
@@ -71,7 +70,6 @@ FILES		EQU		0x1F3A		; FILES statement
 KILASC		EQU		0x1FBF		; delete a .DO file
 KILCOM		EQU		0x1FD9		; delete a .CO file
 KILBAS		EQU		0x2017		; delete a .BA file
-;KIL200		EQU		0x2B2C		; delete a file - 200 only
 FINDFN		EQU		0x20AF		; search dir for filename matching 0xFC93
 FINDFN1		EQU		0x20CC		; almost the the end of FINDFN
 SCNEMP		EQU		0x20E4+8	; scan for an empty directory entry
@@ -915,8 +913,7 @@ TitleMSG:
 	cursor_invisible
 	disable_automatic_scroll
 	enter_reverse_mode
-;	DB "NODE RAMPAC/Datapac    #"	; original	matches ../orig/ram*.co
-	DB "NODE RAMPAC/DATAPAC Bank"	; bkw		matches ../RAM*.CO
+	DB "NODE RAMPAC/Datapac    #"
 BankNumMSG:
 	DB '0'
 	DB "   (c)P.Globman"
