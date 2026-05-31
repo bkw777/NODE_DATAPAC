@@ -11,6 +11,7 @@ INC = $(patsubst %,%.S85,$(MODELS))
 CO  = $(patsubst %,RAM%.CO,$(MODELS))
 DO  = $(patsubst %.CO,%.DO,$(CO))
 map = $(patsubst %.CO,%.map,$(CO))
+CALLS = FREE KILL LOAD NAME SAVE SAVE1
 
 AS = z88dk-z80asm
 ASFLAGS := -m8085 -no-synth # -v
@@ -39,10 +40,13 @@ $(CO): RAM%.CO : $(SRC) %.S85
 	$(eval D = -D$(patsubst RAM%.CO,MODEL_%,$@))
 	$(AS) $(ASFLAGS) $(XFLAGS) $(D) -b -o=$@ $< && \
 	n=$$(wc -c <$@) && \
-	$(AS) $(ASFLAGS) $(XFLAGS) $(D) -DPRGLEN=$$n -m -b -o=$@ $<
+	$(AS) $(ASFLAGS) $(XFLAGS) $(D) -DPRGLEN=$$n -m -l -s -g -b -o=$@ $<
 	@rm *.o
 
 %.map: %.CO
+
+%.calls: %.map
+	@while read n x a x ;do [[ " $(CALLS) " =~ " $$n " ]] && echo $$n $${a/\$/} ;done < $<
 
 %.DO: %.CO
 	@which -s co2ba || echo "Please install https://github.com/bkw777/dl2 for co2ba to generate $@"
