@@ -344,20 +344,21 @@ DrawTitle:
 ;------------------------------------------------------------------------------
 ; FREE - Update FreeKB
 ;------------------------------------------------------------------------------
-FREE:
+FREE:								; [export] Scan & update free space. 
 	PUSH	H
 	PUSH	D
 	PUSH	B
-	PUSH	PSW
+	PUSH	PSW						; ... push all
 	XRA		A
 	MOV		D,A
 	MOV		H,A
-	MOV		L,A
-	CALL	SelectBlock
+	MOV		L,A						; ... zero all
+	CALL	SelectBlock				; select block 0
 @l0:
-	CALL	ReadDataW
-	ORA		B
-	JNZ		@l1
+	CALL	ReadDataW				; read 2 bytes into B & A
+	; if disk is formatted, B=byte0=StampByte0=64, A=byte1=StampByte1=4
+	ORA		B						; 
+	JNZ		@l1						; weak test? anything passes except 2 matching?
 	INX		H
 @l1:
 	DCR		D

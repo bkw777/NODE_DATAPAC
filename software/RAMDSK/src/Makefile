@@ -40,7 +40,7 @@ $(CO): RAM%.CO : $(SRC) %.S85
 	$(eval D = -D$(patsubst RAM%.CO,MODEL_%,$@))
 	$(AS) $(ASFLAGS) $(XFLAGS) $(D) -b -o=$@ $< && \
 	n=$$(wc -c <$@) && \
-	$(AS) $(ASFLAGS) $(XFLAGS) $(D) -DPRGLEN=$$n -m -l -s -g -b -o=$@ $<
+	$(AS) $(ASFLAGS) $(XFLAGS) $(D) -DPRGLEN=$$n -m -b -o=$@ $<
 	@rm *.o
 
 %.map: %.CO
