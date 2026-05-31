@@ -1,4 +1,2 @@
-# tell github to display *.S85 files with Assembly syntax highlighting
-*.S85 linguist-language=Assembly
-
-*.DO linguist-language=BASIC
+*.S85 linguist-language=Assembly encoding=CP437
+*.DO linguist-language=BASIC encoding=CP437
