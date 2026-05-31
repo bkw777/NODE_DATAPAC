@@ -6,7 +6,6 @@
   * [Battery](#battery)
   * [Upgrading 128K to 256K](#upgrading-to-256k)
   * [Model Compatibility](#model-compatibility)
-* [RAMPAC Hardware](#rampac-hardware)
 * [Software](#software)
   * [BASIC](#basic)
   * [RAMDSK](#ramdsk)
@@ -20,9 +19,10 @@
   * [NDEXE](#ndexe)
   * [RAMPAC Diagnostic](#rampac-diagnostic)
 * [MiniNDP](#minindp)
+<!--
   * [PCB & BOM](#minindp-pcb--bom)
   * [Cover](#minindp-cover)
-  * [WIP/Experiments](#works-in-progress)
+-->
 
 This repo documents the NODE Systems DATAPAC, RAMPAC, and a new clone, the [MiniNDP](#minindp).
 
@@ -554,6 +554,8 @@ This is likely the best way to move files between the RAMPAC and a PC, by using 
 
 # MiniNDP
 
+## MiniNDP EZ1M - For TANDY Model 102 and 200
+
 ![](PCB/out/MiniNDP.jpg)
 ![](PCB/out/MiniNDP.2.jpg)
 ![](PCB/out/MiniNDP.top.jpg)
@@ -620,14 +622,11 @@ CR2016 height (nominally a CR2012 holder, but can take a CR2016)
 ![](PCB/out/MiniNDP_256_CR2016.jpg)
 -->
 
-## MiniNDP other versions
-There are a few other versions of the card just to allow for different parts availability and different soldering difficulty.  
-They all work the same from a software point of view, and all are tested.
+## MiniNDP u1M - For Model 100 or Kyotronic KC-85
 
-### u1M - micro 1 meg
-* NOT YET TESTED, but the circuit is identical to SL1M which is tested.
-* Same as [SL1M](#sl1m---slim-1-meg), but in DIP-40 form to fit in a TRS-80 Model 100 or Kyotronic KC-85 system bus socket.  
-
+![](ref/MiniNDP_u1M.a.jpg)  
+![](ref/MiniNDP_u1M.b.jpg)  
+![](ref/MiniNDP_u1M.c.jpg)  
 ![](PCB/out/MiniNDP_u1M.1.jpg)  
 ![](PCB/out/MiniNDP_u1M.2.jpg)  
 ![](PCB/out/MiniNDP_u1M.3.jpg)  
@@ -635,6 +634,11 @@ They all work the same from a software point of view, and all are tested.
 ![](PCB/out/MiniNDP_u1M.bottom.jpg)  
 ![](PCB/out/MiniNDP_u1M.svg)  
 [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
+
+<!--
+## MiniNDP other versions
+There are a few other versions of the card just to allow for different parts availability and different soldering difficulty.  
+They all work the same from a software point of view, and all are tested.
 
 ### SL1M - slim 1 meg
 * Same as EZ1M (the default version above), just with TSOP & TSSOP components.  
@@ -676,3 +680,4 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 ![](PCB/out/MiniNDP_OG.bottom.jpg)  
 ![](PCB/out/MiniNDP_OG.svg)  
 [MiniNDP_OG.bom.csv](PCB/out/MiniNDP_OG.bom.csv)
+-->
