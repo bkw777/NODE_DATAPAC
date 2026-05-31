@@ -2,16 +2,12 @@
 # Requires https://github.com/z88dk/z88dk
 # Requires https://github.com/bkw777/dl2
 
-# this makefile is too complicated and fragile
+# this makefile is too complicated
 
-MODELS := 100 200 K85
-NAME := RAM
+MODELS = 100 200 K85
+NAME = RAM
 SRC = RAMDSK.S85
-INC = $(patsubst %,%.S85,$(MODELS))
-CO  = $(patsubst %,RAM%.CO,$(MODELS))
-DO  = $(patsubst %.CO,%.DO,$(CO))
-map = $(patsubst %.CO,%.map,$(CO))
-CALLS = FREE KILL LOAD NAME SAVE SAVE1
+CALLS = FREE|KILL|LOAD|NAME|SAVE|SAVE1
 
 AS = z88dk-z80asm
 ASFLAGS := -m8085 -no-synth # -v
@@ -20,7 +16,8 @@ ASFLAGS := -m8085 -no-synth # -v
 # -DBANKS_ONE_BASED    # display the bank number as Bank1-Bank4 instead of Bank0-Bank3
 # -DNBANKS=n           # support n banks instead of the default 4 (or 2 for legacy)
 # -DPRE_INIT_BANKSW    # enable the legacy feature that looks for ENTER key at start
-# -DMATCH_LEGACY_CO_HEADER  # add/remove padding/code to make TOP/END/EXE match the legacy binaries
+# -DMATCH_LEGACY_CO_HEADER  # add/remove code & padding as necessary to make TOP/END/EXE match the legacy binaries
+# MATCH_LEGACY_CO_HEADER so that the same bootstrap BASIC with hard-coded TOP & END addresses works for old & new
 XFLAGS := -DMATCH_LEGACY_CO_HEADER
 
 # don't delete .CO when building .DO etc.
@@ -35,26 +32,32 @@ $(MODELS): % : $(NAME)%.DO
 # We need the length of the binary to set ORG, but we don't know the length
 # until after compile. So we compile once with default org 0 and no CO header
 # just to get the length. Then compile again with correct ORG & CO header.
-# Also generate map file to provide the function call addresses.
-$(CO): RAM%.CO : $(SRC) %.S85
-	$(eval D = -D$(patsubst RAM%.CO,MODEL_%,$@))
-	$(AS) $(ASFLAGS) $(XFLAGS) $(D) -b -o=$@ $< && \
+# Also generate map file (-m) to provide the function call addresses,
+# and filter .map to produce .calls
+$(patsubst %,$(NAME)%.CO,$(MODELS)): $(NAME)%.CO : $(SRC) %.S85 recover.bas
+	$(AS) $(ASFLAGS) $(XFLAGS) -DMODEL_$* -b -o=$@ $< && \
 	n=$$(wc -c <$@) && \
-	$(AS) $(ASFLAGS) $(XFLAGS) $(D) -DPRGLEN=$$n -m -b -o=$@ $<
-	@rm *.o
-
-%.map: %.CO
-
-%.calls: %.map
-	@while read n x a x ;do [[ " $(CALLS) " =~ " $$n " ]] && echo $$n $${a/\$/} ;done < $<
+	$(AS) $(ASFLAGS) $(XFLAGS) -DMODEL_$* -DPRGLEN=$$n -m -b -o=$@ $<
+	@printf 'CALLable routines in $@\nSee RAMDSK.TIP, but use these addresses instead.\n\n' >$(NAME)$*.calls
+	@IFS="$$IFS\$$" ;while read n x a x ;do case "$$n" in \
+	$(CALLS)) echo "$$n	$$((0x$$a))" ;; \
+	PRGTOP) PRGTOP=$$((0x$$a)) ;; \
+	PRGEND) PRGEND=$$((0x$$a-1)) ;; \
+	esac ;done >>$(NAME)$*.calls <$(NAME)$*.map ; \
+	sed "s/_MODEL_/$*/g;s/_TOP_/$$PRGTOP/g;s/_END_/$$PRGEND/g" <recover.bas >RBOOT.$*
+	@rm *.o $(NAME)$*.map
 
 %.DO: %.CO
 	@which -s co2ba || echo "Please install https://github.com/bkw777/dl2 for co2ba to generate $@"
 	co2ba $< savem >$@
 
+%.calls: %.CO
+	@IFS="$$IFS\$$" ;while read n x a x ;do case "$$n" in $(CALLS)) printf '%s\t%d\n' "$$n" "0x$$a" ;; esac ;done >$@ <$*.map
+	@rm $*.map
+
 .PHONY: publish
 publish: all
-	@for m in $(MODELS) ;do cp -vf $(NAME)$$m.* ../$(NAME)$$m/ ;done
+	@for m in $(MODELS) ;do cp -vf $(NAME)$$m.* RBOOT.$$m ../$(NAME)$$m/ ;done
 
 .PHONY: load_%
 load_%: $(NAME)%.DO
@@ -63,4 +66,4 @@ load_%: $(NAME)%.DO
 
 .PHONY: clean
 clean:
-	rm -f *.o *.bin *.sym *.lis *.map *.def *.CO *.DO
+	rm -f *.o *.bin *.sym *.lis *.map *.def *.CO *.DO *.calls *.100 *.200 *.K85

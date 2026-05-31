@@ -1,0 +1,9 @@
+CALLable routines in RAM100.CO
+See RAMDSK.TIP, but use these addresses instead.
+
+FREE	61784
+KILL	61831
+LOAD	62194
+NAME	61887
+SAVE1	61951
+SAVE	61945
