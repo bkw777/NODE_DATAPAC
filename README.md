@@ -554,11 +554,13 @@ This is likely the best way to move files between the RAMPAC and a PC, by using 
 
 # MiniNDP
 
-Functions the same as DATAPAC / RAMPAC.
+New design that functions the same as DATAPAC / RAMPAC.
 
-Actually fits in a Model 200 without having to enlarge the opening in the 200's case.
+[For Model 102 & Model 200](#minindp-ez1m---for-model-102-and-200)
 
-Has 1 megabyte in 4 banks of 256k.
+[For Model 100 & Kyotronic KC-85](#minindp-u1m---for-model-100-or-kyotronic-kc-85)
+
+1 megabyte in 4 banks of 256k.
 
 How to access all 4 banks:  
 Select bank 0, block N: `OUT 129,N`  
@@ -568,8 +570,9 @@ Select bank 3, block N: `OUT 141,N`
 
 Everything else works the same as normal DATAPAC/RAMPAC.
 
-
 ## MiniNDP EZ1M - For Model 102 and 200
+
+Unlike the original DATAPAC, this actually fits into the bus port on the Model 200 without having to hack it's case.
 
 ![](ref/MiniNDP_EZ1M.a.jpg)
 ![](ref/MiniNDP_on_102.jpg)
@@ -584,9 +587,6 @@ Everything else works the same as normal DATAPAC/RAMPAC.
 BOM [DigiKey](https://www.digikey.com/short/m4h7bmh0)  
 PCB & Cover [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html)
 
-Gerber zip and cover stl also in [releases](../../releases/)  
-
-Remember to select the ENIG or "Immersion Gold" copper finish option if you want the battery terminal gold plated.  
 
 ## MiniNDP u1M - For Model 100 or Kyotronic KC-85
 
