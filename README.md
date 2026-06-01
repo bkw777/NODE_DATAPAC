@@ -603,8 +603,6 @@ Remember to select the ENIG or "Immersion Gold" copper finish option if you want
 BOM [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 
 ## [Other Versions](MiniNDP_variants.md)  
-<!-- 
 [SL1M](MiniNDP_variants.md#sl1m---slim-1-meg) - slim 1 meg, all thin chips to make a thin card  
 [EZ512](MiniNDP_variants.md#ez512---easy-build-512k) - easy build 512K - all larger components  
-["OG"]() - "OG" original design, 128K-512K, thin or thick, more parts and more difficult, but all the parts are more common  
--->
+["OG"](MiniNDP_variants.md#minindp-og) - "OG" original design, 128K-512K, thin or thick, more parts and more difficult, but all the parts are more common  
