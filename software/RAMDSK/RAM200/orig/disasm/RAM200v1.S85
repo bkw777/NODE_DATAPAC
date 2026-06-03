@@ -108,9 +108,17 @@ FattrBA		EQU		0x80		; .BA files
 FattrDO		EQU		0xC0		; .DO files
 FattrCO		EQU		0xA0		; .CO files
 
+; z88dk-z80asm <= 24602 only accepts the zilog syntax for RST
+_RST MACRO n
+	IF Z88DK>0 && Z88DK<=24602
+		RST n*0x08
+	ELSE
+		RST n
+	ENDIF
+	ENDM
+
 ; rst
-RST_4		EQU		0x0020		; write A to console, directed by LCDLPT
-rPRTA		EQU		RST_4
+rst_Print_A		EQU		4		; print A to LCD/LPT
 
 ; DATAPAC/RAMPAC Hardware defines
 PORT_CONTROL	EQU		0x81	; control port for bank 0
@@ -203,7 +211,7 @@ FUN_ram_ea29:
 	CALL       FUN_ram_ea6a
 LAB_ram_ea31:
 	IN         PORT_DATA
-	RST        rPRTA
+	_RST		rst_Print_A
 LAB_ram_ea34:
 	MVI        A,0x8
 	ANA        A
@@ -211,7 +219,7 @@ LAB_ram_ea34:
 	JNZ        LAB_ram_ea41
 	PUSH       PSW
 	MVI        A,'.'
-	RST        rPRTA
+	_RST		rst_Print_A
 	POP        PSW
 LAB_ram_ea41:
 	DCR        A
@@ -348,7 +356,7 @@ ConfirmReplaceKill:
 
 SAVE:
 	MVI        A,FF
-	RST        rPRTA
+	_RST		rst_Print_A
 	CALL       FILES
 SAVE1:
 	LXI        H,SaveMSG

@@ -81,20 +81,17 @@ FattrBA		EQU		0x80		; .BA files
 FattrDO		EQU		0xC0		; .DO files
 FattrCO		EQU		0xA0		; .CO files
 
-; rst
-RST_4		EQU		0x0020		; write A to console, directed by LCDLPT
-rPRTA		EQU		RST_4
+; work around z88dk bug, z88dk-z80asm <= 24602 only accepts the zilog syntax for RST
+_RST MACRO n
+	IF Z88DK>0 && Z88DK<=24602
+		RST n*0x08
+	ELSE
+		RST n
+	ENDIF
+	ENDM
 
-MACRO PrintByte
-	RST		rPRTA
-ENDM
-MACRO PrintByteN n
-	MVI		A,n
-	PrintByte
-ENDM
-MACRO PrintSpace
-	CALL	PRTSP
-ENDM
+; rst
+rst_Print_A		EQU		4		; RST 4 = print A to LCD/LPT
 
 ;------------------------------------------------------------------------------
 ; DATAPAC/RAMPAC Hardware defines
@@ -285,7 +282,7 @@ j01:
 	CALL	j03
 @l2:
 	ReadData
-	PrintByte
+	_RST	rst_Print_A
 @bb:
 	MVI		A,0x08					; [bB]
 	ANA		A
@@ -293,7 +290,7 @@ j01:
 	JNZ		@l3
 	PUSH	PSW
 	MVI		A,'.'
-	PrintByte
+	_RST	rst_Print_A
 	POP		PSW
 @l3:
 	DCR		A
@@ -306,8 +303,8 @@ j01:
 	MOV		L,A
 	ReadData
 	MOV		H,A
-	PrintSpace
-	PrintSpace
+	CALL	PRTSP
+	CALL	PRTSP
 	CALL	PRTASC
 	CALL	j05
 	POP		B
@@ -445,7 +442,8 @@ ConfirmReplaceKill:
 ; SAVE
 ;------------------------------------------------------------------------------
 SAVE:
-	PrintByteN FF					; clear the screen
+	MVI		A,FF
+	_RST	rst_Print_A				; print \f (clear the screen) 
 	CALL	FILES					; display ram files list
 SAVE1:
 	LXI		H,SaveMSG
