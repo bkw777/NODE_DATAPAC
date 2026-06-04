@@ -51,7 +51,8 @@ NROWS		EQU		8			; LCD screen rows
 CDNCT		EQU		10			; counter in j03->j05 - maybe cursor-down n times?
 LEGACY_HIMEM	EQU		0xF5EE	; HIMEM=0xF5EE matches the original RAM100.CO
 
-MACRO	DeleteRamFile
+; substitute for 200's "CALL KILLFILE"
+DeleteRamFile MACRO
 	CALL	FINDFN1					; tail end of FINDFN
 	CPI		FattrDO
 	JZ		KILASC					; if it's a .DO file
