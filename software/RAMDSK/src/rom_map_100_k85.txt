@@ -104,6 +104,7 @@ M100 KC85 offset NAME DESCRIPTION
 
 
 1DC5 1D8E -0037 SOUND
+1DE5 1DAE       SNDOFF
 1DEC 1DB5 -0037 MOTOR
 1DFA 1DC3 -0037 CALL
 1E22 1DEB -0037 SCREEN
@@ -265,6 +266,8 @@ M100 KC85 offset NAME DESCRIPTION
 5F2F 5C37 -02F8 WTSPC wait space bar
 5F4B 5C53 -02F8 SPCMSG '..Space Bar.'
 63CD 60D5 -02F8
+
+
 6B2D 6835       GETEOF search for EOF (0x1A)
 6B6D 6875 -02F8 MAKHOL ins spaces
 6B9F 68A7 -02F8 DELCHR delete char
@@ -303,9 +306,7 @@ M100 KC85 offset NAME DESCRIPTION
 >6E04 6B0C -02F8 load COMBUF (id COMBUF)
 
 6E32 6B3A -02F8 SND232 snd w x-on-off
-      6B40       IN D8 ANI 10
 
-6E39                    init serial buffer params
 
 6E3A 6B42               send character in C to serial port
 6E4A 6B52
@@ -342,29 +343,26 @@ M100 KC85 offset NAME DESCRIPTION
 6EC1 6BC2               CALL ZCOMBUFPARAMS
 6EC8 6BC9               JMP INT_EXIT
 
--- only K85 - set XONOFF_ENFLAG = 0xAF without interrupts --
----- 6BCC               MVI A,0xAF
----- 6BCE               DI
----- 6BCF               STA XONOFF_ENFLAG
----- 6BD2               EI
----- 6BD3               RET
-
-
 6ECB 6BE4 -02E7 COMOFF
 6ED2 6BEB               STA COMINISTATUS
-6ED5 6BEE               RET
-
+6ED5 6BEE -02E7         RET
 
 
 
 6EE5            SNDCLICK
+
+
+6F31 6BCC -0365                 Enable XON/OFF when CTRL-S / CTRL-Q sent
 
 6F39 6BD4 -0365 ZCOMBUFPARAMS	init serial buffer params
 
 6F42 6BDE -0364					set COMINPTR
 6F46 6BEF -0357 WCASHDR			write cassette header and sync byte
 
+
 6F5E 6C07 -0357                     
+
+     6CB6                       LDA SNDFLAG
 
 71F7 6EA7 -0350      INT_EXIT   Same as POPALL plus EI - pop all, enable int, ret
 
@@ -372,15 +370,24 @@ M100 KC85 offset NAME DESCRIPTION
 729F 6F4E -0351 CHECK_SHIFT_BREAK       Check if SHIFT-BREAK is being pressed
 
 7383 7031
+743C 70EA
 752B 71D9              Set the display top line to zero for all LCD drivers
 7533 71E1       ENLCD  Enable LCD drivers after short delay
 
+7657 7305       PAUSE_C    Delay routine - decrement C until zero
 765C 730A -0352 SETINT set int to 0x1D  - disable background task & barcode interrupts
+7662 7310       BEEP2
+7676 7324                         click sound port
 
+767D 732B       TESTDVIW
+7682 7330       TESTDVIR
+768F 733D       DVIEXT
+7693 7341       INITDVI
 76A0 734E       QUERYDVI
 76B6 7364       BOOTDVI Copy initialization code from DVI to E000h and execute
+76DE 738C       DVISCMD send A to dvi control mailbox
+76FB 73A9       DVIREAD
 
-76FB 73A9
 770B 73B9                         DVI command table (6 bytes: 02,01,00,00,01,00)
 
 7711 738F -0382 GLYPH_20 GLYPHSLO LCD char generator shape table (20H-7FH)
@@ -452,7 +459,7 @@ FF40 FF40  0000 XONOFF_CONTROL_0
 FF41 FF41  0000 XONOFF_CONTROL_1
 FF42 FF42  0000 XONOFF_ENFLAG
 FF43 FF43  0000 COMINISTATUS        RS323 init status
-FF44            SNDFLAG
+FF44 FF44  0000 SNDFLAG
 FF45 FF46       PORT_E8             Contents of port 0xE8
 FF46 FFBE  0078 COMBUF COM buffer 0x40 bytes (k85 addr seems sus, but "load COMBUF" above is clear)
 
@@ -465,7 +472,8 @@ FF97 FF58 -003F KC7 8 bits for space, del, tab, esc, paste, label, print, enter
 FF98                    8 bits for storing function key recognition
 FFA2 FF63 -003F         8 bits for storing shift, ctrl, grph, code, num, and caps lock.
 FFAA FF6B -003F KBUFN   chrs in kb buf
-     FFBC               k85 
+FFFA FFBB               DVIMBSEL   DVI mailbox select area
+FFFB FFBC               DVIPRESENT
 FFFC FFBD               DVI Disk BASIC code initializer value
 
 i/o ports
