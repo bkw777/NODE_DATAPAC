@@ -52,8 +52,35 @@ M100 KC85 offset NAME DESCRIPTION
 128B 1294  0009 POKE
 12CB 12D4  0009 CHGET wait for chr
 1419 1422  0009 POWER
+14E5 14F0       LCDOUT
+14E7 14F2                 CALL 431F 42F9
+14EA 14A0       
 14ED 14F8  000B POPALL
+
+ -- CRT device control block --
+14F2 14FD                 DW 14F8 1503
+14F4 14FF                 DW 4D59 4D0F
+14F6 1501                 DW 14FA 1505
+14F8 1503                 RST_7 40 4C
+14FA 1505                 RST_7 44 50
+
+ -- RAM device control block --
+14FC 1507                 DW 1506 1511
+14FE 1509                 DW 158D 1598
+1500 150B                 DW 15AC 15B7
+1502 150D                 DW 15C4 15CF
+1504 150F                 DW 161B 1626
+1506 1511                 open RAM file
+158D 1598
+15AC 15B7
+15C4 15CF
+161B 1626
+
+
 179E 1792       CLOSECOM
+17A8 179C       COMOUT output A to com/mdm file  (wrapper & extra stuff around SND232)
+---- 17A1                 K85:JNC 14F5
+17AD 17A4                 JMP 14EA 14A0
 
 17E6 17C8 -001E SETSER com on
 
@@ -64,11 +91,18 @@ M100 KC85 offset NAME DESCRIPTION
 19F1 19BD -0034 DAY$
 1A78 1A44 -0034 IPL
 1A9E 1A6A -0034 COM MDM
+1BB1 1B7A -0037           renew auto power off counter
+
+
 1BB8 1B81 -0037 KEY
 1C57 1C20 -0037 PSET
 1C66 1C2F -0037 PRESET
+
 1D90            CSRLIN
+
 1DC3 1D86 -003D WIDTH
+
+
 1DC5 1D8E -0037 SOUND
 1DEC 1DB5 -0037 MOTOR
 1DFA 1DC3 -0037 CALL
@@ -164,6 +198,8 @@ M100 KC85 offset NAME DESCRIPTION
 423F 421B -0024 LOCK scroll lock
 425D 4239 -0024 ERAEOL erase to eol
 427C 4258 -0024 SETCUR set curs posit
+
+431F 42F9
 
 4469 4449 -0020 ESC+A
 446E 444E -0020 ESC+B
@@ -306,6 +342,8 @@ M100 KC85 offset NAME DESCRIPTION
 
 6F39 6BD4       ZCOMBUFPARAMS   init serial buffer params
 
+6F42 6BDE                       set COMINPTR
+
 71F7 6EA7       INT_EXIT  pop all & ret
 
 7242 6EF2 -0350 KYREAD scn kbd
@@ -369,8 +407,8 @@ FF42 FF42  0000 XONOFF_ENFLAG
 FF43 FF43  0000         RS323 init status
 FF46 FFBE  0078 COMBUF COM buffer 0x40 bytes (seems sus, but "load COMBUF above", and 07FF doesn't even appear in the rom)
 
-FF86 FF47 -003F COMCNT  CMPNT number of bytes waiting in serial buffer
-     FF49       COM_UNK4
+FF86 FF47 -003F COMINCNT  number of bytes waiting in serial buffer
+FF88 FF49       COMINPTR  RS232 buffer input pointer
 FF8A FF4B       CTRL-S Status
 FF8B FF4C               UART baud rate timer value
 FF97 FF58 -003F KC7 8 bits for space, del, tab, esc, paste, label, print, enter
