@@ -55,7 +55,7 @@ M100 KC85 offset NAME DESCRIPTION
 14E5 14F0       LCDOUT
 14E7 14F2                 CALL 431F 42F9
 14EA 14A0       
-14ED 14F8  000B POPALL
+14ED 14F8  000B POPALL    same as INT_EXIT without the EI, pop all & ret
 
  -- CRT device control block --
 14F2 14FD                 DW 14F8 1503
@@ -268,15 +268,23 @@ M100 KC85 offset NAME DESCRIPTION
 6B2D 6835       GETEOF search for EOF (0x1A)
 6B6D 6875 -02F8 MAKHOL ins spaces
 6B9F 68A7 -02F8 DELCHR delete char
-6D6D 6A75 -02F8 RCVX ck rs for char
-6D7E 6A86 -02F8 RCV232 get chr fm rcv que
-6DAC 6AB4 -02F8 RST 6.5
 
-6D3F 6A45 -02FA LPT_A send A to printer   !! not -02F8 !!
->6D41 6A47 -02FA CALL CHECK_SHIFT_BREAK
->6D47 6A4D -02FA IN PIO_PORT_C (id PIO_PORT_C)
+6CE0 69E8 -02F8 WARMSTART   warm start reset entry
 
-6D6D 6A75 -02FA CHECK_RS232_PENDING
+6D17 6A1D -02FA INITDVI    perform external DVI initialization if it is present
+6D1D 6A23
+6D1E 6A24
+6D3D 6A43
+
+6D3F 6A45 -02FA LPT_A send A to printer
+6D41 6A47 -02FA            CALL CHECK_SHIFT_BREAK
+6D47 6A4D -02FA            IN PIO_PORT_C (id PIO_PORT_C)
+
+6D63 6A6A
+6D6A 6A72
+6D6D 6A75 -02FA CHECK_RS232_PENDING  Check RS232 queue for pending characters
+
+
 >                LDA XONOFF_ENFLAG
 >6D71 6A79       JZ CHECK_RS232_PENDING@end
 >6D74 6A7C       LDA XONOFF_CONTROL_1
@@ -284,11 +292,14 @@ M100 KC85 offset NAME DESCRIPTION
 >6D79 6A81       CHECK_RS232_PENDING@end
 >                LDA COMCNT
 
-6D7E 6A86 -02F8 GETCOMBYTE
->6D81 6A89 -02F8 load INT_EXIT+1 (skip F1 pop PSW)
->6D85 6A8D -02F8 load COMCNT  (id COMCNT)
+6D7E 6A86 -02F8 RCV232 get chr fm rcv que
+>6D81 6A89 -02F8 load INT_EXIT+1 (skip F1 pop PSW, do EI)
+>6D85 6A8D -02F8 load COMINCNT  (id COMINCNT)
+
+6DAC 6AB4 -02F8 RST 6.5
 
 6DFC 6B04 -02F8 Calculate address to save next RS232 character
+
 >6E04 6B0C -02F8 load COMBUF (id COMBUF)
 
 6E32 6B3A -02F8 SND232 snd w x-on-off
@@ -338,26 +349,61 @@ M100 KC85 offset NAME DESCRIPTION
 ---- 6BD2               EI
 ---- 6BD3               RET
 
+
 6ECB 6BE4 -02E7 COMOFF
+6ED2 6BEB               STA COMINISTATUS
+6ED5 6BEE               RET
 
-6F39 6BD4       ZCOMBUFPARAMS   init serial buffer params
 
-6F42 6BDE                       set COMINPTR
 
-71F7 6EA7       INT_EXIT  pop all & ret
+
+6EE5            SNDCLICK
+
+6F39 6BD4 -0365 ZCOMBUFPARAMS	init serial buffer params
+
+6F42 6BDE -0364					set COMINPTR
+6F46 6BEF -0357 WCASHDR			write cassette header and sync byte
+
+6F5E 6C07 -0357                     
+
+71F7 6EA7 -0350      INT_EXIT   Same as POPALL plus EI - pop all, enable int, ret
 
 7242 6EF2 -0350 KYREAD scn kbd
-729F 6F4E       CHECK_SHIFT_BREAK       Check if SHIFT-BREAK is being pressed
-765C 730A -0352 SETINT set int to 1Dh
-7979 7979  0000 TAB(
-7B7A 7B7A  0000 INSTR
-7C7C 7C7C  0000 TO
+729F 6F4E -0351 CHECK_SHIFT_BREAK       Check if SHIFT-BREAK is being pressed
+
+7383 7031
+752B 71D9              Set the display top line to zero for all LCD drivers
+7533 71E1       ENLCD  Enable LCD drivers after short delay
+
+765C 730A -0352 SETINT set int to 0x1D  - disable background task & barcode interrupts
+
+76A0 734E       QUERYDVI
+76B6 7364       BOOTDVI Copy initialization code from DVI to E000h and execute
+
+76FB 73A9
+770B 73B9                         DVI command table (6 bytes: 02,01,00,00,01,00)
+
+7711 738F -0382 GLYPH_20 GLYPHSLO LCD char generator shape table (20H-7FH)
+7719            GLYPH_21
+...             ...
+78E1            GLYPH_7E
+78E9 7567       GLYPH_7F
+
+78F1 756F       GLYPH_80 GLYPHSHI LCD char generator shape table (80H-FFH)
+78F9            GLYPH_81
+7901            GLYPH_82
+...             ...
+7BE1            GLYPH_FE
+7BE9 7867 -0382 GLYPH_FF
+
+7BF1 
+
 7EAC 7B5C -0350 FREMEM free bytes
 7F0B 7BBB -0350 MAX
 7F98 7C48 -0350 FREMSG 'bytes free'
 7FF9 7CCC -0332 MAXROM
 
-
+E000 E000  0000 DVICODE Location of init code to be copied from DVI
 F5F0 F5F0  0000 MAXRAM
 F639 F640  0007 CSRY Hor curs posit
 F63A F641  0007 CSRX Ver curs posit
@@ -382,12 +428,13 @@ FB8C FB9E       STRBUFPOS position in STRBUF
 FB90 FBA2
 FBAE FBC0  0012 STDO strt DO store
 FBB0 FBC2  0012 STCO strt CO store
-FBB2 FBC4  0012 TOPFIL end of top fil
+FBB2 FBC4  0012 TOPFIL end of top fil  / DVI start of variable data pointer
 FBB4 FBC6  0012 STAR strt arr store
 FBB6 FBC8  0012 STUN 1st unusd byte - unused memory pointer
 FBD9 FBEB
 FBDF FBF1
 FBE2 FBF4
+FC81 FC93       DVIDATAVAIL
 FC93 FCA5  0012 FNAME 8 (9?) bytes padded fname / current BA pgm / prog name if not run from menu nor typed on select line
 FC99 FCAB
 FC9C FCAE       CFNAME filename of last program loaded from tape
@@ -404,18 +451,22 @@ FDEF FDEF  0000 ALT4 BEGALT + 12Fh highest MENU directory location
 FF40 FF40  0000 XONOFF_CONTROL_0
 FF41 FF41  0000 XONOFF_CONTROL_1
 FF42 FF42  0000 XONOFF_ENFLAG
-FF43 FF43  0000         RS323 init status
-FF46 FFBE  0078 COMBUF COM buffer 0x40 bytes (seems sus, but "load COMBUF above", and 07FF doesn't even appear in the rom)
+FF43 FF43  0000 COMINISTATUS        RS323 init status
+FF44            SNDFLAG
+FF45 FF46       PORT_E8             Contents of port 0xE8
+FF46 FFBE  0078 COMBUF COM buffer 0x40 bytes (k85 addr seems sus, but "load COMBUF" above is clear)
 
 FF86 FF47 -003F COMINCNT  number of bytes waiting in serial buffer
-FF88 FF49       COMINPTR  RS232 buffer input pointer
+FF87 FF48       COMOUTPTR
+FF88 FF49       COMINPTR   RS232 buffer input pointer
 FF8A FF4B       CTRL-S Status
 FF8B FF4C               UART baud rate timer value
 FF97 FF58 -003F KC7 8 bits for space, del, tab, esc, paste, label, print, enter
 FF98                    8 bits for storing function key recognition
 FFA2 FF63 -003F         8 bits for storing shift, ctrl, grph, code, num, and caps lock.
 FFAA FF6B -003F KBUFN   chrs in kb buf
-
+     FFBC               k85 
+FFFC FFBD               DVI Disk BASIC code initializer value
 
 i/o ports
 100 K85 desc
@@ -424,6 +475,7 @@ BA  BA
 BB  BB  PIO_PORT_C
 BC  BC
 BD  BD
+C8  C8
 D8  D8
 
 constants
