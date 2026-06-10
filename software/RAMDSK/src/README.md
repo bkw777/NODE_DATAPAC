@@ -49,3 +49,7 @@ Preserved original binaries:
 
 Assembly source that reproduces the original binaries exactly:  
 [../RAM100/orig/disasm/](../RAM100/orig/disasm/) and [../RAM200/orig/disasm/](../RAM200/orig/disasm/)
+
+## programming references
+rom addresses cross map, ide support for 8085 asm, system roms & docs  
+https://github.com/bkw777/m100_dev

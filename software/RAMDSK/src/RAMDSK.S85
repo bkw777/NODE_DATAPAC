@@ -2,8 +2,6 @@
 ; Brian K. White
 ; Originally from disassembly of RAM100.CO v2 & RAM200.CO v2 by Paul Globman
 ;
-; Uses the 8085 undocumented instructions!
-;
 ; Compile:
 ;   M=100 # 100/200/K85
 ;   z88dk-z80asm -m8085 -no-synth -DMODEL_$M -b -o=RAM$M.CO RAMDSK.S85
@@ -17,8 +15,8 @@
 ; https://www.club100.org/library/libeme.html "RAMPAC files..." section
 ; https://ftp.whtech.com/club100/eme/r200ld.200 (BASIC loader)  RAM200.CO  (v2 that supports banks)
 ;
-; 8085 asm support for Geany code editor (directions inside):
-; _usr_share_geany_filedefs_filetypes.8085asm.conf
+; rom maps & other dev support
+; https://github.com/bkw777/m100_dev
 ;------------------------------------------------------------------------------
 
 ;------------------------------------------------------------------------------
