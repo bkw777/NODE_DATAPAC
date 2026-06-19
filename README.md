@@ -441,27 +441,39 @@ Some things might be be figured out by reading the BASIC source to [N-DKTR](soft
 
 In the past, Paul Globman reverse engineered the format written by the NODE option rom, but he used that to write the commercial product RAMDSK, not to publish the info.
 
-I have figured out a very few basic things using [RAMPAC Inspector](software/CRI).
+I have figured out some things using [RAMPAC Inspector](software/CRI), and from [disassembling RAMDSK](software/RAMDSK/src)
 
-The first 2 bytes of block 0 in each bank holds a special value `0x64 0x04` which indicates that the device is formatted.  
-The design of the circuit means that the first byte is routinely corrupted during power-on/power-off/plug/un-plug events, which is why the steps to manually re-write those bytes are documented and why RAMDSK has a function to repair them built-in.
+The first 2 bytes of block 0 in each bank holds a special value `0x40 0x04` which indicates that the device is formatted.  
 
-Other than the first 2 bytes, block 0 is still a mystery.  
-Block 0 only contains some kind of space allocation table, no file data.  
-It's not a directory, there are no filenames stored in block 0.  
-It's probably some form of linked list that defines chains of blocks.  
+The design of the circuit means that the first byte is occasionally corrupted during power-on/power-off/plug/un-plug events,  
+which is why there are several old docs & messages that say how to manually re-write those bytes,
+and why eventually RAMDSK gained a function to repair it automatically.
+
+(I'm hazy on this next part, I'm reading the RAMDSK disassembly not verifying the data on device yet)  
+The next 510 bytes are 255 pairs of 2 bytes.
+Each pair corresponds to a block.
+
+The first byte in each pair is the file type attribute the same as used by
+the system rom MKDIRENT routine.
+0x00 = this block does not begin a file (doesn't mean it's not used)  
+0x80 = fattrBA = this block begins a .BA file  
+0xC0 = fattrDO = this block begins a .DO file  
+0xA0 = fattrCO = this block begins a .CO file  
+
+idk what the 2nd byte does yet, probably points to the next block number in the file.
+
 
 Files appear to be stored in reverse block number order.  
 On a blank device, a file that requires 2 blocks uses blocks 1 & 2, and starts at block 2 and ends at block 1.  
 I don't know what happens when files get deleted and new files have to be fragmented.
 
-Filenames and lengths are readable from the first 10 bytes of any block that begins a file.
+(This part is certain)
 
-The first 10 bytes of the first block used by a file contains the file name without the dot, and the file length.
+Filename and length are stored in the first 10 bytes of the first block of a file.
 
 6 bytes - file name  
 2 bytes - file extension  
-2 bytes - file length (LSB first, 7E05 = 0x057E = 1406 for RAM100.CO)
+2 bytes - file length (lsb-first, aka platform native not like tpdd)
 
 These 10 bytes are metadata created and used by RAMDSK, not part of the file.
 
@@ -469,40 +481,11 @@ The length field does not include these 10 bytes.
 
 The file data starts immediately after this and continues for $length bytes.
 
-A block is 1024 bytes, and the first block has 10 bytes used by RAMDSK, so files that are longer than 1014 bytes use more than one block.
+A block is 1024 bytes, and the first block has 10 bytes used by the header, so files that are longer than 1014 bytes use more than one block.
 
-The remaining blocks in the file have no metadata headers, the payload data resumes right from byte 0 in the remaining blocks.
-
-We don't know which blocks contain file data though without knowing how to interpret block 0.  
-Even a block that looks like the beginning of a file with a filename at the beginning could actually just be data within some other file that happens to have that particular data.
-
-You can use CRI.BA to just read the first 10 bytes of any block and look for filenames.
-
-Run CRI.BA and enter: 0,1,0,16 to read the first 16 bytes of block 1 in bank 0,  
-(0,1,0,10 = bank 0, block 1, start at offset 0, length 10 bytes.  
- Block 1 is the 2nd block, the first possible block with data, block 0 has only the allocation table.)
-
-then repeat for block 2: 0,2,0,10    block 3: 0,3,0,10   etc...  
-
-Use F2 to switch between ascii and hex display.  
-In ascii mode you can see the file names if any, and in hex mode it's easier to get the file length.  
-
-To read the file length:  
-In hex display mode each hex pair is one byte.  
-Count past the first 8 hex pairs to get past the filename,  
-The next pair is the LSB of the file length  
-The next pair is the MSB of the file length  
-Length = MSB * 256 + LSB
-
-
-In the particular case of .CO files, the first 6 bytes of a CO file is the CO header, which has the start address, length, and exe address.  
-This isn't metatdata from RAMDSK, it's part of the CO file format.  
-The length in the CO header is 6 bytes less than the length in the RAMDSK header because the CO header length field doesn't include the CO header itself.
-
-2 bytes - top address, lsb first  
-2 bytes - length, lsb first  
-2 bytes - exe address, lsb first
-
+The remaining blocks in the file have no metadata headers or any other formatting.  
+The data simply resumes right at byte 0 in the remaining blocks, and simply  
+ends wherever filesize ends.
 
 ## RAMPAC Inspector
 [RAMPAC Inspector](software/CRI)

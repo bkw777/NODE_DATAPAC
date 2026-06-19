@@ -17,8 +17,7 @@ ASFLAGS += $(shell $(AS) |awk '/^Z80 Macro Assembler /{split($$4,a,"-");if (a[1]
 
 # -DHIMEM=addr         # generate a relocated binary with specified HIMEM/END address
 # -DBANKS_ONE_BASED    # display the bank number as Bank1-Bank4 instead of Bank0-Bank3
-# -DNBANKS=n           # support n banks instead of the default 4 (or 2 for legacy)
-# -DPRE_INIT_BANKSW    # enable the legacy feature that looks for ENTER key at start
+# -DNBANKS=n           # support 1-32 banks. Default 4. 2 to match legacy. 1 to make the smallest version that only supports 256k
 # -DMATCH_LEGACY_CO_HEADER  # add/remove code & padding as necessary to make TOP/END/EXE match the legacy binaries
 # MATCH_LEGACY_CO_HEADER so that the same bootstrap BASIC with hard-coded TOP & END addresses works for old & new
 XFLAGS := -DMATCH_LEGACY_CO_HEADER
