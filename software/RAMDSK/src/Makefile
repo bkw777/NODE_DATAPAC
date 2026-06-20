@@ -10,14 +10,14 @@ SRC = RAMDSK.S85
 CALLS = FREE|KILL|LOAD|NAME|SAVE|SAVE1
 
 AS = z88dk-z80asm
-ASFLAGS := -m8085 -no-synth # -v
+ASFLAGS := -m8085_strict -no-synth # -v
 # z88dk-z80asm <= 24602 has a bug that it only accepts the zilog syntax for RST.
 # If $(AS) is z88dk then add -DZ88DK=ver to flags.
 ASFLAGS += $(shell $(AS) |awk '/^Z80 Macro Assembler /{split($$4,a,"-");if (a[1]>0) print "-DZ88DK="a[1]}')
 
-# -DHIMEM=addr         # generate a relocated binary with specified HIMEM/END address
-# -DBANKS_ONE_BASED    # display the bank number as Bank1-Bank4 instead of Bank0-Bank3
-# -DNBANKS=n           # support 1-32 banks. Default 4. 2 to match legacy. 1 to make the smallest version that only supports 256k
+# -DHIMEM=addr           # generate a relocated binary with specified HIMEM/END address
+# -DBANKS_ONE_BASED      # display the bank number as Bank1-Bank4 instead of Bank0-Bank3
+# -DNBANKS=n             # support 1-32 banks. Default 4. 2 to match legacy. 1 to make the smallest version that only supports 256k
 # -DMATCH_LEGACY_CO_HEADER  # add/remove code & padding as necessary to make TOP/END/EXE match the legacy binaries
 # MATCH_LEGACY_CO_HEADER so that the same bootstrap BASIC with hard-coded TOP & END addresses works for old & new
 XFLAGS := -DMATCH_LEGACY_CO_HEADER

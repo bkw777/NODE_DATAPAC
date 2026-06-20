@@ -3,7 +3,7 @@
 ; Brian K. White
 
 ; system rom routines
-PRTSP			EQU		0x001E		; write space to console, directed by LCDLPT
+PRTSPC			EQU		0x001E		; write space to console, directed by LCDLPT
 UBLNAS			EQU		0x05F7		; update in-memory line addresses for the current BASIC program lines
 LC2UCA			EQU		0x0FF0		; convert the character in A to uppercase
 PTILL0			EQU		0x11A9		; print null-terminated string at HL to screen
@@ -42,6 +42,7 @@ DOFILES			EQU		0xFBC0		; pointer to start of DO files
 COFILES			EQU		0xFBC2		; pointer to start of CO files
 FILNM1			EQU		0xFCA5		; 9 bytes padded filename1
 FILNM2			EQU		0xFCAE		; 9 bytes padded filename2
+ALTLCD			EQU		0xFCC0		; start of ALT LCD buffer, 320 bytes
 KC7				EQU		0xFF58		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
 
 BAFILES			EQU		UNSAVBA		; start of BA files - RAM100 uses UNSAVBA, RAM200 uses CURBAS

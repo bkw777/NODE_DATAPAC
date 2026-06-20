@@ -34,7 +34,7 @@ The schematic and PCB below documents the DATAPAC from examining 2 units. If I e
 
 Here is some disorganized [INFO](software/) mostly gathered from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [club100](http://www.club100.org).
 
-TLDR: To use the hardware, install [RAMDSK](#ramdsk), and what you get is a ram disk of 128k to 512k depending on model and installed ram.
+TLDR: To use the hardware, install [RAMDSK](#ramdsk), and what you get is a ram disk of 128k to 1M depending on model and installed ram.
 
 ![](ref/NODE_DATAPAC_256K_1.jpg)
 ![](ref/NODE_DATAPAC_256K_2.jpg)
@@ -43,16 +43,11 @@ TLDR: To use the hardware, install [RAMDSK](#ramdsk), and what you get is a ram 
 
 # Documentation
 The original text file manual [RAMDSK.DO](ROM/100/RAMDSK.DO).  
-The [option rom](ROM) that came with the unit generates this file when formatting a device.
+The [NODE ROM](ROM) that came with the unit generates this file when formatting a device.
 
 There are also some discussions in the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and Paul Globmans software on [club100](http://www.club100.org/library/libpg.html).  
 Most of these are collected in [docs](docs).  
 See also the docs for the various bits of [software](software).
-
-The only version of the original rom we have is an early version that only supports the original 256k hardware, and only for Model 100/102.  
-There was also a version for Model 200 (the hardware is the same, but the rom still needs to be made specifically for 200 to run on a 200).  
-And there were later versions that supported up to 512k.  
-The original rom is not needed to use the hardware. Paul Globmans [RAMDSK.CO](software/RAMDSK) can be used instead.
 
 Other References  
 * "Database management with both the Node RAMPAC & DATAPAC."  
@@ -219,16 +214,26 @@ The case says "102/200", but it actually works on Model 100 also. It needs an ad
 
 # Software
 
-Originally these shipped with an [OPTION ROM](ROM) from NODE called RAMDSK, written by Travelling Software.  
+ - [NODE ROM](ROM)  
+ - [RAMDSK.CO](software/RAMDSK)  
+ - [other](software)  
 
-Later, each unit also shipped with [RAMDSK.CO](software/RAMDSK) written by Paul Globman.
+Originally these shipped with an [OPTION ROM](ROM) from NODE called RAMDSK, written by Travelling Software. <sub><sup>\[citation needed, I don't remember where I read that\]</sup></sub>  
 
-We have several versions of RAMDSK, including:  
+The only copy of the original rom available today is an early version that only supports the original 256k hardware, and only for Model 100/102.
+
+Then Paul Globman wrote [RAMDSK.CO](software/RAMDSK), and that was eventually licensed by NODE and shipped with new units.  
+
+Later, RAMDSK was updated with 2 changes:  
+ - automatic repair of the format stamp on start-up  
+ - support for 512k (2 banks of 256)
+
+Today we have several versions of RAMDSK, including:  
  - original versions for 100 & 200 which supported 512K (2 banks), in the `orig` directories
  - an earlier version for 200 that only supports 256K
- - new versions for 100, 200 and K85 which support 1M (4 banks)
+ - new versions for 100, 200, and K85 which support 1M (4 banks)
 
-Some software culled from the M100SIG archive and Club100 are collected here in the [software](software) directory.  
+Some software culled from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [Club100](https://www.club100.org) are collected here in the [software](software) directory.  
 
 ## BASIC
 How to access the hardware from BASIC.
@@ -236,7 +241,7 @@ How to access the hardware from BASIC.
 ### High level file operations using CALLable machine language routines
 See [RAMDSK.DO](ROM/100/RAMDSK.DO) for the NODE ROM routines.  
 See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP) for the RAM100.CO/RAM200.CO routines.  
-(See RAMDSK/\*/\*.map for correct addresses.)
+(But ignore the actual addresses, they only apply to the original pre-banks version of RAMDSK. The .map or .calls files in the RAMDSK directory tree have correct addresses for the matching .CO)
 
 ### Low level direct access using only BASIC
 There are two low level operations that you use to access the device,  
@@ -262,15 +267,19 @@ The first read or write after selecting a block# applies to byte #0 of that bloc
 The byte position advances by one after each read or write, so the next read or write will be byte #1, then byte #2, etc up to 1024.  
 If you read or write more than 1024 times without selecting some other block, the byte position just rolls over to 0 again.
 
-Since the device can only read or write a single byte at a time, it's most efficient to use integer variables with the % suffix, ie, use B%=INP(131) instead of B=INP(131) etc where possible. (or use DEFINT, ex: DEFINT B)
+The position counter advances the same whether reading or writing.
+
+Since the device can only read or write a single unsigned byte at a time, it's most efficient to use integer variables.  
+Use the % suffix or DEFINT: `B%=INP(131)` or `DEFINT B : B=INP(131)`
 
 The general sequence is always:  
 1 - select a bank+block  
 2 - read/write byte 0-1024 times
 
-If you need to read or write some arbitrary set of bytes from the middle of a block, you must still read (or write) all the bytes from 0 up to the desired offset.  
-For instance, in RBOOT.DO, to skip over the first 16 bytes of the block it does `FORA=0TO15:N=INP(131):NEXT`  
-N is not actually used, it's just reading 16 times and ignoring the data. This just advances the byte position counter to get from byte #0 up to the start of the bytes that it actually wants.
+To seek to an arbitrary offset before reading or writing, read-and-ignore that many bytes.
+
+For instance, in RBOOT.DO, to skip over the first 16 bytes of the block, it does `FORA=0TO15:N=INP(131):NEXT`  
+N is not actually used, it's just reading 16 times and ignoring the data. This just advances the byte position counter to get from byte #0 past the 10-byte RAMDSK header and 6-byte .CO header to the start of the .CO executable data.
 
 Examples
 
@@ -301,16 +310,17 @@ This means:
 
 `OUT129,0:OUT131,64:OUT131,4`
 
-(BTW you usually don't need to do that manually because RAMDSK.CO will do it for you if you just answer "Y" at the "Fix?" prompt.)
+(BTW you usually don't need to do this because RAMDSK.CO will do it for you if you answer "Y" at the "Fix?" prompt.)
 
 ## RAMDSK
-The "driver" software for the device is either the [NODE ROM](ROM) or [RAMDSK.CO](software/RAMDSK/)  
-(if you want to use the device for files and not as raw space for a custom application)
+The disk technically doesn't care what you write to it, but the normal software for the device is either the [NODE ROM](ROM) or [RAMDSK.CO](software/RAMDSK/)  
+
+This provides a virtual disk interface where you can copy files to and from the device.
 
 RAMDSK provides the same functionality as the NODE ROM, and is compatible with it.  
-(they both write the same filesystem format to the device, either one can read/write a device that was formatted by the other)  
+They both write the same filesystem structure to the device, either one can read/write a device that was formatted by the other.
 
-Differences between the NODE ROM and RAMDSK.CO:
+Differences between the NODE ROM and RAMDSK:
 
 The NODE ROM creates a text file when it formats a blank device, RAMDSK does not.
 
@@ -324,30 +334,40 @@ RAMDISK includes a feature to automatically repair the format stamp in the first
 
 [RAMDSK Source](software/RAMDSK/src)  
 
-This source currently generates several variants:
+This source currently generates several variants based on compile-time options you can set in Makefile or on the make command line:
 
-- exact replications of the legacy RAM100.CO & RAM200.CO
-- a K85 equivalent of the legacy RAM100.CO
-- (default) new versions for 100, 200, & K85 that supports 4 banks
+- Exact replicas of the legacy (2-bank) RAM100.CO v2 & RAM200.CO v2 binaries just for reference.
 
-`make clean all` builds RAMxxx.CO and RAMxxx.DO for all models. (100, 200, K85)  
+- A K85 equivalent of the legacy (2-bank) RAM100.CO
+
+- New versions for 100, 200, & K85 that support up to 32 banks in theory (MiniNDP has 4 banks),  
+  with the exact same file size & TOP/END/EXE as the legacy versions so that the same RBOOT code (silkscreened on MiniNDP) works on both old and new binaries.
+
+- New versions that don't bother artificially matching an arbitrary file size, are a few bytes smaller and also live a few bytes higher.
+
+- Single-bank versions that are even smaller by omitting all code dealing with banks.  
+  This is probably very close to the original RAMDSK v1 from before bank support was added,  
+  except the code to repair the format stamp is still included. RAMDSKv1 did not have that.
+
+`make clean all` builds a 4-bank version of RAMxxx.CO, RAMxxx.DO, RAMxxx.calls for all models. (100, 200, K85)  
 
 `make clean legacy` builds legacy versions for 100 & 200 and compares them against preserved copies of the originals to verify they match exactly.
 
-`make load_100` or 200, or K85: convenience wrapper that builds and then runs `dl -v -b ...` to install to the portable.
+`make load_100` or 200, or K85: convenience target that builds and then runs `dl -v -b RAMxxx.DO` to install to the portable.
 
-`RAMxxx.map` are also generated for each `RAMxxx.CO`, which contains all the labelled addresses.  
-A few of the main jump targets are usable from BASIC via CALL.  
+For each `RAMxxx.CO`:  
+`RAMxxx.DO` is a BASIC loader containing the .CO  
+`RAMxxx.calls` lists some functions that may be CALLed from BASIC or another machine language program.  
 See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP) and [RAMDSK.DO](ROM/100/RAMDSK.DO) but ignore those addresses.
 
 ### Installing RAMDSK
 
-Archived docs mention an 8 line BASIC program called BOOT that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start.
+Archived docs mention an 8 line BASIC program called BOOT that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from a RAMPAC after a cold start.  
+Requires first saving a copy of RAMDSK.CO to the device, and must be the first file on the device.
 
 That program does not seem to be archived anywhere, but I have written `RBOOT` and `NBOOT` new below.  
-This only works after a copy of RAMDSK has been copied to the RAMPAC.
 
-To get [RAMDSK](software/RAMDSK) installed for the first time, use the matching RAMxxx.DO BASIC loader.
+To get [RAMDSK](software/RAMDSK) installed for the first time, use the matching `RAMxxx.DO` BASIC loader.
 
 To bootstrap the BASIC loader from a PC running Windows:  
 Install [tsend](https://github.com/bkw777/tsend)  
@@ -357,10 +377,8 @@ To bootstrap the BASIC loader from a PC running Linux, MACOS, FreeBSD, any unix,
 Install [dl2](https://github.com/bkw777/dl2)  
 Then: `$ dl -v -b RAM100.DO`
 
-Then run it to format the device and copy RAMDSK.CO to it as the first file written to it.
-In order for RBOOT or NBOOT to work, RAMxxx.CO must be the first file on bank0.
-
-Another option for mac/linux, [pdd.sh](https://github.com/bkw777/pdd.sh) also has a bootstrap function and does not require you to compile anything.
+Then run RAMDSK to format the device and copy RAMDSK.CO to it as the first file.  
+In order for RBOOT or NBOOT to work, `RAMxxx.CO` must be the first file on bank0.
 
 Once you have RAMDSK installed, if you save a copy to the RAMPAC as the very first file after a fresh format, then in the future you can re-install RAMDSK from the RAMPAC itself after a cold reset without needing another computer or TPDD drive by manually typing in a short BASIC program.
 
@@ -379,7 +397,7 @@ and [software/RAMDSK/RAM100/RAMK85.CO](software/RAMDSK/RAM100/RAMK85.CO)
 3 POKEA,INP(131):IFA=T+1007THENOUT129,1
 4 ?".";:NEXT:SAVEM"RAM100",T,E,T
 ```
-(for K85 just change the name but the top & end addresses are the same for 100 & k85)
+(for K85 just change the name but the T & E addresses are the same for 100 & k85)
 
 RBOOT for Model 200  
 [software/RAMDSK/RAM200/RBOOT.200](software/RAMDSK/RAM200/RBOOT.200)  
@@ -405,15 +423,60 @@ If you want to get fancy, you could support both model 100 and model 200 at the 
 
 
 ### Using RAMDSK
-(RAMDSK.CO not the Node ROM)  
-Usage is mostly pretty self-explanatory.
+Usage is mostly pretty self-explanatory.  
 
-The F1-Bank button switches between banks of 256k, and is only functional on a RAMPAC that has more than 256k.
+A few things happen at start-up that aren't explained well on-screen, or at all.  
 
-[It is fairly common for the first byte to get corrupted](software/RAMDSK/RAMPAC.001) ...Don't Panic(tm)  
-You could do the manual BASIC one-liner `OUT129,0:OUT131,64:OUT131,4`, but RAMDSK also has a first-byte-fixer built-in.  
-If you get the "Format RAM-Disk?" prompt on power-on, just answer "N".  
-It will then ask "Fix?", answer "Y".
+1: On legacy versions if you keep holding the Enter key down while RAMDSK starts up, then it switches from bank0 to bank1 before anything else.
+   This code is omitted from the new 4-bank version for a few different reasons.  
+
+2: On startup RAMDSK looks at the first 2 bytes of the disk to tell if the disk is formatted or not.  
+  If it does not see a valid format stamp (0x40 0x04), it asks if you want to format the disk.  
+  You can answer Y or N here.  
+  Don't panic if you get this on a device that is supposed to already be formatted and have files.  
+  Just be sure to answer N! Explained by the next item...
+
+3: [The format stamp is easily corrupted](software/RAMDSK/RAMPAC.001),  
+  When this happens, you will get the format prompt above. Don't Panic.  
+  If you answer N to format, then next it asks "Fix?"  
+  If you answer Y to fix, it just re-writes the format stamp without touching anything else.
+
+  <!-- (As Paul Globman said above, it was not a great engineering decision to use byte0 for this critical purpose (or any purpose) for exactly this reason, but that's what NODE did so we just have to deal with it.)  -->
+  <!-- What Paul mentions about the latch being volatile is probably a good thing.  
+  Better to always corrupt the same byte 0 than random bytes all over.  
+  The latch losing power is like parking the heads. -->
+  <!--
+  You know what? now that we have source and can hack on RAMDSK, who cares about strict compatibility with the NODE ROM any more?
+  TODO: maybe one of these, or something else:  
+   - Use only the 2nd byte and ignore the 1st byte (but keep resetting it just to maximise compatibility with old binaries and node rom because no reason not to)  
+     Maybe to make it less likely for a random data byte to match the valid format value, make it a checksum over the fcb table? That will definitely break compatibility because the legacy software is looking for exactly 0x40 0x04
+   - Ignore both bytes 0 & 1 and don't even perform a format check, just assume it's formatted and display the gibberish if it's not. Format by providing a format button.  
+     All of the actual load/save/kill/etc functions must still perform a test-else-abort on the spot every time just before their actual work, because the device is externally attached and can be disconnected at any time. 
+     It's harmless to let the file listing display giberish. It's not harmless to let any other function read and operate on gibberish.
+   - The 2nd 512 bytes of block0 are un-used, use some of them?
+  -->
+
+Finally it displays a screen full of disk filenames.  
+The files are not listen in the order they exist on the device, nor alphabetically. First all of the .BA files are listed, then the .CO files, then the .DO files.
+
+If there are more than one page of files on the disk, press Enter to see the next page of filenames.
+
+All other actions done by the labelled F-keys.
+
+F1 Bank - Switch between banks of 256k each.  
+  Only functional on a RAMPAC that has more than 256k.  
+  The current bank number is displayed at the top of the screen.
+
+F2 Load - Copy a file from disk to ram.
+
+F3 Save - Copy a file from ram to disk.
+
+F4 Name - Rename a file on disk.
+
+F5 Kill - Delete a file on disk.
+
+F8 Menu - Exit RAMDSK.
+
 
 ### [NBOOT](software/NBOOT/)
 The only reason the 4-line RBOOT above can be so short is because the filename and top & end addresses are all pre-known and hard-coded.

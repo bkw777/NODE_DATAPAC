@@ -4,16 +4,12 @@
 ; This copy intentionally only reproduces the original binary exactly for reference.
 ;
 ; Compile:
-;   z88dk-z80asm -m8085 -b -o=RAM100.CO RAM100.S85
-;   n=`wc -c <RAM100.CO`
-;   z88dk-z80asm -m8085 -DPRGLEN=$n -b -o=RAM100.CO RAM100.S85
+;   z88dk-z80asm -m8085_strict -b -o=RAM100.CO RAM100.S85 && \
+;   z88dk-z80asm -m8085_strict -DPRGLEN=`wc -c <RAM100.CO` -b -o=RAM100.CO RAM100.S85
 ;
 ; original binary:
 ; https://www.club100.org/library/libpg.html "pgnode" section
 ; https://ftp.whtech.com/club100/pg/pgnode/node1/ram100.co		RAM100.CO
-;
-; 8085 asm support for Geany code editor (directions inside):
-; _usr_share_geany_filedefs_filetypes.8085asm.conf
 ;------------------------------------------------------------------------------
 
 ;------------------------------------------------------------------------------
