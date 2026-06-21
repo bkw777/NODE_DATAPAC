@@ -198,7 +198,7 @@ FnameSlot				EQU		NextSlotOrPage+1	; directory listing screen position
 pending_fname_bytes		EQU		ListFiles@brc+1		; fname bytes remaining loop counter
 FreeKB					EQU		SAVE1@freekb+1		; free KB disk space
 farea					EQU		CopyBlocks@l1+1		; COFILES / DOFILES / BAFILES
-fattr					EQU		j41@fileattr+1		; file attr byte
+fattr					EQU		FindFILNM1onDisk@fileattr+1		; file attr byte
 TmpBlockNum				EQU		SAVE1@bn+1			; tmp block number
 BlockNum				EQU		NextBlock@bn+1		; block number
 bD						EQU		NextBlock@bd+1
@@ -556,14 +556,14 @@ KILL:
 ; NAME
 ;------------------------------------------------------------------------------
 NAME:
-		LXI		H,NameMSG
-		CALL	Ask_From_Filename
-		JNZ		BEEP
-		CALL	Ask_To_Filename
-		LDA		BlockNum
-		MOV		B,A
-		PUSH	B
-		CALL	j41
+		LXI		H,NameMSG				; HL @ NameMSG
+		CALL	Ask_From_Filename		; get source fname from user
+		JNZ		BEEP					; if invalid, beep & return
+		CALL	Ask_To_Filename			; get dest fname from user
+		LDA		BlockNum				; A = BlockNum
+		MOV		B,A						; B = BlockNum
+		PUSH	B						; stash B
+		CALL	FindFILNM1onDisk
 		POP		B
 		JZ		BEEP
 		MOV		A,B
@@ -603,7 +603,7 @@ SAVE1:
 		PUSH	H
 		CALL	FILNM1toFILNM2
 		CALL	Ask_To_Filename
-		CALL	j41
+		CALL	FindFILNM1onDisk
 		CZ		ConfirmReplaceKill
 		CALL	FREE
 		POP		H
@@ -839,11 +839,17 @@ j29:
 
 Ask_From_Filename:
 		CALL	InputFilenameWithPrompt
-j41:
+; Generate fattrBA/CO/DO from FX1 (FILNM1 filename ext)
+; Scan FCB table for a FCB with a matching fattr
+; On matching fattr, copy header from disk BlockNum to ram DFHDR, compare DFHDR to FILNM1
+; On matching filename, copy FILNM1 to FILNM2 and return
+FindFILNM1onDisk:
+		; init BlockNum & TmpBlockNum to 0
 		XRA		A						; A = 0
 		STA		BlockNum				; BlockNum = 0
 		STA		TmpBlockNum				; TmpBlockNum = 0
-		LDA		FX1						; A = 1st byte of ext BA/CO/DO
+		; generate the appropriate file attribute for the file type based on the filename ext
+		LDA		FX1						; A = 1st byte of ext BA/CO/DO of FILNM1
 		SUI		'B'						; A -= 'B'  (A=0..2 if ext is 'B'..'D')
 		CPI		'D'-'B'+1				; carry if A>2  (ext not 'B','C','D')
 		JNC		INR_A_RET				; if A>2 (invalid fn ext) then A++ & RET
@@ -857,50 +863,55 @@ j41:
 		ADD		A						;     A =  0x00    0x20    0x40
 		ADI		fattrBA					;     A =  0x80    0xA0    0xC0
 		STA		fattr					; fattr = fattrBA fattrCO fattrDO
-		; fattr (the actual operand byte we will CPI later) = what we generated based on the filename ext
+		; move disk to FCB table
 		CALL	CheckFormat				; disk @ k0b2 (fcb1)
-@l0:
-		CALL	ReadDataW				; read fcb, B=fattr A=next_block?
-		STA		bD						; bD = next_block?
-		LDA		BlockNum				; A = BlockNum
+		; scan FCB table 
+@read_fcb:
+		CALL	ReadDataW				; read fcb, B=fcb_fattr A=fcb_next?  (IDK what 2nd byte in fcb is yet, GUESSING next block in chain with some special value like 0 or same-as-fcb# means no further blocks in file)
+		STA		bD						; bD = A (fcb_next?) (we don't know if we will care about this block, so we're saving in case)
+		LDA		BlockNum				; A = BlockNum (last block num processed, initially 0)
 		INR		A						; A++
-		JZ		INR_A_RET				; if A rolled past FF to 0 then A++ & RET
-		STA		BlockNum				; BlockNum = A
-		MOV		A,B						; A = B = fattr
-		; A = fattr from disk
-		; idk what fattr 0x3F means, but it's not 0x3F any more anyway,
-		; it's whatever we generated above.
-		; So we are comparing the generated fattr with the one from disk.
+		JZ		INR_A_RET				; if BlockNum rolled past FF to 0 then A++ & RET
+		; BlockNum still <= 0xFF
+		STA		BlockNum				; BlockNum++
+		MOV		A,B						; A = fcb_fattr
+		; 
 @fileattr:
-		CPI		0x3F					; [fattr]  what is 0x3F ?  (initial value only, overwritten while running)
-		JNZ		@l0
-		LDA		BlockNum
-		CALL	SelectBlock
-		MVI		B,DFHDR_LEN				; loop counter read 10 bytes
-		LXI		H,DFHDR
-@l2:
-		ReadData
-		MOV		M,A
-		INX		H
-		DCR		B
-		JNZ		@l2
-		MVI		C,CKFN_FNAME_LEN
-		LXI		H,DFHDR
-		LXI		D,FILNM1
-		CALL	CMPARE
-		JZ		FILNM1toFILNM2
-		CALL	CheckFormat
-		LDA		BlockNum
-		MOV		C,A
-		CALL	SkipCWords
-		JMP		@l0
+		CPI		0x3F					; [fattr]  compare fcb_fattr to fattr (0x3F overwritten by STA fattr above)
+		JNZ		@read_fcb				; repeat until fcb_fattr == fattr or scanned all fcbs
+		; found a fcb with a matching fattr
+		; go to the corresponding block
+		LDA		BlockNum				; A = BlockNum
+		CALL	SelectBlock				; move disk to block BlockNum byte 0
+		MVI		B,DFHDR_LEN				; B = RAMDSK file header len (10)
+		LXI		H,DFHDR					; HL @ RAMDSK file header
+		; copy header from disk to ram DFHDR buffer
+@read_header:
+		ReadData						; A = byte (of filename) , disk @ b++
+		MOV		M,A						; M = byte
+		INX		H						; HL++
+		DCR		B						; B--
+		JNZ		@read_header			; repeat while B>0
+		; copied a file header from BlockNum on disk to DFHDR in ram
+		MVI		C,CKFN_FNAME_LEN		; C = 8  (6+2 CKFN formatted filename BBBBBBEE)
+		LXI		H,DFHDR					; HL @ DFHDR
+		LXI		D,FILNM1				; DE @ FILNM1
+		CALL	CMPARE					; compare C bytes (or till null) of DE to HL, Z if match
+		JZ		FILNM1toFILNM2			; if disk filename matches FILENM1, then break out to FILNM1toFILNM2
+		; filenames did not match
+		; try the next FCB
+		CALL	CheckFormat				; move disk to FCB table
+		LDA		BlockNum				; A = BlockNum
+		MOV		C,A						; C = BlockNum
+		CALL	SkipCWords				; seek to FCB BlockNum
+		JMP		@read_fcb				; read and process next FCB
 
 FILNM1toFILNM2: 						; copy 8 bytes from FILNM1 to FILNM2
 		LXI		H,FILNM2				; HL = FILNM2
 FILNM1toHL:								; copy 8 bytes from FILNM1 to HL
 		LXI		D,FILNM1				; DE = FILNM1
 		MVI		B,CKFN_FNAME_LEN		; B = 8
-		JMP		D2H4Bup					; copy 8 bytes from DE to FILNM2
+		JMP		D2H4Bup					; copy 8 bytes from DE to FILNM2, RET
 
 ; Called when CopyBlocks reaches the end of a block.
 ; Not sure how it all exactly is working but in general what needs to happen is
