@@ -17,10 +17,20 @@ ASFLAGS += $(shell $(AS) |awk '/^Z80 Macro Assembler /{split($$4,a,"-");if (a[1]
 
 # -DHIMEM=addr           # generate a relocated binary with specified HIMEM/END address
 # -DBANKS_ONE_BASED      # display the bank number as Bank1-Bank4 instead of Bank0-Bank3
-# -DNBANKS=n             # support 1-32 banks. Default 4. 2 to match legacy. 1 to make the smallest version that only supports 256k
+# -DNBANKS=n             # support 1-32 banks. Default 4. 2 to match legacy. 1 to make a version that only supports 256k but also the smallest
 # -DMATCH_LEGACY_CO_HEADER  # add/remove code & padding as necessary to make TOP/END/EXE match the legacy binaries
-# MATCH_LEGACY_CO_HEADER so that the same bootstrap BASIC with hard-coded TOP & END addresses works for old & new
-XFLAGS := -DMATCH_LEGACY_CO_HEADER
+# -DALT_BANKSW           # different method of bank-switch code that's a few bytes shorter but not as good
+#
+# If you comment out -DMATCH_LEGACY_CO_HEADER then RAM100.CO is smaller,
+# lives higher in ram, and you gain 23 bytes of ram vs the legacy version.
+# The reason for matching the legacy top/end/exe is just so that the same
+# 4-line RBOOT.BA with hard-coded TOP & END addresses works for both old & new.
+# MiniNDP has RBOOT.BA on the silkscreen.
+#
+#XFLAGS := -DNBANKS=1                 # 256k,   1322 bytes
+#XFLAGS := -DNBANKS=2                 # 512k,   1378 bytes
+#XFLAGS :=                            # 1M, 1385 bytes
+XFLAGS := -DMATCH_LEGACY_CO_HEADER   # 1M, 1406 bytes
 
 # don't delete .CO when building .DO etc.
 .SECONDARY:
