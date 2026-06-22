@@ -1101,35 +1101,33 @@ Test256k:
 ;------------------------------------------------------------------------------
 ; BANK - switch banks
 ;------------------------------------------------------------------------------
-; This routine makes bad assumptions (the original version not from me - bkw).
-; It assumes that k0b0 of any bank must always be 0x40, and that it's always
-; safe to blindly write it, even though it (was) possible to get here without
-; agreeing to format bank0 by holding Enter during startup.
 BANK:
 		; Before trying to switch banks, test if banks exist at all.
-		; Write 2 different values to n0k0b0 & n1k0b0. If they match, bank1 doesn't exist.
+		;
+		; The way the hardware works, if you try to access a bank that doesn't exist,
+		; all that happens is the same access just happens on the current bank.
+		;
+		; Write 2 different values to bank0 k0b0 & bank1 k0b0, read them back.
+		; If the 2 reads match, bank1 doesn't exist.
 
 		; FIXME this only tests if bank1 exists.
 		; Now that more than 2 banks might exist, this should really be testing if
 		; the destination bank exists. IE bankCurrent vs bankNext
-		; This will probably grow the filesize and will no longer be able to use the
-		; the same identical RBOOT to bootstrap both old and new RAMDSK binaries.
+
+		; since the actual switch code is large and annoying now because of the roll-over
+		; maybe seperate the actual switch code from this hw test.
+		; * use the full proper sw code as a call as part of the test
+		; * instead of testing on every switch, scan & count banks once on startup,
+		; * save the result in a variable that takes the place of NBANKS
+		; * on switch, just do the switch with no further testing
+		;   FoundNBANKS will automatically create the right behavior.
 
 		SelectBank 0					; disk @ n0k0b0
-		WriteDataN StampByte0+1			; n0k0b0 = 0x41 (bank0 now invalid format)
-
-		; I hate that this blindly wrote to bank0,block0,byte0 without saving it first.
-		; Hope you didn't have non-RAMDSK data there.
-		; If you have non-RAMDSK data in bank0 and use the Enter key to start up
-		; in bank1, then BANK was called before being forced to agree to either
-		; format or exit. So we can get here without the user agreeing to write
-		; anything to bank0 and without getting any chance to opt out of the
-		; write we just did above, and the one we're going to do again below.
-		; The enter key on startup code is omitted if NBANKS>2 so actually you can
-		; not get here without agreeing to format bank0 in the new version by default.
-		; Only if you build a 2-bank version which replicates the legacy original.
+		;SelectBlock 0					; disk @ k0b0
+		WriteDataN StampByte0+1			; k0b0 = 0x41 (bank0 now invalid format)
 
 		SelectBank 1					; disk @ n1k0b0
+		
 		ReadData						; A = n1k0b0
 		MOV		B,A						; B = n1k0b0
 		; if bank1 exists and is formatted, then B = 0x40
@@ -1142,7 +1140,7 @@ BANK:
 		CMP		B						; does B=n1k0b0 = 0x41 ?
 		; if n1k0b0 = 0x41, it means we wrote 0x41 to bank0, then read 0x41 from bank1
 		; which means we have working hardware but no banks.
-		RZ								; return if no banks
+		RZ								; return without doing anything else if no banks
 		; We have hardware with banks
 		MOV		A,B						; A = B = n1k0b0
 		; if bank1 exists and is formatted: B = 0x40
