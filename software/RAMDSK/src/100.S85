@@ -13,7 +13,7 @@ FILES			EQU		0x1F3A		; FILES statement
 KILASC			EQU		0x1FBF		; delete a .DO file
 KILCOM			EQU		0x1FD9		; delete a .CO file
 KILBAS			EQU		0x2017		; delete a .BA file
-FINDFN			EQU		0x20AF		; search dir for filename matching FNAME
+FINDFN			EQU		0x20AF		; search dir for filename matching FILNM1
 FINDFN1			EQU		0x20CC		; almost the the end of FINDFN
 SCNEMP			EQU		0x20EC		; scan for an empty directory entry (2nd entry)
 UPDOFILES		EQU		0x213E		; update DOFILES with BC

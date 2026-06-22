@@ -497,58 +497,90 @@ here is a more flexible and generic bootstrapper for any .CO file up to 2038 byt
 8 N=INP(P)+INP(P)*256:RETURN
 ```
 
-### RAMDSK data format
+### NODE ROM / RAMDSK filesystem structure
 
 This is not publicly documented that I have found, at least not explicitly.  
-Some things might be be figured out by reading the BASIC source to [N-DKTR](software/N-DKTR/) and [RD](software/Rampac_Diagnostic/), since they include functions to do things like inspect or repair files, except they use the callable machine language routines from the NODE rom or RAMDSK to do some of those functions, so maybe not that much can be gleaned from just the BASIC code.
+This comes from a combination of exploring a formatted device with [RAMPAC Inspector](software/CRI), and from [disassembling RAMDSK](software/RAMDSK/src).
 
-In the past, Paul Globman reverse engineered the format written by the NODE option rom, but he used that to write the commercial product RAMDSK, not to publish the info.
+There is nothing in the hardware that cares about any of this.  
+This is just what the NODE ROM did and so RAMDSK also had to do.
 
-I have figured out some things using [RAMPAC Inspector](software/CRI), and from [disassembling RAMDSK](software/RAMDSK/src)
+At the hardware level the device provides 256 1k blocks (per bank)
 
-The first 2 bytes of block 0 in each bank holds a special value `0x40 0x04` which indicates that the device is formatted.  
+The NODE ROM and RAMDSK use that space to store files this way:
 
-The design of the circuit means that the first byte is occasionally corrupted during power-on/power-off/plug/un-plug events,  
-which is why there are several old docs & messages that say how to manually re-write those bytes,
-and why eventually RAMDSK gained a function to repair it automatically.
+block 0 is reserved for the format stamp and FCB table
 
-(I'm hazy on this next part, I'm reading the RAMDSK disassembly not verifying the data on device yet)  
-The next 510 bytes are 255 pairs of 2 bytes.
-Each pair corresponds to a block.
+Blocks 1-255 are available for files.
 
-The first byte in each pair is the file type attribute the same as used by
-the system rom MKDIRENT routine.
-0x00 = this block does not begin a file (doesn't mean it's not used)  
-0x80 = fattrBA = this block begins a .BA file  
-0xC0 = fattrDO = this block begins a .DO file  
-0xA0 = fattrCO = this block begins a .CO file  
+The format stamp is the first 2 bytes of block 0: `0x40 0x04`  
+They don't change or represent anything.  
+NODE ROM and RAMDISK look for this to decide if a device is formatted or not.
 
-idk what the 2nd byte does yet, probably points to the next block number in the file.
+The FCB table is the next 255 pairs of bytes of block 0.
+
+Each FCB corresponds to a block.  
+fcb 1-255 <-> block 1-255  
+
+Each FCB is 2 bytes: `attr next`
+
+`attr` is a single byte file attribute,  
+the same value used by the MKDIRENT routine in the system rom.  
+(ex: 0x2239 in the North American Model 100 system rom)  
+0x00 if the block is not used.  
+BA files: `0x80`  
+CO files: `0xD0`  
+DO files: `0xA0`
+
+`next` is a single byte block number of the next block in the file.  
+0x00 if there are no further blocks or the current block is not part of a file.
+
+Bytes 512-1024 of block 0 are unused.
+
+For the remaining blocks 1-255:
+
+If a block is the first block in a file, then the first 10 bytes of the block contain a header that has the filename and file size, followed by the first 1014 bytes of data (1024-10).  
+filesize is platform-native lsb-first and does not include the 10-byte header. If filesize says 100 bytes, it's the next 100 bytes starting after the filesize.
+
+|basename<br>6 bytes|extension<br>2 bytes|filesize<br>2 bytes|data|
+|RAMDSK|CO|0x7E 0x05|...|
+
+If a block is part of a file but not the first block in the file, then the block is all data starting right at byte 0
+
+The first block of a file is located by scanning the FCB table for all FCBs that have an `attr` matching the file you want, then reading the 10-byte header of each potential matching block until finding the matching filename.
+
+The remaining blocks are found by following the chain of next-block pointers until filesize runs out. The FCB of the 1st block points to the 2nd block, the FCB for the 2nd block points to the 3rd, etc.
+
+There is no table of filenames or any other formatting or filesystem metadata.  
+The directory list displayed by RAMDSK is done by scanning the FCB table for attr=0x80 (BA files)  
+and on each attr match, reading the 10-byte header from the corresbonding block to get the filename & size,  
+then repeat for CO files, and then again for DO files.
+
+This means a bank may contain up to 255 1014-byte files, Or 1 255k(-10 bytes) file.
+
+|Block 0|FCB table|
+|Block 1|filedata|
+|...|...|
+|Block 255|filedata|
+
+Block 0 / FCB table
+
+|byte#|desc|1 byte|1 byte|
+|0-1|Stamp|0x40|0x04|
+|2-3|FCB 001|attr|next|
+|4-5|FCB 002|attr|next|
+|...|...|...|...|
+|509-510|FCB 255|attr|next|
+|512-1024|unused| | |
+
+filedata - first block of a file
+
+|basename<br>6 bytes|extension<br>2 bytes|filesize<br>2 bytes|data|
+|RAMDSK|CO|0x7E 0x05|...|
+
+filedata - any other block, no structure, block is simply data starting from byte 0 until the end of filesize or all 1024 bytes.
 
 
-Files appear to be stored in reverse block number order.  
-On a blank device, a file that requires 2 blocks uses blocks 1 & 2, and starts at block 2 and ends at block 1.  
-I don't know what happens when files get deleted and new files have to be fragmented.
-
-(This part is certain)
-
-Filename and length are stored in the first 10 bytes of the first block of a file.
-
-6 bytes - file name  
-2 bytes - file extension  
-2 bytes - file length (lsb-first, aka platform native not like tpdd)
-
-These 10 bytes are metadata created and used by RAMDSK, not part of the file.
-
-The length field does not include these 10 bytes.
-
-The file data starts immediately after this and continues for $length bytes.
-
-A block is 1024 bytes, and the first block has 10 bytes used by the header, so files that are longer than 1014 bytes use more than one block.
-
-The remaining blocks in the file have no metadata headers or any other formatting.  
-The data simply resumes right at byte 0 in the remaining blocks, and simply  
-ends wherever filesize ends.
 
 ## RAMPAC Inspector
 [RAMPAC Inspector](software/CRI)

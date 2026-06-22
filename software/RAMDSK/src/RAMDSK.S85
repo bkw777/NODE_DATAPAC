@@ -181,7 +181,7 @@ StampByte0		EQU		0x40
 StampByte1		EQU		0x04
 Format128		EQU		0x40
 
-DFHDR			EQU		ALTLCD+0x40
+DFHDR			EQU		ALTLCD
 DFSZ_LEN		EQU		2
 DFHDR_LEN		EQU		CKFN_FNAME_LEN + DFSZ_LEN	; disk header len
 DFSZ			EQU		DFHDR+CKFN_FNAME_LEN		; disk file size
@@ -203,7 +203,7 @@ farea					EQU		CopyBlocks@l1+1		; COFILES / DOFILES / BAFILES
 fattr					EQU		FindFILNM1onDisk@fileattr+1		; file attr byte
 TmpBlockNum				EQU		SAVE1@bn+1			; tmp block number
 BlockNum				EQU		GetNextBlock@bn+1	; block number
-NextBlock						EQU		GetNextBlock@bd+1
+NextBlock				EQU		GetNextBlock@nb+1
 bE						EQU		SAVE1@l8+1
 pending_block_bytes		EQU		CopyBlocks@pbb+1
 
@@ -524,12 +524,16 @@ FREE:									; [export] Scan & update free space.
 		JMP		POPALL					; restore all pushed at start, return
 
 ;------------------------------------------------------------------------------
-; KILL
+; KILL - delete a file on disk
 ;------------------------------------------------------------------------------
 KILL:
+		; get the filename from the user
 		LXI		H,KillMSG				; HL @ KillMSG
 		CALL	Ask_From_Filename		; print prompt & get fname from user
 		JNZ		BEEP					; invalid input beep & return
+		; disk was searched and file was found
+		; CKFN formatted filename is in FILNM1
+		; confirm ok to delete
 		LXI		H,SureMSG				; HL @ are you sure
 		CALL	ConfirmWithPrompt		; print are you sure & get Y from user
 		RNZ								; if not Y then return now
@@ -537,22 +541,26 @@ KILL:
 		CALL	CheckFormat				; disc @ k0b2
 		LDA		BlockNum				; A = BlockNum
 		DCR		A						; A--
-		JZ		@l1						; if A=0 then skip to @l1
+		JZ		@l1						; if BlockNum-1 = 0 then we are already on the right FCB, skip seeking
 		MOV		C,A						; C = BlockNum-1
-		CALL	SkipCWords				; seek to to pair C (table entry for BlockNum-1)
+		CALL	SkipCWords				; seek to BlockNum-1
+		; SkipCWords BlockNum-1 reads FCB BlockNum-1, and leaves the disk right
+		; on the start of FCB BlockNum, ready to overwrite FCB BlockNum.
 @l1:
-		; write nuls to pair C
+		; write 0x00 0x00 over FCB BlockNum
 		XRA		A						; A = 0
 		WriteData						; write 0x00
 		WriteData						; write 0x00
-		LDA		NextBlock						; A = NextBlock
+		;
+		LDA		NextBlock				; A = NextBlock
 		ANA		A						; Z if NextBlock = 0
-		RZ								; if NextBlock=0 then return
+		RZ								; if NextBlock=0 then return  / means no more blocks to zero?
+		; NextBlock > 0
 		STA		BlockNum				; BlockNum = NextBlock
-		MOV		C,A						; C = NextBlock
+		MOV		C,A						; C = BlockNum
 		CALL	CheckFormat				; disk @ k0b2, A = 0x44
-		CALL	SkipCWords				; seek to pair NextBlock (table entry for NextBlock)
-		STA		NextBlock						; NextBlock = 0x44 ????
+		CALL	SkipCWords				; seek to and read FCB for BlockNum, B=fcb_fattr, A=fcb_nextblock
+		STA		NextBlock				; NextBlock = fcb_nextblock from BlockNum
 		JMP		@l0
 
 ;------------------------------------------------------------------------------
@@ -599,38 +607,41 @@ SAVE:
 		_RST	rst_Print_A				; print FF (clear the screen)
 		CALL	FILES					; display ram files list
 SAVE1:
-		LXI		H,SaveMSG
-		CALL	InputFilenameWithPrompt
-		CALL	FINDFN
-		JZ		BEEP
-		PUSH	H
-		CALL	FILNM1toFILNM2
-		CALL	Ask_To_Filename
-		CALL	FindFILNM1onDisk
-		CZ		ConfirmReplaceKill
-		CALL	FREE
-		POP		H
-		INX		H
-		XCHG
-		LHLX
-		SHLD	farea
-		CALL	@l0
-		INX		H
+		LXI		H,SaveMSG				; HL = SaveMSG
+		CALL	InputFilenameWithPrompt	; display SaveMSG and get username from user into FILNM1
+		CALL	FINDFN					; find FILNM1(source) in ram, Z if not found
+		JZ		BEEP					; abort if not found
+		; HL=dirent DE=data A=fattr
+		PUSH	H						; save HL=dirent
+		; preload dest filename with src filename so user can just press enter to accept default
+		CALL	FILNM1toFILNM2			; copy FILNM1 to FILNM2, destroyed HL, DE, A, B
+		CALL	Ask_To_Filename			; get destination filename from user into FILNM1
+		CALL	FindFILNM1onDisk		; find FILNM1(dest) on disk, copy to FILNM2
+		CZ		ConfirmReplaceKill		; if it exists, then confirm ok to replace
+		CALL	FREE					; update FreeKB
+		POP		H						; retore HL = src_dirent
+		INX		H						; HL++
+		XCHG							; DE = src_dirent+1
+		LHLX							; HL = word@src_dirent+1  (HL=file_addr)
+		SHLD	farea					; farea = HL
+		CALL	@l0						; HL = filesize-1
+		INX		H						; HL = filesize
 		CALL	@prepfn
 		CALL	@l2
 		CALL	@l6
 		CALL	WriteHeader
 		RET
 @l0:
-		LDA		fattr
+		LDA		fattr					; A = fattr
 		CPI		fattrBA
-		JZ		@ba
+		JZ		@ba						; if it's a BA file, go to @ba
 		CPI		fattrDO
-		JZ		@do
-		LDHI	2
-		LHLX
-		LXI		D,0x0005
-		DAD		D
+		JZ		@do						; if it's a DO file, go to @do
+		; CO file
+		LDHI	2						; DE = HL+2 (start of LEN pair in CO header)
+		LHLX							; HL = filesize (not including 6-byte CO header)
+		LXI		D,0x0005				; DE = 5
+		DAD		D						; HL = filesize+1 (full filesize-1)
 		RET
 @do:
 		PUSH	H
@@ -715,7 +726,6 @@ WriteHeader:
 		INX		H
 		DCR		B
 		JNZ		@l0
-WriteBlocks:							; nothing jumps here, I just want the symmetry
 		MVI		A,opcode_OUT			; A = opcode_OUT
 		JMP		CopyBlocks
 
@@ -869,7 +879,7 @@ FindFILNM1onDisk:
 		; scan FCB table
 @read_fcb:
 		CALL	ReadDataW				; read fcb, B=fcb_fattr A=fcb_next?  (IDK what 2nd byte in fcb is yet, GUESSING next block in chain with some special value like 0 or same-as-fcb# means no further blocks in file)
-		STA		NextBlock						; NextBlock = A (fcb_next?) (we don't know if we will care about this FCB, and NextBlock is not used anywhere in FindFILNM1onDisk, so it must just mean "the last FCB processed")
+		STA		NextBlock				; NextBlock = A (fcb_next) (we don't know if we will care about this FCB, and NextBlock is not used anywhere in FindFILNM1onDisk, so it must just mean "the last FCB processed")
 		LDA		BlockNum				; A = BlockNum (last block num processed, initially 0)
 		INR		A						; A++
 		JZ		INR_A_RET				; if BlockNum rolled past FF to 0 then A++ & RET
@@ -897,14 +907,17 @@ FindFILNM1onDisk:
 		MVI		C,CKFN_FNAME_LEN		; C = 8  (6+2 CKFN formatted filename BBBBBBEE)
 		LXI		H,DFHDR					; HL @ DFHDR
 		LXI		D,FILNM1				; DE @ FILNM1
-		CALL	CMPARE					; compare C bytes (or till null) of DE to HL, Z if match
-		JZ		FILNM1toFILNM2			; if disk filename matches FILENM1, then break out to FILNM1toFILNM2
+		CALL	CMPARE					; compare C bytes (or till null) of DE with HL, Z if match
+		; If the filenames matched then we
+		JZ		FILNM1toFILNM2			; if disk filename matches FILENM1, then end scan and goto FILNM1toFILNM2
 		; filenames did not match
 		; try the next FCB
 		CALL	CheckFormat				; move disk to FCB table
 		LDA		BlockNum				; A = BlockNum
 		MOV		C,A						; C = BlockNum
-		CALL	SkipCWords				; seek to FCB BlockNum
+		CALL	SkipCWords				; seek past the end of FCB BlockNum
+		; SkipCWords read up to and including FCB for current BlockNum, so
+		; the disk is now sitting on the first byte of the FCB for BlockNum+1
 		JMP		@read_fcb				; read and process next FCB
 
 FILNM1toFILNM2: 						; copy 8 bytes from FILNM1 to FILNM2
@@ -915,16 +928,9 @@ FILNM1toHL:								; copy 8 bytes from FILNM1 to HL
 		JMP		D2H4Bup					; copy 8 bytes from DE to FILNM2, RET
 
 ; Called when CopyBlocks reaches the end of a block.
-; Not sure how it all exactly is working but in general what needs to happen is
-; after CopyBlocks moves 1014 bytes from the first block (1024-header),
-; get next block number from FCB table, move to that block, reset pending-bytes counter to 1024,
-; resume CopyBlocks to copy the data, until filesize runs out.
+; might be mis-named, since it only seems to be used for one block
+; BlockNum gets updated to NextBlock but NextBlock isn't updated.
 ;
-; This only does some of that
-; * BlockNum is updated to NextBlock, but NextBlock is not changed
-; * disk is moved to new BlockNum/NextBlock byte 0
-; * pending_block_bytes reset to 1024
-; * B = fattr from BlockNum+1
 GetNextBlock:
 		; reset pending_block_bytes counter to 1024
 		LXI		H,DBLOCK_LEN			; HL = 1024 (full size blocks after the first)
@@ -932,28 +938,24 @@ GetNextBlock:
 		; move disk to block 0 byte 0
 		XRA		A						; A = 0
 		CALL	SelectBlock				; disk @ k0b0
-@bd:
+@nb:
 		; update BlockNum with NextBlock
 		MVI		A,0						; [NextBlock]  A = NextBlock  (0 just initial cond)
 		STA		BlockNum				; BlockNum = NextBlock
 
-		; ---- BlockNum is now the previous NextBlock ----
+		; ---- BlockNum is now replaced with NextBlock ----
 
-		; read the fcb_fattr from the fcb for BlockNum+1
-		; idk why but that's all this accomplishes
-		MOV		C,A						; C = BlockNum
-		INR		C						; C++
-		CALL	SkipCWords				; read FCB BlockNum+1
-		; disk @ fcb BlockNum+1, B=fcb_fattr, A=fcb_nextblock
+		;MOV		C,A						; C = BlockNum        bke removed
+		;INR		C						; C++                 bkw removed
+		;CALL	SkipCWords				; read FCB BlockNum+1     bkw removed
+		; The effects of above are only: A, B, & disk position.
+		; We immediately overwrite A and move the disk without using either.
+		; We never use B either here or after returning to CopyBlocks.
 @bn:
 		MVI		A,0						; [BlockNum]  A = BlockNum  (0 just initial cond)
-		; overwrote A from SkipCWords without ever using it
-		CALL	SelectBlock				; disk @ block BlockNum byte 0
-		; moved the disk position from SkipCWords without ever using it
-		; The only effect of SkipCWords that's left is B
-
-		; disk @ block BlockNum byte 0
-		; B = fcb_attr BlockNum+1
+		CALL	SelectBlock				; disk @ BlockNum byte 0
+		;
+		; disk @ BlockNum byte 0
 		; BlockNum = NextBlock
 		; NextBlock NOT changed
 		; pending_block_bytes = 1024
@@ -1319,11 +1321,11 @@ FixMSG:
 ; the legacy binary. This also takes care of the 200 version at the same time.
 padding:
 	IF NBANKS<2
-		DS 84		; this would be gross, don't actually do this
+		DS 89		; There is no reason to do this. The only reason to build a 256k-only version is to get the smaller binary. This is just here so that the makefile options don't lie.
 	ELIF NBANKS=2
-		DS 28
+		DS 33
 	ELSE ; NBANKS>2
-		DS 21
+		DS 26
 	ENDIF ; NBANKS
 
 	ENDIF ; MATCH_LEGACY_CO_HEADER

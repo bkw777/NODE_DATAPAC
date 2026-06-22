@@ -23,14 +23,14 @@ ASFLAGS += $(shell $(AS) |awk '/^Z80 Macro Assembler /{split($$4,a,"-");if (a[1]
 #
 # If you comment out -DMATCH_LEGACY_CO_HEADER then RAM100.CO is smaller,
 # lives higher in ram, and you gain 23 bytes of ram vs the legacy version.
-# The reason for matching the legacy top/end/exe is just so that the same
+# The only reason for matching the legacy top/end/exe is just so that the same
 # 4-line RBOOT.BA with hard-coded TOP & END addresses works for both old & new.
 # MiniNDP has RBOOT.BA on the silkscreen.
 #
-#XFLAGS := -DNBANKS=1                 # 256k,   1322 bytes
-#XFLAGS := -DNBANKS=2                 # 512k,   1378 bytes
-#XFLAGS :=                            # 1M, 1385 bytes
-XFLAGS := -DMATCH_LEGACY_CO_HEADER   # 1M, 1406 bytes
+#XFLAGS := -DNBANKS=1                 # 256k   1317 bytes
+#XFLAGS := -DNBANKS=2                 # 512k   1373 bytes
+#XFLAGS :=                            # 1M     1380 bytes
+XFLAGS := -DMATCH_LEGACY_CO_HEADER    # 1M     1406 bytes
 
 # don't delete .CO when building .DO etc.
 .SECONDARY:
