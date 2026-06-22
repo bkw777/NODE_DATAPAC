@@ -542,9 +542,6 @@ For the remaining blocks 1-255:
 If a block is the first block in a file, then the first 10 bytes of the block contain a header that has the filename and file size, followed by the first 1014 bytes of data (1024-10).  
 filesize is platform-native lsb-first and does not include the 10-byte header. If filesize says 100 bytes, it's the next 100 bytes starting after the filesize.
 
-|basename<br>6 bytes|extension<br>2 bytes|filesize<br>2 bytes|data|
-|RAMDSK|CO|0x7E 0x05|...|
-
 If a block is part of a file but not the first block in the file, then the block is all data starting right at byte 0
 
 The first block of a file is located by scanning the FCB table for all FCBs that have an `attr` matching the file you want, then reading the 10-byte header of each potential matching block until finding the matching filename.
@@ -558,28 +555,35 @@ then repeat for CO files, and then again for DO files.
 
 This means a bank may contain up to 255 1014-byte files, Or 1 255k(-10 bytes) file.
 
-|Block 0|FCB table|
-|Block 1|filedata|
+| block | contents |
+| --- | --- |
+|0|FCB table|
+|1|filedata|
 |...|...|
-|Block 255|filedata|
+|255|filedata|
 
-Block 0 / FCB table
+Block 0 / FCB table:
 
-|byte#|desc|1 byte|1 byte|
-|0-1|Stamp|0x40|0x04|
-|2-3|FCB 001|attr|next|
-|4-5|FCB 002|attr|next|
+|byte#|1 byte|1 byte|desc|
+| --- | --- | --- | --- |
+|0-1|0x40|0x04|Stamp|
+|2-3|attr|next|FCB 1|
+|4-5|attr|next|FCB 2|
 |...|...|...|...|
-|509-510|FCB 255|attr|next|
-|512-1024|unused| | |
+|509-510|attr|next|FCB 255|
+|512-1024|||unused|
 
-filedata - first block of a file
+First block of any file:
 
-|basename<br>6 bytes|extension<br>2 bytes|filesize<br>2 bytes|data|
+|basename<br>6 bytes|extension<br>2 bytes|filesize<br>2 bytes|data<br>1014 bytes|
+| --- | --- | --- | --- |
 |RAMDSK|CO|0x7E 0x05|...|
 
-filedata - any other block, no structure, block is simply data starting from byte 0 until the end of filesize or all 1024 bytes.
+Any other block:
 
+|data<br>1024 bytes|
+| --- |
+|...|
 
 
 ## RAMPAC Inspector
