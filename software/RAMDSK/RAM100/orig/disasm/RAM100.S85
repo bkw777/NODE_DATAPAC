@@ -10,6 +10,11 @@
 ; original binary:
 ; https://www.club100.org/library/libpg.html "pgnode" section
 ; https://ftp.whtech.com/club100/pg/pgnode/node1/ram100.co		RAM100.CO
+;
+; Lines marked DEADCODE are no-op and should normally be removed,
+; but the purpose of this file is not to fix or change anything but to
+; document and reproduce the legacy binary exactly. - bkw
+;
 ;------------------------------------------------------------------------------
 
 ;------------------------------------------------------------------------------
@@ -100,10 +105,10 @@ CURBAS		EQU		0xF67C		; pointer to start of BA files / TXTTAB? CURBAS? current ru
 UNSBA		EQU		0xF99A		; address of current BASIC program not saved
 DOFILES		EQU		0xFBAE		; pointer to start of DO files
 COFILES		EQU		0xFBB0		; pointer to start of CO files
-FNAME		EQU		0xFC93		; 8 (9?) bytes padded fname, prog name if not run from menu nor typed on select line
-FX1			EQU		0xFC99		; unknown, possibly file size or other metadata
+FNAME		EQU		0xFC93		; 9 bytes padded fname, prog name if not run from menu nor typed on select line
+FX1			EQU		0xFC99		; EXT of FNAME
 CFNAME		EQU		0xFC9C		; filename of last program loaded from tape
-FX2			EQU		0xFCA2		; unknown, possibly file size or other metadata
+FX2			EQU		0xFCA2		; EXT of CFNAME
 KC7			EQU		0xFF97		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
 
 ; 100 and 200 are using different rom locations for the start of BA files
@@ -111,9 +116,9 @@ BAFILES		EQU		UNSBA
 
 ; constants
 ; file types, attribute byte A for MKDIRENT
-FattrBA		EQU		0x80		; .BA files
-FattrDO		EQU		0xC0		; .DO files
-FattrCO		EQU		0xA0		; .CO files
+attrBA		EQU		0x80		; .BA files
+attrDO		EQU		0xC0		; .DO files
+attrCO		EQU		0xA0		; .CO files
 
 NROWS		EQU		8			; LCD screen rows
 CDNCT		EQU		10			; counter in j03->j05 - maybe cursor-down n times?
@@ -169,6 +174,7 @@ ENDM
 ; as being formatted, so RAMDSK has to do the same to be compatible.
 StampByte0		EQU		0x40
 StampByte1		EQU		0x04
+attrNoRam		EQU		0x40			; attr for blocks that don't exist
 
 ;==============================================================================
 ;==============================================================================
@@ -201,7 +207,7 @@ PRGTOP:
 PRGEXE:
 	LDSI	0x00					; copy initial SP to DE
 	XCHG							; swap HL & DE
-	SHLD	wSP						; write HL to wSP
+	SHLD	InitialSP						; write HL to StackPointer
 
 ; Detect if user is holding ENTER key during start-up.
 ; Normally start in bank 0. If ENTER is held then start in bank 1.
@@ -218,8 +224,8 @@ PRGEXE:
 	CZ		BANK					; if ENTER is pressed, switch banks.
 
 MAIN:
-@setsp:
-	LXI		SP,0x0000				; [wSP]
+@sp:
+	LXI		SP,0x0000				; [InitialSP]
 	LXI		H,MAIN
 	PUSH	H
 	SHLD	ETRAP
@@ -227,13 +233,13 @@ MAIN:
 	MVI		M,SPACE					; write a space to the 1st byte of fname buffer
 	CALL	DrawTitle
 	XRA		A
-	STA		bI
-	MVI		D,FattrBA
-	CALL	j01
-	MVI		D,FattrCO
-	CALL	j01
-	MVI		D,FattrDO
-	CALL	j01
+	STA		list_slot
+	MVI		D,attrBA
+	CALL	ListFiles
+	MVI		D,attrCO
+	CALL	ListFiles
+	MVI		D,attrDO
+	CALL	ListFiles
 MAIN1:
 	CALL	UpdateFreeKB
 
@@ -281,7 +287,7 @@ ReadKeyboard:
 	RZ								; return if CR
 	JMP		ReadKeyboard			; loop if not CR
 
-j01:
+ListFiles:
 	MVI		C,1
 	CALL	CheckIsBankFormatted
 @l0:
@@ -301,9 +307,9 @@ j01:
 @l2:
 	ReadData
 	_RST	rst_Print_A
-@bb:
-	MVI		A,0x08					; [bB]
-	ANA		A
+@pfnb:
+	MVI		A,0x08					; [pending_fname_bytes]
+	ANA		A						; DEADCODE
 	CPI		0x03
 	JNZ		@l3
 	PUSH	PSW
@@ -312,10 +318,10 @@ j01:
 	POP		PSW
 @l3:
 	DCR		A
-	STA		bB
+	STA		pending_fname_bytes
 	JNZ		@l2
 	MVI		A,0x08
-	STA		bB
+	STA		pending_fname_bytes
 	PUSH	B
 	ReadData
 	MOV		L,A
@@ -334,7 +340,7 @@ j01:
 
 j03:
 	LHLD	CURSOR_ROW				; read cursor position row
-	LDA		bI
+	LDA		list_slot
 	ANI		0x01
 	JNZ		@l0
 	MVI		H,0x04
@@ -344,13 +350,13 @@ j03:
 	JMP		ESCB+9					; jump into the middle of the system rom ESC+B routine
 
 j05:
-	MVI		A,0x00					; [bI]
+	MVI		A,0x00					; [list_slot]
 	INR		A
-	STA		bI						; incriment bI
+	STA		list_slot				; incriment bI
 	CPI		CDNCT
 	RNZ								; if not CDNCT, return
 	XRA		A
-	STA		bI						; if CDNCT, reset to 0
+	STA		list_slot				; if CDNCT, reset to 0
 	CALL	MAIN1
 DrawTitle:
 	LXI		H,TitleMSG
@@ -381,8 +387,8 @@ UpdateFreeKB:
 	MOV		A,L
 	STA		FreeKB
 	CALL	PRTASC					; print free KB
-	CALL	CheckIsBankFormatted
-	CALL	SkipCWords
+	CALL	CheckIsBankFormatted	; DEADCODE
+	CALL	SkipCWords				; DEADCODE
 	JMP		POPALL
 
 ;------------------------------------------------------------------------------
@@ -484,9 +490,9 @@ SAVE1:
 	RET
 @l0:
 	LDA		FileAttr
-	CPI		FattrBA
+	CPI		attrBA
 	JZ		@ba
-	CPI		FattrDO
+	CPI		attrDO
 	JZ		@do
 	LDHI	2
 	LHLX
@@ -506,11 +512,11 @@ SAVE1:
 	DSUB
 	RET
 @prepfn:
-	SHLD	wA
-	LXI		H,FilenameMSG
+	SHLD	DFSZ
+	LXI		H,DFHDR
 	JMP		j44
 @l2:
-	LHLD	wA
+	LHLD	DFSZ
 	MVI		D,0x01
 	LXI		B,1014					; 1024 byte block minus 10 byte filename header
 	JMP		@l4
@@ -568,7 +574,7 @@ SAVE1:
 WriteFilename:
 	LDA		BlockNum
 	CALL	SelectBlock
-	LXI		H,FilenameMSG
+	LXI		H,DFHDR
 	MVI		B,10					; loop counter write 10 bytes
 @l0:
 	MOV		A,M
@@ -584,9 +590,9 @@ DeleteRamFile:
 	CALL	ConfirmReplace
 	POP		H
 	CALL	FINDFN1					; tail end of FINDFN
-	CPI		FattrDO
+	CPI		attrDO
 	JZ		KILASC					; if it's a .DO file
-	CPI		FattrCO
+	CPI		attrCO
 	JZ		KILCOM					; if it's a .CO file
 	JMP		KILBAS					; if it's anything else
 
@@ -611,13 +617,13 @@ LOAD:
 	JMP		RESETFPS
 
 MakeHole:
-	LHLD	wA
+	LHLD	DFSZ
 	MOV		B,H
 	MOV		C,L
 	LDA		FileAttr
-	CPI		FattrDO
+	CPI		attrDO
 	JZ		MakeHoleDO
-	CPI		FattrBA
+	CPI		attrBA
 	JZ		MakeHoleBA
 	LHLD	COFILES
 	PUSH	H
@@ -652,7 +658,7 @@ j27:
 	STA		@l3
 	LXI		H,1014					; block size 1024 minus 10 bytes filename we already wrote
 	SHLD	wC
-	LHLD	wA
+	LHLD	DFSZ
 @l1:
 	LXI		D,0x0000				; [wF]
 @l2:
@@ -703,15 +709,15 @@ j41:
 	STA		BlockNum
 	STA		_BlockNum
 	LDA		FX1
-	SUI		0x42					; what are these magic values?
-	CPI		0x03
+	SUI		'B'
+	CPI		'D'-'B'+1
 	JNC		INSTR_X1
 	ADD		A
 	ADD		A
 	ADD		A
 	ADD		A
 	ADD		A
-	ADI		0x80
+	ADI		attrBA
 	STA		FileAttr
 	CALL	CheckIsBankFormatted
 @l0:
@@ -728,7 +734,7 @@ j41:
 	LDA		BlockNum
 	CALL	SelectBlock
 	MVI		B,10					; loop counter read 10 bytes
-	LXI		H,FilenameMSG
+	LXI		H,DFHDR
 @l2:
 	ReadData
 	MOV		M,A
@@ -736,7 +742,7 @@ j41:
 	DCR		B
 	JNZ		@l2
 	MVI		C,8
-	LXI		H,FilenameMSG
+	LXI		H,DFHDR
 	LXI		D,FNAME
 	CALL	CMPARE
 	JZ		j42
@@ -761,9 +767,9 @@ j43:
 	CALL	SelectBlock
 	LDA		bD
 	STA		BlockNum
-	MOV		C,A
-	INR		C
-	CALL	SkipCWords
+	MOV		C,A						; DEADCODE
+	INR		C						; DEADCODE
+	CALL	SkipCWords				; DEADCODE
 	STA		bD
 	LDA		BlockNum
 	CALL	SelectBlock
@@ -817,7 +823,7 @@ FORMAT:
 	JMP		MENU					; if not formatted then EXIT
 ; write new format
 @NewFormat:
-	CALL	TestHardware
+	CALL	Test256k
 	; hw test returns:
 	; D = 0x80
 	; 128k hw: C = contents of block0,byte0 + 1 maybe?
@@ -839,7 +845,7 @@ FORMAT:
 	WriteDataN		StampByte1
 	JMP		MAIN
 @WriteFormat:
-	MOV		E,D						; I think D is 0x80, written by TestHardware
+	MOV		E,D						; I think D is 0x80, written by Test256k
 @l0:
 	MOV		A,B
 	WriteData
@@ -849,13 +855,15 @@ FORMAT:
 	JNZ		@l0
 	RET
 
-; hardware test / presence detection
-; this might not be correct, just my best attempt to follow
-; return success: Z = set,   B = 0x40, C = block128byte0+1, D = 0x80
-; return fail:    Z = unset, B = 0x00, C = 0x00 or 0xFF ?,  D = 0x80
-; C on success could be anything, whatever data happened to be stored on the device, incremented by 1
-; Note they sold 128k units, so block 128 may not exist.
-TestHardware:
+; Detect if the disk has more than 128k of ram.
+;
+; If the upper 128k is not installed, then cause FORMAT to mark the FCBs
+; for those blocks with a non-empty yet also non-valid attr value (0x40),
+; so that SAVE, LOAD, ListFiles, etc don't try to use those blocks.
+;
+; Perform a test write to the first byte above 128k.
+; If it worked, return B=0, if it failed, return B=0x40
+Test256k:
 	MVI		D,0x80
 	MOV		A,D
 	CALL	SelectBlock				; select block 128 byte 0
@@ -871,16 +879,24 @@ TestHardware:
 	MOV		A,D
 	CALL	SelectBlock				; reset byte position back to 0
 	ReadData						; read byte 0
-	MOV		C,A						; save to C
-	; C should now have the incremented value read back from the hardware, if the hardware exists
-	MOV		A,D
-	CALL	SelectBlock				; reset byte position back to 0
-	MOV		A,B						; get original saved byte 0 from B
-	WriteData						; write original byte 0 back to byte 0
+
+
+	; DEADCODE **
+	; This could all be removed because this is only ever called from FORMAT
+	; Restores the pre-existing data in the first byte above 128k
+	;--------------------------------------------------------------------------
+	MOV		C,A						; ** C = read incrimented
+	MOV		A,D						; **
+	CALL	SelectBlock				; ** reset byte position back to 0
+	MOV		A,B						; ** get original saved byte 0 from B
+	WriteData						; ** write original byte 0 back to byte 0
 	; byte 0 should now be restored to what it was originally
-	MOV		A,C						; get C (value read back from hardware)
+	MOV		A,C						; ** A = read_incrimented
+	;--------------------------------------------------------------------------
+
+
 	CMP		B						; compare maybe-incremented byte 0 with original byte 0
-	MVI		B,0x40
+	MVI		B,attrNoRam
 	; Z is set or unset from the CP
 	; B is 0x40 (LD aka 8085 MVI does not change Z)
 	RZ								; if C == B, test write did not work, return with B = 0x40
@@ -893,14 +909,14 @@ TestHardware:
 ;------------------------------------------------------------------------------
 
 ; variables that only exist as the address to the operand of a load instruction
-wSP			EQU		MAIN@setsp+1	; initial stack pointer
-CtlPort		EQU		SelectBlock+1	; addr holding ctl port number
-bI			EQU		j05+1			; scratch loop counter
-bB			EQU		j01@bb+1
-FreeKB		EQU		SAVE1@freekb+1	; free KB disk space
-wF			EQU		j27@l1+1
-FileAttr	EQU		j41@l1+1		; file attr byte
-_BlockNum	EQU		SAVE1@la+1		; tmp block number
+InitialSP				EQU		MAIN@sp+1		; initial stack pointer
+CtlPort					EQU		SelectBlock+1	; addr holding ctl port number
+list_slot				EQU		j05+1
+pending_fname_bytes		EQU		ListFiles@pfnb+1
+FreeKB					EQU		SAVE1@freekb+1	; free KB disk space
+wF						EQU		j27@l1+1
+FileAttr				EQU		j41@l1+1		; file attr byte
+_BlockNum				EQU		SAVE1@la+1		; tmp block number
 
 TitleMSG:
 	DB FF
@@ -963,11 +979,9 @@ FixMSG:
 	clr_eol
 	DB 0x00
 
-FilenameMSG:
-	DB "filename"
-
-wA:
-	DW 0x0000
+DFHDR:								; 10-byte disk file header
+	DB "filename",0,0
+DFSZ	EQU	DFHDR+8
 
 BlockNum:
 	DB 0x00

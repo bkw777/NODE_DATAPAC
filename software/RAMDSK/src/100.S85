@@ -24,6 +24,8 @@ D2H4Bup			EQU		0x3469		; move the memory pointed to by DE to the memory pointed 
 PRTASC			EQU		0x39D4		; print 16bit value in HL as ascii
 BEEP			EQU		0x4229		; make a beep sound
 ESCB			EQU		0x446E		; ESC+B - move cursor down one line
+CPHLdn			EQU		ESCB+8		; CSRYX Y=L++ X=H
+CPHL			EQU		ESCB+9		; CSRYX Y=L X=H
 INLIN			EQU		0x4644		; input line
 CKFN			EQU		0x4C0B		; format filename and check validity
 MENU			EQU		0x5797		; go to main menu
@@ -34,7 +36,7 @@ KYREAD			EQU		0x7242		; read keyboard
 
 ; addresses
 MAXRAM			EQU		0xF5F0
-CSRY			EQU		0xF639		; cursor row,col
+CSRYX			EQU		0xF639		; cursor row,col
 ETRAP			EQU		0xF652		; error trap
 CURBAS			EQU		0xF67C		; pointer to start of BA files / current running BASIC program
 UNSAVBA			EQU		0xF99A		; address of current BASIC program not saved
@@ -44,16 +46,15 @@ FILNM1			EQU		0xFC93		; 9 bytes padded filename1
 FILNM2			EQU		0xFC9C		; 9 bytes padded filename2
 ALTLCD			EQU		0xFCC0		; start of ALT LCD buffer, 320 bytes
 KC7				EQU		0xFF97		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
+
 BAFILES			EQU		UNSAVBA		; start of BA files - RAM100 uses UNSAVBA, RAM200 uses CURBAS
-NROWS			EQU		8			; LCD screen rows
-NFNAMES			EQU		10			; number of filenames per screen
-LEGACY_HIMEM	EQU		0xF5EE	; HIMEM=0xF5EE matches the original RAM100.CO
+LEGACY_HIMEM	EQU		0xF5EE		; HIMEM=0xF5EE matches the original RAM100.CO
 
 DeleteRamFile MACRO
 		CALL	FINDFN1					; tail end of FINDFN
-		CPI		fattrDO
+		CPI		attrDO
 		JZ		KILASC					; if it's a .DO file
-		CPI		fattrCO
+		CPI		attrCO
 		JZ		KILCOM					; if it's a .CO file
 		JMP		KILBAS					; if it's anything else
 	ENDM

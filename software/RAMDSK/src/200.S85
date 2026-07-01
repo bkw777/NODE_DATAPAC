@@ -26,6 +26,8 @@ PRTASC			EQU		0x470B		; print 16bit value in HL as ascii
 ;BEEP_MENU		EQU		0x32D2		; CALL BEEP; JMP MENU; (used in RAMDSKv1 but not v2)
 BEEP			EQU		0x4F45		; make a beep sound
 ESCB			EQU		0x519D		; ESC+B - move cursor down one line
+CPHLdn			EQU		ESCB+8		; CSRYX Y=L++ X=H
+CPHL			EQU		ESCB+9		; CSRYX Y=L X=H
 INLIN			EQU		0x54F6		; input line
 CKFN			EQU		0x5ACA		; format filename and check validity
 MENU			EQU		0x67A4		; go to main menu
@@ -36,7 +38,7 @@ KYREAD			EQU		0x8B03		; read keyboard
 
 ; addresses
 MAXRAM			EQU		0xEEB0
-CSRY			EQU		0xEF06		; cursor row,col
+CSRYX			EQU		0xEF06		; cursor row,col
 ETRAP			EQU		0xEF34		; error trap
 CURBAS			EQU		0xEF67		; pointer to start of BA files / current running BASIC program
 UNSAVBA			EQU		0xF295		; address of current BASIC program not saved
@@ -49,8 +51,7 @@ KC7				EQU		0xFD0B		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC
 
 BAFILES			EQU		CURBAS		; start of BA files - RAM100 uses UNSAVBA, RAM200 uses CURBAS
 NROWS			EQU		16			; LCD screen rows
-NFNAMES			EQU		26			; number of filenames per screen
-LEGACY_HIMEM	EQU		0xEEAE	; 0xEEAE matches the original RAM200.CO v2
+LEGACY_HIMEM	EQU		0xEEAE		; 0xEEAE matches the original RAM200.CO v2
 
 DeleteRamFile MACRO
 		JMP		KILLFILE

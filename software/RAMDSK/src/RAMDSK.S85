@@ -32,22 +32,11 @@
 ; CONFIG
 ;------------------------------------------------------------------------------
 
-	IFNDEF NBANKS
-NBANKS		EQU		4
+	IF DEBUG
+	UNDEFINE MATCH_LEGACY_CO_HEADER
 	ENDIF
 
-	;IF NBANKS<2
-	;UNDEFINE MATCH_LEGACY_CO_HEADER
-	;ENDIF
-
 	;DEFINE BANKS_ONE_BASED
-
-	;DEFINE ALT_BANKSW
-
-	; See ListFiles. Trying to skip the file groups isn't working.
-	;IF MATCH_LEGACY_CO_HEADER
-	DEFINE GROUP_FILES
-	;ENDIF
 
 ;------------------------------------------------------------------------------
 ; ASSEMBLER
@@ -85,7 +74,6 @@ LF			EQU		0x0A
 FF			EQU		0x0C
 CR			EQU		0x0D
 ESC 		EQU		0x1B
-SPC			EQU		0x20
 
 ; vt52/screen control sequences
 ; the macro names match the terminfo field names
@@ -112,63 +100,33 @@ exit_attribute_mode MACRO
 	ENDM
 
 ; MKDIRENT file type attributes
-fattrBA		EQU		0x80			; .BA files
-fattrDO		EQU		0xC0			; .DO files
-fattrCO		EQU		0xA0			; .CO files
+attrBA			EQU		0x80			; .BA files
+attrDO			EQU		0xC0			; .DO files
+attrCO			EQU		0xA0			; .CO files
 
-BASE_LEN	EQU		6				; filename basename length
-EXT_LEN		EQU		2				; filename extension length
-CKFN_FNAME_LEN	EQU		BASE_LEN + EXT_LEN		; fname len after CKFN
-DOT_FNAME_LEN	EQU		CKFN_FNAME_LEN + 1		; fname len with dot
+BASE_LEN		EQU		6				; filename basename length
+EXT_LEN			EQU		2				; filename extension length
+CKFN_LEN		EQU		BASE_LEN + EXT_LEN	; fname len after CKFN
 
-FX1			EQU		FILNM1+BASE_LEN		; start of EXT of FILNM1 after CKFN
-FX2			EQU		FILNM2+BASE_LEN		; start of EXT of FILNM2 after CKFN
+FX1				EQU		FILNM1+BASE_LEN	; start of EXT of FILNM1 after CKFN
+FX2				EQU		FILNM2+BASE_LEN	; start of EXT of FILNM2 after CKFN
 
 ; rst
-rst_Print_A			EQU		4		; RST 4 = print A to LCD/LPT
+rst_Print_A		EQU		4				; RST 4 = print A to LCD/LPT
+
+	IFNDEF NROWS
+NROWS			EQU		8				; LCD screen rows
+	ENDIF
+NFNAMES			EQU		(NROWS-3)*2		; number of filenames per screen
 
 ;------------------------------------------------------------------------------
 ; DATAPAC/RAMPAC
 ;------------------------------------------------------------------------------
-PORT_CTL0			EQU		0x81	; control port for bank 0
-PORT_DATA			EQU		0x83	; data read/write port
-BANK_CTL_OFFSET		EQU		0x04	; bank n ctl port is ctl0 + n*4
+CTRL_PORT		EQU		0x81			; control port for bank 0
+DATA_PORT		EQU		0x83			; data read/write port
+CTRL_STEP		EQU		0x04			; bank n ctl port is ctl0 + n*4
 
-DBLOCK_LEN			EQU		0x0400	; disk block length
-
-; SelectBank
-; Switch the hardware to a new bank address. This is done by
-; doing SelectBlock 0 to the control port for the desired bank.
-; Block number is reset to 0, byte position is reset to 0.
-SelectBank MACRO n
-		XRA		A					; A = 0
-		OUT		PORT_CTL0+(n*BANK_CTL_OFFSET)	; write 0 to the bank n control port
-	ENDM
-
-; SelectBlock
-; not a macro, see SlectBlock: below
-; Switch the hardware to a new block address.
-; Bank is unchanged, byte position is reset to 0.
-
-; ReadData
-; Read one byte of data from the current byte position
-; Bank & block unchanged, byte position is incremented by 1 after read.
-ReadData MACRO
-		IN		PORT_DATA				; read one byte from the data port
-	ENDM
-
-; WriteData
-; Write one byte of data to the current byte position
-; Bank & block unchanged, byte position is incremented by 1 after write.
-WriteData MACRO
-		OUT		PORT_DATA				; write A to the data port
-	ENDM
-
-; Convenience wrapper for WriteData with argument
-WriteDataN MACRO n
-		MVI		A,n						; A = n
-		WriteData						; write n to the data port
-	ENDM
+DBLOCK_LEN		EQU		0x0400			; disk block length
 
 ;------------------------------------------------------------------------------
 ; APPLICATION
@@ -179,33 +137,49 @@ WriteDataN MACRO n
 ; as being formatted, so RAMDSK has to do the same to be compatible.
 StampByte0		EQU		0x40
 StampByte1		EQU		0x04
-Format128		EQU		0x40
+
+; invalid attr used to blacklist the upper 128k if the ram isn't installed
+attrNoRam		EQU		0x40			; attr for blocks that don't exist
+MinRam			EQU		0x80			; threshold for installed ram amount test
 
 DFHDR			EQU		ALTLCD
 DFSZ_LEN		EQU		2
-DFHDR_LEN		EQU		CKFN_FNAME_LEN + DFSZ_LEN	; disk header len
-DFSZ			EQU		DFHDR+CKFN_FNAME_LEN		; disk file size
+DFHDR_LEN		EQU		CKFN_LEN + DFSZ_LEN	; disk header len
+DFSZ			EQU		DFHDR+CKFN_LEN	; disk file size
 
 	IF BANKS_ONE_BASED
-BANK0		EQU		'1'				; display bank numbers as Bank1 - Bank4
+BANK0			EQU		'1'				; display bank numbers as Bank1 - Bank4
 	ELSE
-BANK0		EQU		'0'				; display bank numbers as Bank0 - Bank3
+BANK0			EQU		'0'				; display bank numbers as Bank0 - Bank3
+	ENDIF
+MBANKS			EQU		'4'				; max nbanks
+
+; store some values right on screen for debugging
+	IF DEBUG
+NBANKS					EQU		strBankNum+3
+	ELSE
+;NBANKS					EQU		ALTLCD + DFHDR_LEN	; store hi bank in ALTLCD
+NBANKS					EQU		BANK@nbanks+1		; store hi bank in MVI operand
 	ENDIF
 
 ; variables defined as the address to the operand of a load instruction
 ; (saves space, The filesize is reduced by the combined size of all of these)
-InitialSP				EQU		MAIN@setsp+1		; initial stack pointer
-CtlPort					EQU		SelectBlock+1		; rampac control port number
-FnameSlot				EQU		NextSlotOrPage+1	; directory listing screen position
+initial_sp				EQU		MAIN@sp+1			; initial stack pointer
+strBankNum				EQU		strTitle+24			; bank number ascii
+ctl_port				EQU		SelectBlock+1		; rampac control port number
+dfnum					EQU		NextDF+1			; disk file number
 pending_fname_bytes		EQU		ListFiles@brc+1		; fname bytes remaining loop counter
 FreeKB					EQU		SAVE1@freekb+1		; free KB disk space
-farea					EQU		CopyBlocks@l1+1		; COFILES / DOFILES / BAFILES
-fattr					EQU		FindFILNM1onDisk@fileattr+1		; file attr byte
+fstart					EQU		CopyBlocks@l1+1		; new ram file start addr
+attr					EQU		FindFILNM1onDisk@fileattr+1		; file attr byte
 TmpBlockNum				EQU		SAVE1@bn+1			; tmp block number
 BlockNum				EQU		GetNextBlock@bn+1	; block number
 NextBlock				EQU		GetNextBlock@nb+1
 bE						EQU		SAVE1@l8+1
 pending_block_bytes		EQU		CopyBlocks@pbb+1
+;NBANKS					EQU		ALTLCD + DFHDR_LEN	; store hi bank in ALTLCD
+;NBANKS					EQU		BANK@nbanks+1		; store hi bank in MVI operand
+
 
 ;------------------------------------------------------------------------------
 ; ORG
@@ -246,38 +220,32 @@ PRGTOP:
 PRGEXE:
 		LDSI	0						; DE = stack pointer+0
 		XCHG							; HL = stack pointer
-		SHLD	InitialSP				; InitialSP = stack pointer before we start
+		SHLD	initial_sp				; initial_sp = stack pointer before we start
+		CALL	FindNBANKS				; probe the hardware to find how many banks
 
+; No longer used, but interesting for reference. Maybe use the idea for something else.
 ; If user is holding ENTER key during start, switch banks before anything else.
-; This code is omitted if NBANKS>2 so that the new binary can remain the same
-; length as the old binary, so that the same RBOOT can bootstrap either one.
-; Also if NBANKS<2 because it makes no sense in that case.
-	;IF MATCH_LEGACY_CO_HEADER && NBANKS>2
-	;ELSE
-	IF NBANKS=2							; only include if nbanks exactly 2
-		LDA		KC7						; get status bits of keyboard matrix column 7
-		CPI		0x80					; is ENTER pressed?
-		CZ		BANK					; if ENTER is pressed, switch banks.
-	ENDIF
+; No longer makes sense with more than 2 banks.
+;		LDA		KC7						; get status bits of keyboard matrix column 7
+;		CPI		0x80					; is ENTER pressed?
+;		CZ		BANK					; if ENTER is pressed, switch banks.
 
 MAIN:
-@setsp:
-		LXI		SP,0					; [InitialSP]  SP = InitialSP  reset stack pointer to initial addr on each return to main
+@sp:
+		LXI		SP,0					; [initial_sp]  SP = initial_sp  reset stack pointer to initial addr on each return to main
 		LXI		H,MAIN					; HL = MAIN
 		PUSH	H						; TS = MAIN
 		SHLD	ETRAP					; set MAIN as error handler
 		LXI		H,FILNM1				; HL = FILNM1
-		MVI		M,SPC					; write a space to the 1st byte of FILNM1
-		CALL	DrawTitle				; draw the title & initial screen
-		XRA		A						; A = 0
-		STA		FnameSlot				; FnameSlot = 0
-	IF GROUP_FILES
-		MVI		D,fattrBA				; D = fattrBA
+		MVI		M,' '					; write a space to the 1st byte of FILNM1
+		CALL	DrawUI					; draw the title & initial screen
+		;XRA		A						; A = 0 (PTILL0 leaves A=0)
+		STA		dfnum					; dfnum = 0  disk filename number
+		MVI		D,attrBA				; D = attrBA
 		CALL	ListFiles				; print all BA filenames to screen
-		MVI		D,fattrCO				; D = fattrCO
+		MVI		D,attrCO				; D = attrCO
 		CALL	ListFiles				; print all CO filenames to screen
-		MVI		D,fattrDO				; D = fattrDO
-	ENDIF
+		MVI		D,attrDO				; D = attrDO
 		CALL	ListFiles				; print all DO (or just all) filenames to screen
 @end:
 		CALL	FREE
@@ -297,10 +265,8 @@ ReadKeyboard:
 		CPI		0xFF
 		JZ		SAVE1					; save file without displaying file list
 ; F1
-	IF NBANKS>1
 		ANA		A
 		JZ		BANK
-	ENDIF
 ; F2
 		DCR		A
 		JZ		LOAD
@@ -331,10 +297,10 @@ ReadKeyboard:
 		JMP		ReadKeyboard			; loop if not CR
 
 
-; ListFiles - Scan the FCB table in block 0 for entries matching the fattr given in D,
+; ListFiles - Scan the FCB table in block 0 for entries matching the attr given in D,
 ; and print the names & sizes to screen.
 ;
-; FCB is file control block. One FCB is 2 bytes, and the first byte is fattr.
+; FCB is file control block. One FCB is 2 bytes, and the first byte is attr.
 ;
 ; FCB table is block 0 bytes 2-511
 ;
@@ -346,11 +312,11 @@ ReadKeyboard:
 ; Maybe we can put some cool bootstrap code there and make BASIC code to load
 ; it that's smaller and simpler than RBOOT?
 ;
-; CheckFormat moves to block 0 and reads the format stamp,
+; ReadStamp moves to block 0 and reads the format stamp,
 ; leaving the disk at block 0 byte 2, which is the start of the FCB table.
 ; Starting from there, read bytes in pairs, for 255 pairs.
 ;
-; We enter with D = fattrBA or fattrCO or fattrDO
+; We enter with D = attrBA or attrCO or attrDO
 ; C is the loop counter / pair number / block number
 ; At each each pair:
 ; * loop if 1st byte != D
@@ -358,53 +324,44 @@ ReadKeyboard:
 ; * move disk to block C byte 0
 ; * read 10 bytes fname & fsize and print to screen
 ;
-; FnameSlot = 0
-; D = fattrBA / fattrCO / fattrDO
+; dfnum is set to 0 once initially but advances with each pass
+; D = attrBA / attrCO / attrDO
 ListFiles:
-		; bkw - moved MVI C,1 after the call just on principle
 		; move to start of fcb table
-		CALL	CheckFormat				; disk @ k0b2
+		CALL	ReadStamp				; disk @ k0b2
 		MVI		C,1						; C = 1  pair number, aka fcb number, aka block number
 		; read a pair of bytes 255 times
 @read_fcb:								; read file control block (a pair of bytes)
-		CALL	ReadDataW				; B = fcbCb0 (pair C byte 0), A=fcbCb1
+		CALL	ReadBA					; B = fcbCb0 (pair C byte 0), A=fcbCb1
 		MOV		A,B						; A = B = pCb0
-	IF GROUP_FILES
-		CMP		D						; compare A=pCb0 to D=fattr
-		CZ		@read_file_header		; if pCb0 matches fattr then CALL @read_file_header
-	ELSE
-		; simply testing A>0 isn't good enough, pulls in some junk blocks
-		; so it really needs to only accept the valid fattrs
-		ORA		A						; Z if A=0
-		CNZ		@read_file_header		; if pCb0 >0 then CALL @read_file_header
-	ENDIF
+
+		CMP		D						; compare A=pCb0 to D=attr
+		CZ		@read_file_header		; if pCb0 matches attr then CALL @read_file_header
+
 		INR		C						; C++ next pair number
-		RZ								; return when C rolls through FF back to 0
-		JMP		@read_fcb				; repeat until all 255 possible pairs have been checked
+		JNZ		@read_fcb				; repeat until all 255 possible pairs have been checked
+		RET								; return when C rolls through FF back to 0
 @read_file_header:
-	IF GROUP_FILES
-		PUSH	D						; push DE=fattrXX
-	ENDIF
-		PUSH	B						; push B = k0pCb0 = fattrXX   C = pairnum = blocknum
+		PUSH	D						; push DE=attrXX
+		PUSH	B						; push B = k0pCb0 = attrXX   C = pairnum = blocknum
 		MOV		A,C						; A = C = blocknum
 		CALL	SelectBlock				; disk @ kCb0  move disk to block C byte 0
 		CALL	AdvanceCursor			; move LCD cursor to the next filename screen position
 		; read the filename from disk and print to screen
 		; disk is currently at kCb0, after each ReaData disk is at b++
 @read_and_print_byte:
-		ReadData						; A = kCbN   read the byte from disk at block C byte 0-7
+		IN		DATA_PORT				; A = kCbN   read the byte from disk at block C byte 0-7
 		_RST	rst_Print_A				; print it to screen
-		; this 8-count loop with the dot at 3 and the silly way to write "8"...
-		; The counter is on the output, the remaining bytes to print to screen.
-		; We print 9 bytes to screen BBBBBB.EE
+		; this counter starts at 8 to print a filename, but it's not counting 6+2, it's 6-1+1+2
 		; We read 8 bytes from disk BBBBBBEE
-		; We already both read and printed the first B before starting to count.
-		; Now we need to read & print 5 more B, then dot, then 2 E.
-		; Counter = 6-1 + 1 + 2 = 8  Dot happens at 8-5 = 3
+		; We print 9 bytes to screen BBBBBB.EE
+		; The counter is counting the output side, the remaining bytes to print to screen.
+		; We print 9 bytes but the counter starts at 8 because we already did the first B.
+		; Now we need to read & print 5 more B, then generate dot, then read & print 2 E.
+		; Counter = 6-1 + 1 + 2 = 8  Dot happens at 2(ext bytes remaining) + 1(dot remaining) = 3(bytes remaining)
 NRAP EQU BASE_LEN-1+1+EXT_LEN			; number to read-and-print
 @brc:
-		MVI		A,NRAP					; [pending_fname_bytes]   A = pending_fname_bytes  (8 is only the initial condition, this byte gets overwritten while running)
-		;ANA	A						; Z if A = 0 ; what does this accomplish? CPI wipes the Z and everything else? - bkw removed
+		MVI		A,NRAP					; [pending_fname_bytes] A = pending_fname_bytes
 		CPI		1+EXT_LEN				; Z if pending_fname_bytes = 3
 		JNZ		@next_fname_byte		; skip to @next_fname_byte unless pending_fname_bytes = 3
 		PUSH	PSW						; stash A=pending_fname_bytes
@@ -421,9 +378,9 @@ NRAP EQU BASE_LEN-1+1+EXT_LEN			; number to read-and-print
 		STA		pending_fname_bytes		; pending_fname_bytes = 8
 		PUSH	B						; push B = pending_fname_bytes = 8
 		; read the filesize from disk
-		ReadData						; A = filesize lsb
+		IN		DATA_PORT				; A = filesize lsb
 		MOV		L,A						; L = filesize lsb
-		ReadData						; A = filesize msb
+		IN		DATA_PORT				; A = filesize msb
 		MOV		H,A						; H = filesize msb
 		; HL=filesize
 		; print 2 spaces after the filename
@@ -431,59 +388,59 @@ NRAP EQU BASE_LEN-1+1+EXT_LEN			; number to read-and-print
 		CALL	PRTSPC					; print a space
 		; print the filesize to screen
 		CALL	PRTASC					; print the filesize as ascii
-		CALL	NextSlotOrPage			; incr or roll over FnameSlot
+		CALL	NextDF					; incr or roll over dfnum
 		POP		B						; restore B = pending_fname_bytes = 8
 		; done printing the complete filename and file size
 		; return to block 0
-		CALL	CheckFormat				; disk @ k0b2
+		CALL	ReadStamp				; disk @ k0b2
 		; seek to the current FCB
-		CALL	SkipCWords				; read C pairs (seek to current/next FCB in block 0)
-		POP		B						; restore B = k0pCb0 = fattr   C = pairnum = blocknum
-	IF GROUP_FILES
-		POP		D						; restore DE=fattr
-	ENDIF
+		CALL	ReadBAC					; read C pairs (seek to current/next FCB in block 0)
+		POP		B						; restore B = k0pCb0 = attr   C = pairnum = blocknum
+		POP		D						; restore DE=attr
 		RET
 
-; Move the cursor to the next filename slot, then increment FnameSlot.
-; "next filename slot" means:
-; If FnameSlot is even, move cursor left to column 4 and down one row.
-; if FnameSlot is odd, move cursor right to column 24 on the same row.
+; Move cursor to the next filename display position
+; If dfnum is even, move cursor left to column 4 and down one row.
+; if dfnum is odd, move cursor right to column 24 on the same row.
 AdvanceCursor:
-		LHLD	CSRY					; H = cursor X, L = cursor Y
-		LDA		FnameSlot				; A = FnameSlot
-		ANI		1						; Z if FnameSlot is even
-		JNZ		@l0						; if FnameSlot is odd then jump @l0
+		LHLD	CSRYX					; H = cursor X, L = cursor Y
+		LDA		dfnum					; A = dfnum
+		ANI		1						; Z if dfnum is even
+		JNZ		@l0						; if dfnum is odd then jump @l0
+		; dfnum is EVEN
 		MVI		H,4						; H = column 4
 		; move the cursor to row++ , col 4 , return
-		JMP		ESCB+8					; L++, CSRY=HL, RET
+		JMP		CPHLdn					; cursor position CSRYX=HL++
 @l0:
-		; if FnameSlot is an odd number
+		; dfnum is ODD
 		MVI		H,24					; H = column 24
-		; move the cursor to row unchanged, col 24 , return
-		JMP		ESCB+9					; CSRY=HL, RET
+		; move the cursor to col 24 , return
+		JMP		CPHL					; cursor position CSRYX=HL
 
-NextSlotOrPage:
-		MVI		A,0						; [FnameSlot]   A = FnameSlot
+; next disk file / incriment dfnum
+; if we filled the screen then wait for Enter & start new screen
+NextDF:
+		MVI		A,0						; [dfnum] A = dfnum
 		INR		A						; A++
-		STA		FnameSlot				; FnameSlot++
-		CPI		NFNAMES					; compare FnameSlot to NFNAMES
+		STA		dfnum					; dfnum++
+		CPI		NFNAMES					; compare dfnum to NFNAMES
 		RNZ								; if not NFNAMES, return
+		; dfnum passed end of screen, screen is filled
+		; reset dfnum and wait for keypress
 		XRA		A						; A = 0
-		STA		FnameSlot				; FnameSlot = 0
+		STA		dfnum					; dfnum = 0
 		CALL	MAIN@end				; does FREE then falls into ReadKeyboard
-		; Screen is still displaying a screeen full of files.
-		; FnameSlot is reset back to 0 but nothing new output yet.
-		; Now we're waiting for a keypress,
-		; IF it's Enter, then ReadKeyboard will return here.
-		; -- Relies on falling through to DrawTitle --
-DrawTitle:
-		LXI		H,TitleMSG				; HL @ TitleMSG
+		; Screen is still displaying a screeen full of filenames.
+		; Waiting for keypress. If it's Enter, ReadKeyboard will return here.
+		; Relies on falling through to DrawTitle to clear the old screen.
+DrawUI:
+		LXI		H,strUI					; HL @ TitleMSG
 		JMP		PTILL0					; print TitleMSG to screen (includes FF to clear the screen)
 
 ;------------------------------------------------------------------------------
 ; FREE - Update FreeKB
 ;------------------------------------------------------------------------------
-; Each block is a k so we just walk the fcb table.
+; Each block is a k so we just walk the fcb table and add 1 k per free fcb.
 FREE:									; [export] Scan & update free space.
 		PUSH	H						; push HL
 		PUSH	D						; push DE
@@ -494,12 +451,12 @@ FREE:									; [export] Scan & update free space.
 		MOV		H,A						; H = 0
 		MOV		L,A						; L = 0    HL = 0  = free blocks = 0
 		CALL	SelectBlock				; disk @ k0b0
-		; starting at 0 not technically at the start of fcb table,
-		; but the format stamp will always make block 0 occupied
+		; Starting at byte0, not technically at the start of fcb table, but the
+		; stamp will always make "fcb0"/block0 look occupied and skipped over.
 @read_fcb:
-		CALL	ReadDataW				; read 2 bytes into B & A
+		CALL	ReadBA					; read 2 bytes into B & A
 		ORA		B						; are both bytes 0?
-		JNZ		@next_fcb						; if either byte >0 then skip to @l1
+		JNZ		@next_fcb				; if either byte >0 then skip to @l1
 		; both bytes in this fcb are 0, add 1 to free blocks
 		INX		H						; HL++ = free blocks++
 @next_fcb:
@@ -507,20 +464,12 @@ FREE:									; [export] Scan & update free space.
 		JNZ		@read_fcb				; repeat until D=0 (255 times)
 		; done reading all 255 fcbs - update FreeKB
 		PUSH	H						; stash HL=free blocks tally
-		LXI		H,FreeMSG				; HL @ FreeMSG (really just the escape sequences to position the cursor)
+		LXI		H,strFree				; HL @ FreeMSG (really just the escape sequences to position the cursor)
 		CALL	PTILL0					; print FreeMSG (really just moves the cursor to the spot where free blocks goes)
 		POP		H						; restore HL = free blocks tally
 		MOV		A,L						; A = free blocks lsb (which is the whole value since it can't go over 255)
 		STA		FreeKB					; FreeKB = A = free blocks tally
 		CALL	PRTASC					; print A (free KB) as ascii
-		; No place that we are called from gets anything out of this.
-		; The closest is, we are called from NextSlotOrPage while in the middle
-		; of ListFiles walking the fcb table with C, so it might be important
-		; to put the disk back where it was, but even there these same
-		; 2 commands are in ListFiles immediately after NextSlotOrPage,
-		; so that job is already done there.
-		;CALL	CheckFormat				; disk @ k0b2            - bkw removed
-		;CALL	SkipCWords				; seek to pair C   why?  - bkw removed
 		JMP		POPALL					; restore all pushed at start, return
 
 ;------------------------------------------------------------------------------
@@ -528,29 +477,29 @@ FREE:									; [export] Scan & update free space.
 ;------------------------------------------------------------------------------
 KILL:
 		; get the filename from the user
-		LXI		H,KillMSG				; HL @ KillMSG
+		LXI		H,strKill				; HL @ KillMSG
 		CALL	Ask_From_Filename		; print prompt & get fname from user
 		JNZ		BEEP					; invalid input beep & return
 		; disk was searched and file was found
 		; CKFN formatted filename is in FILNM1
 		; confirm ok to delete
-		LXI		H,SureMSG				; HL @ are you sure
+		LXI		H,strSure				; HL @ are you sure
 		CALL	ConfirmWithPrompt		; print are you sure & get Y from user
 		RNZ								; if not Y then return now
 @l0:
-		CALL	CheckFormat				; disc @ k0b2
+		CALL	ReadStamp				; disc @ k0b2
 		LDA		BlockNum				; A = BlockNum
 		DCR		A						; A--
 		JZ		@l1						; if BlockNum-1 = 0 then we are already on the right FCB, skip seeking
 		MOV		C,A						; C = BlockNum-1
-		CALL	SkipCWords				; seek to BlockNum-1
-		; SkipCWords BlockNum-1 reads FCB BlockNum-1, and leaves the disk right
+		CALL	ReadBAC					; seek to BlockNum-1
+		; ReadBAC BlockNum-1 reads FCB BlockNum-1, and leaves the disk right
 		; on the start of FCB BlockNum, ready to overwrite FCB BlockNum.
 @l1:
 		; write 0x00 0x00 over FCB BlockNum
 		XRA		A						; A = 0
-		WriteData						; write 0x00
-		WriteData						; write 0x00
+		OUT		DATA_PORT				; write 0x00
+		OUT		DATA_PORT				; write 0x00
 		;
 		LDA		NextBlock				; A = NextBlock
 		ANA		A						; Z if NextBlock = 0
@@ -558,8 +507,8 @@ KILL:
 		; NextBlock > 0
 		STA		BlockNum				; BlockNum = NextBlock
 		MOV		C,A						; C = BlockNum
-		CALL	CheckFormat				; disk @ k0b2, A = 0x44
-		CALL	SkipCWords				; seek to and read FCB for BlockNum, B=fcb_fattr, A=fcb_nextblock
+		CALL	ReadStamp				; disk @ k0b2, A = 0x44
+		CALL	ReadBAC					; seek to and read FCB for BlockNum, B=fcb_attr, A=fcb_nextblock
 		STA		NextBlock				; NextBlock = fcb_nextblock from BlockNum
 		JMP		@l0
 
@@ -567,7 +516,7 @@ KILL:
 ; NAME
 ;------------------------------------------------------------------------------
 NAME:
-		LXI		H,NameMSG				; HL @ NameMSG
+		LXI		H,strName				; HL @ NameMSG
 		CALL	Ask_From_Filename		; get source fname from user
 		JNZ		BEEP					; if invalid, beep & return
 		CALL	Ask_To_Filename			; get dest fname from user
@@ -580,17 +529,17 @@ NAME:
 		MOV		A,B
 		CALL	SelectBlock
 		LXI		H,FILNM1
-		MVI		B,6
+		MVI		B,BASE_LEN
 @l0:
 		MOV		A,M
-		WriteData
+		OUT		DATA_PORT
 		INX		H
 		DCR		B
 		JNZ		@l0
 		RET
 
 ConfirmReplace:
-		LXI		H,ReplaceMSG
+		LXI		H,strReplace
 		CALL	ConfirmWithPrompt
 		JNZ		MAIN
 		RET
@@ -607,11 +556,11 @@ SAVE:
 		_RST	rst_Print_A				; print FF (clear the screen)
 		CALL	FILES					; display ram files list
 SAVE1:
-		LXI		H,SaveMSG				; HL = SaveMSG
+		LXI		H,strSave				; HL = SaveMSG
 		CALL	InputFilenameWithPrompt	; display SaveMSG and get username from user into FILNM1
 		CALL	FINDFN					; find FILNM1(source) in ram, Z if not found
 		JZ		BEEP					; abort if not found
-		; HL=dirent DE=data A=fattr
+		; HL=dirent DE=data A=attr
 		PUSH	H						; save HL=dirent
 		; preload dest filename with src filename so user can just press enter to accept default
 		CALL	FILNM1toFILNM2			; copy FILNM1 to FILNM2, destroyed HL, DE, A, B
@@ -623,7 +572,7 @@ SAVE1:
 		INX		H						; HL++
 		XCHG							; DE = src_dirent+1
 		LHLX							; HL = word@src_dirent+1  (HL=file_addr)
-		SHLD	farea					; farea = HL
+		SHLD	fstart					; fstart = HL
 		CALL	@l0						; HL = filesize-1
 		INX		H						; HL = filesize
 		CALL	@prepfn
@@ -632,10 +581,10 @@ SAVE1:
 		CALL	WriteHeader
 		RET
 @l0:
-		LDA		fattr					; A = fattr
-		CPI		fattrBA
+		LDA		attr					; A = attr
+		CPI		attrBA
 		JZ		@ba						; if it's a BA file, go to @ba
-		CPI		fattrDO
+		CPI		attrDO
 		JZ		@do						; if it's a DO file, go to @do
 		; CO file
 		LDHI	2						; DE = HL+2 (start of LEN pair in CO header)
@@ -681,10 +630,10 @@ SAVE1:
 		JC		POP_BEEP
 		RET
 @l6:
-		CALL	CheckFormat
+		CALL	ReadStamp
 		MVI		C,0
 @l7:
-		CALL	ReadDataW
+		CALL	ReadBA
 		INR		C
 		ORA		B
 		JNZ		@l7
@@ -692,7 +641,7 @@ SAVE1:
 		CALL	SelectBlock
 		MOV		A,C
 		STA		BlockNum
-		CALL	SkipCWords
+		CALL	ReadBAC
 		CALL	@l8
 		LDA		BlockNum
 		STA		TmpBlockNum
@@ -702,16 +651,17 @@ SAVE1:
 		DCR		A
 		STA		bE
 		JZ		@l9
-		WriteDataN SPC
+		MVI		A,' '
+		OUT		DATA_PORT
 		JMP		@bn
 @l9:
 		POP		PSW
-		LDA		fattr
-		WriteData
+		LDA		attr
+		OUT		DATA_PORT
 @bn:
 		MVI		A,0						; [TmpBlockNum] A = TmpBlockNum (0 just initial cond)
-		STA		NextBlock						; NextBlock = TmpBlockNum
-		WriteData						; write TmpBlockNum
+		STA		NextBlock				; NextBlock = TmpBlockNum
+		OUT		DATA_PORT				; write TmpBlockNum
 		RET
 
 ; write 10 bytes RAMDSK header to first 10 bytes of block BlockNum
@@ -719,10 +669,10 @@ WriteHeader:
 		LDA		BlockNum
 		CALL	SelectBlock
 		LXI		H,DFHDR
-		MVI		B,DFHDR_LEN			; loop counter write 10 bytes
+		MVI		B,DFHDR_LEN				; loop counter write 10 bytes
 @l0:
 		MOV		A,M
-		WriteData
+		OUT		DATA_PORT
 		INX		H
 		DCR		B
 		JNZ		@l0
@@ -739,18 +689,18 @@ ConfirmDeleteRamFile:
 ; LOAD
 ;------------------------------------------------------------------------------
 LOAD:
-		LXI		H,LoadMSG				; HL @ LoadMSG
+		LXI		H,strLoad				; HL @ LoadMSG
 		CALL	Ask_From_Filename		; Display LoadMSG & get source fname from user
 		JNZ		BEEP					; abort if invalid
 		CALL	Ask_To_Filename			; get dest fname from user
 		CALL	FINDFN					; does the dest file already exist in ram?
 		CNZ		ConfirmDeleteRamFile	; if so, confirm ok to replace
 		CALL	MakeHole				; make space for the new file, HL = COFILES/DOFILES/BAFILES
-		SHLD	farea					; farea = HL = COFILES/DOFILES/BAFILES
-		XCHG							; DE = farea
+		SHLD	fstart					; fstart = HL = COFILES/DOFILES/BAFILES
+		XCHG							; DE = fstart
 		DCX		D						; DE--
 		CALL	SCNEMP					; find empty ram directory entry
-		LDA		fattr					; A = fattr
+		LDA		attr					; A = attr
 		CALL	MKDIRENT				; write directory entry
 		CALL	ReadBlocks				; read file data from disk to ram
 		JMP		RESETFPS				; update file pointers
@@ -759,14 +709,14 @@ MakeHole:
 		LHLD	DFSZ					; HL = DFSZ
 		MOV		B,H						; B = H
 		MOV		C,L						; C = L   BC = HL
-		LDA		fattr					; A = fattr
-		CPI		fattrDO					; does fattr = fattrDO ?
+		LDA		attr					; A = attr
+		CPI		attrDO					; does attr = attrDO ?
 		JZ		MakeHoleDO				; if yes then goto MakeHoleDO
-		CPI		fattrBA					; does fattr = fattrBA ?
+		CPI		attrBA					; does attr = attrBA ?
 		JZ		MakeHoleBA				; if yes then goto MakeHoleBA
 		; not DO or BA
 MakeHoleCO:
-		; A = fattr
+		; A = attr
 		LHLD	COFILES					; HL = COFILES
 		PUSH	H						; save HL=COFILES
 		CALL	MAKHOL					; make the space for the new file
@@ -776,14 +726,14 @@ MakeHoleCO:
 		RET								; HL = COFILES
 
 MakeHoleDO:
-		; A = fattr
+		; A = attr
 		LHLD	DOFILES					; HL = DOFILES
 		CALL	MAKHOL					; make space for the new file
 		JC		POP_BEEP				; if OOM, pop A & beep
 		RET								; HL = DOFILES
 
 MakeHoleBA:
-		; A = fattr
+		; A = attr
 		LHLD	BAFILES					; HL = BAFILES
 		CALL	MAKHOL					; make space for the new file
 		JC		POP_BEEP				; if OOM, pop A & beep
@@ -807,11 +757,11 @@ CopyBlocks:
 		SHLD	pending_block_bytes		; pending_block_bytes = 1014
 		LHLD	DFSZ					; HL = DFSZ
 @l1:
-		LXI		D,0						; [farea]  DE = farea (0 just initial cond)
+		LXI		D,0						; [fstart]  DE = fstart (0 just initial cond)
 @move_byte:								; move a byte between disk<>ram, either direction
 		LDAX	D						; A = byte@DE
 @inout:
-		ReadData						; [read disk to A] or [write A to disk]  (might be ReadData or WriteData based on STA @inout above)
+		IN		DATA_PORT				; [read disk to A] or [write A to disk]  (might be IN or OUT based on STA @inout above)
 		STAX	D						; byte@DE = A
 		INX		D						; DE++
 		DCX		H						; HL--
@@ -872,25 +822,25 @@ FindFILNM1onDisk:
 		ADD		A						;     A =  0x00    0x08    0x10
 		ADD		A						;     A =  0x00    0x10    0x20
 		ADD		A						;     A =  0x00    0x20    0x40
-		ADI		fattrBA					;     A =  0x80    0xA0    0xC0
-		STA		fattr					; fattr = fattrBA fattrCO fattrDO
+		ADI		attrBA					;     A =  0x80    0xA0    0xC0
+		STA		attr					; attr = attrBA attrCO attrDO
 		; move disk to FCB table
-		CALL	CheckFormat				; disk @ k0b2 (fcb1)
+		CALL	ReadStamp				; disk @ k0b2 (fcb1)
 		; scan FCB table
 @read_fcb:
-		CALL	ReadDataW				; read fcb, B=fcb_fattr A=fcb_next?  (IDK what 2nd byte in fcb is yet, GUESSING next block in chain with some special value like 0 or same-as-fcb# means no further blocks in file)
+		CALL	ReadBA					; read fcb, B=fcb_attr A=fcb_next?  (IDK what 2nd byte in fcb is yet, GUESSING next block in chain with some special value like 0 or same-as-fcb# means no further blocks in file)
 		STA		NextBlock				; NextBlock = A (fcb_next) (we don't know if we will care about this FCB, and NextBlock is not used anywhere in FindFILNM1onDisk, so it must just mean "the last FCB processed")
 		LDA		BlockNum				; A = BlockNum (last block num processed, initially 0)
 		INR		A						; A++
 		JZ		INR_A_RET				; if BlockNum rolled past FF to 0 then A++ & RET
 		; BlockNum still <= 0xFF
 		STA		BlockNum				; BlockNum++
-		MOV		A,B						; A = fcb_fattr
+		MOV		A,B						; A = fcb_attr
 		;
 @fileattr:
-		CPI		0x3F					; [fattr]  compare fcb_fattr to fattr (0x3F overwritten by STA fattr above)
-		JNZ		@read_fcb				; repeat until fcb_fattr == fattr or scanned all fcbs
-		; found a fcb with a matching fattr
+		CPI		0x3F					; [attr]  compare fcb_attr to attr (0x3F overwritten by STA attr above)
+		JNZ		@read_fcb				; repeat until fcb_attr == attr or scanned all fcbs
+		; found a fcb with a matching attr
 		; go to the corresponding block
 		LDA		BlockNum				; A = BlockNum
 		CALL	SelectBlock				; move disk to block BlockNum byte 0
@@ -898,13 +848,13 @@ FindFILNM1onDisk:
 		LXI		H,DFHDR					; HL @ RAMDSK file header
 		; copy header from disk to ram DFHDR buffer
 @read_header:
-		ReadData						; A = byte (of filename) , disk @ b++
+		IN		DATA_PORT				; A = byte (of filename) , disk @ b++
 		MOV		M,A						; M = byte
 		INX		H						; HL++
 		DCR		B						; B--
 		JNZ		@read_header			; repeat while B>0
 		; copied a file header from BlockNum on disk to DFHDR in ram
-		MVI		C,CKFN_FNAME_LEN		; C = 8  (6+2 CKFN formatted filename BBBBBBEE)
+		MVI		C,CKFN_LEN				; C = 8  (6+2 CKFN formatted filename BBBBBBEE)
 		LXI		H,DFHDR					; HL @ DFHDR
 		LXI		D,FILNM1				; DE @ FILNM1
 		CALL	CMPARE					; compare C bytes (or till null) of DE with HL, Z if match
@@ -912,11 +862,11 @@ FindFILNM1onDisk:
 		JZ		FILNM1toFILNM2			; if disk filename matches FILENM1, then end scan and goto FILNM1toFILNM2
 		; filenames did not match
 		; try the next FCB
-		CALL	CheckFormat				; move disk to FCB table
+		CALL	ReadStamp				; move disk to FCB table
 		LDA		BlockNum				; A = BlockNum
 		MOV		C,A						; C = BlockNum
-		CALL	SkipCWords				; seek past the end of FCB BlockNum
-		; SkipCWords read up to and including FCB for current BlockNum, so
+		CALL	ReadBAC					; seek past the end of FCB BlockNum
+		; ReadBAC read up to and including FCB for current BlockNum, so
 		; the disk is now sitting on the first byte of the FCB for BlockNum+1
 		JMP		@read_fcb				; read and process next FCB
 
@@ -924,7 +874,7 @@ FILNM1toFILNM2: 						; copy 8 bytes from FILNM1 to FILNM2
 		LXI		H,FILNM2				; HL = FILNM2
 FILNM1toHL:								; copy 8 bytes from FILNM1 to HL
 		LXI		D,FILNM1				; DE = FILNM1
-		MVI		B,CKFN_FNAME_LEN		; B = 8
+		MVI		B,CKFN_LEN				; B = 8
 		JMP		D2H4Bup					; copy 8 bytes from DE to FILNM2, RET
 
 ; Called when CopyBlocks reaches the end of a block.
@@ -945,12 +895,6 @@ GetNextBlock:
 
 		; ---- BlockNum is now replaced with NextBlock ----
 
-		;MOV		C,A						; C = BlockNum        bke removed
-		;INR		C						; C++                 bkw removed
-		;CALL	SkipCWords				; read FCB BlockNum+1     bkw removed
-		; The effects of above are only: A, B, & disk position.
-		; We immediately overwrite A and move the disk without using either.
-		; We never use B either here or after returning to CopyBlocks.
 @bn:
 		MVI		A,0						; [BlockNum]  A = BlockNum  (0 just initial cond)
 		CALL	SelectBlock				; disk @ BlockNum byte 0
@@ -961,27 +905,27 @@ GetNextBlock:
 		; pending_block_bytes = 1024
 		RET
 
-CheckFormat:
+ReadStamp:
 		XRA		A						; A = 0
 		CALL	SelectBlock				; disk @ k0b0
-		CALL	ReadDataW				; B=k0b0 A=k0b1, disk @ k0b2
+		CALL	ReadBA					; B=k0b0 A=k0b1, disk @ k0b2
 		ADD		B						; A += B
 		CPI		StampByte0+StampByte1	; is the total 0x44?
 		JNZ		FORMAT					; if not, ask to format
 		RET								; disk @ k0b2, A=0x44, Z
 
-; Read-and-discard C words (C*2 bytes), final read will be left in B & A
-SkipCWords:
-		CALL	ReadDataW				; read 2 bytes into B & A
+; Read 2 bytes from disk into B & A, C times. All but final read are discarded.
+ReadBAC:
+		CALL	ReadBA					; read 2 bytes into B & A
 		DCR		C						; C--
-		JNZ		SkipCWords				; repeat until C=0 (discard previous data)
+		JNZ		ReadBAC					; repeat until C=0 (discard previous data)
 		RET
 
-; Read a word of data (2 bytes) from disk into B & A, in that order
-ReadDataW:
-		ReadData						; A = byte from disk, disk++
+; Read 2 bytes from disk into B & A, in that order
+ReadBA:
+		IN		DATA_PORT				; A = byte from disk, disk++
 		MOV		B,A						; B = A
-		ReadData						; A = byte from disk, disk++
+		IN		DATA_PORT				; A = byte from disk, disk++
 		; B = byte0, A=byte1, disk advanced 2
 		RET
 
@@ -993,7 +937,7 @@ ConfirmWithPrompt:
 		RET								; return cpi result
 
 Ask_To_Filename:
-		LXI		H,AsMSG					; HL @ AsMSG
+		LXI		H,strAs					; HL @ AsMSG
 		CALL	InputFilenameWithPrompt	; get filename from user to FILNM1
 		; Ignore what the user wrote for the destination filename extension
 		; Take the source extension and copy it over the destination extension
@@ -1003,328 +947,446 @@ Ask_To_Filename:
 ; FORMAT - prompt user to format and/or fix
 ;------------------------------------------------------------------------------
 FORMAT:
-		LXI		H,FormatMSG
+		LXI		H,strFormat
 		CALL	ConfirmWithPrompt
 		JZ		@NewFormat
-		LXI		H,FixMSG
+		LXI		H,strFix
 		CALL	ConfirmWithPrompt
 		JZ		@WriteStamp
 		JMP		MENU					; if not formatted then EXIT
+
 ; write new format
 @NewFormat:
-		MVI		D,0x80					; D = 0x80
-		CALL	Test256k				; detect 256k hardware
+		; since both TestRam and WriteFormat get the 128 value from D,
+		; we could make it go in 8k chunks so the orignal old hardware
+		; could have any number of 8k chips installed, and we'd correctly
+		; show and enable exactly that much usable space.
+		MVI		D,MinRam				; D = 128
+		CALL	TestRam					; detect over 128k installed
+		PUSH	B						; save B = 0x00 or 0x40
 		; hw  > 128k: B = 0
 		; hw <= 128k: B = 0x40
 
-		; We blindly write a format regardless what Test256k returned,
-		; but we write a different format for <=128k vs >128k.
-		; The fail condition doesn't distinguish between
-		; working 128k hardware and missing hardware.
-		; The real no-hardware detect is after retsarting at MAIN.
-		; If the hardware is present & working but only 128k,
-		; then CheckFormat will pass the next time around.
-
-		PUSH	B						; TS = hw>128k:0  hw<=128k:0x40
+		; Write blank FCBs for the lower 128k.
 		XRA		A						; A = 0
 		CALL	SelectBlock				; disk @ k0b0
 		MOV		B,A						; B = 0
-		CALL	WriteFormat				; write B 0x00, 128 times
-		; disk block 0, bytes 0-255: all 0x00
-		POP		B						; B = hw>128k:0 hw<=128k:0x40
-		CALL	WriteFormat				; write B 0x00 128 times
+		CALL	WriteFormat				; write B=0x00 A=0x00, 128 times
+
+		; Write either blank or invalid FCBs for the upper 128k.
+		; If the upper 128k does not exist, then write a special invalid attr
+		; to those FCBs, which makes SAVE/LOAD/FREE/etc ignore those blocks.
+		POP		B						; restore B = 0x00 or 0x40
+		CALL	WriteFormat				; write B=0x00 A=0x00, or B=0x40 A=0x00,  128 times
 		; disk block 0, bytes 256-511:
 		; hw  > 128k: all 0x00 0x00
 		; hw <= 128k: all 0x40 0x00
 @WriteStamp:
 		XRA		A						; A = 0
 		CALL	SelectBlock				; disk @ k0b0
-		WriteDataN		StampByte0		; write stamp byte 0 @ k0b0
-		WriteDataN		StampByte1		; write stamp byte 1 @ k0b1
+		MVI		A,StampByte0			; A = StampByte0
+		OUT		DATA_PORT				; write stamp byte 0 @ k0b0
+		MVI		A,StampByte1			; A = StampByte0
+		OUT		DATA_PORT				; write stamp byte 0 @ k0b0
 		JMP		MAIN					; restart at main
 
+; write D copies of B A
 WriteFormat:
 		MOV		E,D						; E = D = 0x80
 @l0:
 		MOV		A,B						; A = B
-		WriteData						; disk = B
+		OUT		DATA_PORT				; disk = B
 		XRA		A						; A = 0
-		WriteData						; disk+1 = 0
+		OUT		DATA_PORT				; disk+1 = 0
 		DCR		E						; E--
 		JNZ		@l0						; repeat until E=0
 		RET
 
-; Detect if the disk has more than 128k of ram.
-; Perform a test write to the first byte above 128k.
-; If it worked, return B=0, if it failed, return B=0x40
-; This isn't about banks. This is about the original hardware
-; that supported 256k but might only have 128k installed.
-Test256k:
+; Detect if the device doesn't have the full 256k of ram.
+;
+; This isn't about banks, this is about less than one full bank.
+; Original DATAPAC was offered with 128k. For a 128k unit we need to
+; mark the non-existing blocks as unusable in the FCB table.
+;
+; If the upper 128k is not installed, then cause FORMAT to mark the FCBs
+; for those blocks with a non-empty yet also non-valid attr value (0x40),
+; so that SAVE, LOAD, FREE, ListFiles, etc don't try to use those blocks.
+;
+; Perform a test write to the first byte above D (128) k.
+; If it worked, return B=0, if it failed, return B=attrNoRam
+TestRam:
+		; read k128b0 (the first byte above 128k)
 		MOV		A,D						; A = D = 0x80
 		CALL	SelectBlock				; disk @ k128b0
-		ReadData						; A = initial_k128b0
+		IN		DATA_PORT				; A = initial_k128b0
+		; save 1st read in B
 		MOV		B,A						; B = initial_k128b0
+		; incriment and write back to k128b0
 		MOV		A,D						; A = D = 0x80
 		CALL	SelectBlock				; disk @ k128b0
 		MOV		A,B						; A = initial_k128b0
 		INR		A						; A++
-		WriteData						; k128b0++
-		; k128b0 should now be incremented
+		OUT		DATA_PORT				; k128b0 = A
+		; read k128b0 again
 		MOV		A,D						; A = D = 0x80
 		CALL	SelectBlock				; disk @ k128b0
-		ReadData						; A = k128b0
-		MOV		C,A						; C = k128b0
-		; If device does not exist, then C = what? maybe doesn't matter, only that it doesn't change
-		; If device only has 128k, then C = what? maybe doesn't matter, only that it doesn't change
-		; If device exists and has >128k then C = initial_k128b0+1
-		MOV		A,D						; A = D = 0x80
-		CALL	SelectBlock				; disk @ k128b0
-		MOV		A,B						; A = initial_k128b0
-		WriteData						; k128b0 = initial_k128b0
-		; k128b0 should now be restored to whatever it was before we started
-		; C = test_read_incrimented, initial_k128b0+1 or other test condition
-		MOV		A,C						; A = C = test_read_incrimented
+		IN		DATA_PORT				; A = k128b0
+
 		; A = test_read_incrimented
 		; B = initial_k128b0
-		CMP		B						; compare test_read_incrimented with initial_k128b0
+		CMP		B						; compare 2nd read to 1st read
 		; Z = fail : both reads produced the same value, the 2nd read should have been incrimented
-		MVI		B,Format128				; B = 0x40
-		; Z is still set or unset from the CMP, MVI does not change Z
-		RZ								; if test failed, return B = 0x40
+		MVI		B,attrNoRam				; B = 0x40, Z unchanged from CMP
+		RZ								; if test failed, return now with B = 0x40
+		; test succeeded
 		XRA		A						; A = 0
 		MOV		B,A						; B = 0
 		RET								; return B = 0
 
-	IF NBANKS>1
+; possible future use - extended stamp at block 0 byte 512
+; Write E to bank D byte 512
+;Write_E_kD_b512:
+;		; set ctl_port to D
+;		MOV		A,D
+;		STA		ctl_port
+;		; select block 0
+;		XRA		A
+;		CALL	SelectBlock
+;		; move to byte 512
+;		MVI		C,0xFF
+;		CALL	ReadBAC
+;		; write E
+;		MVI		A,E
+;		OUT		DATA_PORT
+;		RET
 
+; FindNBANKS
+;
+; Detecting the actual hardware limits when non-existing banks still function.
+;
+; The way the hardware works, smaller/older devices are simply unaware of the
+; extra control port address bits added to later/larger devices for banks.
+; Accessing bank3 looks exactly the same as accessing bank0 to a 1-bank device.
+; So if you try to select bank3 on a device that only has a bank0, the access
+; still works and reads & writes function.
+;
+; So to figure out what the hardware actually has, we have to try to write a
+; unique value to each bank, then read them back to discover what actually happened.
+; You can't learn anything by reading back immediately except that there is
+; any hardware connected at all. You have to blindly write something different to
+; every bank, and then after writing all, go back and read bank0, and the contents
+; of bank0 tells you if you have 1, 2, or 4 banks, or no device at all.
+;
+; First start at bank0 and count up to the highest possible bank.
+; At each bank:
+;  * read byte0
+;  * push it on the stack
+;  * write the bank number to byte0
+;
+; Then after all banks written, read bank0.
+; Derive NBANKS from whatever is in bank0.
+; NBANKS = BANK0 + MBANKS-byte0
+; (see table below for explaination)
+;
+; Then count back from MBANKS down to BANK0
+; and pop the pushes back to the banks they came from.
+;
+; What happens when you write to all the different possible banks
+; ann all the different sized devices:
+;
+; D        : wrote D to bankD (blindly)
+; MBANKS=4 : max possible NBANKS
+; 256k-1M  : different size devices
+; bank0-3  : where the write actually went
+;
+; example: when you try to write '3' to bank3 on a 512k device,
+;          the '3' actually went to bank1
+;
+;wrote 1bank  2bank  4bank
+;  D    256k   512k  1M
+;-------------------------
+;  0   bank0  bank0  bank0
+;  1   bank0  bank1  bank1
+;  2   bank0  bank0  bank2
+;  3   bank0  bank1  bank3
+; MBANKS=4
+;
+; re-arrange above to show what data each bank contains after all the writes
+; iow: when you read bank1 on a 512k device (after the above writes), it will say 3
+;
+; read   size  size  size
+; bank   256k  512k  1M
+;-------------------------
+; bank0   3     2     0
+; bank1   3     3     1
+; bank2   3     2     2
+; bank3   3     3     3
+;
+; so we can see the difference between all possible cases in bank0
+; NBANKS = BANK0 + MBANKS-bank0
+;
+;        256k  512k  1M
+; MBANKS  4     4     4
+; -bank0  3     2     1
+; NBANKS  1     2     4
+;
+; (except NBANKS is ascii, so it's really BANK0 aka '0', plus the difference.)
+
+; Test the hardware to determine NBANKS
+FindNBANKS:
+
+	IF DEBUG
+		LXI		B,strTitle				; set debug pointer to start of strTitle
+	ENDIF
+
+		; stage 1
+		; write the bank number to each bank
+
+		MVI		H,MBANKS				; H = '4' (highest possible NBANKS)
+		MVI		L,BANK0					; L = '0' (lowest possible bank number)
+		MOV		D,L
+		DCR		D
+
+@TestWrite:								; test write & read
+		INR		D						; D++
+		MOV		A,D						; A = D = bank
+
+	IF DEBUG
+		STAX	B						; write bank number to debug
+		INX		B						; advance the debug pointer
+	ENDIF
+
+		; move to bank D
+		CALL	SelectBank				; disk @ bank D block 0 byte 0
+
+		; read the pre-existing data and save it
+		IN		DATA_PORT				; A = original data
+		PUSH	PSW						; stack the original data
+		XRA		A						; A = 0
+		CALL	SelectBlock				; move back to byte 0
+
+		; write bank number to byte 0
+		MOV		A,D						; A = bank
+		OUT		DATA_PORT				; write byte 0 = Dwrite = bank
+
+		INR		A						; A++  (A=D+1)
+		CMP		H						; D+1 vs MBANKS
+		JM		@TestWrite				; repeat while D<MBANKS-1
+
+		; no more potential banks
+
+		; The table of expected data above applies now.
+
+		; read bank0
+		MOV		A,L						; A = BANK0
+		CALL	SelectBank				; move to bank 0
+		IN		DATA_PORT				; A = test0
+
+		; not currently used but for reference:
+		; If you read and get the port number after writing anything else
+		; (so the data can't just by chance legitimately be that value)
+		; that means there is no device connected
+		;CPI	DATA_PORT
+		;JZ		MENU
+
+	IF DEBUG
+		; debug test0
+		STA		DBG_T
+	ENDIF
+
+		; find NBANKS = MBANKS-test0
+		MOV		E,A						; E = test0
+		MOV		A,H						; A = MBANKS
+		SUB		E						; A = MBANKS-test0
+		ADD		L						; A+=BANK0  ascii '0' plus difference
+		STA		NBANKS					; NBANKS = A
+
+		; restore original data to all banks
+
+		; pop the extra pushes from 
+		; MBANKS ('4') down to NBANKS ('4'/'2'/'1')
+		MOV		E,A						; E = NBANKS
+		MOV		D,H						; D = '4'
+
+@rxp:
+		MOV		A,E						; A = NBANKS
+		CMP		D						; NBANKS vs D
+		JZ		@restore				; break when D==NBANKS
+
+		DCR		D
+	IF DEBUG
+		MOV		A,D
+		STAX	B
+		INX		B
+	ENDIF
+		POP		PSW						; pop & discard
+		JMP		@rxp
+
+@restore:
+		DCR		D
+		MOV		A,D						; A = bank
+		CMP		L						; A vs BANK0
+		RM								; return when D<BANK0
+
+		; restore original data
+
+	IF DEBUG
+		STAX	B
+		INX		B
+	ENDIF
+
+		CALL	SelectBank				; move to bank D
+		POP		PSW						; A = unstack original data
+		OUT		DATA_PORT				; write original data back to byte 0
+		JMP		@restore				; next D
 
 ;------------------------------------------------------------------------------
 ; BANK - switch banks
 ;------------------------------------------------------------------------------
 BANK:
-		; Before trying to switch banks, test if banks exist at all.
-		;
-		; The way the hardware works, if you try to access a bank that doesn't exist,
-		; all that happens is the same access just happens on the current bank.
-		;
-		; Write 2 different values to bank0 k0b0 & bank1 k0b0, read them back.
-		; If the 2 reads match, bank1 doesn't exist.
-
-		; FIXME this only tests if bank1 exists.
-		; Now that more than 2 banks might exist, this should really be testing if
-		; the destination bank exists. IE bankCurrent vs bankNext
-
-		; since the actual switch code is large and annoying now because of the roll-over
-		; maybe seperate the actual switch code from this hw test.
-		; * use the full proper sw code as a call as part of the test
-		; * instead of testing on every switch, scan & count banks once on startup,
-		; * save the result in a variable that takes the place of NBANKS
-		; * on switch, just do the switch with no further testing
-		;   FoundNBANKS will automatically create the right behavior.
-
-		SelectBank 0					; disk @ n0k0b0
-		;SelectBlock 0					; disk @ k0b0
-		WriteDataN StampByte0+1			; k0b0 = 0x41 (bank0 now invalid format)
-
-		SelectBank 1					; disk @ n1k0b0
-		
-		ReadData						; A = n1k0b0
-		MOV		B,A						; B = n1k0b0
-		; if bank1 exists and is formatted, then B = 0x40
-		; if bank1 does not exist but bank0 exists, then B = 0x41 that we wrote in bank0
-
-		SelectBank 0					; disk @ n0k0b0
-		WriteDataN StampByte0			; n0k0b0 = 0x40 (bank0 now valid format)
-		; A = 0x40
-		INR		A						; A = 0x41
-		CMP		B						; does B=n1k0b0 = 0x41 ?
-		; if n1k0b0 = 0x41, it means we wrote 0x41 to bank0, then read 0x41 from bank1
-		; which means we have working hardware but no banks.
-		RZ								; return without doing anything else if no banks
-		; We have hardware with banks
-		MOV		A,B						; A = B = n1k0b0
-		; if bank1 exists and is formatted: B = 0x40
-		; if bank1 does not exist but bank 0 does: B = 0x41
-		CPI		PORT_DATA				; compare B to the data port number ????
-		RZ								; return if B==PORT_DATA ???? (0x83)
-		; Is this maybe how we detect no hardware present? If you try to read from
-		; a port, and no hardware reacted to it, what do you get?
-
-	IF NBANKS>2
-
-	IF ALT_BANKSW
-
-;------------------------------------------------------------------------------
-; bkw - Bank-switch that supports NBANKS>2
-; slightly shorter but I want one value to actually derive from the other
-;------------------------------------------------------------------------------
-		LDA		CtlPort					; A = CtlPort
-		ADI		BANK_CTL_OFFSET			; A += 4
-		CPI		PORT_CTL0+BANK_CTL_OFFSET*(NBANKS-1)+1	; A vs max
-		JC		@SaveCtlPort			; A <= max, commit
-		MVI		A,PORT_CTL0				; A > max, A=min
-@SaveCtlPort:
-		STA		CtlPort					; CtlPort = A
-		LDA		BankNumMSG				; A = BankNumMSG
-		INR		A						; A++
-		CPI		BANK0+NBANKS			; A vs max
-		JC		@UpdateBankNum			; A <= max, commit
-		MVI		A,BANK0					; A > max, A=min
-@UpdateBankNum:
-		STA		BankNumMSG				; BankNumMSG = A
-
-	ELSE ; !ALT_BANKSW
-
-;------------------------------------------------------------------------------
-; bkw - Bank-switch that supports NBANKS>2
-;------------------------------------------------------------------------------
-		LDA		BankNumMSG				; read current bank number (ascii)
-		INR		A						; add 1
-		CPI		BANK0+NBANKS			; is it > highest valid bank number?
-		JC		@UpdateBankNum			; BankNum <= highest, jump to commit
-		MVI		A,BANK0					; BankNum > highest, reset to '0'
-@UpdateBankNum:
-		STA		BankNumMSG				; commit new bank number display (ascii)
-		SUI		BANK0					; convert ascii 'n' to n, also if it's 0 the Z will matter later
-		MOV		B,A						; B = bank num
-		MVI		A,PORT_CTL0				; A = control port for bank 0
-@LoopBN:
-		JZ		@DoneBN					; either SUI above or DCR below set Z, jump to commit
-		ADI		BANK_CTL_OFFSET			; A += 4
-		DCR		B						; B--
-		JMP		@LoopBN					; repeat until B=0
-@DoneBN:
-		STA		CtlPort					; CtlPort = A  commit new control port number
-
-	ENDIF ; ALT_BANKSW
-
-	ELSE ; ! NBANKS > 2
-
-	IF BANKS_ONE_BASED
-BANK_NUM_XOR	EQU		0x03
+		; increment or roll-over bank number
+		; This part just does the incriment/rollover logic
+	IF DEBUG
+		LDA		NBANKS					; A = nbanks (highest bank+1)
 	ELSE
-BANK_NUM_XOR	EQU		0x01
+@nbanks:
+		MVI		A,BANK0					; [NBANKS] A = hi_bank
+	ENDIF
+		MOV		B,A						; B = nbanks
+		LDA		strBankNum				; A = current bank
+		INR		A						; A = current+1
+		CMP		B						; A vs nbanks
+		JC		SelectBank				; A < nbanks, jump to commit
+		MVI		A,BANK0					; A >= nbanks, A = lo
+
+; FALL THROUGH
+
+; A = ascii bank number
+; This intentionally just does as commanded without any validity checking.
+; It is used both for normal real switching, and for hardware mapping where
+; we need to try to switch to invalid banks to detect them.
+SelectBank:
+		STA		strBankNum				; store target bank number ascii
+	IF DEBUG
+		PUSH	B
+	ENDIF
+		; Subtract BANK0-1 (ascii '0' or '1', minus 1) from bank number ascii
+		; to get bank+1 offset from 0 (int not ascii). bank+1 because the loop
+		; body always runs and subtracts 1 at least once.
+		SUI		BANK0-1					; A = bank+1
+		MOV		B,A						; B = bank+1
+		; Start with CTRL_PORT(for bank 0 not current or target bank)
+		; -4 because the loop body always runs and adds 4 at least once.
+		MVI		A,CTRL_PORT-CTRL_STEP	; A = control port for bank-1
+@lbn:
+		ADI		CTRL_STEP				; A += 4
+		DCR		B						; B--
+		JNZ		@lbn					; repeat until B=0
+
+		STA		ctl_port				; store control port for bank number
+
+	IF DEBUG
+		STA		DBG_P
+		POP		B
 	ENDIF
 
-;------------------------------------------------------------------------------
-; Original bank-switch code that only toggle between 2 banks is a lot smaller.
-; control port# xor 4, bank number xor 1
-;------------------------------------------------------------------------------
-		LDA		CtlPort					; A = CtlPort (0x81 or 0x85)
-		XRI		BANK_CTL_OFFSET			; A ^= 4 toggle bit 2 (toggle between 0x81 & 0x85)
-		STA		CtlPort					; write new control port number
-		LDA		BankNumMSG				; read bank number display ('0' or '1' ascii)
-		XRI		BANK_NUM_XOR			; toggle bit 0 (toggle between '0' & '1' ascii)
-		STA		BankNumMSG				; write new bank number display
-;------------------------------------------------------------------------------
+		XRA		A						; A = 0
 
-	ENDIF ; NBANKS > 2
-
-; relies on falling through to SelectBlock
-
-		XRA		A						; A = 0 to select block 0 in new bank
-
-	ENDIF ; NBANKS>1
+; FALL THROUGH
 
 ;------------------------------------------------------------------------------
 ; SelectBlock - Select block# in the current bank
 ;------------------------------------------------------------------------------
-; PORT_CTL0 is just the initial condition.
-; The operand gets overwritten at run time by STA CtlPort above.
-; Write A to whatever port number is currently written there.
-; Moves the disk to block A byte 0 in the bank the CtlPort applies to.
+; CTRL_PORT is just the initial condition.
+; The operand gets overwritten at run time by STA ctl_port above.
+; Write A out to whatever port number is currently written there.
+; Moves the disk to block A byte 0 in whatever bank ctl_port applies to.
 SelectBlock:
-		OUT		PORT_CTL0				; [CtlPort]  write A to port
+		OUT		CTRL_PORT				; [ctl_port]  write A to port
 		RET
 
 ;------------------------------------------------------------------------------
 ; strings & variables
 ;------------------------------------------------------------------------------
 
-TitleMSG:
+; this is so that the cursor position codes in strTitle
+; and in strFree automatically track each other
+KFREE_COL		EQU		32				; KB free column position
+
+strUI:
 		DB FF
 		cursor_invisible
 		disable_automatic_scroll
 		enter_reverse_mode
-		DB "NODE RAMPAC/DATAPAC "
-	IF NBANKS>1
-		DB "Bank"
-BankNumMSG:
-		DB BANK0
+strTitle:
+	IF DEBUG
+DBG_T	EQU	strTitle+33
+DBG_P	EQU	strTitle+39
+		DB "                       B  N     T     P "
 	ELSE
-		DB "     "
+		DB "NODE RAMPAC/DATAPAC Bank   P.Globman/BKW"
 	ENDIF
-		DB "  P.Globman/BKW"
 		exit_attribute_mode
 		cursor_address NROWS,1
 ;		DB "F1-- F2-- F3-- F4-- F5-- F6-- F7-- F8--"
-	IF NBANKS>1
 		DB "Bank Load Save Name Kill           Menu"
-	ELSE
-		DB "     Load Save Name Kill           Menu"
-	ENDIF
-		cursor_address NROWS-1,29
-		DB "Kbytes free"
+		cursor_address NROWS-1,KFREE_COL+3
+		DB "K free"
 		cursor_address 1,1
 		DB 0
 
-KillMSG:
+strKill:
 		cursor_address NROWS-1,1
 		DB "Kill:",0
 
-LoadMSG:
+strLoad:
 		cursor_address NROWS-1,1
 		DB "Load:",0
 
-SaveMSG:
+strSave:
 		cursor_address NROWS-1,1
 		DB "Save:",0
 
-NameMSG:
+strName:
 		cursor_address NROWS-1,1
 		DB "Name:",0
 
-AsMSG:
+strAs:
 		DB "  as:"
 		clr_eol
 		DB 0
 
-ReplaceMSG:
+strReplace:
 		cursor_address NROWS,19
 		DB "Replace?",0
 
-FreeMSG:
-		cursor_address NROWS-1,25
+strFree:
+		cursor_address NROWS-1,KFREE_COL
 		DB 0
 
-FormatMSG:
+strFormat:
 		cursor_address NROWS-1,1
-		DB "Format RAMdisk",LF,CR,"Are you "
-SureMSG:
+		DB "Format?",0
+
+strSure:
 		DB "Sure?"
 		clr_eol
 		DB 0
 
-FixMSG:
+strFix:
 		cursor_address NROWS,1
-		DB "Fix?"
+		DB "Repair?"
 		clr_eol
 		DB 0
 
-; If we didn't care about TOP/END in RBOOT.BA, the binary could be 21 bytes
-; smaller (and start 2 bytes higher besides) while adding support for >2 banks!
+; If we didn't care about TOP/END in RBOOT.BA, the binary could be smaller,
+; and start 2 bytes higher besides, while adding more complicated bank support.
 	IF MATCH_LEGACY_CO_HEADER
 
 ; Manually adjust this so that the 100 binary compiles to 1406 bytes to match
 ; the legacy binary. This also takes care of the 200 version at the same time.
 padding:
-	IF NBANKS<2
-		DS 89		; There is no reason to do this. The only reason to build a 256k-only version is to get the smaller binary. This is just here so that the makefile options don't lie.
-	ELIF NBANKS=2
-		DS 33
-	ELSE ; NBANKS>2
-		DS 26
-	ENDIF ; NBANKS
+		DS 15
 
 	ENDIF ; MATCH_LEGACY_CO_HEADER
 
