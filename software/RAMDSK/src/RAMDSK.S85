@@ -154,14 +154,6 @@ BANK0			EQU		'0'				; display bank numbers as Bank0 - Bank3
 	ENDIF
 MBANKS			EQU		'4'				; max nbanks
 
-; store some values right on screen for debugging
-	IF DEBUG
-NBANKS					EQU		strBankNum+3
-	ELSE
-;NBANKS					EQU		ALTLCD + DFHDR_LEN	; store hi bank in ALTLCD
-NBANKS					EQU		BANK@nbanks+1		; store hi bank in MVI operand
-	ENDIF
-
 ; variables defined as the address to the operand of a load instruction
 ; (saves space, The filesize is reduced by the combined size of all of these)
 initial_sp				EQU		MAIN@sp+1			; initial stack pointer
@@ -177,8 +169,12 @@ BlockNum				EQU		GetNextBlock@bn+1	; block number
 NextBlock				EQU		GetNextBlock@nb+1
 bE						EQU		SAVE1@l8+1
 pending_block_bytes		EQU		CopyBlocks@pbb+1
-;NBANKS					EQU		ALTLCD + DFHDR_LEN	; store hi bank in ALTLCD
-;NBANKS					EQU		BANK@nbanks+1		; store hi bank in MVI operand
+
+	IF DEBUG
+NBANKS					EQU		strBankNum+3		; store right on screen for debug
+	ELSE
+NBANKS					EQU		BANK@nbanks+1		; store in MVI operand
+	ENDIF
 
 
 ;------------------------------------------------------------------------------
@@ -239,8 +235,7 @@ MAIN:
 		LXI		H,FILNM1				; HL = FILNM1
 		MVI		M,' '					; write a space to the 1st byte of FILNM1
 		CALL	DrawUI					; draw the title & initial screen
-		;XRA		A						; A = 0 (PTILL0 leaves A=0)
-		STA		dfnum					; dfnum = 0  disk filename number
+		STA		dfnum					; dfnum = 0  disk filename number  (PTILL0 leaves A=0)
 		MVI		D,attrBA				; D = attrBA
 		CALL	ListFiles				; print all BA filenames to screen
 		MVI		D,attrCO				; D = attrCO
@@ -1077,19 +1072,23 @@ TestRam:
 ; every bank, and then after writing all, go back and read bank0, and the contents
 ; of bank0 tells you if you have 1, 2, or 4 banks, or no device at all.
 ;
+; == 1 ==
 ; First start at bank0 and count up to the highest possible bank.
 ; At each bank:
 ;  * read byte0
 ;  * push it on the stack
 ;  * write the bank number to byte0
 ;
+; == 2 ==
 ; Then after all banks written, read bank0.
 ; Derive NBANKS from whatever is in bank0.
 ; NBANKS = BANK0 + MBANKS-byte0
 ; (see table below for explaination)
 ;
+; == 3 ==
 ; Then count back from MBANKS down to BANK0
 ; and pop the pushes back to the banks they came from.
+;
 ;
 ; What happens when you write to all the different possible banks
 ; ann all the different sized devices:
@@ -1131,6 +1130,12 @@ TestRam:
 ; NBANKS  1     2     4
 ;
 ; (except NBANKS is ascii, so it's really BANK0 aka '0', plus the difference.)
+
+; THIS IS HAIRY BUT WORKING
+; all conditions:
+; * no device connected
+; * 256k, 512k, 1M device
+; * already formatted / not
 
 ; Test the hardware to determine NBANKS
 FindNBANKS:
@@ -1203,24 +1208,23 @@ FindNBANKS:
 
 		; restore original data to all banks
 
-		; pop the extra pushes from 
-		; MBANKS ('4') down to NBANKS ('4'/'2'/'1')
+		; pop & discard the extra pushes from MBANKS down to NBANKS
+		; (MBANKS is '4', NBANKS might be '4', '2', or '1')
 		MOV		E,A						; E = NBANKS
 		MOV		D,H						; D = '4'
-
-@rxp:
+@dxp:
 		MOV		A,E						; A = NBANKS
 		CMP		D						; NBANKS vs D
 		JZ		@restore				; break when D==NBANKS
 
-		DCR		D
+		DCR		D						; D--
 	IF DEBUG
 		MOV		A,D
 		STAX	B
 		INX		B
 	ENDIF
 		POP		PSW						; pop & discard
-		JMP		@rxp
+		JMP		@dxp					; next bank
 
 @restore:
 		DCR		D
@@ -1250,7 +1254,7 @@ BANK:
 		LDA		NBANKS					; A = nbanks (highest bank+1)
 	ELSE
 @nbanks:
-		MVI		A,BANK0					; [NBANKS] A = hi_bank
+		MVI		A,BANK0					; [NBANKS] A = NBANKS (highest bank+1)
 	ENDIF
 		MOV		B,A						; B = nbanks
 		LDA		strBankNum				; A = current bank
