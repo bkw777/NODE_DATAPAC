@@ -69,7 +69,6 @@ opcode_IN	EQU		0xDB
 opcode_OUT	EQU		0xD3
 
 ; ascii
-;ETX			EQU		0x03
 LF			EQU		0x0A
 FF			EQU		0x0C
 CR			EQU		0x0D
@@ -999,40 +998,41 @@ WriteFormat:
 
 ; Detect if the device doesn't have the full 256k of ram.
 ;
-; This isn't about banks, this is about less than one full bank.
-; Original DATAPAC was offered with 128k. For a 128k unit we need to
-; mark the non-existing blocks as unusable in the FCB table.
-;
+; This isn't about banks, it's about less than one full 256k bank installed.
+; Original DATAPAC was sold with 128k or 256k.
 ; If the upper 128k is not installed, then cause FORMAT to mark the FCBs
 ; for those blocks with a non-empty yet also non-valid attr value (0x40),
 ; so that SAVE, LOAD, FREE, ListFiles, etc don't try to use those blocks.
 ;
 ; Perform a test write to the first byte above D (128) k.
 ; If it worked, return B=0, if it failed, return B=attrNoRam
+;
+; No need to preserve the original data
+; because this is only done during FORMAT anyway.
 TestRam:
 		; read k128b0 (the first byte above 128k)
 		MOV		A,D						; A = D = 0x80
 		CALL	SelectBlock				; disk @ k128b0
-		IN		DATA_PORT				; A = initial_k128b0
-		; save 1st read in B
-		MOV		B,A						; B = initial_k128b0
-		; incriment and write back to k128b0
+		IN		DATA_PORT				; A = orig_k128b0
+		; save original value in B
+		MOV		B,A						; B = orig
+		; incriment and write back to the same k128b0
 		MOV		A,D						; A = D = 0x80
 		CALL	SelectBlock				; disk @ k128b0
-		MOV		A,B						; A = initial_k128b0
-		INR		A						; A++
-		OUT		DATA_PORT				; k128b0 = A
+		MOV		A,B						; A = orig
+		INR		A						; A = incr
+		OUT		DATA_PORT				; k128b0 = incr
 		; read k128b0 again
 		MOV		A,D						; A = D = 0x80
 		CALL	SelectBlock				; disk @ k128b0
-		IN		DATA_PORT				; A = k128b0
+		IN		DATA_PORT				; A = test
 
-		; A = test_read_incrimented
-		; B = initial_k128b0
-		CMP		B						; compare 2nd read to 1st read
-		; Z = fail : both reads produced the same value, the 2nd read should have been incrimented
-		MVI		B,attrNoRam				; B = 0x40, Z unchanged from CMP
-		RZ								; if test failed, return now with B = 0x40
+		; B = orig
+		; A = test (2nd read that should be orig+1)
+		CMP		B						; test vs orig
+		; if Z, that's a fail, test==orig, test should be orig+1
+		MVI		B,attrNoRam				; B = 0x40
+		RZ								; if test failed, return now with B = attrNoRam
 		; test succeeded
 		XRA		A						; A = 0
 		MOV		B,A						; B = 0
@@ -1066,27 +1066,23 @@ TestRam:
 ;
 ; The only way to find out what the hardware really has is to write unique
 ; values to each possible bank and then go back and read them, and deduce
-; which banks didn't really exist by how they overwrote previous bank numbers.
+; which banks didn't really exist by how later writes overwrote earlier writes.
 ;
 ; == 1 ==
-; First start at bank0 and count up to the highest possible bank.
+; Start at bank0 and count up to the highest possible bank.
 ; At each bank:
-;  * read byte0 & push it on the stack to be restored later
+;  * read byte0 & save it to the stack to be restored later
 ;  * write the bank number to byte0
 ;
 ; == 2 ==
-; Then after all banks written, read bank0.
+; *After* all banks written, in order, then read bank0.
 ; Derive NUM_BANKS_asc from whatever is in bank0.
 ; NUM_BANKS_asc = FIRST_BANK_asc + MAX_BANKS_asc-byte0
 ; (see table below for explaination)
 ;
 ; == 3 ==
-; Count from MAX_BANKS_asc-1 down to NUM_BANKS_asc-1
-; and for each of those pop & DISCARD one of the pushes from step 1.
-; (on a 4-bank device this step will be 0, on a 2-bank device it will be 2,
-; on a 1-bank device it will be 3)
-;
-; == 4 ==
+; Count from MAX_BANKS_asc-1 down to NUM_BANKS_asc
+; and for each of those (if any) pop & DISCARD one of the pushes from step 1.
 ; Count from NUM_BANKS_asc-1 down to FIRST_BANK_asc
 ; and for each of those pop & RESTORE one of the pushes from step 1
 ; back to the bank it came from.
@@ -1113,8 +1109,8 @@ TestRam:
 ; MAX_BANKS_asc=4
 ;
 ; re-arrange above to show what data each bank contains after all the writes
-; iow: when you read bank1 you expect to get '1', but on a 512k device
-; (after the above writes), bank1 will contain '3'.
+; example: when you read bank1 you expect to get '1',
+;          but on a 512k device, bank1 will contain '3'.
 ;
 ; read   size  size  size
 ; bank   256k  512k  1M
@@ -1155,7 +1151,7 @@ Find_NUM_BANKS:
 	ENDIF
 
 		;----------------------------------------------------------------------
-		; 1 - write the bank number to each bank
+		; == 1 == | Write the bank number to each bank
 		;----------------------------------------------------------------------
 
 		MVI		H,MAX_BANKS_asc			; H = '4'
@@ -1193,7 +1189,7 @@ Find_NUM_BANKS:
 		JM		@TestWrite				; repeat while D<MAX_BANKS_asc-1
 
 		;----------------------------------------------------------------------
-		; 2 - read bank 0, calculate & store NUM_BANKS_asc
+		; == 2 == | Read bank 0, calculate & store NUM_BANKS_asc
 		;----------------------------------------------------------------------
 
 		; The above table of expected data applies now.
@@ -1203,8 +1199,8 @@ Find_NUM_BANKS:
 		CALL	SelectBank				; move to bank 0
 		IN		DATA_PORT				; A = test0
 
-		; If IN returns the port number itself when you know the data
-		; should be something else, it means there is no device connected.
+		; If IN returns the port number itself when you know that the data
+		; should be something else, that means there is no device connected.
 		; This works but it's better UX to allow the non-working Format prompt.
 		;CPI		DATA_PORT
 		;JZ		MENU
@@ -1214,7 +1210,7 @@ Find_NUM_BANKS:
 		STA		DBG_T
 	ENDIF
 
-		; find NUM_BANKS_asc = MAX_BANKS_asc-test0
+		; Find NUM_BANKS_asc = MAX_BANKS_asc-test0
 		MOV		E,A						; E = test0
 		MOV		A,H						; A = MAX_BANKS_asc
 		SUB		E						; A = MAX_BANKS_asc-test0
@@ -1222,13 +1218,13 @@ Find_NUM_BANKS:
 		STA		NUM_BANKS_asc			; NUM_BANKS_asc = A
 
 		;----------------------------------------------------------------------
-		; 3 - restore the original data to all banks
+		; == 3 == | Restore the original data to all banks
 		;----------------------------------------------------------------------
 
 		; We have read from disk and written to stack MAX_BANKS times.
 		; Now we need to walk back down the stack & matching bank numbers,
 		; pop & discard the reads from banks that didn't exist if any,
-		; then pop & write the original data back to the banks it came from.
+		; then pop & write the original data back to the banks they came from.
 
 		MOV		E,A						; E = NUM_BANKS_asc (highest real bank number +1)
 		MOV		D,H						; D = MAX_BANKS_asc (max possible bank number +1)
@@ -1243,7 +1239,7 @@ Find_NUM_BANKS:
 		JP		@pop					; discard & repeat until D < nbanks
 		; bank0 <= D < nbanks (D is a real bank number)
 		CALL	SelectBank				; move to bank D
-		MOV		A,B						; A = B original data from bank D byte 0
+		MOV		A,B						; A = B = original data from bank D byte 0
 		OUT		DATA_PORT				; write original data back to bank D byte 0
 		JMP		@pop					; next D
 
