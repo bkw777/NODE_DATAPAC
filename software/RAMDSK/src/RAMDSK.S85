@@ -1041,12 +1041,9 @@ TestRam:
 ; possible future use - extended stamp at block 0 byte 512
 ; Write E to bank D byte 512
 ;Write_E_kD_b512:
-;		; set ctl_port to D
+;		; move to bank D block 0 byte 0
 ;		MOV		A,D
-;		STA		ctl_port
-;		; select block 0
-;		XRA		A
-;		CALL	SelectBlock
+;		CALL	SelectBank
 ;		; move to byte 512
 ;		MVI		C,0xFF
 ;		CALL	ReadBAC
