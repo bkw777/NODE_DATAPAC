@@ -160,13 +160,13 @@ strBankNum				EQU		strTitle+24			; bank number ascii
 ctl_port				EQU		SelectBlock+1		; rampac control port number
 dfnum					EQU		NextDF+1			; disk file number
 pending_fname_bytes		EQU		ListFiles@brc+1		; fname bytes remaining loop counter
-FreeKB					EQU		SAVE1@freekb+1		; free KB disk space
+FreeKB					EQU		SetFBlocks@freekb+1	; free KB disk space
 fstart					EQU		CopyBlocks@l1+1		; new ram file start addr
 attr					EQU		FindFILNM1onDisk@fileattr+1		; file attr byte
-TmpBlockNum				EQU		SAVE1@bn+1			; tmp block number
+TmpBlockNum				EQU		FCB_NextBlock+1		; tmp block number
 BlockNum				EQU		GetNextBlock@bn+1	; block number
 NextBlock				EQU		GetNextBlock@nb+1
-bE						EQU		SAVE1@l8+1
+fblocks					EQU		ClaimFCB+1			; number of blocks used by a file
 pending_block_bytes		EQU		CopyBlocks@pbb+1
 
 	IF DEBUG
@@ -249,6 +249,11 @@ MAIN:
 ; F1   F2   F3   F4   F5   F6   F7   F8
 
 ; TODO: shift-Fx or some way to manually do FORMAT
+; If you mistakenly answer N to Format but Y to Repair on an unformatted device,
+; then you wind up with a scrambled unusable device because RAMDSK now thinks
+; it's formatted, and won't offer to format it again. At that point, to get it
+; to offer to format again, you have to pull the battery and wait for the caps
+; to drain, or actively short them, or manually write to byte 0 from BASIC.
 
 ReadKeyboard:
 		CALL	KYREAD					; look for keypress
@@ -287,7 +292,10 @@ ReadKeyboard:
 		JMP		ReadKeyboard
 @end:
 		CPI		CR						; is it CR?
-		RZ								; "return" if CR, we are not in a CALL, RZ goes to whatever is in TS, looks like MAIN again from top of MAIN
+		; Sometimes this RZ goes back to the top of MAIN because
+		; we are not in a CALL, and SP/TS is set to MAIN at the top of MAIN.
+		; Some times we are in a CALL from NextDF, and return there.
+		RZ								; "return" if CR
 		JMP		ReadKeyboard			; loop if not CR
 
 
@@ -567,111 +575,139 @@ SAVE1:
 		XCHG							; DE = src_dirent+1
 		LHLX							; HL = word@src_dirent+1  (HL=file_addr)
 		SHLD	fstart					; fstart = HL
-		CALL	@l0						; HL = filesize-1
+		CALL	GetRamFSize				; HL = filesize-1
 		INX		H						; HL = filesize
-		CALL	@prepfn
-		CALL	@l2
-		CALL	@l6
-		CALL	WriteHeader
+		CALL	FillDFHeader			; fill disk file header buffer: FILNM1->DFHDR, filesize->DFSZ 
+		CALL	CountFileBlocks			; Get the number of disk blocks required to hold the file
+		CALL	ClaimFileBlocks			; Find available blocks and claim them
+		CALL	CopyRamFileDataToDisk	; Copy the file data from ram to disk
 		RET
-@l0:
+
+GetRamFSize:
+		; HL = fstart
 		LDA		attr					; A = attr
 		CPI		attrBA
-		JZ		@ba						; if it's a BA file, go to @ba
+		JZ		GetRamBASize			; if it's a BA file, GOTO GetRamBASize
 		CPI		attrDO
-		JZ		@do						; if it's a DO file, go to @do
-		; CO file
+		JZ		GetRamDOSize			; if it's a DO file, GOTO GetRamDOSize
+		; it's a CO file
 		LDHI	2						; DE = HL+2 (start of LEN pair in CO header)
 		LHLX							; HL = filesize (not including 6-byte CO header)
-		LXI		D,0x0005				; DE = 5
-		DAD		D						; HL = filesize+1 (full filesize-1)
+		; artificially mimic the HL=filesize-1 that the BA and DO routines produce
+		LXI		D,5						; DE = 5 (6-byte CO header - 1)
+		DAD		D						; HL += 5 = full filesize including CO header - 1
+		; HL = fsize-1
 		RET
-@do:
+
+GetRamDOSize:
 		PUSH	H
 		CALL	GETEOF
 		POP		B
 		DSUB
+		; HL = fsize-1
+		; we JMP'd here, so we are returning all the way out of GetRamFSize back to SAVE1
 		RET
-@ba:
-		PUSH	H
-		CALL	UBLNAS+3				; jump into the middle of UBLNAS (update BASIC line number addresses)
-		POP		B
-		DSUB
+
+GetRamBASize:
+		PUSH	H						; push HL = fstart
+		CALL	UBLNAS+3				; update BASIC line number addresses, skip initial LHLD
+		; HL = addr last byte in file
+		POP		B						; pop HL=fstart to BC
+		DSUB							; HL -= BC  HL = last-first
+		; HL = fsize-1
+		; we JMP'd here, so we are returning all the way out of GetRamFSize back to SAVE1
 		RET
-@prepfn:
+
+FillDFHeader:
 		SHLD	DFSZ					; DFSZ = HL
 		LXI		H,DFHDR					; HL @ DFHDR
 		JMP		FILNM1toHL				; copy FILNM1 to DFHDR
-@l2:
-		LHLD	DFSZ					; HL = DFSZ
-		MVI		D,1						; D = 1
+
+; Count how many blocks the file will require.
+; The first block (of the file) only has 1014 bytes available for
+; file data because 10 bytes are consumed by the disk file header.
+CountFileBlocks:
+		LHLD	DFSZ					; HL = DFSZ = filesize
+		MVI		D,1						; D = 1  fblocks = 1
 		LXI		B,DBLOCK_LEN-DFHDR_LEN	; BC = block_len-header_len
-		JMP		@l4
-@l3:
-		LXI		B,DBLOCK_LEN
-@l4:
-		DSUB
-		JZ		@l5
-		JM		@l5
-		INR		D
-		JMP		@l3
-@l5:
-		MOV		A,D
-		STA		bE
-@freekb:	; nothing jumps here, we just need the address+1
-		MVI		A,0						; [FreeKB]
-		CMP		D
-		JC		POP_BEEP
-		RET
-@l6:
-		CALL	ReadStamp
-		MVI		C,0
-@l7:
-		CALL	ReadBA
-		INR		C
-		ORA		B
-		JNZ		@l7
-		XRA		A
-		CALL	SelectBlock
-		MOV		A,C
-		STA		BlockNum
-		CALL	ReadBAC
-		CALL	@l8
-		LDA		BlockNum
-		STA		TmpBlockNum
-		JMP		@l6
-@l8:
-		MVI		A,0						; [bE]
-		DCR		A
-		STA		bE
-		JZ		@l9
-		MVI		A,' '
-		OUT		DATA_PORT
-		JMP		@bn
-@l9:
-		POP		PSW
-		LDA		attr
-		OUT		DATA_PORT
-@bn:
-		MVI		A,0						; [TmpBlockNum] A = TmpBlockNum (0 just initial cond)
+		JMP		AddFBlock1				; 
+
+; Subtract 1 block (1024 bytes) from filesize
+; Add 1 to fblocks
+; HL = remaining fsize
+AddFBlock:
+		LXI		B,DBLOCK_LEN			; BC = 1024 full size block
+; alt entry with BC set to some other value than 1024
+AddFBlock1:
+		DSUB							; HL = fsize-BC
+		JZ		SetFBlocks				; if HL==0
+		JM		SetFBlocks				; if HL<0
+		INR		D						; D++  (fblocks++)
+		JMP		AddFBlock				; next fblock
+
+SetFBlocks:
+		MOV		A,D						; A = D = fblocks
+		STA		fblocks					; fblocks = A
+@freekb:
+		MVI		A,0						; [FreeKB]  A = FreeKB
+		CMP		D						; FreeKB vs fblocks
+		JC		POP_BEEP				; If FreeKB<fblocks then out of space error
+		RET								; return
+
+ClaimFileBlocks:
+		CALL	ReadStamp				; move to start of FCB table
+		MVI		C,0						; C = 0  FCB/block number - 1
+@read_fcb:
+		CALL	ReadBA					; read FCB  B=attr A=nextblock
+		INR		C						; C++
+		ORA		B						; if either B>0 or A>0
+		JNZ		@read_fcb				; FCB/block is occupied, try next FCB
+		; both B and A are 0, this FCB/block is unoccupied, claim it
+		; move back to the start of the current FCB so ClaimFCB can write it
+		CALL	SelectBlock				; move to block 0 byte 0
+		MOV		A,C						; A = C  (current FCB/block number)
+		STA		BlockNum				; update BlockNum = A = C
+		CALL	ReadBAC					; read C pairs of bytes (move disk form byte 0 up to start of FCB C)
+		CALL	ClaimFCB				; claim this FCB (write attr & next)
+		LDA		BlockNum				; A = BlockNum
+		STA		TmpBlockNum				; TmpBlockNum = A
+		JMP		ClaimFileBlocks
+
+ClaimFCB:
+		MVI		A,0						; [fblocks]  A = fblocks
+		DCR		A						; A--
+		STA		fblocks					; fblocks = A
+		JZ		WriteHeadFCB			; when we get to block 0 write the head FCB
+		; not a file-head block, write a file-cont FCB
+		MVI		A,' '					; A = ' '
+		OUT		DATA_PORT				; write FCB_attr field = ' '
+		JMP		FCB_NextBlock			; update NextBlock & write FCB_next
+; write file-head FCB
+WriteHeadFCB:
+		POP		PSW						; pop AF  (what pushed?)
+		LDA		attr					; A = attr  (discarded pop)
+		OUT		DATA_PORT				; write FCB_attr = attr
+; update NextBlock and write FCB_next field
+FCB_NextBlock:
+		MVI		A,0						; [TmpBlockNum] A = TmpBlockNum
 		STA		NextBlock				; NextBlock = TmpBlockNum
-		OUT		DATA_PORT				; write TmpBlockNum
+		OUT		DATA_PORT				; write FCB_next = TmpBlockNum
 		RET
 
 ; write 10 bytes RAMDSK header to first 10 bytes of block BlockNum
-WriteHeader:
-		LDA		BlockNum
-		CALL	SelectBlock
-		LXI		H,DFHDR
-		MVI		B,DFHDR_LEN				; loop counter write 10 bytes
-@l0:
-		MOV		A,M
-		OUT		DATA_PORT
-		INX		H
-		DCR		B
-		JNZ		@l0
-		MVI		A,opcode_OUT			; A = opcode_OUT
-		JMP		CopyBlocks
+CopyRamFileDataToDisk:
+		LDA		BlockNum				; A = BlockNum
+		CALL	SelectBlock				; move disk to BlockNum byte 0
+		LXI		H,DFHDR					; HL @ DFHDR
+		MVI		B,DFHDR_LEN				; B = 10 bytes loop counter
+@dfhdr_ram_to_disk:
+		MOV		A,M						; A = byte @ HL
+		OUT		DATA_PORT				; write A to disk
+		INX		H						; HL++
+		DCR		B						; B--
+		JNZ		@dfhdr_ram_to_disk		; repeat while B>0
+		MVI		A,opcode_OUT			; A = opcode_OUT  tell CopyBlocks which direction to move data
+		JMP		CopyBlocks				; Proceed to write the actual file data
 
 ConfirmDeleteRamFile:
 		PUSH	H
@@ -998,14 +1034,14 @@ WriteFormat:
 
 ; Detect if the device doesn't have the full 256k of ram.
 ;
-; This isn't about banks, it's about less than one full 256k bank installed.
+; This isn't about banks, it's about less than 256k (one full bank) installed.
 ; Original DATAPAC was sold with 128k or 256k.
 ; If the upper 128k is not installed, then cause FORMAT to mark the FCBs
 ; for those blocks with a non-empty yet also non-valid attr value (0x40),
 ; so that SAVE, LOAD, FREE, ListFiles, etc don't try to use those blocks.
 ;
-; Perform a test write to the first byte above D (128) k.
-; If it worked, return B=0, if it failed, return B=attrNoRam
+; Perform a test write to the first byte above Dk (128k).
+; Return B=0 for 256k, B=attrNoRam for 128k.
 ;
 ; No need to preserve the original data
 ; because this is only done during FORMAT anyway.
@@ -1037,20 +1073,6 @@ TestRam:
 		XRA		A						; A = 0
 		MOV		B,A						; B = 0
 		RET								; return B = 0
-
-; possible future use - extended stamp at block 0 byte 512
-; Write E to bank D byte 512
-;Write_E_kD_b512:
-;		; move to bank D block 0 byte 0
-;		MOV		A,D
-;		CALL	SelectBank
-;		; move to byte 512
-;		MVI		C,0xFF
-;		CALL	ReadBAC
-;		; write E
-;		MVI		A,E
-;		OUT		DATA_PORT
-;		RET
 
 ;------------------------------------------------------------------------------
 ; Find_NUM_BANKS
@@ -1389,7 +1411,7 @@ strFix:
 ; Manually adjust this so that the 100 binary compiles to 1406 bytes to match
 ; the legacy binary. This also takes care of the 200 version at the same time.
 padding:
-		DS 21
+		DS 22
 
 	ENDIF ; MATCH_LEGACY_CO_HEADER
 
