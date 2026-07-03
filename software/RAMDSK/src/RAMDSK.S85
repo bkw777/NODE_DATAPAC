@@ -1288,7 +1288,7 @@ BANK:
 SelectBank:
 		STA		strBankNum				; store target bank number ASCII
 	IF DEBUG
-		PUSH	C
+		PUSH	B
 	ENDIF
 		SUI		FIRST_BANK_asc-1		; A = not-ascii target bank + 1
 		MOV		C,A						; C = not-ascii target bank + 1
@@ -1300,7 +1300,7 @@ SelectBank:
 		STA		ctl_port				; store control port for target bank
 	IF DEBUG
 		STA		DBG_P
-		POP		C
+		POP		B
 	ENDIF
 		XRA		A						; A = 0
 
