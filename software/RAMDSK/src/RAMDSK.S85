@@ -65,14 +65,14 @@ _RST MACRO n
 
 
 ; cpu opcodes
-opcode_IN	EQU		0xDB
-opcode_OUT	EQU		0xD3
+opcode_IN				EQU		0xDB
+opcode_OUT				EQU		0xD3
 
 ; ascii
-LF			EQU		0x0A
-FF			EQU		0x0C
-CR			EQU		0x0D
-ESC 		EQU		0x1B
+LF						EQU		0x0A
+FF						EQU		0x0C
+CR						EQU		0x0D
+ESC 					EQU		0x1B
 
 ; vt52/screen control sequences
 ; the macro names match the terminfo field names
@@ -99,33 +99,33 @@ exit_attribute_mode MACRO
 	ENDM
 
 ; MKDIRENT file type attributes
-attrBA			EQU		0x80			; .BA files
-attrDO			EQU		0xC0			; .DO files
-attrCO			EQU		0xA0			; .CO files
+attrBA					EQU		0x80			; .BA files
+attrDO					EQU		0xC0			; .DO files
+attrCO					EQU		0xA0			; .CO files
 
-BASE_LEN		EQU		6				; filename basename length
-EXT_LEN			EQU		2				; filename extension length
-CKFN_LEN		EQU		BASE_LEN + EXT_LEN	; fname len after CKFN
+BASE_LEN				EQU		6				; filename basename length
+EXT_LEN					EQU		2				; filename extension length
+CKFN_LEN				EQU		BASE_LEN + EXT_LEN	; fname len after CKFN
 
-FX1				EQU		FILNM1+BASE_LEN	; start of EXT of FILNM1 after CKFN
-FX2				EQU		FILNM2+BASE_LEN	; start of EXT of FILNM2 after CKFN
+FX1						EQU		FILNM1+BASE_LEN	; start of EXT of FILNM1 after CKFN
+FX2						EQU		FILNM2+BASE_LEN	; start of EXT of FILNM2 after CKFN
 
 ; rst
-rst_Print_A		EQU		4				; RST 4 = print A to LCD/LPT
+rst_Print_A				EQU		4				; RST 4 = print A to LCD/LPT
 
 	IFNDEF NROWS
-NROWS			EQU		8				; LCD screen rows
+NROWS					EQU		8				; LCD screen rows
 	ENDIF
-NFNAMES			EQU		(NROWS-3)*2		; number of filenames per screen
+NFNAMES					EQU		(NROWS-3)*2		; number of filenames per screen
 
 ;------------------------------------------------------------------------------
 ; DATAPAC/RAMPAC
 ;------------------------------------------------------------------------------
-CTRL_PORT		EQU		0x81			; control port for bank 0
-DATA_PORT		EQU		0x83			; data read/write port
-CTRL_STEP		EQU		0x04			; bank n ctl port is ctl0 + n*4
+CTRL_PORT				EQU		0x81			; control port for bank 0
+DATA_PORT				EQU		0x83			; data read/write port
+CTRL_STEP				EQU		0x04			; bank n ctl port is ctl0 + n*4
 
-DBLOCK_LEN		EQU		0x0400			; disk block length
+DBLOCK_LEN				EQU		0x0400			; disk block length
 
 ;------------------------------------------------------------------------------
 ; APPLICATION
@@ -134,17 +134,17 @@ DBLOCK_LEN		EQU		0x0400			; disk block length
 ; These values have no meaning I can discern, it's just what the original
 ; NODE ROM writes to the first 2 bytes of the device to mark the device
 ; as being formatted, so RAMDSK has to do the same to be compatible.
-StampByte0		EQU		0x40
-StampByte1		EQU		0x04
+StampByte0				EQU		0x40
+StampByte1				EQU		0x04
 
 ; invalid attr used to blacklist the upper 128k if the ram isn't installed
-attrNoRam		EQU		0x40			; attr for blocks that don't exist
-MinRam			EQU		0x80			; threshold for installed ram amount test
+attrNoRam				EQU		0x40			; attr for blocks that don't exist
+MinRam					EQU		0x80			; threshold for installed ram amount test
 
-DFHDR			EQU		ALTLCD
-DFSZ_LEN		EQU		2
-DFHDR_LEN		EQU		CKFN_LEN + DFSZ_LEN	; disk header len
-DFSZ			EQU		DFHDR+CKFN_LEN	; disk file size
+DFHDR					EQU		ALTLCD
+DFSZ_LEN				EQU		2
+DFHDR_LEN				EQU		CKFN_LEN + DFSZ_LEN	; disk header len
+DFSZ					EQU		DFHDR+CKFN_LEN	; disk file size
 
 	IF BANKS_ONE_BASED
 FIRST_BANK_asc			EQU		'1'				; display bank numbers as Bank1 - Bank4
@@ -170,9 +170,9 @@ fblocks					EQU		ClaimFCB+1			; number of blocks used by a file
 pending_block_bytes		EQU		CopyBlocks@pbb+1
 
 	IF DEBUG
-NUM_BANKS_asc					EQU		strBankNum+3		; store right on screen for debug
+NUM_BANKS_asc			EQU		strBankNum+3		; store right on screen for debug
 	ELSE
-NUM_BANKS_asc					EQU		BANK@nbanks+1		; store in MVI operand
+NUM_BANKS_asc			EQU		BANK@nbanks+1		; store in MVI operand
 	ENDIF
 
 
@@ -191,13 +191,13 @@ NUM_BANKS_asc					EQU		BANK@nbanks+1		; store in MVI operand
 	;--------------------------------------------------------------------------
 	IFNDEF HIMEM
 	IF MATCH_LEGACY_CO_HEADER
-HIMEM		EQU		LEGACY_HIMEM
+HIMEM					EQU		LEGACY_HIMEM
 	ELSE
-HIMEM		EQU		MAXRAM
+HIMEM					EQU		MAXRAM
 	ENDIF
 	ENDIF ; HIMEM
 
-	ORG HIMEM-PRGLEN-6				; entry minus length of header
+	ORG HIMEM-PRGLEN-6					; entry minus length of header
 
 	;--------------------------------------------------------------------------
 	; .CO HEADER
@@ -1336,7 +1336,7 @@ SelectBlock: ; operand is ctl_port, CTRL_PORT is just the initial value
 
 ; this is so that the cursor position codes in strTitle
 ; and in strFree automatically track each other
-KFREE_COL		EQU		32				; KB free column position
+KFREE_COL				EQU		32				; KB free column position
 
 strUI:
 		DB FF
@@ -1345,8 +1345,8 @@ strUI:
 		enter_reverse_mode
 strTitle:
 	IF DEBUG
-DBG_T	EQU	strTitle+33
-DBG_P	EQU	strTitle+39
+DBG_T					EQU		strTitle+33
+DBG_P					EQU		strTitle+39
 		DB "                       B  N     T     P "
 	ELSE
 		DB "NODE RAMPAC/DATAPAC Bank   P.Globman/BKW"
