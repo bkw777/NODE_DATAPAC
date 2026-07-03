@@ -148,11 +148,11 @@ DFHDR_LEN		EQU		CKFN_LEN + DFSZ_LEN	; disk header len
 DFSZ			EQU		DFHDR+CKFN_LEN	; disk file size
 
 	IF BANKS_ONE_BASED
-BANK0			EQU		'1'				; display bank numbers as Bank1 - Bank4
+FIRST_BANK_asc			EQU		'1'				; display bank numbers as Bank1 - Bank4
 	ELSE
-BANK0			EQU		'0'				; display bank numbers as Bank0 - Bank3
+FIRST_BANK_asc			EQU		'0'				; display bank numbers as Bank0 - Bank3
 	ENDIF
-MBANKS			EQU		'4'				; max nbanks
+MAX_BANKS_asc			EQU		'4'				; max nbanks
 
 ; variables defined as the address to the operand of a load instruction
 ; (saves space, The filesize is reduced by the combined size of all of these)
@@ -171,9 +171,9 @@ bE						EQU		SAVE1@l8+1
 pending_block_bytes		EQU		CopyBlocks@pbb+1
 
 	IF DEBUG
-NBANKS					EQU		strBankNum+3		; store right on screen for debug
+NUM_BANKS_asc					EQU		strBankNum+3		; store right on screen for debug
 	ELSE
-NBANKS					EQU		BANK@nbanks+1		; store in MVI operand
+NUM_BANKS_asc					EQU		BANK@nbanks+1		; store in MVI operand
 	ENDIF
 
 
@@ -217,11 +217,11 @@ PRGEXE:
 		LDSI	0						; DE = stack pointer+0
 		XCHG							; HL = stack pointer
 		SHLD	initial_sp				; initial_sp = stack pointer before we start
-		CALL	FindNBANKS				; probe the hardware to find how many banks
+		CALL	Find_NUM_BANKS			; probe the hardware to find how many banks
 
 ; No longer used, but interesting for reference. Maybe use the idea for something else.
 ; If user is holding ENTER key during start, switch banks before anything else.
-; No longer makes sense with more than 2 banks.
+; Not very useful with more than 2 banks since it only gets to bank1.
 ;		LDA		KC7						; get status bits of keyboard matrix column 7
 ;		CPI		0x80					; is ENTER pressed?
 ;		CZ		BANK					; if ENTER is pressed, switch banks.
@@ -1055,51 +1055,53 @@ TestRam:
 ;		OUT		DATA_PORT
 ;		RET
 
-; FindNBANKS
+;------------------------------------------------------------------------------
+; Find_NUM_BANKS
+;------------------------------------------------------------------------------
 ;
-; Detecting the actual hardware limits when non-existing banks still function.
+; THIS IS HAIRY BUT WORKING
 ;
-; The way the hardware works, smaller/older devices are simply unaware of the
-; extra control port address bits added to later/larger devices for banks.
-; Accessing bank3 looks exactly the same as accessing bank0 to a 1-bank device.
-; So if you try to select bank3 on a device that only has a bank0, the access
-; still works and reads & writes function.
+; The problem is to detect how many banks the hardware has,
+; when banks that don't exist never the less still function.
 ;
-; So to figure out what the hardware actually has, we have to try to write a
-; unique value to each bank, then read them back to discover what actually happened.
-; You can't learn anything by reading back immediately except that there is
-; any hardware connected at all. You have to blindly write something different to
-; every bank, and then after writing all, go back and read bank0, and the contents
-; of bank0 tells you if you have 1, 2, or 4 banks, or no device at all.
+; The only way to find out what the hardware really has is to write unique
+; values to each possible bank and then go back and read them, and deduce
+; which banks didn't really exist by how they overwrote previous bank numbers.
 ;
 ; == 1 ==
 ; First start at bank0 and count up to the highest possible bank.
 ; At each bank:
-;  * read byte0
-;  * push it on the stack
+;  * read byte0 & push it on the stack to be restored later
 ;  * write the bank number to byte0
 ;
 ; == 2 ==
 ; Then after all banks written, read bank0.
-; Derive NBANKS from whatever is in bank0.
-; NBANKS = BANK0 + MBANKS-byte0
+; Derive NUM_BANKS_asc from whatever is in bank0.
+; NUM_BANKS_asc = FIRST_BANK_asc + MAX_BANKS_asc-byte0
 ; (see table below for explaination)
 ;
 ; == 3 ==
-; Then count back from MBANKS down to BANK0
-; and pop the pushes back to the banks they came from.
+; Count from MAX_BANKS_asc-1 down to NUM_BANKS_asc-1
+; and for each of those pop & DISCARD one of the pushes from step 1.
+; (on a 4-bank device this step will be 0, on a 2-bank device it will be 2,
+; on a 1-bank device it will be 3)
+;
+; == 4 ==
+; Count from NUM_BANKS_asc-1 down to FIRST_BANK_asc
+; and for each of those pop & RESTORE one of the pushes from step 1
+; back to the bank it came from.
 ;
 ;
 ; What happens when you write to all the different possible banks
-; ann all the different sized devices:
+; on all the different sized devices:
 ;
 ; D        : wrote D to bankD (blindly)
-; MBANKS=4 : max possible NBANKS
+; MAX_BANKS_asc=4 : max possible NUM_BANKS_asc
 ; 256k-1M  : different size devices
 ; bank0-3  : where the write actually went
 ;
 ; example: when you try to write '3' to bank3 on a 512k device,
-;          the '3' actually went to bank1
+;          the '3' actually goes to bank1
 ;
 ;wrote 1bank  2bank  4bank
 ;  D    256k   512k  1M
@@ -1108,10 +1110,11 @@ TestRam:
 ;  1   bank0  bank1  bank1
 ;  2   bank0  bank0  bank2
 ;  3   bank0  bank1  bank3
-; MBANKS=4
+; MAX_BANKS_asc=4
 ;
 ; re-arrange above to show what data each bank contains after all the writes
-; iow: when you read bank1 on a 512k device (after the above writes), it will say 3
+; iow: when you read bank1 you expect to get '1', but on a 512k device
+; (after the above writes), bank1 will contain '3'.
 ;
 ; read   size  size  size
 ; bank   256k  512k  1M
@@ -1121,36 +1124,44 @@ TestRam:
 ; bank2   3     2     2
 ; bank3   3     3     3
 ;
-; so we can see the difference between all possible cases in bank0
-; NBANKS = BANK0 + MBANKS-bank0
+; So we can see that bank0 supplies everything we need,
+; it contains a different value for every possible case.
+; 
+; NUM_BANKS = MAX_BANKS-bank0
 ;
-;        256k  512k  1M
-; MBANKS  4     4     4
-; -bank0  3     2     1
-; NBANKS  1     2     4
+;           256k  512k  1M
+; MAX_BANKS  4     4     4
+;   - bank0  3     2     1
+; ------------------------
+; NUM_BANKS  1     2     4
 ;
-; (except NBANKS is ascii, so it's really BANK0 aka '0', plus the difference.)
+; and taking the ascii into account that becomes
+; NUM_BANKS_asc = FIRST_BANK_asc + MAX_BANKS_asc-bank0
 
-; THIS IS HAIRY BUT WORKING
-; all conditions:
+; conditions this must handle:
 ; * no device connected
 ; * 256k, 512k, 1M device
-; * already formatted / not
+; * already formatted / not formatted
+; * preserve pre-existing data
 
-; Test the hardware to determine NBANKS
-FindNBANKS:
+; Test the hardware to determine NUM_BANKS_asc
+; Does a test-write to byte0 of every possible bank.
+; Saves and restores the pre-existing data.
+Find_NUM_BANKS:
 
+	; debugging works by writing to strTitle  A=value, STAX B, INX B
 	IF DEBUG
-		LXI		B,strTitle				; set debug pointer to start of strTitle
+		LXI		B,strTitle				; BC = start of strTitle
 	ENDIF
 
-		; stage 1
-		; write the bank number to each bank
+		;----------------------------------------------------------------------
+		; 1 - write the bank number to each bank
+		;----------------------------------------------------------------------
 
-		MVI		H,MBANKS				; H = '4' (highest possible NBANKS)
-		MVI		L,BANK0					; L = '0' (lowest possible bank number)
-		MOV		D,L
-		DCR		D
+		MVI		H,MAX_BANKS_asc			; H = '4'
+		MVI		L,FIRST_BANK_asc		; L = '0'
+		MOV		D,L						; D = '0'  bank number
+		DCR		D						; D = '0'-1
 
 @TestWrite:								; test write & read
 		INR		D						; D++
@@ -1174,24 +1185,28 @@ FindNBANKS:
 		MOV		A,D						; A = bank
 		OUT		DATA_PORT				; write byte 0 = Dwrite = bank
 
+		; A++ because we want the last jump to be the one before the highest
+		; bank number. MAX_BANKS is one higher than the highest bank number,
+		; so add 1 to the current bank number to compensate.
 		INR		A						; A++  (A=D+1)
-		CMP		H						; D+1 vs MBANKS
-		JM		@TestWrite				; repeat while D<MBANKS-1
+		CMP		H						; D+1 vs MAX_BANKS_asc
+		JM		@TestWrite				; repeat while D<MAX_BANKS_asc-1
 
-		; no more potential banks
+		;----------------------------------------------------------------------
+		; 2 - read bank 0, calculate & store NUM_BANKS_asc
+		;----------------------------------------------------------------------
 
-		; The table of expected data above applies now.
+		; The above table of expected data applies now.
 
 		; read bank0
-		MOV		A,L						; A = BANK0
+		MOV		A,L						; A = FIRST_BANK_asc
 		CALL	SelectBank				; move to bank 0
 		IN		DATA_PORT				; A = test0
 
-		; not currently used but for reference:
-		; If you read and get the port number after writing anything else
-		; (so the data can't just by chance legitimately be that value)
-		; that means there is no device connected
-		;CPI	DATA_PORT
+		; If IN returns the port number itself when you know the data
+		; should be something else, it means there is no device connected.
+		; This works but it's better UX to allow the non-working Format prompt.
+		;CPI		DATA_PORT
 		;JZ		MENU
 
 	IF DEBUG
@@ -1199,101 +1214,94 @@ FindNBANKS:
 		STA		DBG_T
 	ENDIF
 
-		; find NBANKS = MBANKS-test0
+		; find NUM_BANKS_asc = MAX_BANKS_asc-test0
 		MOV		E,A						; E = test0
-		MOV		A,H						; A = MBANKS
-		SUB		E						; A = MBANKS-test0
-		ADD		L						; A+=BANK0  ascii '0' plus difference
-		STA		NBANKS					; NBANKS = A
+		MOV		A,H						; A = MAX_BANKS_asc
+		SUB		E						; A = MAX_BANKS_asc-test0
+		ADD		L						; A+=FIRST_BANK_asc  ascii '0' plus difference
+		STA		NUM_BANKS_asc			; NUM_BANKS_asc = A
 
-		; restore original data to all banks
+		;----------------------------------------------------------------------
+		; 3 - restore the original data to all banks
+		;----------------------------------------------------------------------
 
-		; pop & discard the extra pushes from MBANKS down to NBANKS
-		; (MBANKS is '4', NBANKS might be '4', '2', or '1')
-		MOV		E,A						; E = NBANKS
-		MOV		D,H						; D = '4'
-@dxp:
-		MOV		A,E						; A = NBANKS
-		CMP		D						; NBANKS vs D
-		JZ		@restore				; break when D==NBANKS
+		; We have read from disk and written to stack MAX_BANKS times.
+		; Now we need to walk back down the stack & matching bank numbers,
+		; pop & discard the reads from banks that didn't exist if any,
+		; then pop & write the original data back to the banks it came from.
 
+		MOV		E,A						; E = NUM_BANKS_asc (highest real bank number +1)
+		MOV		D,H						; D = MAX_BANKS_asc (max possible bank number +1)
+@pop:
 		DCR		D						; D--
-	IF DEBUG
-		MOV		A,D
-		STAX	B
-		INX		B
-	ENDIF
-		POP		PSW						; pop & discard
-		JMP		@dxp					; next bank
-
-@restore:
-		DCR		D
-		MOV		A,D						; A = bank
-		CMP		L						; A vs BANK0
-		RM								; return when D<BANK0
-
-		; restore original data
-
-	IF DEBUG
-		STAX	B
-		INX		B
-	ENDIF
-
+		MOV		A,D						; A = D
+		CMP		L						; D vs L (FIRST_BANK_asc aka bank0)
+		RM								; RETURN when D < bank0
+		; D >= bank0
+		POP		B						; pop AF(bank D byte 0) to BC
+		CMP		E						; D vs nbanks
+		JP		@pop					; discard & repeat until D < nbanks
+		; bank0 <= D < nbanks (D is a real bank number)
 		CALL	SelectBank				; move to bank D
-		POP		PSW						; A = unstack original data
-		OUT		DATA_PORT				; write original data back to byte 0
-		JMP		@restore				; next D
+		MOV		A,B						; A = B original data from bank D byte 0
+		OUT		DATA_PORT				; write original data back to bank D byte 0
+		JMP		@pop					; next D
 
 ;------------------------------------------------------------------------------
 ; BANK - switch banks
 ;------------------------------------------------------------------------------
+; FIRST_BANK_asc = ASCII lowest bank number
+; NUM_BANKS_asc  = ASCII highest bank number + 1
+; strBankNum     = ASCII current/target bank number
 BANK:
 		; increment or roll-over bank number
-		; This part just does the incriment/rollover logic
+		; This part just does the incriment-or-rollover logic on BankNum.
+		; Fall-through to SelectBank to actually do the work.
 	IF DEBUG
-		LDA		NBANKS					; A = nbanks (highest bank+1)
-	ELSE
-@nbanks:
-		MVI		A,BANK0					; [NBANKS] A = NBANKS (highest bank+1)
-	ENDIF
+		; for debug, NUM_BANKS_asc is simply stored right in strTitle
+		LDA		NUM_BANKS_asc			; A = NUM_BANKS_asc
 		MOV		B,A						; B = nbanks
+	ELSE
+@nbanks: ; operand is NUM_BANKS_asc, FIRST_BANK_asc is just the initial value
+		MVI		B,FIRST_BANK_asc		; [NUM_BANKS_asc] B = NUM_BANKS_asc
+	ENDIF
 		LDA		strBankNum				; A = current bank
 		INR		A						; A = current+1
 		CMP		B						; A vs nbanks
-		JC		SelectBank				; A < nbanks, jump to commit
-		MVI		A,BANK0					; A >= nbanks, A = lo
+		JC		SelectBank				; if A < nbanks then use it
+		MVI		A,FIRST_BANK_asc		; if A >= nbanks then set A = bank0
 
 ; FALL THROUGH
 
-; A = ascii bank number
-; This intentionally just does as commanded without any validity checking.
-; It is used both for normal real switching, and for hardware mapping where
-; we need to try to switch to invalid banks to detect them.
+;------------------------------------------------------------------------------
+; SelectBank - Set strBankNum and ctl_port, move disk to bank A block 0 byte 0
+;------------------------------------------------------------------------------
+; in:
+;   A = ASCII bank number
+; out:
+;   store strBankNum = A
+;   calculate & store ctl_port number from A
+;   fall through to SelectBlock to actually set the hardware
+; 
+; Intentionally no validity-checking here. This is also used while
+; probing the hardware to determine what's valid in the first place.
 SelectBank:
-		STA		strBankNum				; store target bank number ascii
+		STA		strBankNum				; store target bank number ASCII
 	IF DEBUG
-		PUSH	B
+		PUSH	C
 	ENDIF
-		; Subtract BANK0-1 (ascii '0' or '1', minus 1) from bank number ascii
-		; to get bank+1 offset from 0 (int not ascii). bank+1 because the loop
-		; body always runs and subtracts 1 at least once.
-		SUI		BANK0-1					; A = bank+1
-		MOV		B,A						; B = bank+1
-		; Start with CTRL_PORT(for bank 0 not current or target bank)
-		; -4 because the loop body always runs and adds 4 at least once.
-		MVI		A,CTRL_PORT-CTRL_STEP	; A = control port for bank-1
-@lbn:
-		ADI		CTRL_STEP				; A += 4
-		DCR		B						; B--
-		JNZ		@lbn					; repeat until B=0
-
-		STA		ctl_port				; store control port for bank number
-
+		SUI		FIRST_BANK_asc-1		; A = not-ascii target bank + 1
+		MOV		C,A						; C = not-ascii target bank + 1
+		MVI		A,CTRL_PORT-CTRL_STEP	; A = control port for bank0 - step
+@step_ctl_port:
+		ADI		CTRL_STEP				; A += step
+		DCR		C						; C--
+		JNZ		@step_ctl_port			; repeat until C=0
+		STA		ctl_port				; store control port for target bank
 	IF DEBUG
 		STA		DBG_P
-		POP		B
+		POP		C
 	ENDIF
-
 		XRA		A						; A = 0
 
 ; FALL THROUGH
@@ -1301,12 +1309,10 @@ SelectBank:
 ;------------------------------------------------------------------------------
 ; SelectBlock - Select block# in the current bank
 ;------------------------------------------------------------------------------
-; CTRL_PORT is just the initial condition.
-; The operand gets overwritten at run time by STA ctl_port above.
-; Write A out to whatever port number is currently written there.
+; Write A out to whatever port number is currently in ctl_port.
 ; Moves the disk to block A byte 0 in whatever bank ctl_port applies to.
-SelectBlock:
-		OUT		CTRL_PORT				; [ctl_port]  write A to port
+SelectBlock: ; operand is ctl_port, CTRL_PORT is just the initial value
+		OUT		CTRL_PORT				; [ctl_port]  write A to ctl_port
 		RET
 
 ;------------------------------------------------------------------------------
@@ -1390,7 +1396,7 @@ strFix:
 ; Manually adjust this so that the 100 binary compiles to 1406 bytes to match
 ; the legacy binary. This also takes care of the 200 version at the same time.
 padding:
-		DS 15
+		DS 21
 
 	ENDIF ; MATCH_LEGACY_CO_HEADER
 
