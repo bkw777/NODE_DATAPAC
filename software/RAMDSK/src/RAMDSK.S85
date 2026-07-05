@@ -99,9 +99,11 @@ exit_attribute_mode MACRO
 	ENDM
 
 ; MKDIRENT file type attributes
-attrBA					EQU		0x80			; .BA files
-attrDO					EQU		0xC0			; .DO files
-attrCO					EQU		0xA0			; .CO files
+attrFD					EQU		' '				; file data, part of a file after the first block
+attrNA					EQU		0x40			; not-applicable / not-available, block that can not be used for a file
+attrBA					EQU		0x80			; .BA file
+attrDO					EQU		0xC0			; .DO file
+attrCO					EQU		0xA0			; .CO file
 
 BASE_LEN				EQU		6				; filename basename length
 EXT_LEN					EQU		2				; filename extension length
@@ -131,14 +133,25 @@ DBLOCK_LEN				EQU		0x0400			; disk block length
 ; APPLICATION
 ;------------------------------------------------------------------------------
 
-; These values have no meaning I can discern, it's just what the original
-; NODE ROM writes to the first 2 bytes of the device to mark the device
-; as being formatted, so RAMDSK has to do the same to be compatible.
-StampByte0				EQU		0x40
+; Format Stamp - or "fcb 0"
+;
+; StampByte0 = attrNA
+; Aside from being part of the the stamp marking the entire device as formatted
+; or "used by RAMDSK", it also serves the same function as on any other normal FCB.
+; It marks block 0 as occupied, but not by any BA/CO/DO file,
+; the same as for blocks above 128k that don't exist on 128k devices.
+;
+; StampByte1 = 0x04
+; Does NOT mean "next block in this file is block 4".
+; To RAMDSK it's an arbitrary value with no meaning, we just always write 4 and
+; always expect to read 4, to maintain compatibility with the NODE ROM.
+; It might possibly have some meaning to the NODE ROM. The NODE ROM does more
+; than RAMDSK does, including supposedly being able to use PCSG and PG Designs
+; ram expansions, which are different types of hardware that don't work the way
+; that a RAMPAC works. Maybe it indicates the type of hardware or formatting.
+StampByte0				EQU		attrNA
 StampByte1				EQU		0x04
 
-; invalid attr used to blacklist the upper 128k if the ram isn't installed
-attrNoRam				EQU		0x40			; attr for blocks that don't exist
 MinRam					EQU		0x80			; threshold for installed ram amount test
 
 DFHDR					EQU		ALTLCD
@@ -259,8 +272,8 @@ ReadKeyboard:
 		CALL	KYREAD					; look for keypress
 		JZ		ReadKeyboard			; if no key then loop
 		JNC		@end					; if not Fkey then skip to @end
-		LXI		H,MAIN					; HL=MAIN
-		PUSH	H						; TS=MAIN
+		LXI		H,MAIN					; HL = MAIN
+		PUSH	H						; TS = MAIN
 		CPI		0xFF
 		JZ		SAVE1					; save file without displaying file list
 ; F1
@@ -286,31 +299,35 @@ ReadKeyboard:
 ;	JZ		F7
 ; F8
 ;	DCR		A
-		SUI		3
+		SUI		3						; skip over unexamined F6 & F7
 		JZ		MENU
-		POP		H						; HL=MAIN
+		POP		H						; HL = MAIN
 		JMP		ReadKeyboard
 @end:
-		CPI		CR						; is it CR?
-		; Sometimes this RZ goes back to the top of MAIN because
-		; we are not in a CALL, and SP/TS is set to MAIN at the top of MAIN.
-		; Some times we are in a CALL from NextDF, and return there.
-		RZ								; "return" if CR
-		JMP		ReadKeyboard			; loop if not CR
+		CPI		CR						; A == Enter?
+		; Sometimes we did not get here via CALL, and RZ goes to MAIN from PUSH HL=MAIN
+		; Sometimes we got here via CALL from NextDF, and RZ returns there
+		RZ								; return or MAIN if CR
+		JMP		ReadKeyboard			; read keyboard again if not CR
 
-
-; ListFiles - Scan the FCB table in block 0 for entries matching the attr given in D,
-; and print the names & sizes to screen.
+;------------------------------------------------------------------------------
+; ListFiles - Scan FCB table for attr=D, print filename & filesize
+;------------------------------------------------------------------------------
 ;
-; FCB is file control block. One FCB is 2 bytes, and the first byte is attr.
+; FCB is File Control Block.
+;
+; Each FCB is 2 bytes:
+; 0: attribute
+; 1: next block
 ;
 ; FCB table is block 0 bytes 2-511
 ;
-; Each FCB corresponds to a disk block except for pair0 and block0.
-; pair0 is the format stamp and block0 is the fcb table.
-; After that, fcbs 1-255 correspond to blocks 1-255.
+; Each FCB corresponds to a disk block.
+; fcbs 1-255 correspond to blocks 1-255.
 ;
-; That's only 512 bytes. The second 512 bytes of block 0 appears to be unused.
+; You could also say the format stamp in bytes 0-1 is "fcb 0" for block 0, the FCB table itself.
+;
+; That's only 512 bytes. The second 512 bytes of block 0 are unused.
 ; Maybe we can put some cool bootstrap code there and make BASIC code to load
 ; it that's smaller and simpler than RBOOT?
 ;
@@ -319,9 +336,9 @@ ReadKeyboard:
 ; Starting from there, read bytes in pairs, for 255 pairs.
 ;
 ; We enter with D = attrBA or attrCO or attrDO
-; C is the loop counter / pair number / block number
+; C is the loop counter = fcb/block number
 ; At each each pair:
-; * loop if 1st byte != D
+; * if attr != D then skip the rest and get next fcb
 ; * advance cursor to next screen position
 ; * move disk to block C byte 0
 ; * read 10 bytes fname & fsize and print to screen
@@ -331,33 +348,33 @@ ReadKeyboard:
 ListFiles:
 		; move to start of fcb table
 		CALL	ReadStamp				; disk @ k0b2
-		MVI		C,1						; C = 1  pair number, aka fcb number, aka block number
-		; read a pair of bytes 255 times
-@read_fcb:								; read file control block (a pair of bytes)
-		CALL	ReadBA					; B = fcbCb0 (pair C byte 0), A=fcbCb1
-		MOV		A,B						; A = B = pCb0
-
-		CMP		D						; compare A=pCb0 to D=attr
-		CZ		@read_file_header		; if pCb0 matches attr then CALL @read_file_header
-
-		INR		C						; C++ next pair number
+		MVI		C,1						; C = 1  fcb/block number
+		; read FCBs until C++ rolls over to 0
+@read_fcb:								; read one FCB (2 bytes)
+		CALL	ReadBA					; B=attr  A=next
+		MOV		A,B						; A=attr
+		CMP		D						; if attr==D ...
+		CZ		@read_file_header		; ... then CALL @read_file_header
+		INR		C						; C++ next FCB
 		JNZ		@read_fcb				; repeat until all 255 possible pairs have been checked
 		RET								; return when C rolls through FF back to 0
+
 @read_file_header:
-		PUSH	D						; push DE=attrXX
-		PUSH	B						; push B = k0pCb0 = attrXX   C = pairnum = blocknum
-		MOV		A,C						; A = C = blocknum
+		PUSH	D						; push D=attr E=?
+		PUSH	B						; push B=attr C=block
+		MOV		A,C						; A = block
 		CALL	SelectBlock				; disk @ kCb0  move disk to block C byte 0
 		CALL	AdvanceCursor			; move LCD cursor to the next filename screen position
-		; read the filename from disk and print to screen
-		; disk is currently at kCb0, after each ReaData disk is at b++
+		; read the filename & size from disk and print to screen
+		; disk is currently at block C byte 0
 @read_and_print_byte:
 		IN		DATA_PORT				; A = kCbN   read the byte from disk at block C byte 0-7
 		_RST	rst_Print_A				; print it to screen
-		; this counter starts at 8 to print a filename, but it's not counting 6+2, it's 6-1+1+2
+		; NRAP = convoluted way to write "8", but I want to document why it's 8
+		; This counter starts at 8 and processes a filename, but it's not counting 6+2, it's 6-1+1+2.
 		; We read 8 bytes from disk BBBBBBEE
 		; We print 9 bytes to screen BBBBBB.EE
-		; The counter is counting the output side, the remaining bytes to print to screen.
+		; The counter is counting the remaining bytes to print to screen.
 		; We print 9 bytes but the counter starts at 8 because we already did the first B.
 		; Now we need to read & print 5 more B, then generate dot, then read & print 2 E.
 		; Counter = 6-1 + 1 + 2 = 8  Dot happens at 2(ext bytes remaining) + 1(dot remaining) = 3(bytes remaining)
@@ -396,9 +413,9 @@ NRAP EQU BASE_LEN-1+1+EXT_LEN			; number to read-and-print
 		; return to block 0
 		CALL	ReadStamp				; disk @ k0b2
 		; seek to the current FCB
-		CALL	ReadBAC					; read C pairs (seek to current/next FCB in block 0)
-		POP		B						; restore B = k0pCb0 = attr   C = pairnum = blocknum
-		POP		D						; restore DE=attr
+		CALL	ReadBAxC				; read C pairs (seek to current/next FCB in block 0)
+		POP		B						; restore B=attr  C=block
+		POP		D						; restore D=attr  E=?
 		RET
 
 ; Move cursor to the next filename display position
@@ -480,13 +497,12 @@ FREE:									; [export] Scan & update free space.
 KILL:
 		; get the filename from the user
 		LXI		H,strKill				; HL @ KillMSG
-		CALL	Ask_From_Filename		; print prompt & get fname from user
+		CALL	Ask_Disk_Filename		; print prompt & get fname from user
 		JNZ		BEEP					; invalid input beep & return
-		; disk was searched and file was found
-		; CKFN formatted filename is in FILNM1
+		; filename was found on disk
+		; FILNM1 contains filename reformatted by CKFN
 		; confirm ok to delete
-		LXI		H,strSure				; HL @ are you sure
-		CALL	ConfirmWithPrompt		; print are you sure & get Y from user
+		CALL	ConfirmSure				; print are you sure & get Y from user
 		RNZ								; if not Y then return now
 @l0:
 		CALL	ReadStamp				; disc @ k0b2
@@ -494,9 +510,9 @@ KILL:
 		DCR		A						; A--
 		JZ		@l1						; if BlockNum-1 = 0 then we are already on the right FCB, skip seeking
 		MOV		C,A						; C = BlockNum-1
-		CALL	ReadBAC					; seek to BlockNum-1
-		; ReadBAC BlockNum-1 reads FCB BlockNum-1, and leaves the disk right
-		; on the start of FCB BlockNum, ready to overwrite FCB BlockNum.
+		CALL	ReadBAxC				; seek to start of BlockNum
+		; ReadBAxC with C=BlockNum-1 reads up to and including FCB BlockNum-1,
+		; leaving the disk on the start of FCB BlockNum.
 @l1:
 		; write 0x00 0x00 over FCB BlockNum
 		XRA		A						; A = 0
@@ -505,12 +521,12 @@ KILL:
 		;
 		LDA		NextBlock				; A = NextBlock
 		ANA		A						; Z if NextBlock = 0
-		RZ								; if NextBlock=0 then return  / means no more blocks to zero?
+		RZ								; if NextBlock=0 then return  (no more blocks to clear)
 		; NextBlock > 0
 		STA		BlockNum				; BlockNum = NextBlock
 		MOV		C,A						; C = BlockNum
 		CALL	ReadStamp				; disk @ k0b2, A = 0x44
-		CALL	ReadBAC					; seek to and read FCB for BlockNum, B=fcb_attr, A=fcb_nextblock
+		CALL	ReadBAxC				; seek to and read FCB for BlockNum, B=fcb_attr, A=fcb_nextblock
 		STA		NextBlock				; NextBlock = fcb_nextblock from BlockNum
 		JMP		@l0
 
@@ -519,7 +535,7 @@ KILL:
 ;------------------------------------------------------------------------------
 NAME:
 		LXI		H,strName				; HL @ NameMSG
-		CALL	Ask_From_Filename		; get source fname from user
+		CALL	Ask_Disk_Filename		; get source fname from user
 		JNZ		BEEP					; if invalid, beep & return
 		CALL	Ask_To_Filename			; get dest fname from user
 		LDA		BlockNum				; A = BlockNum
@@ -667,7 +683,7 @@ ClaimFileBlocks:
 		CALL	SelectBlock				; move to block 0 byte 0
 		MOV		A,C						; A = C  (current FCB/block number)
 		STA		BlockNum				; update BlockNum = A = C
-		CALL	ReadBAC					; read C pairs of bytes (move disk form byte 0 up to start of FCB C)
+		CALL	ReadBAxC				; read C pairs of bytes (move disk form byte 0 up to start of FCB C)
 		CALL	ClaimFCB				; claim this FCB (write attr & next)
 		LDA		BlockNum				; A = BlockNum
 		STA		TmpBlockNum				; TmpBlockNum = A
@@ -679,7 +695,7 @@ ClaimFCB:
 		STA		fblocks					; fblocks = A
 		JZ		WriteHeadFCB			; when we get to block 0 write the head FCB
 		; not a file-head block, write a file-cont FCB
-		MVI		A,' '					; A = ' '
+		MVI		A,attrFD				; A = ' '
 		OUT		DATA_PORT				; write FCB_attr field = ' '
 		JMP		FCB_NextBlock			; update NextBlock & write FCB_next
 ; write file-head FCB
@@ -720,7 +736,7 @@ ConfirmDeleteRamFile:
 ;------------------------------------------------------------------------------
 LOAD:
 		LXI		H,strLoad				; HL @ LoadMSG
-		CALL	Ask_From_Filename		; Display LoadMSG & get source fname from user
+		CALL	Ask_Disk_Filename		; Display LoadMSG & get source fname from user
 		JNZ		BEEP					; abort if invalid
 		CALL	Ask_To_Filename			; get dest fname from user
 		CALL	FINDFN					; does the dest file already exist in ram?
@@ -831,7 +847,7 @@ copyFX2toFX1:
 		; FX1[0,1] = FX2[0,1]
 		RET
 
-Ask_From_Filename:
+Ask_Disk_Filename:
 		CALL	InputFilenameWithPrompt
 ; Search the disk for FILNM1. If found, copy FILNM1 to FILNM2
 FindFILNM1onDisk:
@@ -895,8 +911,8 @@ FindFILNM1onDisk:
 		CALL	ReadStamp				; move disk to FCB table
 		LDA		BlockNum				; A = BlockNum
 		MOV		C,A						; C = BlockNum
-		CALL	ReadBAC					; seek past the end of FCB BlockNum
-		; ReadBAC read up to and including FCB for current BlockNum, so
+		CALL	ReadBAxC				; seek past the end of FCB BlockNum
+		; ReadBAxC read up to and including FCB for current BlockNum, so
 		; the disk is now sitting on the first byte of the FCB for BlockNum+1
 		JMP		@read_fcb				; read and process next FCB
 
@@ -944,11 +960,11 @@ ReadStamp:
 		JNZ		FORMAT					; if not, ask to format
 		RET								; disk @ k0b2, A=0x44, Z
 
-; Read 2 bytes from disk into B & A, C times. All but final read are discarded.
-ReadBAC:
+; ReadBA C times. All but final read are discarded.
+ReadBAxC:
 		CALL	ReadBA					; read 2 bytes into B & A
 		DCR		C						; C--
-		JNZ		ReadBAC					; repeat until C=0 (discard previous data)
+		JNZ		ReadBAxC				; repeat until C=0 (discard previous data)
 		RET
 
 ; Read 2 bytes from disk into B & A, in that order
@@ -959,15 +975,20 @@ ReadBA:
 		; B = byte0, A=byte1, disk advanced 2
 		RET
 
+PromptWithSure:
+		CAll	ConfirmWithPrompt
+		RNZ
+ConfirmSure:
+		LXI		H,strSure				; HL @ strSure
 ConfirmWithPrompt:
 		CALL	PTILL0					; print prompt
 		CALL	CHGET					; wait for keypress
 		CALL	LC2UCA					; convert to uppercase
 		CPI		'Y'						; is it "Y" ?
-		RET								; return cpi result
+		RET								; return CPI flags
 
 Ask_To_Filename:
-		LXI		H,strAs					; HL @ AsMSG
+		LXI		H,strAs					; HL @ strAs
 		CALL	InputFilenameWithPrompt	; get filename from user to FILNM1
 		; Ignore what the user wrote for the destination filename extension
 		; Take the source extension and copy it over the destination extension
@@ -978,10 +999,10 @@ Ask_To_Filename:
 ;------------------------------------------------------------------------------
 FORMAT:
 		LXI		H,strFormat
-		CALL	ConfirmWithPrompt
+		CALL	PromptWithSure
 		JZ		@NewFormat
-		LXI		H,strFix
-		CALL	ConfirmWithPrompt
+		LXI		H,strRepair
+		CALL	PromptWithSure
 		JZ		@WriteStamp
 		JMP		MENU					; if not formatted then EXIT
 
@@ -1067,8 +1088,8 @@ TestRam:
 		; A = test (2nd read that should be orig+1)
 		CMP		B						; test vs orig
 		; if Z, that's a fail, test==orig, test should be orig+1
-		MVI		B,attrNoRam				; B = 0x40
-		RZ								; if test failed, return now with B = attrNoRam
+		MVI		B,attrNA				; B = 0x40
+		RZ								; if test failed, return now with B = attrNA
 		; test succeeded
 		XRA		A						; A = 0
 		MOV		B,A						; B = 0
@@ -1200,12 +1221,9 @@ Find_NUM_BANKS:
 		MOV		A,D						; A = bank
 		OUT		DATA_PORT				; write byte 0 = Dwrite = bank
 
-		; A++ because we want the last jump to be the one before the highest
-		; bank number. MAX_BANKS is one higher than the highest bank number,
-		; so add 1 to the current bank number to compensate.
 		INR		A						; A++  (A=D+1)
 		CMP		H						; D+1 vs MAX_BANKS_asc
-		JM		@TestWrite				; repeat while D<MAX_BANKS_asc-1
+		JM		@TestWrite				; repeat while bank+1 < highest+1
 
 		;----------------------------------------------------------------------
 		; == 2 == | Read bank 0, calculate & store NUM_BANKS_asc
@@ -1233,7 +1251,7 @@ Find_NUM_BANKS:
 		MOV		E,A						; E = test0
 		MOV		A,H						; A = MAX_BANKS_asc
 		SUB		E						; A = MAX_BANKS_asc-test0
-		ADD		L						; A+=FIRST_BANK_asc  ascii '0' plus difference
+		ADD		L						; A+=FIRST_BANK_asc = '0'+difference
 		STA		NUM_BANKS_asc			; NUM_BANKS_asc = A
 
 		;----------------------------------------------------------------------
@@ -1247,20 +1265,20 @@ Find_NUM_BANKS:
 
 		MOV		E,A						; E = NUM_BANKS_asc (highest real bank number +1)
 		MOV		D,H						; D = MAX_BANKS_asc (max possible bank number +1)
-@pop:
+@pop_test0:
 		DCR		D						; D--
 		MOV		A,D						; A = D
 		CMP		L						; D vs L (FIRST_BANK_asc aka bank0)
 		RM								; RETURN when D < bank0
-		; D >= bank0
+		; D >= bank0 , might be a real bank or might be above highest real bank
 		POP		B						; pop AF(bank D byte 0) to BC
 		CMP		E						; D vs nbanks
-		JP		@pop					; discard & repeat until D < nbanks
-		; bank0 <= D < nbanks (D is a real bank number)
-		CALL	SelectBank				; move to bank D
-		MOV		A,B						; A = B = original data from bank D byte 0
-		OUT		DATA_PORT				; write original data back to bank D byte 0
-		JMP		@pop					; next D
+		JP		@pop_test0				; discard & repeat until D < nbanks
+		; bank0 <= D < nbanks (now D is a real bank number)
+		CALL	SelectBank				; move disk to bank D block 0 byte 0
+		MOV		A,B						; A = B = original data from bank D
+		OUT		DATA_PORT				; write original data back to bank D
+		JMP		@pop_test0				; next D
 
 ;------------------------------------------------------------------------------
 ; BANK - switch banks
@@ -1289,7 +1307,7 @@ BANK:
 ; FALL THROUGH
 
 ;------------------------------------------------------------------------------
-; SelectBank - Set strBankNum and ctl_port, move disk to bank A block 0 byte 0
+; SelectBank - Set strBankNum and ctl_port, SelectBlock 0
 ;------------------------------------------------------------------------------
 ; in:
 ;   A = ASCII bank number
@@ -1334,8 +1352,6 @@ SelectBlock: ; operand is ctl_port, CTRL_PORT is just the initial value
 ; strings & variables
 ;------------------------------------------------------------------------------
 
-; this is so that the cursor position codes in strTitle
-; and in strFree automatically track each other
 KFREE_COL				EQU		32				; KB free column position
 
 strUI:
@@ -1348,9 +1364,9 @@ strTitle:
 DBG_T					EQU		strTitle+33
 DBG_P					EQU		strTitle+39
 		DB "                       B  N     T     P "
-	ELSE
+	ELSE ; !DEBUG
 		DB "NODE RAMPAC/DATAPAC Bank   P.Globman/BKW"
-	ENDIF
+	ENDIF ; DEBUG
 		exit_attribute_mode
 		cursor_address NROWS,1
 ;		DB "F1-- F2-- F3-- F4-- F5-- F6-- F7-- F8--"
@@ -1358,6 +1374,10 @@ DBG_P					EQU		strTitle+39
 		cursor_address NROWS-1,KFREE_COL+3
 		DB "K free"
 		cursor_address 1,1
+		DB 0
+
+strFree:
+		cursor_address NROWS-1,KFREE_COL
 		DB 0
 
 strKill:
@@ -1377,32 +1397,26 @@ strName:
 		DB "Name:",0
 
 strAs:
-		DB "  as:"
 		clr_eol
-		DB 0
+		DB "  as:",0
 
 strReplace:
 		cursor_address NROWS,19
 		DB "Replace?",0
 
-strFree:
-		cursor_address NROWS-1,KFREE_COL
-		DB 0
-
 strFormat:
 		cursor_address NROWS-1,1
+		clr_eol
 		DB "Format?",0
 
-strSure:
-		DB "Sure?"
+strRepair:
+		cursor_address NROWS-1,1
 		clr_eol
-		DB 0
+		DB "Repair?",0
 
-strFix:
-		cursor_address NROWS,1
-		DB "Repair?"
+strSure:
 		clr_eol
-		DB 0
+		DB "Sure?",0
 
 ; If we didn't care about TOP/END in RBOOT.BA, the binary could be smaller,
 ; and start 2 bytes higher besides, while adding more complicated bank support.
@@ -1411,7 +1425,7 @@ strFix:
 ; Manually adjust this so that the 100 binary compiles to 1406 bytes to match
 ; the legacy binary. This also takes care of the 200 version at the same time.
 padding:
-		DS 22
+		DS 16
 
 	ENDIF ; MATCH_LEGACY_CO_HEADER
 
