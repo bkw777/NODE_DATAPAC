@@ -1,8 +1,37 @@
 # Assembly Source for RAMDSK Reconstructed from Disassembly
 
-Disassembled & reassembled source for Paul Globman's RAMDSK for NODE DATAPAC/RAMPAC
+Disassembled & reassembled source for Paul Globman's RAMDSK for NODE DATAPAC/RAMPAC  
+Now also somewhat modified.
 
-This version adds support for more than 2 banks, and makes a few minor cosmetic changes.
+Changes from the legacy version:  
+ * Supports 4 banks / 1 Meg  
+ * Better bank-detect routine  
+   Detects how many banks the device has and only tries to switch within the discovered range  
+ * Bank-detect only runs once on start-up  
+   Old version ran a test every time you hit the bank button  
+   (which admittedly was probably useful when calling the routine from another program)  
+ * Bank-detect preserves pre-existing disk data  
+   Old version wrote to disk without permission and without saving & restoring  
+ * Different format/repair flow:  
+   * Format & Repair both now get an extra confirm sure prompt  
+   * LABEL key triggers format/repair on command any time  
+     If you have an unformatted device with random data, and answer N to format  
+     then Y to repair, you wind up with a scrambled unusable device, but RAMDSK  
+     thinks it's formatted and will no longer offer to format.  
+     This allows you to recover from that by manually invoking format/repair  
+     whenever you want.  
+   * Answering N to both format & repair only goes back to main rather than exit.  
+     Since you can now trigger format/repair any time by pressing LABEL, you  
+     don't necessarily need to be booted out.  
+   * F8 key escapes format/repair loop if you don't want to answer Y to either one  
+ * Several bits of dead code found and removed  
+   Several small optimisations that each saved a few bytes  
+ * File size artificially padded to match the old binary so that the BOOT.BA  
+   BASIC code with hard-coded TOP & END addresses in it still works without  
+   change on both old and new binaries. Even with all the new added code,  
+   there was enough savings that the new binary actually needs *padding* even
+   though the program now does more and does it slightly nicelyer.  
+   Currently only 5 bytes. I've pretty much used up the gains doing the above.
 
 Generates RAMxxx.CO and matching BASIC loader RAMxxx.DO for 100, 200, and K85.
 
@@ -36,11 +65,11 @@ Or, on Windows without Cygwin: [tsend](http://github.com/bkw777/tsend)
 
 The tiny 4-line BASIC bootstrap code with the hard-coded TOP & END values
 for the old binaries works on the new binaries also, because although the
-contents of the binaries changed to add the 4-bank support,
-the total file size and ORG address are kept the same as the old binaries.
+contents of the binaries changed, the total file size and ORG address are
+kept the same as the old binaries.
 
-The BASIC code silkscreened on MiniNDP PCBs is still correct for these new binaries.  
-For K85, use the code for 100 on the silkscreen.
+The BOOT code silkscreened on MiniNDP PCBs is correct for both old and new binaries.  
+For K85, use the BOOT code for 100 with RAMK85.CO
 
 ## Legacy Reference Versions
 

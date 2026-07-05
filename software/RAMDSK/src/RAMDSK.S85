@@ -63,10 +63,12 @@ _RST MACRO n
 	INCLUDE		"100.S85"
 	ENDIF
 
-
 ; cpu opcodes
 opcode_IN				EQU		0xDB
 opcode_OUT				EQU		0xD3
+
+KC6						EQU		KYDATA+6	; keyb col 6 / PA6 bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
+KC7						EQU		KYDATA+7	; keyb col 7 / PA7 bits 0-7: F1-F8
 
 ; ascii
 LF						EQU		0x0A
@@ -98,9 +100,7 @@ exit_attribute_mode MACRO
 		DB ESC,'q'
 	ENDM
 
-; MKDIRENT file type attributes
-attrFD					EQU		' '				; file data, part of a file after the first block
-attrNA					EQU		0x40			; not-applicable / not-available, block that can not be used for a file
+; MKDIRENT file attributes
 attrBA					EQU		0x80			; .BA file
 attrDO					EQU		0xC0			; .DO file
 attrCO					EQU		0xA0			; .CO file
@@ -151,6 +151,9 @@ DBLOCK_LEN				EQU		0x0400			; disk block length
 ; that a RAMPAC works. Maybe it indicates the type of hardware or formatting.
 StampByte0				EQU		attrNA
 StampByte1				EQU		0x04
+
+attrFD					EQU		' '				; file data, part of a file after the first block
+attrNA					EQU		0x40			; not-applicable / not-available, block that can not be used for a file
 
 MinRam					EQU		0x80			; threshold for installed ram amount test
 
@@ -231,13 +234,6 @@ PRGEXE:
 		SHLD	initial_sp				; initial_sp = stack pointer before we start
 		CALL	Find_NUM_BANKS			; probe the hardware to find how many banks
 
-; No longer used, but interesting for reference. Maybe use the idea for something else.
-; If user is holding ENTER key during start, switch banks before anything else.
-; Not very useful with more than 2 banks since it only gets to bank1.
-;		LDA		KC7						; get status bits of keyboard matrix column 7
-;		CPI		0x80					; is ENTER pressed?
-;		CZ		BANK					; if ENTER is pressed, switch banks.
-
 MAIN:
 @sp:
 		LXI		SP,0					; [initial_sp]  SP = initial_sp  reset stack pointer to initial addr on each return to main
@@ -261,46 +257,43 @@ MAIN:
 ; Bank Load Save Name Kill ---- ---- Menu
 ; F1   F2   F3   F4   F5   F6   F7   F8
 
-; TODO: shift-Fx or some way to manually do FORMAT
-; If you mistakenly answer N to Format but Y to Repair on an unformatted device,
-; then you wind up with a scrambled unusable device because RAMDSK now thinks
-; it's formatted, and won't offer to format it again. At that point, to get it
-; to offer to format again, you have to pull the battery and wait for the caps
-; to drain, or actively short them, or manually write to byte 0 from BASIC.
-
 ReadKeyboard:
 		CALL	KYREAD					; look for keypress
 		JZ		ReadKeyboard			; if no key then loop
 		JNC		@end					; if not Fkey then skip to @end
 		LXI		H,MAIN					; HL = MAIN
-		PUSH	H						; TS = MAIN
+		PUSH	H						; TS = MAIN, makes the RET at the end of the target routines go to MAIN
 		CPI		0xFF
 		JZ		SAVE1					; save file without displaying file list
 ; F1
-		ANA		A
+		ANA		A						; A=key=0 = F1
 		JZ		BANK
 ; F2
-		DCR		A
+		DCR		A						; A-- key=1 = F2
 		JZ		LOAD
 ; F3
-		DCR		A
+		DCR		A						; A-- key=2 = F3
 		JZ		SAVE
 ; F4
-		DCR		A
+		DCR		A						; A-- key=3 = F4
 		JZ		NAME
 ; F5
-		DCR		A
+		DCR		A						; A-- key=4 = F5
 		JZ		KILL
 ; F6
-;	DCR		A
-;	JZ		F6
+;		DCR		A						; A-- key=5 = F6
+;		JZ		F6
 ; F7
-;	DCR		A
-;	JZ		F7
+;		DCR		A						; A-- key=6 = F7
+;		JZ		F7
 ; F8
-;	DCR		A
-		SUI		3						; skip over unexamined F6 & F7
+;		DCR		A						; A-- key=7 = F8
+		SUI		3						; A-=3 key=7 = F8
 		JZ		MENU
+; LABEL
+		DCR		A						; A-- key=8 = LABEL
+		JZ		FORMAT
+
 		POP		H						; HL = MAIN
 		JMP		ReadKeyboard
 @end:
@@ -982,9 +975,13 @@ ConfirmSure:
 		LXI		H,strSure				; HL @ strSure
 ConfirmWithPrompt:
 		CALL	PTILL0					; print prompt
-		CALL	CHGET					; wait for keypress
-		CALL	LC2UCA					; convert to uppercase
-		CPI		'Y'						; is it "Y" ?
+		CALL	CHGETUC					; wait for keypress, upcase
+		MOV		L,A						; hold the normal keypress in B while we check F-keys
+		LDA		KC7						; get status bits of keyboard matrix column 7 / F1-F8
+		CPI		0x80					; F8
+		JZ		MENU					; allow to escape format/repair loop to the main menu
+		MOV		A,L						; A = normal keypress
+		CPI		'Y'						; is it 'Y' ?
 		RET								; return CPI flags
 
 Ask_To_Filename:
@@ -1004,7 +1001,7 @@ FORMAT:
 		LXI		H,strRepair
 		CALL	PromptWithSure
 		JZ		@WriteStamp
-		JMP		MENU					; if not formatted then EXIT
+		JMP		MAIN
 
 ; write new format
 @NewFormat:
@@ -1425,7 +1422,7 @@ strSure:
 ; Manually adjust this so that the 100 binary compiles to 1406 bytes to match
 ; the legacy binary. This also takes care of the 200 version at the same time.
 padding:
-		DS 16
+		DS 5
 
 	ENDIF ; MATCH_LEGACY_CO_HEADER
 

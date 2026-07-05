@@ -5,9 +5,7 @@
 ; system rom routines
 PRTSPC			EQU		0x001E		; write space to console, directed by LCDLPT
 UBLNAS			EQU		0x05F7		; update in-memory line addresses for the current BASIC program lines
-LC2UCA			EQU		0x0FF0		; convert the character in A to uppercase
 PTILL0			EQU		0x11A9		; print null-terminated string at HL to screen
-CHGET			EQU		0x12D4		; wait for a key from the keyboard
 POPALL			EQU		0x14F8		; pop all registers
 FILES			EQU		0x1F05+2	; FILES statement
 KILASC			EQU		0x1F90		; delete a .DO file
@@ -30,6 +28,7 @@ INLIN			EQU		0x45F8		; input line
 CKFN			EQU		0x4BC1		; format filename and check validity
 MENU			EQU		0x54A4		; go to main menu
 CMPARE			EQU		0x5778		; compare the buffer pointed to by DE to the buffer pointed to by HL
+CHGETUC			EQU		0x5A6C		; get char from keyboard and convert to uppercase
 GETEOF			EQU		0x6835		; search for EOF (0x1A)
 MAKHOL			EQU		0x6875		; insert BC number of spaces in memory
 KYREAD			EQU		0x6EF2		; read keyboard
@@ -45,7 +44,7 @@ COFILES			EQU		0xFBC2		; pointer to start of CO files
 FILNM1			EQU		0xFCA5		; 9 bytes padded filename1
 FILNM2			EQU		0xFCAE		; 9 bytes padded filename2
 ALTLCD			EQU		0xFCC0		; start of ALT LCD buffer, 320 bytes
-KC7				EQU		0xFF58		; keyboard column 7 / PA6 status bits 0-7: SPACE,DEL,TAB,ESC,PASTE,LABEL,PRINT,ENTER
+KYDATA			EQU		0xFF52		; keyboard matrix data
 
 BAFILES			EQU		UNSAVBA		; start of BA files - RAM100 uses UNSAVBA, RAM200 uses CURBAS
 LEGACY_HIMEM	EQU		0xF5EE		; HIMEM=0xF5EE matches the original RAM100.CO
