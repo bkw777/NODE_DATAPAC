@@ -31,7 +31,7 @@ Changes from the legacy version:
    change on both old and new binaries. Even with all the new added code,  
    there was enough savings that the new binary actually needs *padding* even
    though the program now does more and does it slightly nicelyer.  
-   Currently only 5 bytes. I've pretty much used up the gains doing the above.
+   Currently only 8 bytes. I've pretty much used up the gains doing the above.
 
 Generates RAMxxx.CO and matching BASIC loader RAMxxx.DO for 100, 200, and K85.
 

@@ -660,8 +660,13 @@ SetFBlocks:
 @freekb:
 		MVI		A,0						; [FreeKB]  A = FreeKB
 		CMP		D						; FreeKB vs fblocks
-		JC		POP_BEEP				; If FreeKB<fblocks then out of space error
-		RET								; return
+		;JC		POP_BEEP				; If FreeKB<fblocks then out of space error
+		;RET
+		RNC								; If FreeKB>=fblocks then return OK
+		; If FreeKB<fblocks then out of space error
+POP_BEEP:
+		POP		PSW
+		JMP		BEEP
 
 ClaimFileBlocks:
 		CALL	ReadStamp				; move to start of FCB table
@@ -780,10 +785,6 @@ MakeHoleBA:
 		CALL	UPDOFILES				; update DOFILES
 		POP		H						; HL = saved BAFILES
 		RET								; HL = BAFILES
-
-POP_BEEP:
-		POP		PSW
-		JMP		BEEP
 
 ReadBlocks:
 		; for reading from disk to ram we enter here
@@ -1422,7 +1423,7 @@ strSure:
 ; Manually adjust this so that the 100 binary compiles to 1406 bytes to match
 ; the legacy binary. This also takes care of the 200 version at the same time.
 padding:
-		DS 5
+		DS 8
 
 	ENDIF ; MATCH_LEGACY_CO_HEADER
 
