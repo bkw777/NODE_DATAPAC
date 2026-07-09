@@ -1,13 +1,3 @@
-# Broken sometime in the last few days.
-Use an old commit from at least a week ago to get a good binary.  
-CO files copied from disk to ram are corrupt.  
-I can't test or fix it right now.  
-This is *probably ok*: https://github.com/bkw777/NODE_DATAPAC/tree/a2793982dc668337d4b501e3509e82795d3a6777  
-Or if not, then try a little bit older: https://github.com/bkw777/NODE_DATAPAC/tree/56e26bfd6ce8e61dd948243872eae66284c12d2d  
-Or try any from about a weak or older: https://github.com/bkw777/NODE_DATAPAC/commits/main  
-It was fine, but I made a lot of big changes just in the last week.  
-
-
 # Assembly Source for RAMDSK Reconstructed from Disassembly
 
 Disassembled & reassembled source for Paul Globman's RAMDSK for NODE DATAPAC/RAMPAC  
