@@ -99,6 +99,10 @@ enter_reverse_mode MACRO
 exit_attribute_mode MACRO
 		DB ESC,'q'
 	ENDM
+unprotect_labels MACRO
+		DB ESC,'U'
+	ENDM
+
 
 ; MKDIRENT file attributes
 attrBA					EQU		0x80			; .BA file
@@ -660,14 +664,13 @@ SetFBlocks:
 @freekb:
 		MVI		A,0						; [FreeKB]  A = FreeKB
 		CMP		D						; FreeKB vs fblocks
-		;JC		POP_BEEP				; If FreeKB<fblocks then out of space error
-		;RET
 		RNC								; If FreeKB>=fblocks then return OK
 		; If FreeKB<fblocks then out of space error
 POP_BEEP:
 		POP		PSW
 		JMP		BEEP
 
+; Walk FCB and claim available blocks for a file.
 ClaimFileBlocks:
 		CALL	ReadStamp				; move to start of FCB table
 		MVI		C,0						; C = 0  FCB/block number - 1
@@ -868,8 +871,8 @@ FindFILNM1onDisk:
 		CALL	ReadStamp				; disk @ k0b2 (fcb1)
 		; scan FCB table
 @read_fcb:
-		CALL	ReadBA					; read fcb, B=fcb_attr A=fcb_next?  (IDK what 2nd byte in fcb is yet, GUESSING next block in chain with some special value like 0 or same-as-fcb# means no further blocks in file)
-		STA		NextBlock				; NextBlock = A (fcb_next) (we don't know if we will care about this FCB, and NextBlock is not used anywhere in FindFILNM1onDisk, so it must just mean "the last FCB processed")
+		CALL	ReadBA					; read fcb, B=fcb_attr A=fcb_next
+		STA		NextBlock				; NextBlock = A (fcb_next) (we don't know if we will care about this FCB, and NextBlock is not used anywhere in FindFILNM1onDisk, so it must just mean "the last FCB that was processed")
 		LDA		BlockNum				; A = BlockNum (last block num processed, initially 0)
 		INR		A						; A++
 		JZ		INR_A_RET				; if BlockNum rolled past FF to 0 then A++ & RET
@@ -1062,8 +1065,8 @@ WriteFormat:
 ; Perform a test write to the first byte above Dk (128k).
 ; Return B=0 for 256k, B=attrNoRam for 128k.
 ;
-; No need to preserve the original data
-; because this is only done during FORMAT anyway.
+; No need to preserve the original data because this is only
+; done during FORMAT and we're wiping all data anyway.
 TestRam:
 		; read k128b0 (the first byte above 128k)
 		MOV		A,D						; A = D = 0x80
@@ -1353,9 +1356,10 @@ SelectBlock: ; operand is ctl_port, CTRL_PORT is just the initial value
 KFREE_COL				EQU		32				; KB free column position
 
 strUI:
-		DB FF
 		cursor_invisible
+		unprotect_labels						; clear the effect of pressing Label twice
 		disable_automatic_scroll
+		DB FF
 		enter_reverse_mode
 strTitle:
 	IF DEBUG
@@ -1423,7 +1427,7 @@ strSure:
 ; Manually adjust this so that the 100 binary compiles to 1406 bytes to match
 ; the legacy binary. This also takes care of the 200 version at the same time.
 padding:
-		DS 8
+		DS 6
 
 	ENDIF ; MATCH_LEGACY_CO_HEADER
 
