@@ -194,23 +194,39 @@ Old lowpower: HM62256LP  4uA
 Old lowpower: P51256SL   2uA  
 New standard: AS6C62256  1uA
 
-## Model compatibility
-Only Models 100, 102, & 200 were ever supported.
+## Model compatibility  
+Originally only North-American Models 100, 102, & 200 were ever supported.  
+Today Kyotronic KC-85 is also supported and there is assembly source for RAMDSK so it would be possible to port to international models and Olivetti M-10
 
-The device is probably hardware compatible with the Olivetti M-10 and Kyotronic KC-85, though RAMDSK was (probably) never ported to them.
+### Electrical Compatibility  
+The device is electrically compatible with all "Model T" variants except NEC.
+
+### Physical Compatibility  
+The original DATAPAC and RAMPAC are physically just designed for Model 102 & 200, but could be connected to 100 with a different cable end or adapter.  
+Today there is also a special version of MiniNDP that fits entirely into the the bus socket of 100 or K85.  
+M10 is technically possible to connect with a cable but it's not very practical because of the location and form of the bus connector.  
+
+The crimp-on boxed male IDC pin header on the DATAPAC does not actually fit into a 200 without enlarging the opening around the bus connector on the 200, but the solder version of the same pin header does fit. If you want to connect an original DATAPAC to a 200 without hacking up the 200's case or modifying the DATAPAC cable, you can build a small [adapter](ref/T200_adapter.jpg) by just soldering a [male](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SBH11-PBPC-D20-ST-BK/1990068) & [female](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SFH11-PBPC-D20-ST-BK/1990093) solder-type 2x20 boxed pin headers back to back.  
+![](ref/does_not_fit_model_200.jpg)  
+![](ref/T200_adapter_installed.jpg)
+
+The DATAPAC case says "102/200", but it also works on Model 100, K85, and M10 with the right adapter cable. For 100 & K85 the cable is just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
+[The Model 100 adapter part](https://github.com/bkw777/TRS-80_Disk_Video_Interface_Cable/blob/main/README.md#part-3---model-100-adapter) of this [3-part Disk/Video Interface Cable](http://tandy.wiki/Disk/Video_Interface:_Cable) is exactly the thing.
+
+For Olivetti M-10 it would require an even simpler standard female to female 40-pin IDC ribbon cable.
+
+[MiniNDP](#minindp) fits directly on both 102 and 200 with no adapter or cable.
+
+[MiniNDP_u1M](#minindp-u1m---for-model-100-or-kyotronic-kc-85) fits directly and entirely into the bus socket of 100 or K85 with no adapter or cable.
 
 The device is not compatible with the NEC PC-8201/PC-8300 at all.
 
-### Model 200
-The connector on the DATAPAC [does not actually fit in a Model 200](ref/does_not_fit_model_200.jpg) without cutting the opening wider around the bus connector on the 200.
+### Software Compatibility  
+The software interface is the same on any machine. If you write your own BASIC or assembler it works the same on any machine.  
 
-The only connector that fits in a 200 without hacking on the 200s case is a [solder-type 2x20 male box header](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SBH11-PBPC-D20-ST-BK/1990068),
- which could be soldered back to back with the [female version](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SFH11-PBPC-D20-ST-BK/1990093),
- to make an [adapter](ref/T200_adapter.jpg) to allow [connecting to a 200](ref/T200_adapter_installed.jpg) without having to damage the 200's case.
+RAMDSK was originally only provided for North American 100/102 & 200, but there is now also a version for K85.
 
-### Model 100
-The case says "102/200", but it actually works on Model 100 also. It needs an adapter cable, but the cable is simple. It's just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
-[The Model 100 part](https://github.com/bkw777/TRS-80_Disk_Video_Interface_Cable/blob/main/README.md#part-3---model-100-adapter) of this [3-part cable for the Disk/Video Interface](http://tandy.wiki/Disk/Video_Interface:_Cable) is exactly the same thing.
+There is now also assembly source for RAMDSK so it would be possible to add support for Olivetti M-10 and international 100/102/200 models, though none of those exist currently.
 
 # Software
 
@@ -222,16 +238,17 @@ Originally these shipped with an [OPTION ROM](ROM) from NODE called RAMDSK, writ
 
 The only copy of the original rom available today is an early version that only supports the original 256k hardware, and only for Model 100/102.
 
-Then Paul Globman wrote [RAMDSK.CO](software/RAMDSK), and that was eventually licensed by NODE and shipped with new units.  
+Later, Paul Globman wrote [RAMDSK.CO](software/RAMDSK), and that was eventually licensed by NODE and shipped with new units.  
 
-Later, RAMDSK was updated with 2 changes:  
- - automatic repair of the format stamp on start-up  
- - support for 512k (2 banks of 256)
+Later still, RAMDSK was updated with 2 changes:  
+ - automatic repair of a corrupted format stamp on start-up  
+ - support for 512k in 2 banks of 256k (RAMPAC & EXTRAM)
 
-Today we have several versions of RAMDSK, including:  
- - original versions for 100 & 200 which supported 512K (2 banks), in the `orig` directories
- - an earlier version for 200 that only supports 256K
- - new versions for 100, 200, and K85 which support 1M (4 banks)
+Recently, RAMDSK has been updated further:  
+- disassembled and annotated to produce usable assembly source  
+- single source produces binaries for both 100 and 200  
+- add KC-85 build  
+- support for 4 banks (MiniNDP)
 
 Some software culled from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [Club100](https://www.club100.org) are collected here in the [software](software) directory.  
 
