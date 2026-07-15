@@ -375,7 +375,7 @@ Please excuse the inexcusable IF and math inside the byte read loop. :)
 
 These have specific length and offset values that are only valid for the exact RAM100.CO and RAM200.CO files shown.  
 If you recompile RAMDSK with other options or modified code, the TOP & END values in these need to be changed to match.  
-These are correct for both the legacy RAMDSK v2 and the latest RAMDSk, only because the latest version is artificially padded to come out to the same length as the legacy version just for this reason.
+These are correct for both the legacy RAMDSK v2 and the latest RAMDSK, only because the latest version is artificially padded to come out to the same length as the legacy version just for this reason.
 
 RBOOT for 100, 102, K85, & M10
 ```
