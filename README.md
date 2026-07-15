@@ -222,11 +222,9 @@ For Olivetti M-10 it would require an even simpler standard female to female 40-
 The device is not compatible with the NEC PC-8201/PC-8300 at all.
 
 ### Software Compatibility  
-The software interface is the same on any machine. If you write your own BASIC or assembler it works the same on any machine.  
+The software interface is the same on any machine. If you write your own BASIC or assembler it works the same on any machine.
 
-RAMDSK was originally only provided for North American 100/102 & 200, but there is now also a version for K85.
-
-There is now also assembly source for RAMDSK so it would be possible to add support for Olivetti M-10 and international 100/102/200 models, though none of those exist currently.
+RAMDSK was originally only provided for North American 100/102 & 200, but there are now also versions for K85 and M10, and since we now have source, the international models could be added too.
 
 # Software
 
@@ -247,7 +245,8 @@ Later still, RAMDSK was updated with 2 changes:
 Recently, RAMDSK has been updated further:  
 - disassembled and annotated to produce usable assembly source  
 - single source produces binaries for both 100 and 200  
-- add KC-85 build  
+- add Kyotronic KC-85 build  
+- add Olivetti M-10 build  
 - support for 4 banks (MiniNDP)
 
 Some software culled from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [Club100](https://www.club100.org) are collected here in the [software](software) directory.  
@@ -351,26 +350,9 @@ RAMDISK includes a feature to automatically repair the format stamp in the first
 
 [RAMDSK Source](software/RAMDSK/src)  
 
-This source currently generates several variants based on compile-time options you can set in Makefile or on the make command line:
+`make clean all` builds a 4-bank version of RAMxxx.CO, RAMxxx.DO, RAMxxx.calls for all models. (100, 200, K85, M10)  
 
-- Exact replicas of the legacy (2-bank) RAM100.CO v2 & RAM200.CO v2 binaries just for reference.
-
-- A K85 equivalent of the legacy (2-bank) RAM100.CO
-
-- New versions for 100, 200, & K85 that support up to 32 banks in theory (MiniNDP has 4 banks),  
-  with the exact same file size & TOP/END/EXE as the legacy versions so that the same RBOOT code (silkscreened on MiniNDP) works on both old and new binaries.
-
-- New versions that don't bother artificially matching an arbitrary file size, are a few bytes smaller and also live a few bytes higher.
-
-- Single-bank versions that are even smaller by omitting all code dealing with banks.  
-  This is probably very close to the original RAMDSK v1 from before bank support was added,  
-  except the code to repair the format stamp is still included. RAMDSKv1 did not have that.
-
-`make clean all` builds a 4-bank version of RAMxxx.CO, RAMxxx.DO, RAMxxx.calls for all models. (100, 200, K85)  
-
-`make clean legacy` builds legacy versions for 100 & 200 and compares them against preserved copies of the originals to verify they match exactly.
-
-`make load_100` or 200, or K85: convenience target that builds and then runs `dl -v -b RAMxxx.DO` to install to the portable.
+`make load_100` or load_200, etc: convenience target that builds and then runs `dl -v -b RAMxxx.DO` to install to the portable.
 
 For each `RAMxxx.CO`:  
 `RAMxxx.DO` is a BASIC loader containing the .CO  
@@ -404,15 +386,16 @@ Please excuse the inexcusable IF and math inside the byte read loop. :)
 
 These have specific byte size and offset values that are only valid for the exact RAM100.CO and RAM200.CO files shown.
 
-RBOOT for Model 100, 102, & KC-85
+RBOOT for Model 100, 102, KC-85, & M-10
 [software/RAMDSK/RAM100/RBOOT.100](software/RAMDSK/RAM100/RBOOT.100)  
 for [software/RAMDSK/RAM100/RAM100.CO](software/RAMDSK/RAM100/RAM100.CO)  
-and [software/RAMDSK/RAM100/RAMK85.CO](software/RAMDSK/RAM100/RAMK85.CO)
+and [software/RAMDSK/RAMK85/RAMK85.CO](software/RAMDSK/RAMK85/RAMK85.CO)
+and [software/RAMDSK/RAMM10/RAMM10.CO](software/RAMDSK/RAMM10/RAMM10.CO)
 ```
 1 CLEAR0,61558:T=61558:E=62957:OUT129,2
 2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
 3 POKEA,INP(131):IFA=T+1007THENOUT129,1
-4 ?".";:NEXT:SAVEM"RAM100",T,E,T
+4 ?".";:NEXT:SAVEM"RAMDSK",T,E,T
 ```
 (for K85 just change the name but the T & E addresses are the same for 100 & k85)
 
@@ -423,7 +406,7 @@ for [software/RAMDSK/RAM200/RAM200.CO](software/RAMDSK/RAM200/RAM200.CO)
 1 CLEAR0,59715:T=59715:E=61101:OUT129,2
 2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
 3 POKEA,INP(131):IFA=T+1007THENOUT129,1
-4 ?".";:NEXT:SAVEM"RAM200",T,E,T
+4 ?".";:NEXT:SAVEM"RAMDSK",T,E,T
 ```
 
 Either of above may be adjusted to boot from a different bank instead of bank0.  
@@ -444,16 +427,16 @@ Usage is mostly pretty self-explanatory.
 
 A few things happen at start-up that aren't explained well on-screen, or at all.  
 
-1: On legacy versions if you keep holding the Enter key down while RAMDSK starts up, then it switches from bank0 to bank1 before anything else.
+* On legacy versions if you keep holding the Enter key down while RAMDSK starts up, then it switches from bank0 to bank1 before anything else.
    This code is omitted from the new 4-bank version for a few different reasons.  
 
-2: On startup RAMDSK looks at the first 2 bytes of the disk to tell if the disk is formatted or not.  
+* On startup RAMDSK looks at the first 2 bytes of the disk to tell if the disk is formatted or not.  
   If it does not see a valid format stamp (0x40 0x04), it asks if you want to format the disk.  
   You can answer Y or N here.  
   Don't panic if you get this on a device that is supposed to already be formatted and have files.  
   Just be sure to answer N! Explained by the next item...
 
-3: [The format stamp is easily corrupted](software/RAMDSK/RAMPAC.001),  
+* [The format stamp is easily corrupted](software/RAMDSK/RAMPAC.001),  
   When this happens, you will get the format prompt above. Don't Panic.  
   If you answer N to format, then next it asks "Fix?"  
   If you answer Y to fix, it just re-writes the format stamp without touching anything else.
@@ -473,12 +456,14 @@ A few things happen at start-up that aren't explained well on-screen, or at all.
    - The 2nd 512 bytes of block0 are un-used, use some of them?
   -->
 
-Finally it displays a screen full of disk filenames.  
+* Finally it displays a screen full of disk filenames.  
 The files are not listen in the order they exist on the device, nor alphabetically. First all of the .BA files are listed, then the .CO files, then the .DO files.
 
-If there are more than one page of files on the disk, press Enter to see the next page of filenames.
+* If there are more than one page of files on the disk, press Enter to see the next page of filenames.
 
-All other actions done by the labelled F-keys.
+* The LABEL key will format the disk.
+
+* All other actions done by the labelled F-keys.
 
 F1 Bank - Switch between banks of 256k each.  
   Only functional on a RAMPAC that has more than 256k.  
@@ -493,7 +478,6 @@ F4 Name - Rename a file on disk.
 F5 Kill - Delete a file on disk.
 
 F8 Menu - Exit RAMDSK.
-
 
 ### [NBOOT](software/NBOOT/)
 The only reason the 4-line RBOOT above can be so short is because the filename and top & end addresses are all pre-known and hard-coded.
@@ -655,7 +639,7 @@ This is likely the best way to move files between the RAMPAC and a PC, by using 
 
 New design that functions the same as DATAPAC / RAMPAC.
 
-[For Model 102 & Model 200](#minindp-ez1m---for-model-102-and-200)
+[For Model 102 & Model 200](#minindp-ez1m---for-model-102-and-200) (Also M10 with a ribbon cable)
 
 [For Model 100 & Kyotronic KC-85](#minindp-u1m---for-model-100-or-kyotronic-kc-85)
 
