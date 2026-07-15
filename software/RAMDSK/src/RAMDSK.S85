@@ -45,7 +45,7 @@
 ; z88dk before db5c165 doesn't recognize the intel syntax for RST
 _RST MACRO n
 	IF Z88DK && Z88DK<25000
-		RST n*0x08
+		RST n*8
 	ELSE
 		RST n
 	ENDIF
@@ -175,7 +175,7 @@ MAX_BANKS_asc			EQU		'4'				; max nbanks
 
 ; variables defined as the address to the operand of a load instruction
 ; (saves space, The filesize is reduced by the combined size of all of these)
-initial_sp				EQU		MAIN@sp+1			; initial stack pointer
+initial_sp				EQU		MAIN+1				; initial stack pointer
 strBankNum				EQU		strTitle+24			; bank number ascii
 ctl_port				EQU		SelectBlock+1		; rampac control port number
 dfnum					EQU		NextDF+1			; disk file number
@@ -239,7 +239,6 @@ PRGEXE:
 		CALL	Find_NUM_BANKS			; probe the hardware to find how many banks
 
 MAIN:
-@sp:
 		LXI		SP,0					; [initial_sp]  SP = initial_sp  reset stack pointer to initial addr on each return to main
 		LXI		H,MAIN					; HL = MAIN
 		PUSH	H						; TS = MAIN
@@ -254,7 +253,8 @@ MAIN:
 		CALL	ListFiles				; print all CO filenames to screen
 		MVI		D,attrDO				; D = attrDO
 		CALL	ListFiles				; print all DO (or just all) filenames to screen
-@end:
+
+MAIN1:
 		CALL	FREE
 
 ; Fkeys
@@ -264,7 +264,7 @@ MAIN:
 ReadKeyboard:
 		CALL	KYREAD					; look for keypress
 		JZ		ReadKeyboard			; if no key then loop
-		JNC		@end					; if not Fkey then skip to @end
+		JNC		ProcessNonFKey			; if not Fkey then skip to @end
 		LXI		H,MAIN					; HL = MAIN
 		PUSH	H						; TS = MAIN, makes the RET at the end of the target routines go to MAIN
 		CPI		0xFF
@@ -300,7 +300,8 @@ ReadKeyboard:
 
 		POP		H						; HL = MAIN
 		JMP		ReadKeyboard
-@end:
+
+ProcessNonFKey:
 		CPI		CR						; A == Enter?
 		; Sometimes we did not get here via CALL, and RZ goes to MAIN from PUSH HL=MAIN
 		; Sometimes we got here via CALL from NextDF, and RZ returns there
@@ -445,7 +446,7 @@ NextDF:
 		; reset dfnum and wait for keypress
 		XRA		A						; A = 0
 		STA		dfnum					; dfnum = 0
-		CALL	MAIN@end				; does FREE then falls into ReadKeyboard
+		CALL	MAIN1					; FREE then ReadKeyboard
 		; Screen is still displaying a screeen full of filenames.
 		; Waiting for keypress. If it's Enter, ReadKeyboard will return here.
 		; Relies on falling through to DrawTitle to clear the old screen.
@@ -457,7 +458,7 @@ DrawUI:
 ; FREE - Update FreeKB
 ;------------------------------------------------------------------------------
 ; Each block is a k so we just walk the fcb table and add 1 k per free fcb.
-FREE:									; [export] Scan & update free space.
+FREE:									; [export] Scan disk & update free space.
 		PUSH	H						; push HL
 		PUSH	D						; push DE
 		PUSH	B						; push BC
@@ -491,7 +492,7 @@ FREE:									; [export] Scan & update free space.
 ;------------------------------------------------------------------------------
 ; KILL - delete a file on disk
 ;------------------------------------------------------------------------------
-KILL:
+KILL:									; [export] Delete a file on disk.
 		; get the filename from the user
 		LXI		H,strKill				; HL @ KillMSG
 		CALL	Ask_Disk_Filename		; print prompt & get fname from user
@@ -530,27 +531,29 @@ KILL:
 ;------------------------------------------------------------------------------
 ; NAME
 ;------------------------------------------------------------------------------
-NAME:
+; Get source & dest filenames from user, find source on disk
+; rewrite name with dest.
+NAME:									; [export] Rename a file on disk.
 		LXI		H,strName				; HL @ NameMSG
-		CALL	Ask_Disk_Filename		; get source fname from user
+		CALL	Ask_Disk_Filename		; get source fname from user into FILNM2
 		JNZ		BEEP					; if invalid, beep & return
-		CALL	Ask_To_Filename			; get dest fname from user
+		CALL	Ask_Dest_Filename		; get destination fname from user into FILNM1
 		LDA		BlockNum				; A = BlockNum
 		MOV		B,A						; B = BlockNum
-		PUSH	B						; stash B
-		CALL	FindFILNM1onDisk		;
-		POP		B
-		JZ		BEEP
-		MOV		A,B
-		CALL	SelectBlock
-		LXI		H,FILNM1
-		MVI		B,BASE_LEN
+		PUSH	B						; stash B=BlockNum C=?
+		CALL	FindFILNM1onDisk		; if FILNM1(dest) exists on disk then copy to FILNM2
+		POP		B						; restore B=BlockNum C=?
+		JZ		BEEP					; abort if FILNM1(dest) exists? not-exists? empty input?
+		MOV		A,B						; A = B = BlockNum
+		CALL	SelectBlock				; move disk to BlockNum byte 0
+		LXI		H,FILNM1				; HL @ FILNM1(dest)
+		MVI		B,BASE_LEN				; B = 6 bytes file base name
 @l0:
-		MOV		A,M
-		OUT		DATA_PORT
-		INX		H
-		DCR		B
-		JNZ		@l0
+		MOV		A,M						; A = byte @ HL
+		OUT		DATA_PORT				; write byte to disk, disk++
+		INX		H						; HL++
+		DCR		B						; B--
+		JNZ		@l0						; next byte until B==0
 		RET
 
 ConfirmReplace:
@@ -570,7 +573,7 @@ SAVE:
 		MVI		A,FF					; A = FormFeed
 		_RST	rst_Print_A				; print FF (clear the screen)
 		CALL	FILES					; display ram files list
-SAVE1:
+SAVE1:									; [export] 
 		LXI		H,strSave				; HL = SaveMSG
 		CALL	InputFilenameWithPrompt	; display SaveMSG and get username from user into FILNM1
 		CALL	FINDFN					; find FILNM1(source) in ram, Z if not found
@@ -579,7 +582,7 @@ SAVE1:
 		PUSH	H						; save HL=dirent
 		; preload dest filename with src filename so user can just press enter to accept default
 		CALL	FILNM1toFILNM2			; copy FILNM1 to FILNM2, destroyed HL, DE, A, B
-		CALL	Ask_To_Filename			; get destination filename from user into FILNM1
+		CALL	Ask_Dest_Filename		; get destination filename from user into FILNM1
 		CALL	FindFILNM1onDisk		; find FILNM1(dest) on disk, copy to FILNM2
 		CZ		ConfirmReplaceKill		; if it exists, then confirm ok to replace
 		CALL	FREE					; update FreeKB
@@ -739,7 +742,7 @@ LOAD:
 		LXI		H,strLoad				; HL @ LoadMSG
 		CALL	Ask_Disk_Filename		; Display LoadMSG & get source fname from user
 		JNZ		BEEP					; abort if invalid
-		CALL	Ask_To_Filename			; get dest fname from user
+		CALL	Ask_Dest_Filename		; get destination fname from user into FILNM1
 		CALL	FINDFN					; does the dest file already exist in ram?
 		CNZ		ConfirmDeleteRamFile	; if so, confirm ok to replace
 		CALL	MakeHole				; make space for the new file, HL = COFILES/DOFILES/BAFILES
@@ -822,15 +825,18 @@ CopyBlocks:
 		POP		H						; restore HL
 		JMP		@move_byte				; next byte
 
+; Get filename from user, reformat into FILNM1
 InputFilenameWithPrompt:
 		CALL	PTILL0					; print null-terminated string @ HL
 		CALL	INLIN					; collect a line of input from user to KYBUF
-		RC								; carry = user did Break / Ctrl+C -> abort
-		DCR		B						; B--  B=nbytes (INLIN returns B=nbytes+1)
-		RZ								; return if no bytes entered
-		INX		H						; HL++ HL=KYBUF (INLIN returns HL=KYBUF-1)
+		; HL = KYBUF-1
+		; B = number of bytes entered + 1
+		RC								; carryflag = user did Break / Ctrl+C -> abort
+		DCR		B						; B-- ->  B=num_bytes
+		RZ								; zeroflag = no bytes entered
+		INX		H						; HL++ -> HL=KYBUF
 		MOV		E,B						; E = number of bytes entered
-		JMP		CKFN					; read HL=KYBUF, reformat to FILNM1, BC=FILNM2, HL=unch DE=0 A=0, RET
+		JMP		CKFN					; read HL=KYBUF, reformat to FILNM1, BC=FILNM2, HL=unchanged, DE=0, A=0
 
 copyFX2toFX1:
 		LXI		H,FX2					; HL @ start of ext of FILNM2
@@ -845,7 +851,7 @@ copyFX2toFX1:
 		RET
 
 Ask_Disk_Filename:
-		CALL	InputFilenameWithPrompt
+		CALL	InputFilenameWithPrompt	; get filename from user into FILNM1
 ; Search the disk for FILNM1. If found, copy FILNM1 to FILNM2
 FindFILNM1onDisk:
 		; init BlockNum & TmpBlockNum to 0
@@ -855,7 +861,7 @@ FindFILNM1onDisk:
 		; generate the appropriate file attribute for the file type based on the filename ext
 		LDA		FX1						; A = 1st byte of ext BA/CO/DO of FILNM1
 		SUI		'B'						; A -= 'B'  (A=0..2 if ext is 'B'..'D')
-		CPI		'D'-'B'+1				; carry if A>2  (ext not 'B','C','D')
+		CPI		'D'-'B'+1				; carry if A>2  (ext is not 'B','C', or 'D')
 		JNC		INR_A_RET				; if A>2 (invalid ext) then A++ & RET
 		; if we're still here then A = 0,1,2 , ext is 'B','C','D'
 										;           BA      CO      DO
@@ -875,7 +881,7 @@ FindFILNM1onDisk:
 		STA		NextBlock				; NextBlock = A (fcb_next) (we don't know if we will care about this FCB, and NextBlock is not used anywhere in FindFILNM1onDisk, so it must just mean "the last FCB that was processed")
 		LDA		BlockNum				; A = BlockNum (last block num processed, initially 0)
 		INR		A						; A++
-		JZ		INR_A_RET				; if BlockNum rolled past FF to 0 then A++ & RET
+		JZ		INR_A_RET				; if BlockNum rolled past FF to 0 then A++ (just to clear the z flag I guess?) & RET
 		; BlockNum still <= 0xFF
 		STA		BlockNum				; BlockNum++
 		MOV		A,B						; A = fcb_attr
@@ -901,8 +907,8 @@ FindFILNM1onDisk:
 		LXI		H,DFHDR					; HL @ DFHDR
 		LXI		D,FILNM1				; DE @ FILNM1
 		CALL	CMPARE					; compare C bytes (or till null) of DE with HL, Z if match
-		; If the filenames matched then we
-		JZ		FILNM1toFILNM2			; if disk filename matches FILENM1, then end scan and goto FILNM1toFILNM2
+		; if the filenames matched
+		JZ		FILNM1toFILNM2			; if current disk filename matches FILENM1, then end scan and goto FILNM1toFILNM2
 		; filenames did not match
 		; try the next FCB
 		CALL	ReadStamp				; move disk to FCB table
@@ -913,7 +919,8 @@ FindFILNM1onDisk:
 		; the disk is now sitting on the first byte of the FCB for BlockNum+1
 		JMP		@read_fcb				; read and process next FCB
 
-FILNM1toFILNM2: 						; copy 8 bytes from FILNM1 to FILNM2
+; copy FILNM1 to FILNM2
+FILNM1toFILNM2:
 		LXI		H,FILNM2				; HL = FILNM2
 FILNM1toHL:								; copy 8 bytes from FILNM1 to HL
 		LXI		D,FILNM1				; DE = FILNM1
@@ -988,7 +995,8 @@ ConfirmWithPrompt:
 		CPI		'Y'						; is it 'Y' ?
 		RET								; return CPI flags
 
-Ask_To_Filename:
+; get destination filename from user into FILNM1
+Ask_Dest_Filename:
 		LXI		H,strAs					; HL @ strAs
 		CALL	InputFilenameWithPrompt	; get filename from user to FILNM1
 		; Ignore what the user wrote for the destination filename extension
