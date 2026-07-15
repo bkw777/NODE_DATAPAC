@@ -196,35 +196,23 @@ New standard: AS6C62256  1uA
 
 ## Model compatibility  
 Originally only North-American Models 100, 102, & 200 were ever supported.  
-Today Kyotronic KC-85 is also supported and there is assembly source for RAMDSK so it would be possible to port to international models and Olivetti M-10
+Today Kyotronic KC-85 and Olivetti M-10 are also supported, and the assembly source means the international models could be added as well.  
+The device is not compatible with NEC PC-8201/PC-8300.
 
-### Electrical Compatibility  
-The device is electrically compatible with all "Model T" variants except NEC.
-
-### Physical Compatibility  
-The original DATAPAC and RAMPAC are physically just designed for Model 102 & 200, but could be connected to 100 with a different cable end or adapter.  
-Today there is also a special version of MiniNDP that fits entirely into the the bus socket of 100 or K85.  
-M10 is technically possible to connect with a cable but it's not very practical because of the location and form of the bus connector.  
-
-The crimp-on boxed male IDC pin header on the DATAPAC does not actually fit into a 200 without enlarging the opening around the bus connector on the 200, but the solder version of the same pin header does fit. If you want to connect an original DATAPAC to a 200 without hacking up the 200's case or modifying the DATAPAC cable, you can build a small [adapter](ref/T200_adapter.jpg) by just soldering a [male](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SBH11-PBPC-D20-ST-BK/1990068) & [female](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SFH11-PBPC-D20-ST-BK/1990093) solder-type 2x20 boxed pin headers back to back.  
+Although the DATAPAC was primarily designed for Model 102 & 200, the crimp-on boxed male IDC pin header on the cable does not actually fit into a 200 without enlarging the opening around the bus connector on the 200. If you want to connect an original DATAPAC to a 200 without hacking up the 200's case or modifying the DATAPAC cable, you can build a small [adapter](ref/T200_adapter.jpg) by just soldering a [male](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SBH11-PBPC-D20-ST-BK/1990068) & [female](https://www.digikey.com/en/products/detail/sullins-connector-solutions/SFH11-PBPC-D20-ST-BK/1990093) solder-type 2x20 boxed pin headers back to back. The solder box header does fit in the opening.
 ![](ref/does_not_fit_model_200.jpg)  
 ![](ref/T200_adapter_installed.jpg)
 
-The DATAPAC case says "102/200", but it also works on Model 100, K85, and M10 with the right adapter cable. For 100 & K85 the cable is just a "wire-to-board" IDC-DIP-40 crimp-on DIP connector and a standard 2x20 female IDC connector, both crimped on to a 40-pin ribbon cable about 8 inches long.  
-[The Model 100 adapter part](https://github.com/bkw777/TRS-80_Disk_Video_Interface_Cable/blob/main/README.md#part-3---model-100-adapter) of this [3-part Disk/Video Interface Cable](http://tandy.wiki/Disk/Video_Interface:_Cable) is exactly the thing.
+The DATAPAC case says "102/200", but it also works on Model 100, K85, and M10 with the right adapter cable. It's electrically compatible with everything but NEC.
 
-For Olivetti M-10 it would require an even simpler standard female to female 40-pin IDC ribbon cable.
+For 100 & K85 the cable is just an IDC-DIP-40 aka "DIP-40 wire-to-board" connector and a standard 2x20 female IDC connector, both crimped onto a 40-pin ribbon cable about 8 inches long.  
+[The Model 100 adapter part](https://github.com/bkw777/TRS-80_Disk_Video_Interface_Cable/blob/main/README.md#part-3---model-100-adapter) of this [3-part Disk/Video Interface Cable](http://tandy.wiki/Disk/Video_Interface:_Cable) is the same thing.
 
-[MiniNDP](#minindp) fits directly on both 102 and 200 with no adapter or cable.
+For Olivetti M-10 the cable is even simpler, a standard female to female IDC 40-pin ribbon cable.
 
-[MiniNDP_u1M](#minindp-u1m---for-model-100-or-kyotronic-kc-85) fits directly and entirely into the bus socket of 100 or K85 with no adapter or cable.
+[MiniNDP](#minindp) fits directly on both 102 and 200 with no adapter or cable, or M10 with a female-female ribbon cable at least 5 inches long.
 
-The device is not compatible with the NEC PC-8201/PC-8300 at all.
-
-### Software Compatibility  
-The software interface is the same on any machine. If you write your own BASIC or assembler it works the same on any machine.
-
-RAMDSK was originally only provided for North American 100/102 & 200, but there are now also versions for K85 and M10, and since we now have source, the international models could be added too.
+[MiniNDP_u1M](#minindp-u1m---for-model-100-or-kyotronic-kc-85) fits directly in the bus socket of 100 or K85 with no adapter or cable, and the cover can even be closed over it.
 
 # Software
 
@@ -242,14 +230,14 @@ Later still, RAMDSK was updated with 2 changes:
  - automatic repair of a corrupted format stamp on start-up  
  - support for 512k in 2 banks of 256k (RAMPAC & EXTRAM)
 
-Recently, RAMDSK has been updated further:  
+Recently, RAMDSK has been updated yet further:  
 - disassembled and annotated to produce usable assembly source  
-- single source produces binaries for both 100 and 200  
+- single source produces binaries for all machine models  
 - add Kyotronic KC-85 build  
 - add Olivetti M-10 build  
 - support for 4 banks (MiniNDP)
 
-Some software culled from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [Club100](https://www.club100.org) are collected here in the [software](software) directory.  
+Some other software culled from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [Club100](https://www.club100.org) are collected here in the [software](software) directory.  
 
 ## BASIC
 How to access the hardware from BASIC.
@@ -257,7 +245,9 @@ How to access the hardware from BASIC.
 ### High level file operations using CALLable machine language routines
 See [RAMDSK.DO](ROM/100/RAMDSK.DO) for the NODE ROM routines.  
 See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP) for the RAM100.CO/RAM200.CO routines.  
-(But ignore the actual addresses, they only apply to the original pre-banks version of RAMDSK. The .map or .calls files in the RAMDSK directory tree have correct addresses for the matching .CO)
+But note, the addresses in those documents are incorrect for RAMDSK v2. We don't have a copy of RAMDSK v1 for 100 but we do for 200. So you can't follow those directions exactly except on a 200 and using RAMDSK v1.  
+
+The latest RAMDSK built from the new source includes .map and .calls files that give the current addresses to the routines in those binaries, but actually uising them has not been tested.
 
 ### Low level direct access using only BASIC
 There are two low level operations that you use to access the device,  
@@ -350,14 +340,13 @@ RAMDISK includes a feature to automatically repair the format stamp in the first
 
 [RAMDSK Source](software/RAMDSK/src)  
 
-`make clean all` builds a 4-bank version of RAMxxx.CO, RAMxxx.DO, RAMxxx.calls for all models. (100, 200, K85, M10)  
+`make clean all` builds a 4-bank version of RAMxxx.CO, RAMxxx.DO, and RAMxxx.calls for all models. (100, 200, K85, M10)  
 
-`make load_100` or load_200, etc: convenience target that builds and then runs `dl -v -b RAMxxx.DO` to install to the portable.
+`make load_100` or load_200 etc: convenience target that builds and then runs `dl -v -b RAMxxx.DO` to install to the portable.
 
 For each `RAMxxx.CO`:  
 `RAMxxx.DO` is a BASIC loader containing the .CO  
-`RAMxxx.calls` lists some functions that may be CALLed from BASIC or another machine language program.  
-See [RAMDSK.TIP](software/RAMDSK/RAMDSK.TIP) and [RAMDSK.DO](ROM/100/RAMDSK.DO) but ignore those addresses.
+`RAMxxx.calls` lists some functions that may be CALLed from BASIC or another machine language program.
 
 ### Installing RAMDSK
 
@@ -379,29 +368,24 @@ Then: `$ dl -v -b RAM100.DO`
 Then run RAMDSK to format the device and copy RAMDSK.CO to it as the first file.  
 In order for RBOOT or NBOOT to work, `RAMxxx.CO` must be the first file on bank0.
 
-Once you have RAMDSK installed, if you save a copy to the RAMPAC as the very first file after a fresh format, then in the future you can re-install RAMDSK from the RAMPAC itself after a cold reset without needing another computer or TPDD drive by manually typing in a short BASIC program.
+Once you have RAMDSK installed, if you save a copy to the device as the very first file after a fresh format, then in the future you can re-install RAMDSK from the device itself after a cold reset without needing another computer or TPDD drive by manually typing in a 4-line BASIC program.
 
-These are optimized to tetris-pack into the fewest possible 40-column lines, not to be the most efficient code, so the entire program actually fits on the screen so you can easily verify it's all typed-in correctly before trying to run it.  
+These are optimized to tetris-pack into the fewest possible 40-column lines, not to be the most efficient code, so the entire program actually fits on the screen so you can easily verify it's all typed-in correctly before running it.  
 Please excuse the inexcusable IF and math inside the byte read loop. :)
 
-These have specific byte size and offset values that are only valid for the exact RAM100.CO and RAM200.CO files shown.
+These have specific length and offset values that are only valid for the exact RAM100.CO and RAM200.CO files shown.  
+If you recompile RAMDSK with other options or modified code, the TOP & END values in these need to be changed to match.  
+These are correct for both the legacy RAMDSK v2 and the latest RAMDSk, only because the latest version is artificially padded to come out to the same length as the legacy version just for this reason.
 
-RBOOT for Model 100, 102, KC-85, & M-10
-[software/RAMDSK/RAM100/RBOOT.100](software/RAMDSK/RAM100/RBOOT.100)  
-for [software/RAMDSK/RAM100/RAM100.CO](software/RAMDSK/RAM100/RAM100.CO)  
-and [software/RAMDSK/RAMK85/RAMK85.CO](software/RAMDSK/RAMK85/RAMK85.CO)
-and [software/RAMDSK/RAMM10/RAMM10.CO](software/RAMDSK/RAMM10/RAMM10.CO)
+RBOOT for 100, 102, K85, & M10
 ```
 1 CLEAR0,61558:T=61558:E=62957:OUT129,2
 2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
 3 POKEA,INP(131):IFA=T+1007THENOUT129,1
 4 ?".";:NEXT:SAVEM"RAMDSK",T,E,T
 ```
-(for K85 just change the name but the T & E addresses are the same for 100 & k85)
 
-RBOOT for Model 200  
-[software/RAMDSK/RAM200/RBOOT.200](software/RAMDSK/RAM200/RBOOT.200)  
-for [software/RAMDSK/RAM200/RAM200.CO](software/RAMDSK/RAM200/RAM200.CO)
+RBOOT for 200  
 ```
 1 CLEAR0,59715:T=59715:E=61101:OUT129,2
 2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
@@ -419,27 +403,28 @@ Example, Model 200 booting from Bank1 (requres RAM200.CO saved as the first file
 4 ?".";:NEXT:SAVEM"RAM200",T,E,T
 ```
 
-If you want to get fancy, you could support both model 100 and model 200 at the same time on the same RAMPAC by saving RAM100.CO to Bank0 and RAM200.CO to Bank1.
+You could get fancy and support both model 100 and model 200 at the same time on the same device by saving RAM100.CO to Bank0 and RAM200.CO to Bank1.
 
 
 ### Using RAMDSK
 Usage is mostly pretty self-explanatory.  
 
-A few things happen at start-up that aren't explained well on-screen, or at all.  
+A few things that aren't explained on-screen.  
 
-* On legacy versions if you keep holding the Enter key down while RAMDSK starts up, then it switches from bank0 to bank1 before anything else.
-   This code is omitted from the new 4-bank version for a few different reasons.  
+* On legacy version RAMDSK v2 if you keep holding the Enter key down while RAMDSK starts up, then it switches from bank0 to bank1 before anything else.
+  This code is omitted from the current version.  
 
 * On startup RAMDSK looks at the first 2 bytes of the disk to tell if the disk is formatted or not.  
   If it does not see a valid format stamp (0x40 0x04), it asks if you want to format the disk.  
   You can answer Y or N here.  
   Don't panic if you get this on a device that is supposed to already be formatted and have files.  
-  Just be sure to answer N! Explained by the next item...
+  Just be sure to answer N! On the current version there is also an extra confirmation step so you even get 2 chances to say N.  
+  After you decline to format, you will get a chance to do a non-destructive repair instead.
 
 * [The format stamp is easily corrupted](software/RAMDSK/RAMPAC.001),  
   When this happens, you will get the format prompt above. Don't Panic.  
-  If you answer N to format, then next it asks "Fix?"  
-  If you answer Y to fix, it just re-writes the format stamp without touching anything else.
+  If you answer N to format, then next it asks "Repair?"  
+  If you answer Y to repair, it just re-writes the format stamp without touching anything else.
 
   <!-- (As Paul Globman said above, it was not a great engineering decision to use byte0 for this critical purpose (or any purpose) for exactly this reason, but that's what NODE did so we just have to deal with it.)  -->
   <!-- What Paul mentions about the latch being volatile is probably a good thing.  
@@ -457,16 +442,16 @@ A few things happen at start-up that aren't explained well on-screen, or at all.
   -->
 
 * Finally it displays a screen full of disk filenames.  
-The files are not listen in the order they exist on the device, nor alphabetically. First all of the .BA files are listed, then the .CO files, then the .DO files.
+The files are not listed in the order they exist on the device, nor alphabetically. First all of the .BA files are listed, then the .CO files, then the .DO files.
 
 * If there are more than one page of files on the disk, press Enter to see the next page of filenames.
 
-* The LABEL key will format the disk.
+* You can press LABEL to format the disk.
 
 * All other actions done by the labelled F-keys.
 
 F1 Bank - Switch between banks of 256k each.  
-  Only functional on a RAMPAC that has more than 256k.  
+  Only functional on a device that has more than 256k.  
   The current bank number is displayed at the top of the screen.
 
 F2 Load - Copy a file from disk to ram.
@@ -486,7 +471,7 @@ Just for reference, to boot some other CO instead of RAMDSK,
 here is a more flexible and generic bootstrapper for any .CO file up to 2038 bytes.  
 * Reads the filename and start/length/exec values from the file itself  
 * Works on any .CO file that fits in 2 blocks (2048 minus 10 bytes that RAMDSK uses = 2038 bytes)  
-* Works without changes on all machines, 100, 200, K85
+* Works without changes on all machines, 100, 200, K85, M10
 ```
 1 CLEAR32,59000:CLS:P=131:OUT129,2
 2 FORA=0TO9:F$=F$+CHR$(INP(P)):NEXT
@@ -504,13 +489,13 @@ This is not publicly documented that I have found, at least not explicitly.
 This comes from a combination of exploring a formatted device with [RAMPAC Inspector](software/CRI), and from [disassembling RAMDSK](software/RAMDSK/src).
 
 There is nothing in the hardware that cares about any of this.  
-This is just what the NODE ROM did and so RAMDSK also had to do.
+This is just what the NODE ROM does and so RAMDSK also does.
 
 At the hardware level the device provides 256 1k blocks (per bank)
 
 The NODE ROM and RAMDSK use that space to store files this way:
 
-block 0 is reserved for the format stamp and FCB table
+block 0 is reserved for the format stamp and FCB table, only the first 512 bytes are used
 
 Blocks 1-255 are available for files.
 
@@ -528,33 +513,35 @@ Each FCB is 2 bytes: `attr next`
 `attr` is a single byte file attribute,  
 the same value used by the MKDIRENT routine in the system rom.  
 (ex: 0x2239 in the North American Model 100 system rom)  
-0x00 if the block is not used.  
-BA files: `0x80`  
-CO files: `0xD0`  
-DO files: `0xA0`
+0x00: block is not used  
+0x20: block is part of a file but is not the first block  
+0x40: block does not exist or is otherwise not available  
+0x80: first block of a .BA file  
+0xD0: first block of a .CO file  
+0xA0: first block of a .DO file
 
-`next` is a single byte block number of the next block in the file.  
+`next` is the block number of the next block in the file.  
 0x00 if there are no further blocks or the current block is not part of a file.
 
-Bytes 512-1024 of block 0 are unused.
+Bytes 512-1024 of block 0 are not used.  
+You could store 512 bytes of hidden secrets there :)
 
 For the remaining blocks 1-255:
 
-If a block is the first block in a file, then the first 10 bytes of the block contain a header that has the filename and file size, followed by the first 1014 bytes of data (1024-10).  
-filesize is platform-native lsb-first and does not include the 10-byte header. If filesize says 100 bytes, it's the next 100 bytes starting after the filesize.
+If a block is the first block in a file, then the first 10 bytes of the block contain the RAMDSK file header:  
+0-5: 6 bytes filename base  
+6-7: 2 bytes filename extension  
+8-9: 2 bytes file length, not including the 10-byte header  
+The remaining 1013 bytes are file data
 
-If a block is part of a file but not the first block in the file, then the block is all data starting right at byte 0
+If a block is part of a file but not the first block in the file, then the block is all file data starting right at byte 0 and ending wherever the file length says to end.  
+The bytes after the end of the file to the end of the block are not used.
 
 The first block of a file is located by scanning the FCB table for all FCBs that have an `attr` matching the file you want, then reading the 10-byte header of each potential matching block until finding the matching filename.
 
-The remaining blocks are found by following the chain of next-block pointers until filesize runs out. The FCB of the 1st block points to the 2nd block, the FCB for the 2nd block points to the 3rd, etc.
+The remaining blocks are found by following the chain of `next`-block pointers until filesize runs out. The FCB of the 1st block points to the 2nd block, the FCB for the 2nd block points to the 3rd, etc.
 
-There is no table of filenames or any other formatting or filesystem metadata.  
-The directory list displayed by RAMDSK is done by scanning the FCB table for attr=0x80 (BA files)  
-and on each attr match, reading the 10-byte header from the corresbonding block to get the filename & size,  
-then repeat for CO files, and then again for DO files.
-
-This means a bank may contain up to 255 1014-byte files, Or 1 255k(-10 bytes) file.
+This means a bank may contain up to 255 1k files, Or 1 255k file.
 
 | block | contents |
 | --- | --- |
