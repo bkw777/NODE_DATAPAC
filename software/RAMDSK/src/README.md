@@ -5,6 +5,8 @@ Now also somewhat modified.
 
 Changes from the legacy version:  
  * Supports 4 banks / 1 Meg  
+ * Kyotronic KC-85  
+ * Olivetti M-10  
  * Better bank-detect routine  
    Detects how many banks the device has and only tries to switch within the discovered range  
  * Bank-detect only runs once on start-up  
@@ -12,18 +14,17 @@ Changes from the legacy version:
    (which admittedly was probably useful when calling the routine from another program)  
  * Bank-detect preserves pre-existing disk data  
    Old version wrote to disk without permission and without saving & restoring  
- * Different format/repair flow:  
-   * Format & Repair both now get an extra confirm sure prompt  
-   * LABEL key triggers format/repair on command any time  
-     If you have an unformatted device with random data, and answer N to format  
-     then Y to repair, you wind up with a scrambled unusable device, but RAMDSK  
-     thinks it's formatted and will no longer offer to format.  
-     This allows you to recover from that by manually invoking format/repair  
-     whenever you want.  
-   * Answering N to both format & repair only goes back to main rather than exit.  
-     Since you can now trigger format/repair any time by pressing LABEL, you  
-     don't necessarily need to be booted out.  
-   * F8 key escapes format/repair loop if you don't want to answer Y to either one  
+ * Format & Repair both now get an extra confirm sure prompt  
+ * LABEL key triggers format/repair on command any time  
+   If you have an unformatted device with random data, and answer N to format  
+   then Y to repair, you wind up with a scrambled unusable device, but RAMDSK  
+   thinks it's formatted and will no longer offer to format.  
+   This allows you to recover from that by manually invoking format/repair  
+   whenever you want.  
+ * Answering N to both format & repair only goes back to main rather than exit.  
+   Since you can now trigger format/repair any time by pressing LABEL, you  
+   don't necessarily need to be booted out.  
+ * F8 key escapes format/repair loop if you don't want to answer Y to either one  
  * Several bits of dead code found and removed  
    Several small optimisations that each saved a few bytes  
  * File size artificially padded to match the old binary so that the BOOT.BA  
@@ -33,13 +34,13 @@ Changes from the legacy version:
    though the program now does more and does it slightly nicelyer.  
    Currently only 8 bytes. I've pretty much used up the gains doing the above.
 
-Generates RAMxxx.CO and matching BASIC loader RAMxxx.DO for 100, 200, and K85.
+Generates RAMxxx.CO and matching BASIC loader RAMxxx.DO for 100, 200, K85, and M10.
 
 Also generates RAMxxx.map, which contains CALL addresses. A few of those addresses are usable from BASIC.  
 See [RAMDSK.TIP](../RAMDSK.TIP) and [RAMDSK.DO](../../../ROM/100/RAMDSK.DO) but ignore the addresses.
 
 ## Build
-Build all: .CO & .DO for 100, 200, & K85  
+Build all: .CO & .DO for 100, 200, K85, & M10  
 `make clean all`
 
 ## Build a custom relocated binary
@@ -52,11 +53,9 @@ then `?HIMEM`, and use that number. Ex: Model 200, TEENY is 747 bytes, MAXRAM is
 to just install the normal RAMDSK first and let TEENY install itself below RAMDSK)
 
 ## Install  
-`make load_100`  
-`make load_200`  
-`make load_K85`  
+`make load_100`, `make load_K85`, etc
 
-those are just shorthand for `dl -v -b RAM100.DO`  
+those are just shorthand for ex `dl -v -b RAM100.DO`  
 
 Or, on Windows without Cygwin: [tsend](http://github.com/bkw777/tsend)
 
@@ -69,7 +68,8 @@ contents of the binaries changed, the total file size and ORG address are
 kept the same as the old binaries.
 
 The BOOT code silkscreened on MiniNDP PCBs is correct for both old and new binaries.  
-For K85, use the BOOT code for 100 with RAMK85.CO
+For K85, use the BOOT code for 100 with RAMK85.CO  
+For M10, use the BOOT code for 100 with RAMM10.CO  
 
 ## Legacy Reference Versions
 

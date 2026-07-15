@@ -1,9 +1,11 @@
+RAMDSK for Kyotronic KC-85
+
 Installation options
 
 --- Install via TPDD ---
 
 If you already have a TPDD client & server
-then just use them to copy RAM100.CO to the KC-85
+then just use them to copy RAMK85.CO to the KC-85
 and then LOADM like any other .CO file.
 
   LOADM "RAMK85.CO"

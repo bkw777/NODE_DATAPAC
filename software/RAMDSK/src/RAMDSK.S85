@@ -59,6 +59,8 @@ _RST MACRO n
 	INCLUDE		"200.S85"
 	ELIF MODEL_K85
 	INCLUDE		"K85.S85"
+	ELIF MODEL_M10
+	INCLUDE		"M10.S85"
 	ELSE
 	INCLUDE		"100.S85"
 	ENDIF
@@ -269,9 +271,22 @@ ReadKeyboard:
 		PUSH	H						; TS = MAIN, makes the RET at the end of the target routines go to MAIN
 		CPI		0xFF
 		JZ		SAVE1					; save file without displaying file list
+
+; Olivetti M-10 F1 key not registering at all.
+; The key does work ex in TELCOM.
+
+	IF DEBUG
+		ADI		'0'
+		STA		DBG_K
+		SUI		'0'
+	ENDIF
+
+; Dirty hack for M10, move the bank key to F7
+	IFNDEF MODEL_M10
 ; F1
 		ANA		A						; A=key=0 = F1
 		JZ		BANK
+	ENDIF
 ; F2
 		DCR		A						; A-- key=1 = F2
 		JZ		LOAD
@@ -287,12 +302,21 @@ ReadKeyboard:
 ; F6
 ;		DCR		A						; A-- key=5 = F6
 ;		JZ		F6
+; Dirty hack for M10, move the bank key to F7
+	IF MODEL_M10
+; F7
+		SUI		2
+		JZ		BANK
+; F8
+		DCR		A
+	ELSE
 ; F7
 ;		DCR		A						; A-- key=6 = F7
 ;		JZ		F7
 ; F8
 ;		DCR		A						; A-- key=7 = F8
 		SUI		3						; A-=3 key=7 = F8
+	ENDIF
 		JZ		MENU
 ; LABEL
 		DCR		A						; A-- key=8 = LABEL
@@ -749,7 +773,7 @@ LOAD:
 		SHLD	fstart					; fstart = HL = COFILES/DOFILES/BAFILES
 		XCHG							; DE = fstart
 		DCX		D						; DE--
-		CALL	SCNEMP					; find empty ram directory entry
+		CALL	SCNEMP2					; find empty ram directory entry
 		LDA		attr					; A = attr
 		CALL	MKDIRENT				; write directory entry
 		CALL	ReadBlocks				; read file data from disk to ram
@@ -1372,15 +1396,21 @@ strUI:
 strTitle:
 	IF DEBUG
 DBG_T					EQU		strTitle+33
+DBG_K					EQU		strTitle+36
 DBG_P					EQU		strTitle+39
-		DB "                       B  N     T     P "
+		DB "                       B  N     T  K  P "
 	ELSE ; !DEBUG
 		DB "NODE RAMPAC/DATAPAC Bank   P.Globman/BKW"
 	ENDIF ; DEBUG
 		exit_attribute_mode
 		cursor_address NROWS,1
 ;		DB "F1-- F2-- F3-- F4-- F5-- F6-- F7-- F8--"
+; Dirty hack for M10, move the bank key to F7
+	IF MODEL_M10
+		DB "     Load Save Name Kill      Bank Menu"
+	ELSE
 		DB "Bank Load Save Name Kill           Menu"
+	ENDIF
 		cursor_address NROWS-1,KFREE_COL+3
 		DB "K free"
 		cursor_address 1,1

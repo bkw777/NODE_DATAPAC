@@ -4,7 +4,7 @@
 
 # this makefile is too complicated
 
-MODELS = 100 200 K85
+MODELS = 100 200 K85 M10
 NAME = RAM
 SRC = RAMDSK.S85
 CALLS = FREE|KILL|LOAD|NAME|SAVE|SAVE1

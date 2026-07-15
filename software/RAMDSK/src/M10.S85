@@ -1,0 +1,59 @@
+; M10.S85
+; Olivetti M-10 header for RAMDSK.S85
+; Brian K. White
+
+; system rom routines
+PRTSPC			EQU		0x001E		; write space to console, directed by LCDLPT
+UBLNAS			EQU		0x05F3		; update in-memory line addresses for the current BASIC program lines
+PTILL0			EQU		0x11A5		; print null-terminated string at HL to screen
+POPALL			EQU		0x14F4		; pop all registers
+FILES			EQU		0x1F48		; FILES statement
+KILASC			EQU		0x1FD1		; delete a .DO file
+KILCOM			EQU		0x1FEB		; delete a .CO file
+KILBAS			EQU		0x2029		; delete a .BA file
+FINDFN			EQU		0x20C1		; search dir for filename matching FILNM1
+FINDFN1			EQU		0x20DE		; almost the the end of FINDFN
+SCNEMP2			EQU		0x20FE		; scan for an empty directory entry (2nd entry)
+UPDOFILES		EQU		0x214F		; update DOFILES with BC
+RESETFPS		EQU		0x2157		; reset file pointers
+MKDIRENT		EQU		0x2252		; insert entry into directory
+INR_A_RET		EQU		0x2ACF		; INR A; RET;
+D2H4Bup			EQU		0x3483		; move the memory pointed to by DE to the memory pointed to by HL
+PRTASC			EQU		0x39EE		; print 16bit value in HL as ascii
+BEEP			EQU		0x4246		; make a beep sound
+ESCB			EQU		0x448F		; ESC+B - move cursor down one line
+CPHLdn			EQU		ESCB+8		; CSRYX Y=L++ X=H
+CPHL			EQU		ESCB+9		; CSRYX Y=L X=H
+INLIN			EQU		0x4639		; input line
+CKFN			EQU		0x4C1A		; format filename and check validity
+MENU			EQU		0x57A2		; go to main menu
+CMPARE			EQU		0x5A75		; compare the buffer pointed to by DE to the buffer pointed to by HL
+CHGETUC			EQU		0x5D69		; get char from keyboard and convert to uppercase
+GETEOF			EQU		0x6B32		; search for EOF (0x1A)
+MAKHOL			EQU		0x6B72		; insert BC number of spaces in memory
+KYREAD			EQU		0x7275		; read keyboard
+
+; addresses
+MAXRAM			EQU		0xF5F0
+CSRYX			EQU		0xF63C		; cursor row,col
+ETRAP			EQU		0xF655		; error trap
+CURBAS			EQU		0xF67F		; pointer to start of BA files / current running BASIC program
+UNSAVBA			EQU		0xF99D		; address of current BASIC program not saved
+DOFILES			EQU		0xFBB4		; pointer to start of DO files
+COFILES			EQU		0xFBB6		; pointer to start of CO files
+FILNM1			EQU		0xFC99		; 9 bytes padded filename1
+FILNM2			EQU		0xFCA2		; 9 bytes padded filename2
+ALTLCD			EQU		0xFCC0		; start of ALT LCD buffer, 320 bytes
+KYDATA			EQU		0xFF52		; keyboard matrix data
+
+BAFILES			EQU		UNSAVBA		; start of BA files - RAM100 uses UNSAVBA, RAM200 uses CURBAS
+LEGACY_HIMEM	EQU		0xF5EE		; HIMEM=0xF5EE matches the original RAM100.CO
+
+DeleteRamFile MACRO
+		CALL	FINDFN1					; tail end of FINDFN
+		CPI		attrDO
+		JZ		KILASC					; if it's a .DO file
+		CPI		attrCO
+		JZ		KILCOM					; if it's a .CO file
+		JMP		KILBAS					; if it's anything else
+	ENDM

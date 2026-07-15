@@ -1,0 +1,9 @@
+CALLable routines in RAMM10.CO
+See RAMDSK.TIP, but use these addresses instead.
+
+FREE	61789
+KILL	61830
+LOAD	62190
+NAME	61883
+SAVE1	61947
+SAVE	61941
