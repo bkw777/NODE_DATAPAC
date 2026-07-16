@@ -13,8 +13,7 @@ Changes from the legacy version:
  * F8 exit key now also works at the format/repair/sure prompts  
  * Several bits of dead code found and removed  
  * Several small refactors  
- * File size artificially padded to match the legacy binary  
-   (so that BOOT.BA for the legacy binary still works on the new binary)
+ * Binary length & origin artificially match the legacy binary by default for the sake of RBOOT.BA  
 
 Generates RAMxxx.CO and matching BASIC loader RAMxxx.DO for 100, 200, K85, and M10.
 
