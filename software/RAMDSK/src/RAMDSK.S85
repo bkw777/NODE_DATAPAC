@@ -1302,29 +1302,27 @@ Find_NUM_BANKS:
 		MOV		A,H						; A = MAX_BANKS_asc
 		SUB		E						; A = MAX_BANKS_asc-test0
 		ADD		L						; A+=FIRST_BANK_asc = '0'+difference
-		STA		NUM_BANKS_asc			; NUM_BANKS_asc = A
+		STA		NUM_BANKS_asc			; NUM_BANKS_asc = A = '0'+difference
 
 		;----------------------------------------------------------------------
 		; == 3 == | Restore the original data to all banks
 		;----------------------------------------------------------------------
 
-		; We have read from disk and written to stack MAX_BANKS times.
-		; Now we need to walk back down the stack & matching bank numbers,
-		; pop & discard the reads from banks that didn't exist if any,
-		; then pop & write the original data back to the banks they came from.
+		; pop & discard the reads from MAX_BANKS_asc down to NUM_BANKS_asc if any,
+		; then pop & restore the rest of the reads to the banks they came from.
 
-		MOV		E,A						; E = NUM_BANKS_asc (highest real bank number +1)
-		MOV		D,H						; D = MAX_BANKS_asc (max possible bank number +1)
+		MOV		E,A						; E = NUM_BANKS_asc (number of actual banks)
+		MOV		D,H						; D = MAX_BANKS_asc (number of possible banks)
 @pop_test0:
-		DCR		D						; D--
+		DCR		D						; D-- D = counter from max down to 0
 		MOV		A,D						; A = D
-		CMP		L						; D vs L (FIRST_BANK_asc aka bank0)
-		RM								; RETURN when D < bank0
-		; D >= bank0 , might be a real bank or might be above highest real bank
-		POP		B						; pop AF(bank D byte 0) to BC
-		CMP		E						; D vs nbanks
-		JP		@pop_test0				; discard & repeat until D < nbanks
-		; bank0 <= D < nbanks (now D is a real bank number)
+		CMP		L						; D vs FIRST_BANK_asc
+		RM								; RETURN when D < FIRST_BANK_asc
+		; D >= FIRST_BANK_asc (D might be a real bank or might be above highest real bank)
+		POP		B						; pop AF(bank D byte 0) to BC B=data C=junk
+		CMP		E						; D vs NUM_BANKS_asc
+		JP		@pop_test0				; discard & repeat until D < NUM_BANKS_asc
+		; FIRST_BANK_asc <= D < NUM_BANKS_asc (D is a real bank number)
 		CALL	SelectBank				; move disk to bank D block 0 byte 0
 		MOV		A,B						; A = B = original data from bank D
 		OUT		DATA_PORT				; write original data back to bank D
