@@ -118,13 +118,34 @@ CKFN_LEN				EQU		BASE_LEN + EXT_LEN	; fname len after CKFN
 FX1						EQU		FILNM1+BASE_LEN	; start of EXT of FILNM1 after CKFN
 FX2						EQU		FILNM2+BASE_LEN	; start of EXT of FILNM2 after CKFN
 
-; rst
 rst_Print_A				EQU		4				; RST 4 = print A to LCD/LPT
+PRTSPC					EQU		0x001E			; write space to console, directed by LCDLPT
+CPHLdn					EQU		ESCB+8			; CSRYX Y=L++ X=H
+CPHL					EQU		ESCB+9			; CSRYX Y=L X=H
 
 	IFNDEF NROWS
 NROWS					EQU		8				; LCD screen rows
 	ENDIF
 NFNAMES					EQU		(NROWS-3)*2		; number of filenames per screen
+
+	IFNDEF BAFILES
+BAFILES					EQU		UNSAVBA			; start of BA files - RAM100 uses UNSAVBA, RAM200 uses CURBAS
+	ENDIF
+
+	IFNDEF LEGACY_HIMEM
+LEGACY_HIMEM			EQU		0xF5EE			; HIMEM=0xF5EE matches the original RAM100.CO
+	ENDIF
+
+	IFNDEF DeleteRamFile
+DeleteRamFile MACRO
+		CALL			FINDFN1					; tail end of FINDFN
+		CPI				attrDO
+		JZ				KILASC					; if it's a .DO file
+		CPI				attrCO
+		JZ				KILCOM					; if it's a .CO file
+		JMP				KILBAS					; if it's anything else
+	ENDM
+	ENDIF
 
 ;------------------------------------------------------------------------------
 ; DATAPAC/RAMPAC
