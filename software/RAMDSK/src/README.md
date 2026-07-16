@@ -1,6 +1,10 @@
 # Assembly Source for RAMDSK
 Originally started as a disassembly of Paul Globman's RAM100.CO and RAM200.CO v2
 
+RAMDSK.S85 is the main source  
+100/200/K85/M10.S85 are platform headers  
+Makefile uses [z88dk](https://github.com/z88dk/z88dk) to compile the asm to RAMxxx.CO, and co2ba.sh from [dl2](https://github.com/bkw777/dl2) to generate RAMxxx.DO  
+
 Changes from the legacy version:  
  * Supports 4 banks / 1 Meg  
  * Kyotronic KC-85  
