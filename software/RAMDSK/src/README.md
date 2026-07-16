@@ -10,7 +10,7 @@ Changes from the legacy version:
  * Format & Repair both now have an extra confirm sure prompt  
  * Can trigger format/repair manually by pressing the LABEL key  
  * Answering N to both format & repair no longer exits the app  
- * F8 exit key now also works at the format/repair/sure promts  
+ * F8 exit key now also works at the format/repair/sure prompts  
  * Several bits of dead code found and removed  
  * Several small refactors  
  * File size artificially padded to match the legacy binary  
