@@ -294,9 +294,9 @@ MAIN1:
 
 ReadKeyboard:
 		CALL	KYREAD					; look for keypress
-		JC		ProcessFKey				; carry -> fkey, only Olivetti needs this but it's true & works for all
-		JZ		ReadKeyboard			; z -> no key then loop
-		JNC		ProcessNonFKey			; if not Fkey then skip to @end
+		JC		ProcessFKey				; carry -> fkey, only Olivetti needs this but it's also true for all
+		JZ		ReadKeyboard			; z -> no key -> read again
+		JNC		ProcessNonFKey			; key but not fkey
 
 ProcessFKey:
 		LXI		H,MAIN					; HL = MAIN
