@@ -1,75 +1,47 @@
-# Assembly Source for RAMDSK Reconstructed from Disassembly
-
-Disassembled & reassembled source for Paul Globman's RAMDSK for NODE DATAPAC/RAMPAC  
-Now also somewhat modified.
+# Assembly Source for RAMDSK
+Originally started as a disassembly of Paul Globman's RAM100.CO and RAM200.CO v2
 
 Changes from the legacy version:  
  * Supports 4 banks / 1 Meg  
  * Kyotronic KC-85  
  * Olivetti M-10  
- * Better bank-detect routine  
-   Detects how many banks the device has and only tries to switch within the discovered range  
- * Bank-detect only runs once on start-up  
-   Old version ran a test every time you hit the bank button  
-   (which admittedly was probably useful when calling the routine from another program)  
- * Bank-detect preserves pre-existing disk data  
-   Old version wrote to disk without permission and without saving & restoring  
- * Format & Repair both now get an extra confirm sure prompt  
- * LABEL key triggers format/repair on command any time  
-   If you have an unformatted device with random data, and answer N to format  
-   then Y to repair, you wind up with a scrambled unusable device, but RAMDSK  
-   thinks it's formatted and will no longer offer to format.  
-   This allows you to recover from that by manually invoking format/repair  
-   whenever you want.  
- * Answering N to both format & repair only goes back to main rather than exit.  
-   Since you can now trigger format/repair any time by pressing LABEL, you  
-   don't necessarily need to be booted out.  
- * F8 key escapes format/repair loop if you don't want to answer Y to either one  
+ * Bank-detect only runs once on start-up vs on every bank-switch  
+ * Bank-detect preserves pre-existing disk data so non-ramdsk data is not corrupted  
+ * Format & Repair both now have an extra confirm sure prompt  
+ * Can trigger format/repair manually by pressing the LABEL key  
+ * Answering N to both format & repair no longer exits the app  
+ * F8 exit key now also works at the format/repair/sure promts  
  * Several bits of dead code found and removed  
-   Several small optimisations that each saved a few bytes  
- * File size artificially padded to match the old binary so that the BOOT.BA  
-   BASIC code with hard-coded TOP & END addresses in it still works without  
-   change on both old and new binaries. Even with all the new added code,  
-   there was enough savings that the new binary actually needs *padding* even
-   though the program now does more and does it slightly nicelyer.  
-   Currently only 8 bytes. I've pretty much used up the gains doing the above.
+ * Several small refactors  
+ * File size artificially padded to match the legacy binary  
+   (so that BOOT.BA for the legacy binary still works on the new binary)
 
 Generates RAMxxx.CO and matching BASIC loader RAMxxx.DO for 100, 200, K85, and M10.
 
-Also generates RAMxxx.map, which contains CALL addresses. A few of those addresses are usable from BASIC.  
-See [RAMDSK.TIP](../RAMDSK.TIP) and [RAMDSK.DO](../../../ROM/100/RAMDSK.DO) but ignore the addresses.
+Also generates RAMxxx.calls, which contains addresses to the main routines which can be CALLed from BASIC or from another machine language program ...in theory. Calling these functions from an external program has not been tested yet in the new version.  
+See [RAMDSK.TIP](../RAMDSK.TIP) and [RAMDSK.DO](../../../ROM/100/RAMDSK.DO) for the old original docs about calling routines in the original NODE ROM and RAMDSK, but be aware the addresses in those docs are wrong even for the legacy RAMDSK v2. They are from RAMDSK v1, and we don't have a copy of RAMDSK v1 for 100, just for 200.
 
 ## Build
 Build all: .CO & .DO for 100, 200, K85, & M10  
 `make clean all`
 
 ## Build a custom relocated binary
-Specify desired END address with XFLAGS='-DHIMEM=addr'  
-Example, You want to keep something else installed, and add RAMDSK below that.  
-Install the other CO, `LOADM "FOO.CO"`, note the TOP addr, `CLEAR 0,TOPADDR`,  
-then `?HIMEM`, and use that number. Ex: Model 200, TEENY is 747 bytes, MAXRAM is 61104  
-`make clean 200 XFLAGS='-DHIMEM=60357'`  
-(BTW, bad example because TEENY has a relocating installer, so it makes more sense  
-to just install the normal RAMDSK first and let TEENY install itself below RAMDSK)
+Specify desired END address with `XFLAGS='-DHIMEM=addr'`  
+`make clean 200 XFLAGS='-DHIMEM=60357'`
 
 ## Install  
-`make load_100`, `make load_K85`, etc
+`make load_100` or _200 _K85 _M10  
+Which is just shorthand for `dl -v -b RAMxxx.DO`
 
-those are just shorthand for ex `dl -v -b RAM100.DO`  
+Or, on Windows (if not using Cygwin/MSYS2), use the same .DO files with [tsend](http://github.com/bkw777/tsend)
 
-Or, on Windows without Cygwin: [tsend](http://github.com/bkw777/tsend)
+## RBOOT.BA
+RBOOT.BA is an optional way to re-install RAMDSK after a hard reset, by loading it from the device itself without needing a computer or tape or TPDD. You can type-in the 4-line BASIC and that will load the file from the device, as long as RAMxxx.CO is the first file on the device.
 
+The RBOOT.BA code in the main readme and silkscreened on MiniNDP PCB is hard-coded for the legacy binary's length and origin, but it is also correct for the new binary if built with `-DMATCH_LEGACY_CO_HEADER`, which is the default.
 
-## Compatibility
-
-The tiny 4-line BASIC bootstrap code with the hard-coded TOP & END values
-for the old binaries works on the new binaries also, because although the
-contents of the binaries changed, the total file size and ORG address are
-kept the same as the old binaries.
-
-The BOOT code silkscreened on MiniNDP PCBs is correct for both old and new binaries.  
-For K85, use the BOOT code for 100 with RAMK85.CO  
-For M10, use the BOOT code for 100 with RAMM10.CO  
+For K85, use the code for 100 with RAMK85.CO  
+For M10, use the code for 100 with RAMM10.CO  
 
 ## Legacy Reference Versions
 
