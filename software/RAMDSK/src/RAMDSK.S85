@@ -136,6 +136,14 @@ BAFILES					EQU		UNSAVBA			; start of BA files - RAM100 uses UNSAVBA, RAM200 use
 LEGACY_HIMEM			EQU		0xF5EE			; HIMEM=0xF5EE matches the original RAM100.CO
 	ENDIF
 
+	IFNDEF ALTLCD
+ALTLCD					EQU		0xFCC0			; start of ALT LCD buffer, 320 bytes
+	ENDIF
+
+	IFNDEF MAXRAM
+MAXRAM					EQU		0xF5F0
+	ENDIF
+
 	IFNDEF DeleteRamFile
 DeleteRamFile MACRO
 		CALL			FINDFN1					; tail end of FINDFN

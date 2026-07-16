@@ -31,7 +31,6 @@ MAKHOL			EQU		0x6875		; insert BC number of spaces in memory
 KYREAD			EQU		0x6EF2		; read keyboard
 
 ; variables
-MAXRAM			EQU		0xF5F0
 CSRYX			EQU		0xF640		; cursor row,col
 ETRAP			EQU		0xF659		; error trap
 CURBAS			EQU		0xF683		; pointer to start of BA files / current running BASIC program
@@ -40,5 +39,4 @@ DOFILES			EQU		0xFBC0		; pointer to start of DO files
 COFILES			EQU		0xFBC2		; pointer to start of CO files
 FILNM1			EQU		0xFCA5		; 9 bytes padded filename1
 FILNM2			EQU		0xFCAE		; 9 bytes padded filename2
-ALTLCD			EQU		0xFCC0		; start of ALT LCD buffer, 320 bytes
 KYDATA			EQU		0xFF52		; keyboard matrix data
