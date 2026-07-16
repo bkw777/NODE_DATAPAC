@@ -294,7 +294,14 @@ MAIN1:
 
 ReadKeyboard:
 		CALL	KYREAD					; look for keypress
-		JC		ProcessFKey				; carry -> fkey, Olivetti needs this to detect F1 (A=0), but it's also true for all
+		; carry-means-special-key is true for all models, but this JC didn't
+		; exist in the original for 100 or 200, and isn't needed for K85 either.
+		; Only Olivetti needs this explicit carry check, and only to detect F1
+		; where A=0. Only on Olivetti that just gets caught by the JZ loop.
+		; Could save 3 bytes on all but Olivetti if desperate.
+	;IF MODEL_M10
+		JC		ProcessFKey				; carry -> fkey
+	;ENDIF
 		JZ		ReadKeyboard			; z -> no key -> read again
 		JNC		ProcessNonFKey			; key but not fkey
 
@@ -1475,7 +1482,11 @@ strSure:
 ; Manually adjust this so that the 100 binary compiles to 1406 bytes to match
 ; the legacy binary. This also takes care of the 200 version at the same time.
 padding:
+	;IF MODEL_M10 ; see ReadKeyboard
 		DS 3
+	;ELSE
+	;	DS 6
+	;ENDIF
 
 	ENDIF ; MATCH_LEGACY_CO_HEADER
 
