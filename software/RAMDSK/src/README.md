@@ -19,10 +19,11 @@ Changes from the legacy version:
  * Several small refactors  
  * Binary length & origin artificially match the legacy binary by default for the sake of RBOOT.BA  
 
-Generates RAMxxx.CO and matching BASIC loader RAMxxx.DO for 100, 200, K85, and M10.
-
-Also generates RAMxxx.calls, which contains addresses to the main routines which can be CALLed from BASIC or from another machine language program ...in theory. Calling these functions from an external program has not been tested yet in the new version.  
-See [RAMDSK.TIP](../RAMDSK.TIP) and [RAMDSK.DO](../../../ROM/100/RAMDSK.DO) for the old original docs about calling routines in the original NODE ROM and RAMDSK, but be aware the addresses in those docs are wrong even for the legacy RAMDSK v2. They are from RAMDSK v1, and we don't have a copy of RAMDSK v1 for 100, just for 200.
+Makefile generates all of the following for each platform xxx = 100, 200, K85, M10:  
+* RAMxxx.CO - binary executable  
+* RAMxxx.DO - BASIC loader that contains and installs RAMxxx.CO  
+* RAMxxx.calls - addresses to the main functions that can be CALLed from BASIC or another program  
+* RBOOT.xxx - BASIC code that can be manually typed in to reinstall RAMxxx.CO from the device itself after a hard reset  
 
 ## Build
 Build all: .CO & .DO for 100, 200, K85, & M10  
@@ -38,11 +39,13 @@ Which is just shorthand for `dl -v -b RAMxxx.DO`
 
 Or, on Windows (if not using Cygwin/MSYS2), use the same .DO files with [tsend](http://github.com/bkw777/tsend)
 
-## RBOOT.BA
+## RBOOT.xxx
 RBOOT.BA is an optional way to re-install RAMDSK after a hard reset, by loading it from the device itself without needing a computer or tape or TPDD. You can type-in the 4-line BASIC and that will load the file from the device, as long as RAMxxx.CO is the first file on the device.
 
-The RBOOT.BA code in the main readme and silkscreened on MiniNDP PCB is hard-coded for the legacy binary's length and origin, but it is also correct for the new binary if built with `-DMATCH_LEGACY_CO_HEADER`, which is the default.
+The makefile generates RBOOT.xxx with the correct TOP & END addresses for the generated binary.  
+IF you build without `-DMATCH_LEGACY_CO_HEADER`, then only the generated RBOOT.xxx will be correct for that binary.  
 
+If you build with `-DMATCH_LEGACY_CO_HEADER` (the default), then the new binary is artificially made to match the old binary, and the RBOOT.BA code in the main readme and silkscreened on MiniNDP PCB which is hard-coded for the legacy binary's length and origin, is also correct for the new binary.  
 For K85, use the code for 100 with RAMK85.CO  
 For M10, use the code for 100 with RAMM10.CO  
 
