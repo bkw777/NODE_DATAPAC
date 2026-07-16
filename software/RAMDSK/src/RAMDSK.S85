@@ -294,7 +294,7 @@ MAIN1:
 
 ReadKeyboard:
 		CALL	KYREAD					; look for keypress
-		JC		ProcessFKey				; carry -> fkey, only Olivetti needs this but it's also true for all
+		JC		ProcessFKey				; carry -> fkey, Olivetti needs this to detect F1 (A=0), but it's also true for all
 		JZ		ReadKeyboard			; z -> no key -> read again
 		JNC		ProcessNonFKey			; key but not fkey
 
