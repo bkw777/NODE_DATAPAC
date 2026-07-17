@@ -497,10 +497,10 @@ NextDF:
 		CALL	MAIN1					; FREE then ReadKeyboard
 		; Screen is still displaying a screeen full of filenames.
 		; Waiting for keypress. If it's Enter, ReadKeyboard will return here.
-		; Relies on falling through to DrawTitle to clear the old screen.
+		; Relies on falling through to DrawUI to clear the old screen.
 DrawUI:
-		LXI		H,strUI					; HL @ TitleMSG
-		JMP		PTILL0					; print TitleMSG to screen (includes FF to clear the screen)
+		LXI		H,strUI					; HL @ strUI
+		JMP		PTILL0					; print strUI to screen (includes FF to clear the screen)
 
 ;------------------------------------------------------------------------------
 ; FREE - Update FreeKB
@@ -529,8 +529,8 @@ FREE:									; [export] Scan disk & update free space.
 		JNZ		@read_fcb				; repeat until D=0 (255 times)
 		; done reading all 255 fcbs - update FreeKB
 		PUSH	H						; stash HL=free blocks tally
-		LXI		H,strFree				; HL @ FreeMSG (really just the escape sequences to position the cursor)
-		CALL	PTILL0					; print FreeMSG (really just moves the cursor to the spot where free blocks goes)
+		LXI		H,strFree				; HL @ strFree (really just the escape sequences to position the cursor)
+		CALL	PTILL0					; print strFree (really just moves the cursor to the spot where free blocks goes)
 		POP		H						; restore HL = free blocks tally
 		MOV		A,L						; A = free blocks lsb (which is the whole value since it can't go over 255)
 		STA		FreeKB					; FreeKB = A = free blocks tally
@@ -542,7 +542,7 @@ FREE:									; [export] Scan disk & update free space.
 ;------------------------------------------------------------------------------
 KILL:									; [export] Delete a file on disk.
 		; get the filename from the user
-		LXI		H,strKill				; HL @ KillMSG
+		LXI		H,strKill				; HL @ strKill
 		CALL	Ask_Disk_Filename		; print prompt & get fname from user
 		JNZ		BEEP					; invalid input beep & return
 		; filename was found on disk
@@ -582,7 +582,7 @@ KILL:									; [export] Delete a file on disk.
 ; Get source & dest filenames from user, find source on disk
 ; rewrite name with dest.
 NAME:									; [export] Rename a file on disk.
-		LXI		H,strName				; HL @ NameMSG
+		LXI		H,strName				; HL @ strName
 		CALL	Ask_Disk_Filename		; get source fname from user into FILNM2
 		JNZ		BEEP					; if invalid, beep & return
 		CALL	Ask_Dest_Filename		; get destination fname from user into FILNM1
@@ -622,8 +622,8 @@ SAVE:
 		_RST	rst_Print_A				; print FF (clear the screen)
 		CALL	FILES					; display ram files list
 SAVE1:									; [export] 
-		LXI		H,strSave				; HL = SaveMSG
-		CALL	InputFilenameWithPrompt	; display SaveMSG and get username from user into FILNM1
+		LXI		H,strSave				; HL = strSave
+		CALL	InputFilenameWithPrompt	; display strSave and get username from user into FILNM1
 		CALL	FINDFN					; find FILNM1(source) in ram, Z if not found
 		JZ		BEEP					; abort if not found
 		; HL=dirent DE=data A=attr
@@ -787,8 +787,8 @@ ConfirmDeleteRamFile:
 ; LOAD
 ;------------------------------------------------------------------------------
 LOAD:
-		LXI		H,strLoad				; HL @ LoadMSG
-		CALL	Ask_Disk_Filename		; Display LoadMSG & get source fname from user
+		LXI		H,strLoad				; HL @ strLoad
+		CALL	Ask_Disk_Filename		; Display strLoad & get source fname from user
 		JNZ		BEEP					; abort if invalid
 		CALL	Ask_Dest_Filename		; get destination fname from user into FILNM1
 		CALL	FINDFN					; does the dest file already exist in ram?
