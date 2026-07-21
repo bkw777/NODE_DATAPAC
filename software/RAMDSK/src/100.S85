@@ -3,7 +3,7 @@
 ; Brian K. White
 
 ; functions
-UBLNAS			EQU		0x05F0		; update in-memory line addresses for the current BASIC program lines
+UBLLL			EQU		0x05F0		; update BASIC line linked list
 PTILL0			EQU		0x11A2		; print null-terminated string at HL to screen
 POPALL			EQU		0x14ED		; pop all registers
 FILES			EQU		0x1F3A		; FILES statement

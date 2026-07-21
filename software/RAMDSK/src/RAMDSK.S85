@@ -294,16 +294,15 @@ MAIN1:
 
 ReadKeyboard:
 		CALL	KYREAD					; look for keypress
-		; carry-means-special-key is true for all models, but this JC didn't
-		; exist in the original for 100 or 200, and isn't needed for K85 either.
-		; Only Olivetti needs this explicit carry check, and only to detect F1
-		; where A=0. Only on Olivetti that just gets caught by the JZ loop.
-		; Could save 3 bytes on all but Olivetti if desperate.
-	;IF MODEL_M10
 		JC		ProcessSpecialKey		; carry -> fkey
-	;ENDIF
 		JZ		ReadKeyboard			; z -> no key -> read again
-		JNC		ProcessNormalKey		; key but not fkey
+
+ProcessNormalKey:
+		CPI		CR						; A == Enter?
+		; Sometimes we did not get here via CALL, and RZ goes to MAIN from PUSH HL=MAIN
+		; Sometimes we got here via CALL from NextDF, and RZ returns there
+		RZ								; return or MAIN if CR
+		JMP		ReadKeyboard			; read keyboard again if not CR
 
 ProcessSpecialKey:
 		LXI		H,MAIN					; HL = MAIN
@@ -348,13 +347,6 @@ ProcessSpecialKey:
 
 		POP		H						; HL = MAIN
 		JMP		ReadKeyboard
-
-ProcessNormalKey:
-		CPI		CR						; A == Enter?
-		; Sometimes we did not get here via CALL, and RZ goes to MAIN from PUSH HL=MAIN
-		; Sometimes we got here via CALL from NextDF, and RZ returns there
-		RZ								; return or MAIN if CR
-		JMP		ReadKeyboard			; read keyboard again if not CR
 
 ;------------------------------------------------------------------------------
 ; ListFiles - Scan FCB table for attr=D, print filename & filesize
@@ -674,7 +666,7 @@ GetRamDOSize:
 
 GetRamBASize:
 		PUSH	H						; push HL = fstart
-		CALL	UBLNAS+3				; update BASIC line number addresses, skip initial LHLD
+		CALL	UBLLL+3					; update BASIC line number addresses, skip initial LHLD
 		; HL = addr last byte in file
 		POP		B						; pop HL=fstart to BC
 		DSUB							; HL -= BC  HL = last-first
@@ -1482,11 +1474,7 @@ strSure:
 ; Manually adjust this so that the 100 binary compiles to 1406 bytes to match
 ; the legacy binary. This also takes care of the 200 version at the same time.
 padding:
-	;IF MODEL_M10 ; see ReadKeyboard
-		DS 3
-	;ELSE
-	;	DS 6
-	;ENDIF
+		DS 6
 
 	ENDIF ; MATCH_LEGACY_CO_HEADER
 
