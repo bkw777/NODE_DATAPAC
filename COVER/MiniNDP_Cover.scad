@@ -4,20 +4,37 @@
 // ------------------------------------------------------------------------------
 // options
 
-low_profile = false; // true for CR2016 , false for CR2032
+PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,M10]
 loose_fit = false; // set true if FDM print is too tight
 
 // ------------------------------------------------------------------------------
 
-pcb_stl = low_profile ? "lib/pcb_CR2016.stl" : "lib/pcb_CR2032.stl";
+low_profile =  // true for CR2016 , false for CR2032
+        PCB=="SL1M" ? true :
+        PCB=="OG" ? true :
+        PCB=="M10" ? true :
+        false;
 
-parts_height = low_profile ? 1.8 : 4.2;
+pcb_stl =
+        PCB=="M10" ? "lib/pcb_M10.stl" :
+        low_profile ? "lib/pcb_CR2016.stl" :
+        "lib/pcb_CR2032.stl";
+
+parts_height =
+        PCB=="M10" ? 1.6 :
+        low_profile ? 1.8 :
+        4.2;
 
 // PCB dimensions from KiCAD
 pcb_thickness = 1.6;
-pcb_length = 34;
-pcb_width = 60;
 pcb_corner_radius = 2;
+
+pcblw = 
+        PCB=="M10" ? [31,58] :
+        [34,60];
+
+pcb_length = pcblw[0];
+pcb_width = pcblw[1];
 
 // arc smoothness - comment both out before importing into FreeCAD
 $fs = 0.2;
@@ -92,7 +109,7 @@ module main_shell() {
     translate([0,inner_length/2,-lip/2])
      rotate([0,90,0])
       cylinder(h=long_retainer_len,d=lip,center=true);
-   translate([0,-inner_length/2+1,-0.5])
+   if (PCB!="M10") translate([0,-inner_length/2+1,-0.5])
     cylinder(h=2,r=1,center=true);
   }
 
@@ -109,22 +126,33 @@ module main_shell() {
   
  // add embossed graphic of the 2x20 IDC connector
  // to the inside face to show install orientation
- translate([0,-pcb_length/2+5,inner_height+o]) {
-  h = 0.2; // emboss height
-  rotate([0,180,0]) {
-   linear_extrude(h) {
-    xy_array(xo=2.54,xc=20,yo=2.54,yc=2,center=true)
-     square(0.64,true); // circle(0.32);
-    difference() {
-     square([58.5,8.7],true);
-     group () {
-      translate([0,4,0])
-       square([4.5,8],true);
-      square([56.3,6.4],true);
+ if (PCB=="M10") {
+  // Olivetti M-10 version
+  w = 20*2.54;
+  l = 2*2.54;
+  t = 0.2;
+  c = 0.75;
+  translate([-w/2+c,-pcb_length/2+0.5,inner_height-t+o])
+    cube([w,l,t]);
+ } else {
+  // normal version
+   translate([0,-pcb_length/2+5,inner_height+o]) {
+    h = 0.2; // emboss height
+    rotate([0,180,0]) {
+     linear_extrude(h) {
+      xy_array(xo=2.54,xc=20,yo=2.54,yc=2,center=true)
+       square(0.64,true); // circle(0.32);
+      difference() {
+       square([58.5,8.7],true);
+       group () {
+        translate([0,4,0])
+         square([4.5,8],true);
+        square([56.3,6.4],true);
+       }
+      }
      }
     }
    }
-  }
  }
 
  // add finger pulls
@@ -141,3 +169,4 @@ module main_shell() {
 
 main_shell();
 %pcb_model();
+

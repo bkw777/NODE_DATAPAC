@@ -1,0 +1,186 @@
+(footprint "MiniNDP_Cover_M10"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(property "Reference" "ENCLOSURE"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "9436a6a2-7764-4e6d-9996-552c92e89a04")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "MiniNDP_Cover_M10"
+		(at 0 1.6 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "223c78af-2061-4f3d-8948-2064a72855db")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2f09cc99-d282-4792-bdc5-d115fb4648fc")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ff352d95-42f4-4643-96e5-5e0a4888a269")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr board_only exclude_from_pos_files exclude_from_bom allow_missing_courtyard
+		dnp
+	)
+	(fp_line
+		(start -28.2 -13.5)
+		(end -28.2 13.5)
+		(stroke
+			(width 0.02)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "1fc3dc55-4308-4e42-bb9b-54813f11f69a")
+	)
+	(fp_line
+		(start -27 -14.7)
+		(end 27 -14.7)
+		(stroke
+			(width 0.02)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "16c833be-7fff-471d-b025-8c065cb7f71c")
+	)
+	(fp_line
+		(start -27 14.7)
+		(end 27 14.7)
+		(stroke
+			(width 0.02)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "7ff26bed-baf7-436b-9e89-a0d2b5ee319b")
+	)
+	(fp_line
+		(start -0.8 0)
+		(end 0.8 0)
+		(stroke
+			(width 0.01)
+			(type solid)
+		)
+		(layer "Dwgs.User")
+		(uuid "a1819cab-2f57-4c38-984e-a3ef276bdc14")
+	)
+	(fp_line
+		(start 0 -0.8)
+		(end 0 0.8)
+		(stroke
+			(width 0.01)
+			(type solid)
+		)
+		(layer "Dwgs.User")
+		(uuid "087ae575-f3c9-4b3b-943b-f4e1210e0ed4")
+	)
+	(fp_line
+		(start 28.2 -13.5)
+		(end 28.2 13.5)
+		(stroke
+			(width 0.02)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "0c809705-fab8-40ca-986b-b11ab82c4d53")
+	)
+	(fp_arc
+		(start -28.2 -13.5)
+		(mid -27.848528 -14.348528)
+		(end -27 -14.7)
+		(stroke
+			(width 0.02)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "fa1f4133-f84a-433e-98dd-47c52216638f")
+	)
+	(fp_arc
+		(start -27 14.7)
+		(mid -27.848528 14.348528)
+		(end -28.2 13.5)
+		(stroke
+			(width 0.02)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "14d49eac-73a2-494d-9b97-adae7cafbb7e")
+	)
+	(fp_arc
+		(start 27 -14.7)
+		(mid 27.848528 -14.348528)
+		(end 28.2 -13.5)
+		(stroke
+			(width 0.02)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "8613e592-337e-42f4-8972-8e41273e7c37")
+	)
+	(fp_arc
+		(start 28.2 13.5)
+		(mid 27.848528 14.348528)
+		(end 27 14.7)
+		(stroke
+			(width 0.02)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "5ebad8f9-49e6-41db-835f-2d7ad1fbad97")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 0.8 0)
+		(stroke
+			(width 0.01)
+			(type solid)
+		)
+		(fill no)
+		(layer "Dwgs.User")
+		(uuid "9d5f9c93-2ac7-4e04-bfec-94139698df15")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/MiniNDP_Cover_M10.step"
+		(offset
+			(xyz 0 0 -1.6)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)
