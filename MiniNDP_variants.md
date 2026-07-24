@@ -17,7 +17,7 @@ The battery holder is technically for CR2012, but you can stuff a CR2016 in it.
 ![](PCB/out/MiniNDP_SL1M.svg)  
 [MiniNDP_SL1M.bom.csv](PCB/out/MiniNDP_SL1M.bom.csv)
 
-### M10 - slim 1 meg just for Olivetti M-10
+### M10 - slim 1 meg for Olivetti M-10
 
 ![](PCB/out/MiniNDP_M10.jpg)  
 ![](PCB/out/MiniNDP_M10.2.jpg)  
