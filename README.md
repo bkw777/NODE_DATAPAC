@@ -24,22 +24,26 @@
   * [Cover](#minindp-cover)
 -->
 
-This repo documents the NODE Systems DATAPAC, RAMPAC, and a new clone, the [MiniNDP](#minindp).
+This repo documents the NODE Systems [DATAPAC](PICS/DATAPAC/), [rampac](PICS/rampac), and a new clone, the [MiniNDP](#minindp).
 
-The NODE Systems DATAPAC was a popular ram disk peripheral for TRS-80 / TANDY Models 100, 102, & 200 computers.
+The NODE Systems DATAPAC/rampac was a popular ram disk peripheral for TRS-80 / TANDY Models 100, 102, & 200 computers.
 
-Later versions of the same device were called RAMPAC. They functioned the same as DATAPAC and used the same software, just in a much smaller form factor.
+The schematic and PCB below documents the DATAPAC from examining 2 units.
 
-The schematic and PCB below documents the DATAPAC from examining 2 units. If I ever aquire a RAMPAC, I'll add that.
+rampac replaces the binary counter & decoders with a PLD but functions exactly the same.
 
 Here is some disorganized [INFO](software/) mostly gathered from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [club100](http://www.club100.org).
 
 TLDR: To use the hardware, install [RAMDSK](#ramdsk), and what you get is a ram disk of 128k to 1M depending on model and installed ram.
 
-![](ref/NODE_DATAPAC_256K_1.jpg)
-![](ref/NODE_DATAPAC_256K_2.jpg)
-![](ref/NODE_DATAPAC_256K_3.jpg)
-![](ref/NODE_DATAPAC_256K_4.jpg)
+![](PICS/DATAPAC/NODE_DATAPAC_256K_1.jpg)
+![](PICS/DATAPAC/NODE_DATAPAC_256K_2.jpg)
+![](PICS/DATAPAC/NODE_DATAPAC_256K_3.jpg)
+![](PICS/DATAPAC/NODE_DATAPAC_256K_4.jpg)
+
+![](PICS/rampac/20260724_155144534.JPG)
+![](PICS/rampac/20260724_164507943.JPG)
+![](PICS/rampac/20260724_154335102.JPG)
 
 # Documentation
 The original text file manual [RAMDSK.DO](ROM/100/RAMDSK.DO).  
