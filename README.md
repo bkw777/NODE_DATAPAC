@@ -674,6 +674,6 @@ BOM [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 
 ## [Other Versions](MiniNDP_variants.md)  
 [SL1M](MiniNDP_variants.md#sl1m---slim-1-meg) - slim 1 meg, all thin chips to make a thin card  
-[M10](MiniNDP_variants.md#m10---slim-1-meg-for-olivetti-m10) - slim 1 meg for Olivetti  M-10    
+[M10](MiniNDP_variants.md#m10---slim-1-meg-for-olivetti-m-10) - slim 1 meg for Olivetti  M-10    
 [EZ512](MiniNDP_variants.md#ez512---easy-build-512k) - easy build 512K - all larger components  
 ["OG"](MiniNDP_variants.md#minindp-og) - "OG" original design, 128K-512K, thin or thick, more parts and more difficult, but all the parts are more common  
