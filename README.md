@@ -330,37 +330,7 @@ This means:
 
 `OUT129,0:OUT131,64:OUT131,4`
 
-(BTW you usually don't need to do this because RAMDSK.CO will do it for you if you answer "Y" at the "Fix?" prompt.)
-
-<!-- 
-## RAMDSK
-Both the [NODE ROM](ROM) and [RAMDSK.CO](software/RAMDSK/) provides a virtual disk interface where you can copy files to and from the device.
--->
-
-<!--
-  This is actually pointless.  
-  This only works if the data on the device is in RAMDSK format, which means you're using RAMDSK, which means use RBOOT instead.  
-  If you're not using RAMDSK, then the data is probably not in RAMDSK format, and so this won't work anyway.  
-  You'd have to be using something that isn't RAMDSK yet does still impliment the RAMDSK format.  
- 
-## [NBOOT](software/NBOOT/)  
-If you're using RAMDSK, then just use the much smaller RBOOT found with RAMDSK above instead of this.  
-This is mostly just for reference, academic exercise, proof of concept, in case of emergency break glass.  
-* Reads the filename from the RAMDSK file header  
-* Reads the start/length/exec values from the .CO header  
-* Works on any .CO file up to 2038 bytes  
-* Works without change on all machines, 100, 200, K85, M10  
-```
-1 CLEAR12,59000:CLS:P=131:OUT129,2
-2 FORA=0TO9:F$=F$+CHR$(INP(P)):NEXT
-3 GOSUB8:T=N:GOSUB8:E=T+N-1:GOSUB8:X=N
-4 F$=LEFT$(F$,6):N=T+1007:FORA=TTOE
-5 ?@0,A:POKEA,INP(P):IFA=NTHENOUT129,1
-6 NEXT:?@0,"Installed "F$:?"Type:"
-7 ?"CLEAR 0,"T":NEW":SAVEMF$,T,E,X:END
-8 N=INP(P)+INP(P)*256:RETURN
-```
--->
+(BTW you usually don't need to do this because RAMDSK.CO will do it for you.)
 
 <!-- 
 
@@ -373,7 +343,7 @@ XOS-C does not require a RAMPAC, but leverages one if available.
 
 # MiniNDP
 
-New design that functions the same as DATAPAC / RAMPAC.
+New design that functions the same as DATAPAC/rampac.
 
 [For Model 102 & Model 200](#minindp-ez1m---for-model-102-and-200) (Also M10 with a ribbon cable)
 
@@ -387,7 +357,7 @@ Select bank 1, block N: `OUT 133,N`
 Select bank 2, block N: `OUT 137,N`  
 Select bank 3, block N: `OUT 141,N`
 
-Everything else works the same as normal DATAPAC/RAMPAC.
+Everything else works the same as normal DATAPAC/rampac.
 
 ## MiniNDP EZ1M - For Model 102 and 200
 
