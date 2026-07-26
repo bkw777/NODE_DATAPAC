@@ -99,7 +99,7 @@ A few things that aren't explained on-screen.
   Just be sure to answer N! On the current version there is also an extra confirmation step so you even get 2 chances to avoid an unwanted format.  
   After you decline to format, you will get a chance to do a non-destructive repair instead.
 
-* [The format stamp is easily corrupted](software/RAMDSK/RAMPAC.001),  
+* [The format stamp is easily corrupted](RAMPAC.001),  
   When this happens, you will get the format prompt above. Don't Panic.  
   If you answer N to format, then next it asks "Repair?"  
   If you answer Y to repair, it just re-writes the format stamp without touching anything else.
