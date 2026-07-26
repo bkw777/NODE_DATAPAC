@@ -232,9 +232,10 @@ For Olivetti M-10 the cable is even simpler, a standard female to female IDC 40-
 
  - [NODE ROM](ROM)  
  - [RAMDSK.CO](software/RAMDSK)  
+ - [XOS-C](http://www.club100.org/library/libpg.html) ("sort of an OS" for the Model 200, does not require a rampac but leverages one if available. [Several of the NODE utils from the M100SIG require XOS-C.](software/Requires_XOS-C/))
  - [other](software)  
 
-Originally these shipped with an [OPTION ROM](ROM) from NODE called RAMDISK (possibly commissioned from Travelling Software. <sub><sup>\[citation needed, I don't remember where I read that\]</sup></sub>)
+Originally these shipped with an [OPTION ROM](ROM) from NODE called RAMDISK.
 
 Later, Paul Globman wrote [RAMDSK.CO](software/RAMDSK), and that was eventually licensed by NODE and shipped with new units.  
 
@@ -246,9 +247,9 @@ Recently, RAMDSK has been updated yet further:
 - disassembled to produce assembly source  
 - ported to Kyotronic KC-85  
 - ported to Olivetti M-10  
-- support for 4 banks (MiniNDP)  
+- support for 4 banks  
 - format on demand from Label button  
-- add safety confirmation to format & repair  
+- added safety confirmation to format & repair  
 - removed dead code
 
 Some other software culled from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [Club100](https://www.club100.org) are collected here in the [software](software) directory.  
@@ -331,15 +332,6 @@ This means:
 `OUT129,0:OUT131,64:OUT131,4`
 
 (BTW you usually don't need to do this because RAMDSK.CO will do it for you.)
-
-<!-- 
-
-## XOS-C
-[XOS-C](http://www.club100.org/library/libpg.html) is "sort of an OS" for the Model 200.  
-XOS-C does not require a RAMPAC, but leverages one if available.  
-[Several of the NODE utils from the M100SIG require XOS-C.](software/Requires_XOS-C/)
-
--->
 
 # MiniNDP
 
