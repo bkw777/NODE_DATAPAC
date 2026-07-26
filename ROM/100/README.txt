@@ -1,6 +1,3 @@
-
-![](RAMDISK_100_1.04.jpg)
-
 Oct 2025 - Thanks to Michael Brigham for dumping this rom which was otherwise lost.
 The text file manual was also lost until the rom was available to regenerate it.
 
