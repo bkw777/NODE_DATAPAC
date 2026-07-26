@@ -8,6 +8,7 @@
   * [Model Compatibility](#model-compatibility)
 * [Software](#software)
   * [BASIC](#basic)
+<!-- 
   * [RAMDSK](#ramdsk)
     * [Installation](#installing-ramdsk)
     * [Usage](#using-ramdsk)
@@ -18,6 +19,7 @@
   * [NODE-PDD-Link](#node-pdd-link)
   * [NDEXE](#ndexe)
   * [RAMPAC Diagnostic](#rampac-diagnostic)
+-->
 * [MiniNDP](#minindp)
 <!--
   * [PCB & BOM](#minindp-pcb--bom)
@@ -330,8 +332,10 @@ This means:
 
 (BTW you usually don't need to do this because RAMDSK.CO will do it for you if you answer "Y" at the "Fix?" prompt.)
 
+<!-- 
 ## RAMDSK
 Both the [NODE ROM](ROM) and [RAMDSK.CO](software/RAMDSK/) provides a virtual disk interface where you can copy files to and from the device.
+-->
 
 <!--
   This is actually pointless.  
