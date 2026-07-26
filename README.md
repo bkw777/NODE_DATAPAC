@@ -36,7 +36,7 @@ rampac is a smaller later version of the same device that uses fewer larger sram
 
 Here is some disorganized [INFO](software/) mostly gathered from the [M100SIG archive](https://github.com/LivingM100SIG/Living_M100SIG) and [club100](http://www.club100.org).
 
-TLDR: To use the hardware, install [RAMDSK](#ramdsk), and what you get is a ram disk of 128k to 1M depending on model and installed ram.
+TLDR: To use the hardware, install [RAMDSK](software/RAMDSK), and what you get is a ram disk of 128k to 1M depending on model and installed ram.
 
 ![](PICS/DATAPAC/NODE_DATAPAC_256K_1.jpg)
 ![](PICS/DATAPAC/NODE_DATAPAC_256K_2.jpg)
