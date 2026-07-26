@@ -1,13 +1,12 @@
 0' Crude RAMPAC Inspector
 0' It's crude but it exists for these reasons vs the other existing utils:
 0' * Display raw data from anywhere on a DATAPAC / RAMPAC
-0' * Supports both Bank0 and Bank1 on 512k units
-0' * Runs on both Model 100 and 200
-0' * Does not require the option rom or RAM100.CO or RAM200.CO
+0' * Supports banks
+0' * Runs on all machines 100, 200, K85, M10
+0' * Does not require the NODE ROM nor RAMDSK.CO
 0' * Does not contain any machine code, nor call any
-0' * For MiniNDP 1M edit line 10 NN%=3
 0' Crude RAMPAC Inspector - 2024-11-18 Brian K. White
-10 CLEAR:NN%=1 ' highest Bank# (0-3)
+10 CLEAR:NN%=3 ' highest bank#
 20 H$="0123456789ABCDEF":E$=CHR$(27):IV$=E$+"p":NV$=E$+"q":DIM P%(3):P%(0)=129:P%(1)=133:P%(2)=137:P%(3)=141
 30 ON ERROR GOTO 4000
 100 CLS:?"CRUDE RAMPAC INSPECTOR":GOSUB 3000:M%=0:GOSUB 3200         

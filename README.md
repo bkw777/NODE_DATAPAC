@@ -363,53 +363,11 @@ This is mostly just for reference, academic exercise, proof of concept, in case 
 -->
 
 <!-- 
-## RAMPAC Inspector
-[RAMPAC Inspector](software/CRI)
-
-It's named CRI.BA because it's a very Crude RAMPAC Inspector.
-
-You supply a bank number, block number, starting byte offset, and byte length, and it reads those bytes and displays them on screen.
-
-bank: 0-1  (or 0-3 if you edit line 10 to enable 1-meg support)
-block: 0-255
-start: 0-1023
-length: 1-1024
-
-Press F2 while it's running to switch between ascii or hex display mode.
-
-Press F8 while it's running or BREAK at the input prompt to quit.
-
-The reason it exists when [RD](software/Rampac_Diagnostic/) and [N-DKTR](software/N-DKTR/) already exist is,  
-* Smaller  
-* No machine code - you can see everything it does or change anything it does all in BASIC  
-* No machine code - stand-alone, does not require either the NODE rom or RAMDSK to work  
-* Supports banks / devices with more than 256k
-
-TODO - display/repair first 2 bytes formatted flag.  
-TODO - display filenames and lengths from the headers.  
 
 ## XOS-C
 [XOS-C](http://www.club100.org/library/libpg.html) is "sort of an OS" for the Model 200.  
 XOS-C does not require a RAMPAC, but leverages one if available.  
 [Several of the NODE utils from the M100SIG require XOS-C.](software/Requires_XOS-C/)
-
-## N-DKTR
-
-NODE Doctor
-
-[N-DKTR](software/N-DKTR/)
-
-## NODE-PDD-Link
-
-This is likely the best way to move files between the RAMPAC and a PC, by using it in concert with a [TPDD emulator](http://tandy.wiki/TPDD_server) on the PC, though I haven't tried it myself yet.
-
-[NODE-PDD-Link](software/NODE-PDD-Link/)
-
-## NDEXE
-[NDEXE](software/NDEXE/)
-
-## RAMPAC Diagnostic
-[Rampac Diagnostic](software/Rampac_Diagnostic/)
 
 -->
 
