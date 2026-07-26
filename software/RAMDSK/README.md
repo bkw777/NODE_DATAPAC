@@ -21,16 +21,7 @@ RAMDSK supports banks (devices with more than 256K of ram), the NODE ROM only su
 
 RAMDISK includes a feature to automatically repair the easily-corrupted format stamp in the first 2 bytes of the device, the NODE ROM does not.
 
-## Assembly Source Reconstructed from Disassembly
-
-[RAMDSK Source](src)  
-
-## Installing RAMDSK the first time
-
-Archived docs mention an 8 line BASIC program called BOOT that could be manually typed in to BASIC to bootstrap a copy of RAMDSK from the device after a hard reset.  
-Requires first saving a copy of RAMDSK.CO to the device, and must be the first file on the device.
-
-That program does not seem to be archived anywhere, but I have written `RBOOT` and `NBOOT` new below.  
+# Installing RAMDSK the first time
 
 To get RAMDSK installed for the first time, use the appropriate `RAMxxx.DO` BASIC loader for your machine:  
   100: TRS-80 Model 100, TANDY Model 102  
@@ -48,17 +39,22 @@ Then: `$ dl -v -b RAM100.DO`
 
 Then run RAMDSK to format and use the device.
 
-## Reinstalling RAMDSK from the device
-Once you have RAMDSK installed, if you save a copy to the device as the very first file after a fresh format, then in the future you can re-install RAMDSK from the device itself after a hard reset without needing another computer or tape or TPDD drive by typing in the 4-line BASIC program RBOOT, or the longer NBOOT.
+# Reinstalling RAMDSK from the device
+Once you have RAMDSK installed, if you save a copy to the device as the very first file after a fresh format, then in the future you can re-install RAMDSK from the device itself after a hard reset by typing in a short BASIC program.
+
+Archived docs mention an 8 line BASIC program called BOOT.  
+That program does not seem to be archived anywhere, but I have written `RBOOT` below which is only 4 40-column lines.
+
+Requires first saving a copy of RAMDSK.CO to the device, and must be the first file on the device.
 
 You may notice that the inner byte-read loop is stupid. It's true but doesn't matter.  
-These are optimized to tetris-pack into the fewest possible 40-column lines, with all platform differences in the first line.  
+This is optimized to tetris-pack into the fewest possible 40-column lines, with all platform differences in the first line.  
 
-These have specific TOP & END values that are only valid for the exact RAM100.CO and RAM200.CO files shown.  
-These are correct for both the legacy RAMDSK v2 and the latest RAMDSK, only because the latest version is artificially padded to come out to the same length as the legacy version just for this reason.
-If you compile with other options or modified code, the makefile also generates RBOOT.xxx that is correct for the generated RAMxxx.CO (the same as these but with different TOP & END numbers in the 1st line)
+This has hard-coded TOP & END values that are only valid for the legacy RAMDSK v2 and the latest RAMDSK, only because the latest version is artificially padded to come out to the same length as the legacy version just for this reason.  
+If you compile with other options or modified code, the makefile also generates RBOOT.xxx that is correct for the generated RAMxxx.CO (the same as these but with different TOP & END numbers in the 1st line)  
+RAM200.CO v1 would also need different values than these.
 
-### RBOOT for 100, 102, K85, & M10
+## RBOOT for 100, 102, K85, & M10
 ```
 1 CLEAR0,61558:T=61558:E=62957:OUT129,2
 2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
@@ -66,7 +62,7 @@ If you compile with other options or modified code, the makefile also generates 
 4 ?".";:NEXT:SAVEM"RAMDSK",T,E,T
 ```
 
-### RBOOT for 200  
+## RBOOT for 200  
 ```
 1 CLEAR0,59715:T=59715:E=61101:OUT129,2
 2 FORA=0TO15:N=INP(131):NEXT:FORA=TTOE
@@ -74,7 +70,7 @@ If you compile with other options or modified code, the makefile also generates 
 4 ?".";:NEXT:SAVEM"RAMDSK",T,E,T
 ```
 
-### multi-boot
+## multi-boot
 Either of above may be adjusted to boot from a different bank instead of bank0.  
 For bank 1, 2, or 3, change all (2) occurances of OUT129 to OUT133, 137, or 141.  
 Example, Model 200 reinstalling from Bank1 (requres RAM200.CO saved as the first file in bank1):  
@@ -88,7 +84,7 @@ Example, Model 200 reinstalling from Bank1 (requres RAM200.CO saved as the first
 You could get fancy and support for example both model 102 and model 200 at the same time on the same device by for example saving RAM100.CO to Bank0 and RAM200.CO to Bank1.
 
 
-### Using RAMDSK
+# Using RAMDSK
 Usage is mostly pretty self-explanatory.  
 
 A few things that aren't explained on-screen.  
@@ -146,7 +142,7 @@ F5 Kill - Delete a file on disk.
 
 F8 Menu - Exit RAMDSK.
 
-## Filesystem Data Structure
+# Filesystem Data Structure
 
 This is not previously documented that I have found.  
 This comes from a combination of exploring a formatted device with [RAMPAC Inspector](../CRI), and from disassembling RAMDSK.
@@ -235,3 +231,6 @@ Any other block:
 | --- |
 |...|
 
+# Assembly Source
+
+[src/](src/)  
