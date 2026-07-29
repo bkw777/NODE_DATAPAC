@@ -383,8 +383,25 @@ PCB & Cover [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_No
 
 BOM [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 
+## MiniNDP M10 - For Olivetti M-10
+
+This looks very similar to the normal SL1M version for 102/200 below, but there are a few differences and this is only for Olivetti M-10:  
+* the pinout on the bus connector is mirrored  
+* the bus connector is female  
+* the pcb is smaller and off-center  
+
+You probably want to put a piece of scotch tape on the M-10 just above the bus connector to protect the paint from the card.
+
+![](PCB/out/MiniNDP_M10.jpg)  
+![](PCB/out/MiniNDP_M10.2.jpg)  
+![](PCB/out/MiniNDP_M10.top.jpg)  
+![](PCB/out/MiniNDP_M10.bottom.jpg)  
+![](PCB/out/MiniNDP_M10.svg)  
+
+BOM: [MiniNDP_M10.bom.csv](PCB/out/MiniNDP_M10.bom.csv)  
+Special cover just for Olivetti: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl)
+
 ## [Other Versions](MiniNDP_variants.md)  
 [SL1M](MiniNDP_variants.md#sl1m---slim-1-meg) - slim 1 meg, all thin chips to make a thin card  
-[M10](MiniNDP_variants.md#m10---slim-1-meg-for-olivetti-m-10) - slim 1 meg for Olivetti  M-10    
 [EZ512](MiniNDP_variants.md#ez512---easy-build-512k) - easy build 512K - all larger components  
 ["OG"](MiniNDP_variants.md#minindp-og) - "OG" original design, 128K-512K, thin or thick, more parts and more difficult, but the parts are more common  
