@@ -766,7 +766,7 @@ CopyBlocks:
 	DCX		H						; HL--
 	MOV		A,L						; A = L
 	ORA		H						; Z if HL=0
-	CZ		GetNextBlock			; CALL GetNextBlock when HL=0
+	CZ		StartNextBlock			; CALL StartNextBlock when HL=0
 	SHLD	pending_block_bytes		; pending_block_bytes = HL
 	POP		H						; restore HL
 	JMP		@move_byte				; next byte
@@ -872,10 +872,8 @@ FILNM1toHL:							; copy 8 bytes from FILNM1 to HL
 	JMP		D2H4Bup					; copy 8 bytes from DE to FILNM2, RET
 
 ; Called when CopyBlocks reaches the end of a block.
-; might be mis-named, since it only seems to be used for one block
 ; BlockNum gets updated to NextBlock but NextBlock isn't updated.
-;
-GetNextBlock:
+StartNextBlock:
 	; reset pending_block_bytes counter to 1024
 	LXI		H,1024					; HL = 1024 (full size blocks after the first)
 	SHLD	pending_block_bytes		; pending_block_bytes = 1024
