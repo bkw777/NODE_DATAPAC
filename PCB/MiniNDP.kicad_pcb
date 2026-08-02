@@ -9068,20 +9068,20 @@
 			(justify left mirror)
 		)
 	)
-	(gr_text "To reinstall RAMDSK from device after hard reset.\nRAMxxx.CO must be the first file in bank 0."
-		(at 175.445 94.705 0)
+	(gr_text "BASIC to bootstrap RAMxxx.CO previously saved as the first file in bank 0"
+		(at 151.95 95.213 0)
 		(layer "B.SilkS")
-		(uuid "b5ba7b8d-4c79-4f5e-bdc0-d7d509bd4f6a")
+		(uuid "b453079b-7227-48b8-83fd-817fc2ced415")
 		(effects
 			(font
 				(size 1 1)
 				(thickness 0.14)
 			)
-			(justify left mirror)
+			(justify mirror)
 		)
 	)
 	(gr_text "1M RAM DISK for\nTANDY 102/200"
-		(at 132.519 88.228 0)
+		(at 132.519 88.99 0)
 		(layer "B.SilkS")
 		(uuid "40840cdb-31c6-4bec-8b60-ea64b388f097")
 		(effects
@@ -9093,7 +9093,7 @@
 		)
 	)
 	(gr_text "${COMMENT1} - ${REVISION}"
-		(at 151.95 91.525 0)
+		(at 151.95 92.8 0)
 		(layer "B.SilkS")
 		(uuid "d058ac22-fffb-4cc6-9d11-6e15c51150b0")
 		(effects
@@ -9105,7 +9105,7 @@
 		)
 	)
 	(gr_text "${TITLE}"
-		(at 151.95 88.477 0)
+		(at 151.95 89.117 0)
 		(layer "B.SilkS")
 		(uuid "f0f2fe2f-e569-4cc6-ae90-98e2d29368b8")
 		(effects
