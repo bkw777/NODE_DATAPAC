@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP_EZ256")
-		(date "2025-11-20")
-		(rev "05")
+		(date "2026-08-03")
+		(rev "06")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAM100.CO or RAM200.CO")
@@ -4816,15 +4816,25 @@
 		)
 		(uuid "38727469-5f02-4ae7-b762-7fbe3f1c8e23")
 	)
-	(text "NOT TESTED\n256k with fewer parts"
+	(text "128k-256k with fewest parts"
 		(exclude_from_sim no)
-		(at 258.572 174.244 0)
+		(at 253.238 176.022 0)
 		(effects
 			(font
 				(size 2.54 2.54)
 			)
 		)
 		(uuid "426f59a7-9630-44e7-8bc2-a962dcf0fe9b")
+	)
+	(text "(1)"
+		(exclude_from_sim no)
+		(at 215.9 95.504 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "4828f989-4d9b-494b-90ff-9850e8186a78")
 	)
 	(text "~{INTA}"
 		(exclude_from_sim no)
@@ -4912,6 +4922,27 @@
 		)
 		(uuid "9e8ebf8b-e8ec-4d26-8e93-99580a172959")
 	)
+	(text "(1) for 128k compatibility\nkeep AD7 -> A17 -> A17\n"
+		(exclude_from_sim no)
+		(at 180.34 108.458 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "a9bfdd22-2bc4-4c0f-bbeb-d7a4e25c8a12")
+	)
+	(text "(1)"
+		(exclude_from_sim no)
+		(at 171.196 109.474 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "bad451d8-14bf-451d-a3e6-ce243c4ee7af")
+	)
 	(text "NC"
 		(exclude_from_sim no)
 		(at 50.8 133.35 0)
@@ -4966,6 +4997,16 @@
 			(justify left bottom)
 		)
 		(uuid "e2fc4626-87cb-403f-acf5-21accce15267")
+	)
+	(text "AS6C1008 128k also compatible"
+		(exclude_from_sim no)
+		(at 234.95 36.83 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "e973e6a9-c8f9-4421-8d5a-edf760076dc0")
 	)
 	(text "BUS_A12"
 		(exclude_from_sim no)
@@ -7806,7 +7847,7 @@
 		(uuid "09ae59f1-e513-4124-8f84-006b90ab503b")
 	)
 	(label "A7"
-		(at 222.25 93.98 180)
+		(at 222.25 86.36 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8026,7 +8067,7 @@
 		(uuid "53dbf55e-2838-49a0-b4f1-19a6489ab8ec")
 	)
 	(label "A17"
-		(at 222.25 88.9 180)
+		(at 222.25 96.52 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8086,7 +8127,7 @@
 		(uuid "6100531c-a8d6-4e38-9f51-d013cae6f0fb")
 	)
 	(label "A8"
-		(at 222.25 86.36 180)
+		(at 222.25 88.9 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8236,7 +8277,7 @@
 		(uuid "7b7aafcc-d2db-442a-bf33-1bd9bbfc30ab")
 	)
 	(label "A9"
-		(at 222.25 96.52 180)
+		(at 222.25 93.98 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8246,7 +8287,7 @@
 		(uuid "7f082294-83c2-435d-97b8-412faf998dbc")
 	)
 	(label "AD4"
-		(at 139.7 110.49 180)
+		(at 139.7 107.95 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8476,7 +8517,7 @@
 		(uuid "c06d36ed-274d-4dcd-b283-4a381abd6105")
 	)
 	(label "AD7"
-		(at 139.7 105.41 180)
+		(at 139.7 110.49 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8636,7 +8677,7 @@
 		(uuid "f380affb-4b66-44e1-8b0c-7b22b0864d7d")
 	)
 	(label "AD3"
-		(at 139.7 107.95 180)
+		(at 139.7 105.41 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8714,7 +8755,7 @@
 			(uuid "ed9ad290-a108-46f5-b98f-93995d128ac7")
 		)
 		(instances
-			(project "MiniNDP_256_F"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR08")
 					(unit 1)
@@ -8790,7 +8831,7 @@
 			(uuid "5f500e34-cbe5-49c0-8be9-0d7a331264e7")
 		)
 		(instances
-			(project "MiniNDP_256_F"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "D2")
 					(unit 1)
@@ -8959,7 +9000,7 @@
 			(uuid "f2cbd66d-f620-4a3e-9e7e-56d975da29d1")
 		)
 		(instances
-			(project ""
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U4")
 					(unit 1)
@@ -9024,7 +9065,7 @@
 			(uuid "a5ab891c-b917-43b0-9e2c-54d494eca572")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR010")
 					(unit 1)
@@ -9090,7 +9131,7 @@
 			(uuid "a3cc51ed-8c52-496e-a371-b46110362732")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR01")
 					(unit 1)
@@ -9156,7 +9197,7 @@
 			(uuid "0150be38-b02e-456a-8bc6-108d00d1cc9d")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR026")
 					(unit 1)
@@ -9222,7 +9263,7 @@
 			(uuid "fd8e5c25-08cf-4586-96bf-070ab5656c9d")
 		)
 		(instances
-			(project "MiniNDP_512_C"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR024")
 					(unit 1)
@@ -9288,7 +9329,7 @@
 			(uuid "191170b9-94ec-4385-98b7-ef0e08555504")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR022")
 					(unit 1)
@@ -9364,7 +9405,7 @@
 			(uuid "44228ca4-55c5-4332-94c8-1f4d120ecb4e")
 		)
 		(instances
-			(project "MiniNDP_256_F"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "C1")
 					(unit 1)
@@ -9429,7 +9470,7 @@
 			(uuid "bb3e25de-7d74-44eb-bf78-681d699b631c")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR012")
 					(unit 1)
@@ -9501,7 +9542,7 @@
 			(uuid "48975caf-0e62-4cbf-8a95-6fb0f1cb1d36")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#FLG01")
 					(unit 1)
@@ -9566,7 +9607,7 @@
 			(uuid "40edec46-c825-4ef8-9b8d-79ef9e66d243")
 		)
 		(instances
-			(project "MiniNDP_256_F"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR05")
 					(unit 1)
@@ -9633,7 +9674,7 @@
 			(uuid "8a6e4cf4-0f4f-4625-ba06-bdb60b345c48")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR058")
 					(unit 1)
@@ -9700,7 +9741,7 @@
 			(uuid "977fa74d-469e-4257-9e0a-5f55d4951449")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR03")
 					(unit 1)
@@ -9778,7 +9819,7 @@
 			(uuid "b28b8323-3932-434e-993e-a15579d52749")
 		)
 		(instances
-			(project "MiniNDP_512_D"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "R1")
 					(unit 1)
@@ -9854,7 +9895,7 @@
 			(uuid "778611cd-4c21-415b-939f-5f6902c0f5ca")
 		)
 		(instances
-			(project "MiniNDP_256_F"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "C4")
 					(unit 1)
@@ -9930,7 +9971,7 @@
 			(uuid "4cb8470d-dfb2-4374-9361-332de802d882")
 		)
 		(instances
-			(project "MiniNDP_256_F"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "C3")
 					(unit 1)
@@ -9997,7 +10038,7 @@
 			(uuid "f8e3c0a6-da8b-45fc-99c4-562f9596596b")
 		)
 		(instances
-			(project "MiniNDP_256_F"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR07")
 					(unit 1)
@@ -10127,7 +10168,7 @@
 			(uuid "ba580361-0800-40bf-88af-b0fc86568b5c")
 		)
 		(instances
-			(project "MiniNDP_512_D"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U3")
 					(unit 1)
@@ -10203,7 +10244,7 @@
 			(uuid "1614342c-b346-4cac-9412-6cf2e9541447")
 		)
 		(instances
-			(project "MiniNDP_256_F"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "D1")
 					(unit 1)
@@ -10269,7 +10310,7 @@
 			(uuid "ada06cc6-c935-4971-95bc-58d0c410ae1e")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#FLG03")
 					(unit 1)
@@ -10334,7 +10375,7 @@
 			(uuid "31f59533-e23b-400b-b5e0-04f5bcbb7277")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR027")
 					(unit 1)
@@ -10401,7 +10442,7 @@
 			(uuid "2b1c0903-f0db-48ac-90f4-ddf1f9204227")
 		)
 		(instances
-			(project "MiniNDP_512_D"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR02")
 					(unit 1)
@@ -10477,7 +10518,7 @@
 			(uuid "ae7c6644-8704-4852-937c-2f05f7428dd5")
 		)
 		(instances
-			(project "MiniNDP_256_F"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "C2")
 					(unit 1)
@@ -10547,7 +10588,7 @@
 			)
 		)
 		(instances
-			(project "MiniNDP_512_D"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "N1")
 					(unit 1)
@@ -10623,7 +10664,7 @@
 			(uuid "036db586-7b3b-495c-a1b4-e7bb58970c0a")
 		)
 		(instances
-			(project "MiniNDP_512_D"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "BT1")
 					(unit 1)
@@ -10688,7 +10729,7 @@
 			(uuid "5a239387-5698-49ca-aaab-91de0227a26c")
 		)
 		(instances
-			(project "MiniNDP_256_F"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR06")
 					(unit 1)
@@ -10809,7 +10850,7 @@
 			(uuid "42ff91b8-7754-4b4f-8ff4-d63eaf142308")
 		)
 		(instances
-			(project ""
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U2")
 					(unit 1)
@@ -10874,7 +10915,7 @@
 			(uuid "02883595-3903-490e-b58f-27e8c7baacef")
 		)
 		(instances
-			(project "MiniNDP_512_C"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR013")
 					(unit 1)
@@ -10940,7 +10981,7 @@
 			(uuid "dc11478e-5273-479f-993f-3eb6f62cba0a")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#FLG02")
 					(unit 1)
@@ -11005,7 +11046,7 @@
 			(uuid "7ab85355-eba9-4ba8-a2f5-707f407bb4bd")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR09")
 					(unit 1)
@@ -11070,7 +11111,7 @@
 			(uuid "72049fa2-abc1-4ebb-85f9-89a6dfa65682")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR021")
 					(unit 1)
@@ -11262,7 +11303,7 @@
 			(uuid "05c98795-9af9-490e-b37f-916ec239b552")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "J1")
 					(unit 1)
@@ -11327,7 +11368,7 @@
 			(uuid "fcba3277-d0fa-4a1f-8966-a8614807597c")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR032")
 					(unit 1)
@@ -11448,7 +11489,7 @@
 			(uuid "203d3ea3-6fb9-45ae-8ffc-848bd9eb72fd")
 		)
 		(instances
-			(project ""
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U1")
 					(unit 1)
@@ -11513,7 +11554,7 @@
 			(uuid "7801d1ea-7d63-474e-9963-85b15baf3c3c")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR033")
 					(unit 1)
@@ -11579,7 +11620,7 @@
 			(uuid "8a90e84e-6b2d-4d28-897a-146b12dbad0b")
 		)
 		(instances
-			(project "MiniNDP_512_B"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR011")
 					(unit 1)
@@ -11655,7 +11696,7 @@
 			(uuid "e827fc83-4625-42b1-a90e-e27df24f1555")
 		)
 		(instances
-			(project "MiniNDP_256_F"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "C5")
 					(unit 1)
@@ -11722,7 +11763,7 @@
 			(uuid "e746214a-5f3c-45f7-8c71-990bbfb00d1a")
 		)
 		(instances
-			(project "MiniNDP_512_D"
+			(project "MiniNDP_EZ256"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR04")
 					(unit 1)
