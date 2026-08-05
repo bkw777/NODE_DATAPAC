@@ -7,7 +7,7 @@
 	(title_block
 		(title "MiniNDP_T512")
 		(date "2026-08-05")
-		(rev "001")
+		(rev "002")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAM100.CO or RAM200.CO")
@@ -6051,6 +6051,12 @@
 		(uuid "bbfe2c15-a9f6-47e8-a539-da75f2e0f3c3")
 	)
 	(junction
+		(at 35.56 45.72)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "beb746a9-a7db-4373-8ac5-07dfe2d71a5d")
+	)
+	(junction
 		(at 212.09 153.67)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6061,12 +6067,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f2d41be6-2e54-4a0e-a6e0-99157c2717ce")
-	)
-	(junction
-		(at 35.56 48.26)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "fe73b5bc-8e9e-460b-89a7-b2ae52c12483")
 	)
 	(no_connect
 		(at 67.31 38.1)
@@ -6273,7 +6273,7 @@
 		(uuid "415c656b-cb97-4a96-a83d-8c02b271d9cb")
 	)
 	(bus_entry
-		(at 31.75 43.18)
+		(at 31.75 45.72)
 		(size 2.54 2.54)
 		(stroke
 			(width 0)
@@ -6904,7 +6904,7 @@
 	)
 	(wire
 		(pts
-			(xy 35.56 48.26) (xy 46.99 48.26)
+			(xy 35.56 45.72) (xy 46.99 45.72)
 		)
 		(stroke
 			(width 0)
@@ -7042,16 +7042,6 @@
 		)
 		(uuid "1e1a8617-b8a3-4759-b75a-b4ece5b11310")
 	)
-	(bus
-		(pts
-			(xy 31.75 43.18) (xy 31.75 48.26)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2127505b-c9f4-437d-a212-6f9f731671e1")
-	)
 	(wire
 		(pts
 			(xy 158.75 35.56) (xy 184.15 35.56)
@@ -7064,7 +7054,7 @@
 	)
 	(wire
 		(pts
-			(xy 34.29 45.72) (xy 46.99 45.72)
+			(xy 34.29 48.26) (xy 46.99 48.26)
 		)
 		(stroke
 			(width 0)
@@ -7534,7 +7524,7 @@
 	)
 	(wire
 		(pts
-			(xy 35.56 33.02) (xy 35.56 48.26)
+			(xy 35.56 33.02) (xy 35.56 45.72)
 		)
 		(stroke
 			(width 0)
@@ -7631,6 +7621,16 @@
 			(type default)
 		)
 		(uuid "5c83ff7b-28a7-45ae-88a7-2cc687e74f7d")
+	)
+	(bus
+		(pts
+			(xy 31.75 45.72) (xy 31.75 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5f5f2d77-f964-45ae-9041-b538a8938e46")
 	)
 	(bus
 		(pts
@@ -7901,16 +7901,6 @@
 			(type default)
 		)
 		(uuid "88f9fb46-4df4-4389-81f5-6ade6c2655fc")
-	)
-	(wire
-		(pts
-			(xy 35.56 48.26) (xy 35.56 55.88)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8be263eb-2c1e-4cc2-ab1b-2555a06a0049")
 	)
 	(bus
 		(pts
@@ -8494,7 +8484,7 @@
 	)
 	(bus
 		(pts
-			(xy 31.75 43.18) (xy 31.75 35.56)
+			(xy 31.75 35.56) (xy 31.75 45.72)
 		)
 		(stroke
 			(width 0)
@@ -8571,6 +8561,16 @@
 			(type default)
 		)
 		(uuid "dcd195f8-3571-4c27-a70f-017928296e9a")
+	)
+	(wire
+		(pts
+			(xy 35.56 45.72) (xy 35.56 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dd04b741-c176-4ac7-8900-2e7a0be2b6ad")
 	)
 	(wire
 		(pts
@@ -9233,7 +9233,7 @@
 		(uuid "63604574-f6d0-44ef-bcde-862ac3763f25")
 	)
 	(label "(A)"
-		(at 46.99 45.72 180)
+		(at 46.99 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -11649,28 +11649,28 @@
 			)
 		)
 		(pin "8"
-			(uuid "e51df062-324d-497f-a33d-ce1fec14887e")
+			(uuid "e51df062-324d-497f-a33d-ce1fec14887f")
 		)
 		(pin "2"
-			(uuid "4d748e49-7cc4-476e-bea0-33367350cf87")
+			(uuid "4d748e49-7cc4-476e-bea0-33367350cf88")
 		)
 		(pin "1"
-			(uuid "49c12b3e-b819-48a4-b640-c976515e05ae")
+			(uuid "49c12b3e-b819-48a4-b640-c976515e05af")
 		)
 		(pin "7"
-			(uuid "3ac98903-d307-45ce-973f-57cd53aea752")
+			(uuid "3ac98903-d307-45ce-973f-57cd53aea753")
 		)
 		(pin "3"
-			(uuid "935473de-7a2a-4f85-9667-d7813ee400cd")
+			(uuid "935473de-7a2a-4f85-9667-d7813ee400ce")
 		)
 		(pin "6"
-			(uuid "e0325e9c-5625-4b94-b0d4-0fc65be55454")
+			(uuid "e0325e9c-5625-4b94-b0d4-0fc65be55455")
 		)
 		(pin "5"
-			(uuid "0ceb6de1-75b7-441c-8a56-4e93f6deea3f")
+			(uuid "0ceb6de1-75b7-441c-8a56-4e93f6deea40")
 		)
 		(pin "4"
-			(uuid "e1796637-e1df-4f4e-aa02-42c1ee859ba7")
+			(uuid "e1796637-e1df-4f4e-aa02-42c1ee859ba8")
 		)
 		(instances
 			(project "MiniNDP_T512"
@@ -11867,28 +11867,28 @@
 			)
 		)
 		(pin "8"
-			(uuid "e51df062-324d-497f-a33d-ce1fec14887e")
+			(uuid "e51df062-324d-497f-a33d-ce1fec148880")
 		)
 		(pin "2"
-			(uuid "4d748e49-7cc4-476e-bea0-33367350cf87")
+			(uuid "4d748e49-7cc4-476e-bea0-33367350cf89")
 		)
 		(pin "1"
-			(uuid "49c12b3e-b819-48a4-b640-c976515e05ae")
+			(uuid "49c12b3e-b819-48a4-b640-c976515e05b0")
 		)
 		(pin "7"
-			(uuid "3ac98903-d307-45ce-973f-57cd53aea752")
+			(uuid "3ac98903-d307-45ce-973f-57cd53aea754")
 		)
 		(pin "3"
-			(uuid "935473de-7a2a-4f85-9667-d7813ee400cd")
+			(uuid "935473de-7a2a-4f85-9667-d7813ee400cf")
 		)
 		(pin "6"
-			(uuid "e0325e9c-5625-4b94-b0d4-0fc65be55454")
+			(uuid "e0325e9c-5625-4b94-b0d4-0fc65be55456")
 		)
 		(pin "5"
-			(uuid "0ceb6de1-75b7-441c-8a56-4e93f6deea3f")
+			(uuid "0ceb6de1-75b7-441c-8a56-4e93f6deea41")
 		)
 		(pin "4"
-			(uuid "e1796637-e1df-4f4e-aa02-42c1ee859ba7")
+			(uuid "e1796637-e1df-4f4e-aa02-42c1ee859ba9")
 		)
 		(instances
 			(project "MiniNDP_T512"
