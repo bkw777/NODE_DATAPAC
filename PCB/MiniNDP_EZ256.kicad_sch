@@ -4816,6 +4816,16 @@
 		)
 		(uuid "38727469-5f02-4ae7-b762-7fbe3f1c8e23")
 	)
+	(text "(1)"
+		(exclude_from_sim no)
+		(at 133.604 109.474 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "3b039a0c-707d-4a48-8070-f6d39a8d4b20")
+	)
 	(text "128k-256k with fewest parts"
 		(exclude_from_sim no)
 		(at 253.238 176.022 0)
@@ -4922,9 +4932,9 @@
 		)
 		(uuid "9e8ebf8b-e8ec-4d26-8e93-99580a172959")
 	)
-	(text "(1) for 128k compatibility\nkeep AD7 -> A17 -> A17\n"
+	(text "(1) for 128k compatibility\nA17 must come from AD7\nand go to sram pin 1\n"
 		(exclude_from_sim no)
-		(at 180.34 108.458 0)
+		(at 180.594 108.712 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4932,6 +4942,17 @@
 			(justify left top)
 		)
 		(uuid "a9bfdd22-2bc4-4c0f-bbeb-d7a4e25c8a12")
+	)
+	(text "BUS_A10"
+		(exclude_from_sim no)
+		(at 50.8 102.87 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "ac9dc424-f8e1-4eb4-b671-a17f6e80ba7e")
 	)
 	(text "(1)"
 		(exclude_from_sim no)
@@ -5168,6 +5189,10 @@
 		(uuid "63ee9fdb-8229-47d3-b0a8-cb049ef124f0")
 	)
 	(no_connect
+		(at 50.8 102.87)
+		(uuid "6bfe2869-4c72-428b-90ca-d7984b8979bc")
+	)
+	(no_connect
 		(at 50.8 115.57)
 		(uuid "6cc545eb-bb7f-4f21-81d1-e485f6991d0d")
 	)
@@ -5270,15 +5295,6 @@
 			(type default)
 		)
 		(uuid "12d298df-1f03-48c7-b84e-2dc127d6bff2")
-	)
-	(bus_entry
-		(at 38.1 105.41)
-		(size 2.54 -2.54)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "266d8c29-4d3e-4c64-a034-c8d58b77ed2a")
 	)
 	(bus_entry
 		(at 175.26 102.87)
@@ -6378,7 +6394,7 @@
 	)
 	(bus
 		(pts
-			(xy 38.1 105.41) (xy 38.1 147.32)
+			(xy 38.1 95.25) (xy 38.1 147.32)
 		)
 		(stroke
 			(width 0)
@@ -6695,16 +6711,6 @@
 			(type default)
 		)
 		(uuid "70bd8334-d575-42b5-93c5-aebc2fcb2752")
-	)
-	(bus
-		(pts
-			(xy 38.1 95.25) (xy 38.1 105.41)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "712ba723-892a-452c-99ce-7318703c97b9")
 	)
 	(wire
 		(pts
@@ -7578,16 +7584,6 @@
 	)
 	(wire
 		(pts
-			(xy 40.64 102.87) (xy 50.8 102.87)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e57ea7d3-618d-4e07-9be9-e2a759edfed4")
-	)
-	(wire
-		(pts
 			(xy 212.09 66.04) (xy 222.25 66.04)
 		)
 		(stroke
@@ -7956,7 +7952,7 @@
 		)
 		(uuid "2ce94bb6-af36-4e53-b720-326bcdf5435c")
 	)
-	(label "{AD[0..7],BUS_A10}"
+	(label "{AD[0..7]}"
 		(at 143.51 147.32 0)
 		(effects
 			(font
@@ -8355,16 +8351,6 @@
 			(justify left bottom)
 		)
 		(uuid "90b4d90f-cc5b-4755-b343-3a660490aaf7")
-	)
-	(label "BUS_A10"
-		(at 50.8 102.87 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "9c09426d-3f97-4c10-8253-e706ada21604")
 	)
 	(label "AD0"
 		(at 50.8 90.17 180)
