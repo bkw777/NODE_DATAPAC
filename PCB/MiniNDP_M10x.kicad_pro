@@ -37,9 +37,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 1.0,
-          "height": 1.7,
-          "width": 1.7
+          "drill": 0.0,
+          "height": 0.35,
+          "width": 1.2
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -60,7 +60,11 @@
       ],
       "drc_exclusions": [
         [
-          "starved_thermal|132950000|106175000|7264d97b-15d8-4a15-a143-ebe7adc45345|bed23973-05d7-4e4c-af06-857e4cbb7611|F.Cu",
+          "silk_overlap|166485713|89118422|092e0aa4-7629-447b-8d76-22a73bb54be5|be651e60-8b19-45be-b64f-d2386e33eaed",
+          ""
+        ],
+        [
+          "starved_thermal|130000000|106175000|7264d97b-15d8-4a15-a143-ebe7adc45345|bed23973-05d7-4e4c-af06-857e4cbb7611|F.Cu",
           ""
         ]
       ],
@@ -493,7 +497,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "MiniNDP_M10.kicad_pro",
+    "filename": "MiniNDP_M10x.kicad_pro",
     "version": 3
   },
   "net_settings": {

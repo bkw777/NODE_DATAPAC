@@ -5,9 +5,9 @@
 	(uuid "f15c2929-5cf4-4b4e-965d-148e1bec8a42")
 	(paper "A4")
 	(title_block
-		(title "MiniNDP_M10")
-		(date "2026-07-23")
-		(rev "01")
+		(title "MiniNDP")
+		(date "2026-08-09")
+		(rev "M10x_01")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAMM10.CO")
@@ -5189,6 +5189,17 @@
 		)
 		(uuid "6d3d03a2-fb03-4ed7-afbc-5908a36e9a80")
 	)
+	(text "CR2012 battery holder and THIN cover\njust barely allows access to the M-10\nbatteries without removing the card."
+		(exclude_from_sim no)
+		(at 37.084 158.75 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6db8dee1-f4ff-4fde-a4d3-1a2f7eeb8a51")
+	)
 	(text "		BUS  BUS  BUS  BUS\n(A)	~{YO}   _A8  _A9  _A10  _A11  ->  ~{BLOCK} ~{BYTE}\n L	 X	 X	  X	  X	   X		X	  X\n X	 H	 X	  X	  X	   X		X	  X\n X	 X	 L	  X	  X	   X		X	  X\n H	 L	 H	  L	  L	   L	->  H	  L  Select BLOCK N, BANK0: OUT129,N\n H	 L	 H	  L	  H	   L	->  H	  L  Select BLOCK N, BANK1: OUT133,N\n H	 L	 H	  L	  L	   H	->  H	  L  Select BLOCK N, BANK2: OUT137,N\n H	 L	 H	  L	  H	   H	->  H	  L  Select BLOCK N, BANK3: OUT141,N\n H	 L	 H	  H	  X	   X	->  L	  H  READ N: N=INP(131) or WRITE N: OUT131,N\n\nBLOCK\nH: sets A0-A9 to 0, updates A10-A19 from AD0-AD7 & BUS_A10-BUS_A11\nL: latches A10-A19\n\nBYTE\nH: enables SRAM for read or write\nL: disables SRAM, increments A0-A9 by 1\n"
 		(exclude_from_sim no)
 		(at 15.24 194.818 0)
@@ -8311,7 +8322,7 @@
 		(uuid "013bd483-b183-4fe9-8db6-d0428dcce8a6")
 	)
 	(label "BUS_A11"
-		(at 139.7 93.98 180)
+		(at 139.7 91.44 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8371,7 +8382,7 @@
 		(uuid "102669e4-1c8a-4529-b40c-ed82b19046b0")
 	)
 	(label "AD5"
-		(at 139.7 101.6 180)
+		(at 139.7 106.68 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8391,7 +8402,7 @@
 		(uuid "13d9315b-3a3e-4c51-a15e-05a35db355ff")
 	)
 	(label "AD0"
-		(at 241.3 53.34 0)
+		(at 241.3 55.88 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8431,7 +8442,7 @@
 		(uuid "22299037-f8b1-4d32-80de-07f67cc896b8")
 	)
 	(label "AD6"
-		(at 139.7 109.22 180)
+		(at 139.7 114.3 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8501,7 +8512,7 @@
 		(uuid "365d526a-aaa6-4a28-a495-bb05d0190bd6")
 	)
 	(label "AD5"
-		(at 241.3 40.64 0)
+		(at 241.3 45.72 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8571,7 +8582,7 @@
 		(uuid "4c535eb1-389b-4906-b689-7ea053dc9da2")
 	)
 	(label "AD1"
-		(at 241.3 50.8 0)
+		(at 241.3 58.42 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8601,7 +8612,7 @@
 		(uuid "55016034-bd76-48dc-9fb7-d080af77fd80")
 	)
 	(label "AD0"
-		(at 139.7 111.76 180)
+		(at 139.7 99.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8761,7 +8772,7 @@
 		(uuid "81bf1cfb-6b66-458b-bc2f-807eea84c96f")
 	)
 	(label "AD4"
-		(at 139.7 104.14 180)
+		(at 139.7 109.22 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8771,7 +8782,7 @@
 		(uuid "83582c3e-557c-4645-9d05-2886a45851ff")
 	)
 	(label "AD7"
-		(at 241.3 45.72 0)
+		(at 241.3 53.34 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8781,7 +8792,7 @@
 		(uuid "85ae06a3-530e-4811-ab08-f745be5bf510")
 	)
 	(label "AD4"
-		(at 241.3 43.18 0)
+		(at 241.3 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8791,7 +8802,7 @@
 		(uuid "8b4bbb4a-c722-49e7-9f49-21ce0f9631e8")
 	)
 	(label "AD2"
-		(at 139.7 99.06 180)
+		(at 139.7 104.14 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8821,7 +8832,7 @@
 		(uuid "90b4d90f-cc5b-4755-b343-3a660490aaf7")
 	)
 	(label "BUS_A10"
-		(at 139.7 91.44 180)
+		(at 139.7 93.98 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8901,7 +8912,7 @@
 		(uuid "9e551214-561e-4bf0-840b-dc5315238eb2")
 	)
 	(label "AD3"
-		(at 241.3 58.42 0)
+		(at 241.3 40.64 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9021,7 +9032,7 @@
 		(uuid "bf4ae98c-679d-4812-a2b6-3c73d2016ad7")
 	)
 	(label "AD2"
-		(at 241.3 55.88 0)
+		(at 241.3 43.18 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9031,7 +9042,7 @@
 		(uuid "c06d36ed-274d-4dcd-b283-4a381abd6105")
 	)
 	(label "AD7"
-		(at 139.7 106.68 180)
+		(at 139.7 111.76 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9051,7 +9062,7 @@
 		(uuid "c5028e48-a775-4523-b985-17225bc8f20c")
 	)
 	(label "AD1"
-		(at 139.7 114.3 180)
+		(at 139.7 96.52 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9131,7 +9142,7 @@
 		(uuid "d64ba7e7-fe0a-402f-b725-fe086421ac41")
 	)
 	(label "AD6"
-		(at 241.3 48.26 0)
+		(at 241.3 50.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9181,7 +9192,7 @@
 		(uuid "f380affb-4b66-44e1-8b0c-7b22b0864d7d")
 	)
 	(label "AD3"
-		(at 139.7 96.52 180)
+		(at 139.7 101.6 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9386,7 +9397,7 @@
 			(uuid "1154b0fd-ca6b-4ce6-bc05-a265c5fdf5fa")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U1")
 					(unit 1)
@@ -9458,7 +9469,7 @@
 			(uuid "7a957f3d-162d-4045-82ba-428786bc603c")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR08")
 					(unit 1)
@@ -9578,7 +9589,7 @@
 			(uuid "5becb6dc-c708-4bcc-8a6f-446446ae3560")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U2")
 					(unit 1)
@@ -9643,7 +9654,7 @@
 			(uuid "a5ab891c-b917-43b0-9e2c-54d494eca572")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR010")
 					(unit 1)
@@ -9709,7 +9720,7 @@
 			(uuid "a3cc51ed-8c52-496e-a371-b46110362732")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR01")
 					(unit 1)
@@ -9785,7 +9796,7 @@
 			(uuid "25f71d60-5a36-4edb-a4c6-11e735acc34e")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "BT1")
 					(unit 1)
@@ -9851,7 +9862,7 @@
 			(uuid "191170b9-94ec-4385-98b7-ef0e08555504")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR022")
 					(unit 1)
@@ -9917,7 +9928,7 @@
 			(uuid "3e49fb31-e5b6-41ab-97da-1992ca5a3505")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR05")
 					(unit 1)
@@ -9982,7 +9993,7 @@
 			(uuid "bb3e25de-7d74-44eb-bf78-681d699b631c")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR012")
 					(unit 1)
@@ -10054,7 +10065,7 @@
 			(uuid "48975caf-0e62-4cbf-8a95-6fb0f1cb1d36")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#FLG01")
 					(unit 1)
@@ -10121,7 +10132,7 @@
 			(uuid "8a6e4cf4-0f4f-4625-ba06-bdb60b345c48")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR058")
 					(unit 1)
@@ -10187,7 +10198,7 @@
 			(uuid "a861c18d-589f-4a9a-a4fb-152d3642269f")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR019")
 					(unit 1)
@@ -10253,7 +10264,7 @@
 			(uuid "fb33f04a-591b-4431-8533-d56253134e18")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR07")
 					(unit 1)
@@ -10318,7 +10329,7 @@
 			(uuid "ef16f4a1-00c0-46a6-a3f9-e337d1df12a8")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR042")
 					(unit 1)
@@ -10384,7 +10395,7 @@
 			(uuid "83c24d76-2aba-4e8f-bdaf-083719ba6e28")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR057")
 					(unit 1)
@@ -10456,7 +10467,7 @@
 			(uuid "977fa74d-469e-4257-9e0a-5f55d4951449")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR03")
 					(unit 1)
@@ -10521,7 +10532,7 @@
 			(uuid "837750e9-ee44-4794-b93b-8bb98e22aaed")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR055")
 					(unit 1)
@@ -10601,7 +10612,7 @@
 			(uuid "a7217687-128c-4b74-8895-cf6c3f92bdde")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "DA1")
 					(unit 1)
@@ -10626,7 +10637,7 @@
 				)
 			)
 		)
-		(property "Value" "MiniNDP_Cover_M10"
+		(property "Value" "MiniNDP_Cover_THIN"
 			(at 26.67 149.352 0)
 			(effects
 				(font
@@ -10671,7 +10682,7 @@
 			)
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "N1")
 					(unit 1)
@@ -10747,7 +10758,7 @@
 			(uuid "469726ec-5526-45ac-a945-0fd61203509f")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "C5")
 					(unit 1)
@@ -10823,7 +10834,7 @@
 			(uuid "0dda6eba-c9c9-4448-b695-477b37c06c88")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "C2")
 					(unit 1)
@@ -10889,7 +10900,7 @@
 			(uuid "ada06cc6-c935-4971-95bc-58d0c410ae1e")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#FLG03")
 					(unit 1)
@@ -10955,7 +10966,7 @@
 			(uuid "91605111-298d-4ac8-b529-89e7e6ac32d8")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR023")
 					(unit 1)
@@ -11021,7 +11032,7 @@
 			(uuid "a6116b33-1d3b-4d93-91a5-761ca5219d28")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR06")
 					(unit 1)
@@ -11142,7 +11153,7 @@
 			(uuid "3e2fdaf4-8d5d-4591-baac-06d9a297ee0d")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U3")
 					(unit 1)
@@ -11207,7 +11218,7 @@
 			(uuid "31afc411-85f9-4ede-9017-bcf60a761da1")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR027")
 					(unit 1)
@@ -11272,7 +11283,7 @@
 			(uuid "d4fbfd6a-3e93-4aaf-b248-00eedfdcb572")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR014")
 					(unit 1)
@@ -11350,7 +11361,7 @@
 			(uuid "665aabd3-489d-4023-9882-c294f1bd1e48")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "R1")
 					(unit 1)
@@ -11416,7 +11427,7 @@
 			(uuid "d9014ac5-cef4-4ade-bee9-08192e67ca80")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR04")
 					(unit 1)
@@ -11482,7 +11493,7 @@
 			(uuid "dc11478e-5273-479f-993f-3eb6f62cba0a")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#FLG02")
 					(unit 1)
@@ -11547,7 +11558,7 @@
 			(uuid "7ab85355-eba9-4ba8-a2f5-707f407bb4bd")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR09")
 					(unit 1)
@@ -11623,7 +11634,7 @@
 			(uuid "d4c347c0-413d-428a-ad0b-b2c796ecedf6")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "C4")
 					(unit 1)
@@ -11688,7 +11699,7 @@
 			(uuid "9edbc65c-bb29-4e8d-9608-3291ec43f91a")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR025")
 					(unit 1)
@@ -11880,7 +11891,7 @@
 			(uuid "05c98795-9af9-490e-b37f-916ec239b552")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "J1")
 					(unit 1)
@@ -11946,7 +11957,7 @@
 			(uuid "34432bca-01ab-414c-83d0-47f0330cbe42")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR041")
 					(unit 1)
@@ -12022,7 +12033,7 @@
 			(uuid "7a088b93-7208-4a37-bf72-dbd9ae27ae13")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "C3")
 					(unit 1)
@@ -12087,7 +12098,7 @@
 			(uuid "fcba3277-d0fa-4a1f-8966-a8614807597c")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR032")
 					(unit 1)
@@ -12232,7 +12243,7 @@
 			(uuid "62aeadfb-ff75-4ede-9d7e-a06d86f7ff57")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U4")
 					(unit 1)
@@ -12297,7 +12308,7 @@
 			(uuid "7801d1ea-7d63-474e-9963-85b15baf3c3c")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR033")
 					(unit 1)
@@ -12363,7 +12374,7 @@
 			(uuid "8a90e84e-6b2d-4d28-897a-146b12dbad0b")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR011")
 					(unit 1)
@@ -12439,7 +12450,7 @@
 			(uuid "c82cfb48-a134-476a-85f5-57572dde0a02")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "C1")
 					(unit 1)
@@ -12504,7 +12515,7 @@
 			(uuid "41c28f19-10a6-4b67-91b1-9212401eb58c")
 		)
 		(instances
-			(project "MiniNDP_M10"
+			(project "MiniNDP_M10x"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR016")
 					(unit 1)
