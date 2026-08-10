@@ -536,7 +536,7 @@
       "plot": "GERBER_${TITLE}_${REVISION}",
       "pos_files": "GERBER_${TITLE}_${REVISION}",
       "specctra_dsn": "",
-      "step": "../COVER/lib/MiniNDP_M10.pcb.stl",
+      "step": "../COVER/lib/pcb_M10.stl",
       "svg": "",
       "vrml": ""
     },

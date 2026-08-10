@@ -464,7 +464,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/71c90d7d-934e-4d7b-a971-ebd772ed161b")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -1.5 -1.1)
@@ -696,7 +696,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/a705bf1e-6e66-4469-ac28-448a42a80f08")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(attr smd)
 		(fp_poly
 			(pts
@@ -900,7 +900,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/ebb354fb-1940-401a-a512-b196522649b9")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.95 -0.85)
@@ -1060,7 +1060,7 @@
 			)
 		)
 	)
-	(footprint "000_LOCAL:TSSOP-24_4.4x7.8mm_P0.65mm"
+	(footprint "000_LOCAL:TSSOP-24"
 		(layer "F.Cu")
 		(uuid "4e8a91db-2168-4ea1-a4c5-188661ba56d2")
 		(at 127.1 98.65 180)
@@ -1092,7 +1092,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/sn54abt841.pdf"
-			(at 0 0 0)
+			(at 0 0 180)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "8c082cc7-b725-4b1a-b332-8c70d827b875")
@@ -1104,7 +1104,7 @@
 			)
 		)
 		(property "Description" "IC 10BIT LATCH 3-STATE 24-SOIC"
-			(at 0 0 0)
+			(at 0 0 180)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "74145a44-4dd2-4d5a-a059-c0fa00183247")
@@ -1120,7 +1120,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "ea80c5c7-fafc-4b3b-b98f-0e9446cdf5b3")
+			(uuid "40e50ad2-a308-4ee8-a5d4-d37e82836bb2")
 			(effects
 				(font
 					(size 1 1)
@@ -1131,7 +1131,7 @@
 		(property ki_fp_filters "DIP*24* *SO*24*")
 		(path "/dcccabb7-5010-4f9b-8585-ee74f79b9d35")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0 4.035)
@@ -1141,7 +1141,7 @@
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "b103ba76-3b9c-4f81-ba05-7806c36c71c9")
+			(uuid "2b606cec-0ee0-449f-9768-d1b16434eadb")
 		)
 		(fp_line
 			(start 0 4.035)
@@ -1151,7 +1151,7 @@
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "57c525d3-a6ee-4b62-a5f9-adbc22717078")
+			(uuid "339fdd4c-002f-44e2-82bb-8c4bc83c914f")
 		)
 		(fp_line
 			(start 0 -4.035)
@@ -1161,7 +1161,7 @@
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "48b3aa3c-1763-472d-b587-21ccd7e48791")
+			(uuid "70efc1c2-1817-49f3-b12f-8de8b342457d")
 		)
 		(fp_line
 			(start 0 -4.035)
@@ -1171,7 +1171,7 @@
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "4c5c3633-c063-434a-aeb0-b6a904383fee")
+			(uuid "65ab8d0c-c9c4-4152-a85d-a7fa289873bb")
 		)
 		(fp_circle
 			(center -1.3 -3.05)
@@ -1182,7 +1182,7 @@
 			)
 			(fill yes)
 			(layer "F.SilkS")
-			(uuid "25497a3b-d5f2-4f8b-9e39-45f1c93e7187")
+			(uuid "18476b1c-9b93-4043-9139-143ca1db5051")
 		)
 		(fp_poly
 			(pts
@@ -1194,7 +1194,7 @@
 			)
 			(fill yes)
 			(layer "F.SilkS")
-			(uuid "791e1bf5-f277-4af0-b6a3-f1a8c6a87aa5")
+			(uuid "9ef2e4bb-ee48-45fc-8162-16708bf887a4")
 		)
 		(fp_rect
 			(start -3.75 -4.125)
@@ -1205,7 +1205,7 @@
 			)
 			(fill no)
 			(layer "F.CrtYd")
-			(uuid "14b7369d-0f4c-4058-8d01-096d5c1e82bf")
+			(uuid "c0b1d02a-c88c-4170-b1dc-74c49932b0de")
 		)
 		(fp_line
 			(start 2.2 3.9)
@@ -1215,7 +1215,7 @@
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "d30421ce-3fc4-4022-9155-e73a078410e9")
+			(uuid "f03b192a-7a20-4147-922e-010dea1facd9")
 		)
 		(fp_line
 			(start 2.2 -3.9)
@@ -1225,7 +1225,7 @@
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "dd1bdf10-d3a6-459c-93ba-c2b6f68352cf")
+			(uuid "4cc5f2ca-ae5d-44ad-b591-8ece7a0f8abe")
 		)
 		(fp_line
 			(start -1.2 -3.9)
@@ -1235,7 +1235,7 @@
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "2c763ec5-8c0d-4309-989e-499c48ba01ba")
+			(uuid "8a04bdd2-23b1-46a6-a0ef-214eb37c24b5")
 		)
 		(fp_line
 			(start -2.2 3.9)
@@ -1245,7 +1245,7 @@
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "23d5bcce-4f47-4a9b-9bf2-8bdc5e74be4a")
+			(uuid "a61c16e3-e653-4972-8933-2b842e9ad98f")
 		)
 		(fp_line
 			(start -2.2 -2.9)
@@ -1255,10 +1255,10 @@
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "e68576c3-927d-47d1-8ab2-1b975b4e2960")
+			(uuid "73a394a3-9ea6-4904-b337-9d15fa8bec92")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 0 0 0)
+			(at 0 0 180)
 			(layer "F.Fab")
 			(uuid "a27413a2-9f1b-42f5-947c-3c0bad2e4eeb")
 			(effects
@@ -1773,7 +1773,7 @@
 			(uuid "b1631c81-f85b-475c-b163-5d0504b3fe70")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/TSSOP-24_4.4x7.8mm_P0.65mm.wrl"
+		(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/TSSOP-24.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -2119,7 +2119,7 @@
 		(property ki_fp_filters "DIP*W7.62mm* SOIC*3.9x9.9mm*P1.27mm* TSSOP*4.4x5mm*P0.65mm*")
 		(path "/1a72ff34-04d3-4e35-b8e2-c9b7082e8eca")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -2.2 2.7)
@@ -2788,7 +2788,7 @@
 		(property ki_fp_filters "DIP?16* SO*16*")
 		(path "/9a0de3b5-3c6d-4c8f-9134-2e8c16b6aab5")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -2.2 2.7)
@@ -3454,7 +3454,7 @@
 		(property ki_fp_filters "Enclosure* Housing*")
 		(path "/5e299068-849a-49c6-9762-03921bd52ae3")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(attr board_only exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
 		(fp_line
 			(start -29.2 -15)
@@ -3634,7 +3634,7 @@
 		(property ki_fp_filters "SSOP*11.305x20.495mm*P1.27mm*")
 		(path "/0fe73c06-7c1d-49fc-9fdc-92b070664f04")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 5.19 9.315)
@@ -4853,7 +4853,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/b3925862-fddc-4b2c-8e43-fe7be3aa9af1")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -1.5 1.1)
@@ -5087,7 +5087,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/730fe11c-06ec-443c-a5b7-eba19921588e")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.95 -0.85)
@@ -5397,7 +5397,7 @@
 		)
 		(path "/2b15837a-e1b7-4b63-a342-ec3304fb2f02")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(zone_connect 2)
 		(attr smd)
 		(fp_line
@@ -6057,7 +6057,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/d335550e-9b48-48ca-afd7-76ee70ca3a8e")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.95 -0.85)
@@ -6289,7 +6289,7 @@
 		(property ki_fp_filters "SOT?23*")
 		(path "/5dd30177-1f73-44ff-8269-c6f33e2d70e5")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.76 -1.58)
@@ -6580,7 +6580,7 @@
 		(property ki_fp_filters "Connector*:*_2x??_*")
 		(path "/d017d8ec-f264-422d-8520-ce3744dc4641")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10x.kicad_sch")
+		(sheetfile "MiniNDP_M10.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start 1.905 -22.225)

@@ -527,7 +527,7 @@
       "plot": "GERBER_${TITLE}_${REVISION}",
       "pos_files": "GERBER_${TITLE}_${REVISION}",
       "specctra_dsn": "",
-      "step": "out/MiniNDP_PCB_THIN.step",
+      "step": "../COVER/lib/pcb_T512.stl",
       "svg": "",
       "vrml": ""
     },

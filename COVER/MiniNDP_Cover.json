@@ -1,10 +1,12 @@
 {
     "fileFormatVersion": "1",
     "parameterSets": {
-        "New set 1": {
+        "M10": {
             "$fa": "1",
             "$fs": "0.20000000000000001",
+            "Customizer_Note": "components_height small as possible to clear AA batt cover",
             "PCB": "M10",
+            "components_height": "1.6000000000000001",
             "finger_pull_height": "0.40000000000000002",
             "finger_pull_length": "10",
             "ledge": "0.80000000000000004",
@@ -14,13 +16,15 @@
             "pcb_corner_radius": "2",
             "pcb_thickness": "1.6000000000000001",
             "short_retainer_len": "10",
-            "sr": "1",
+            "sr": "0.99999999999999833",
             "wall_thickness": "0.80000000000000004"
         },
-        "New set 2": {
+        "New set 1": {
             "$fa": "1",
             "$fs": "0.20000000000000001",
+            "Customizer_Note": "",
             "PCB": "EZ1M",
+            "components_height": "0",
             "finger_pull_height": "0.40000000000000002",
             "finger_pull_length": "10",
             "ledge": "0.80000000000000004",

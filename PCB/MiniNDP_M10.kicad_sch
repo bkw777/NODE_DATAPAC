@@ -12134,7 +12134,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "000_LOCAL:TSSOP-24_4.4x7.8mm_P0.65mm"
+		(property "Footprint" "000_LOCAL:TSSOP-24"
 			(at 152.4 104.14 0)
 			(effects
 				(font

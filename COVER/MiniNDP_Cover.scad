@@ -4,33 +4,42 @@
 // ------------------------------------------------------------------------------
 // options
 
-PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,M10]
+Customizer_Note = "";
+PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,T512,M10,M10c]
 loose_fit = false; // set true if FDM print is too tight
 
 // ------------------------------------------------------------------------------
 
 low_profile =  // true for CR2016 , false for CR2032
-        PCB=="SL1M" ? true :
-        PCB=="OG" ? true :
         PCB=="M10" ? true :
+        PCB=="M10c" ? true :
+        PCB=="SL1M" ? true :
+        PCB=="T512" ? true :
+        PCB=="OG" ? true :
         false;
 
 pcb_stl =
+        PCB=="EZ512" ? "lib/pcb_EZ512.stl" :
         PCB=="M10" ? "lib/pcb_M10.stl" :
-        low_profile ? "lib/pcb_CR2016.stl" :
-        "lib/pcb_CR2032.stl";
+        PCB=="M10c" ? "lib/pcb_M10c.stl" :
+        PCB=="T512" ? "lib/pcb_T512.stl" :
+        PCB=="OG" ? "lib/pcb_OG.stl" :
+        low_profile ? "lib/pcb_SL1M.stl" :
+        "lib/pcb_EZ1M.stl";
 
-parts_height =
-        PCB=="M10" ? 1.6 :
-        low_profile ? 1.8 :
-        4.2;
+// 0=auto
+components_height = 0; // 0.1
+
+ch = components_height ? components_height :
+        low_profile ? 1.6 :
+        4.0;
 
 // PCB dimensions from KiCAD
 pcb_thickness = 1.6;
 pcb_corner_radius = 2;
 
 pcblw = 
-        PCB=="M10" ? [31,58] :
+        PCB=="M10c" ? [31,58] :
         [34,60];
 
 pcb_length = pcblw[0];
@@ -52,7 +61,8 @@ ledge = 0.8;
 fc = loose_fit ? 0.2 : 0.1; // fitment clearance
 o = 0.01; // overlap/overcut/overhang
 
-sr = 1;   // secondary/smaller fillet radius
+// secondary/smaller fillet radius
+sr = 1;   // 0.1
 
 short_retainer_len = 10;
 long_retainer_len = pcb_width/2;
@@ -67,7 +77,7 @@ assert(finger_pull_height<=wall_thickness+fc+ledge);
 
 inner_width = fc + pcb_width + fc;
 inner_length = fc + pcb_length + fc;
-inner_height = pcb_thickness + parts_height + fc;
+inner_height = pcb_thickness + ch + fc;
 outer_width = wall_thickness + inner_width + wall_thickness;
 outer_length = wall_thickness + inner_length + wall_thickness;
 outer_height = inner_height + wall_thickness;
@@ -109,7 +119,7 @@ module main_shell() {
     translate([0,inner_length/2,-lip/2])
      rotate([0,90,0])
       cylinder(h=long_retainer_len,d=lip,center=true);
-   if (PCB!="M10") translate([0,-inner_length/2+1,-0.5])
+   if (PCB!="M10c") translate([0,-inner_length/2+1,-0.5])
     cylinder(h=2,r=1,center=true);
   }
 
@@ -126,7 +136,7 @@ module main_shell() {
   
  // add embossed graphic of the 2x20 IDC connector
  // to the inside face to show install orientation
- if (PCB=="M10") {
+ if (PCB=="M10c") {
   // Olivetti M-10 version
   w = 20*2.54;
   l = 2*2.54;
