@@ -1,4 +1,4 @@
-(footprint "Harding_09-19-540-x824-741"
+(footprint "Harting_09-19-540-x824"
 	(version 20241229)
 	(generator "pcbnew")
 	(generator_version "9.0")
@@ -6,7 +6,7 @@
 	(descr "Through hole straight socket strip, 2x20, 2.54mm pitch, double cols (from Kicad 4.0.7), script generated")
 	(tags "Through hole socket strip THT 2x20 2.54mm double row")
 	(property "Reference" "REF**"
-		(at -1.27 -2.77 0)
+		(at -1.27 -2.286 0)
 		(layer "F.SilkS")
 		(uuid "3e17901f-db90-4eec-bd42-467aef8e4086")
 		(effects
@@ -16,7 +16,7 @@
 			)
 		)
 	)
-	(property "Value" "Harding_09-19-540-x824-741"
+	(property "Value" "Harting_09-19-540-x824"
 		(at -1.27 51.03 0)
 		(layer "F.Fab")
 		(uuid "7f534dea-edfe-4fc5-ac5d-0e57df0e5508")
@@ -519,7 +519,7 @@
 		(uuid "25397a4d-0473-4791-8ace-fd87545958f2")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/Harding_09-19-540-x824-741.step"
+	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/Harting_09-19-540-x824.step"
 		(offset
 			(xyz -1.27 -24.13 0)
 		)

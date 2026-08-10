@@ -385,12 +385,8 @@ BOM [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 
 ## MiniNDP M10 - For Olivetti M-10
 
-This looks very similar to the normal SL1M version for 102/200 below, but there are a few differences and this is only for Olivetti M-10:  
-* the pinout on the bus connector is mirrored  
-* the bus connector is female  
-* the pcb is smaller and off-center  
-
-You probably want to put a piece of scotch tape on the M-10 just above the bus connector to protect the paint from the card.
+The Olivetti M-10 version looks similar to the SL1M version, but the bus connector pinout is flipped and positioned off-center.  
+But the board outline is the same so it uses the standard cover, thin version.  
 
 ![](PCB/out/MiniNDP_M10.jpg)  
 ![](PCB/out/MiniNDP_M10.2.jpg)  
@@ -399,7 +395,9 @@ You probably want to put a piece of scotch tape on the M-10 just above the bus c
 ![](PCB/out/MiniNDP_M10.svg)  
 
 BOM: [MiniNDP_M10.bom.csv](PCB/out/MiniNDP_M10.bom.csv)  
-Special cover just for Olivetti: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl)
+
+<!-- M10c is a more compact version for Olivetti. Since it has a different PCB outline, it has it's own cover. -->
+<!-- Special cover just for M10c: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl) -->
 
 ## [Other Versions](MiniNDP_variants.md)  
 [SL1M](MiniNDP_variants.md#sl1m---slim-1-meg) - slim 1 meg, all thin chips to make a thin card  

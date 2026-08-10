@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP_M10")
-		(date "2026-07-23")
-		(rev "01")
+		(date "2026-08-10")
+		(rev "04")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAMM10.CO")
@@ -5058,16 +5058,6 @@
 		)
 		(uuid "135417bc-6280-47f2-9701-261f033a9315")
 	)
-	(text "02x20x2.54mm FEMALE 11mm tall"
-		(exclude_from_sim no)
-		(at 57.15 74.168 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "180a6812-3fe0-4065-9696-1e6dacf1a92f")
-	)
 	(text "CR2016"
 		(exclude_from_sim no)
 		(at 108.712 191.77 0)
@@ -5199,6 +5189,17 @@
 		)
 		(uuid "6d3d03a2-fb03-4ed7-afbc-5908a36e9a80")
 	)
+	(text "CR2012 battery holder and THIN cover\njust barely allows access to the M-10\nbatteries without removing the card."
+		(exclude_from_sim no)
+		(at 35.56 161.29 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6db8dee1-f4ff-4fde-a4d3-1a2f7eeb8a51")
+	)
 	(text "		BUS  BUS  BUS  BUS\n(A)	~{YO}   _A8  _A9  _A10  _A11  ->  ~{BLOCK} ~{BYTE}\n L	 X	 X	  X	  X	   X		X	  X\n X	 H	 X	  X	  X	   X		X	  X\n X	 X	 L	  X	  X	   X		X	  X\n H	 L	 H	  L	  L	   L	->  H	  L  Select BLOCK N, BANK0: OUT129,N\n H	 L	 H	  L	  H	   L	->  H	  L  Select BLOCK N, BANK1: OUT133,N\n H	 L	 H	  L	  L	   H	->  H	  L  Select BLOCK N, BANK2: OUT137,N\n H	 L	 H	  L	  H	   H	->  H	  L  Select BLOCK N, BANK3: OUT141,N\n H	 L	 H	  H	  X	   X	->  L	  H  READ N: N=INP(131) or WRITE N: OUT131,N\n\nBLOCK\nH: sets A0-A9 to 0, updates A10-A19 from AD0-AD7 & BUS_A10-BUS_A11\nL: latches A10-A19\n\nBYTE\nH: enables SRAM for read or write\nL: disables SRAM, increments A0-A9 by 1\n"
 		(exclude_from_sim no)
 		(at 15.24 194.818 0)
@@ -5210,6 +5211,17 @@
 			(justify left bottom)
 		)
 		(uuid "7bdfac22-8b8d-4c32-a066-9203bfd6d6b9")
+	)
+	(text "2x20 2.54mm pitch FEMALE 11mm tall\nHarting 09-19-540-6824 (less insertion force)\nHarting 09-19-540-7824 (more insertion force)\nHarting 09-19-540-6829\n"
+		(exclude_from_sim no)
+		(at 39.624 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "862be086-4e48-4b8d-aa6f-6ff9eab9d237")
 	)
 	(text "3V"
 		(exclude_from_sim no)
@@ -5380,12 +5392,6 @@
 		(uuid "9920a878-c398-46e2-8029-32a78147a97f")
 	)
 	(junction
-		(at 34.29 69.85)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "9b1ee9e1-3177-4a7c-9d78-c610fd4be163")
-	)
-	(junction
 		(at 165.1 180.34)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5402,6 +5408,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ab3e3b73-d4df-48b7-8ddd-bcf709b550fd")
+	)
+	(junction
+		(at 34.29 72.39)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d7ede317-a703-4b94-80a0-96b6f5bf1563")
 	)
 	(junction
 		(at 139.7 185.42)
@@ -6441,7 +6453,7 @@
 	)
 	(bus
 		(pts
-			(xy 80.01 69.85) (xy 80.01 97.79)
+			(xy 80.01 72.39) (xy 80.01 97.79)
 		)
 		(stroke
 			(width 0)
@@ -6458,16 +6470,6 @@
 			(type default)
 		)
 		(uuid "2597ad0f-ec92-4d5b-9454-0be9ce5ebda9")
-	)
-	(bus
-		(pts
-			(xy 34.29 69.85) (xy 34.29 97.79)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "26a83d01-c79c-4756-9381-70a0bfa4dfb8")
 	)
 	(wire
 		(pts
@@ -6568,6 +6570,16 @@
 			(type default)
 		)
 		(uuid "3407652b-1c8a-4a62-b31f-b28e7be65bdd")
+	)
+	(bus
+		(pts
+			(xy 34.29 72.39) (xy 34.29 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "34107c1b-8fc9-47fb-b781-1ceacae1bf10")
 	)
 	(wire
 		(pts
@@ -7341,6 +7353,16 @@
 	)
 	(bus
 		(pts
+			(xy 34.29 50.8) (xy 34.29 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "95509cc2-4f13-4520-9966-d5c649ed99f1")
+	)
+	(bus
+		(pts
 			(xy 254 38.1) (xy 254 40.64)
 		)
 		(stroke
@@ -7861,7 +7883,7 @@
 	)
 	(bus
 		(pts
-			(xy 34.29 69.85) (xy 80.01 69.85)
+			(xy 34.29 72.39) (xy 80.01 72.39)
 		)
 		(stroke
 			(width 0)
@@ -8068,16 +8090,6 @@
 			(type default)
 		)
 		(uuid "e9d3c816-7bdc-478e-8bce-0fb9598b807a")
-	)
-	(bus
-		(pts
-			(xy 34.29 50.8) (xy 34.29 69.85)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ea669e95-99c0-450a-b9ff-16b1e6d373c7")
 	)
 	(bus
 		(pts
@@ -8310,7 +8322,7 @@
 		(uuid "013bd483-b183-4fe9-8db6-d0428dcce8a6")
 	)
 	(label "BUS_A11"
-		(at 139.7 93.98 180)
+		(at 139.7 91.44 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8370,7 +8382,7 @@
 		(uuid "102669e4-1c8a-4529-b40c-ed82b19046b0")
 	)
 	(label "AD5"
-		(at 139.7 101.6 180)
+		(at 139.7 106.68 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8390,7 +8402,7 @@
 		(uuid "13d9315b-3a3e-4c51-a15e-05a35db355ff")
 	)
 	(label "AD0"
-		(at 241.3 53.34 0)
+		(at 241.3 55.88 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8430,7 +8442,7 @@
 		(uuid "22299037-f8b1-4d32-80de-07f67cc896b8")
 	)
 	(label "AD6"
-		(at 139.7 109.22 180)
+		(at 139.7 114.3 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8500,7 +8512,7 @@
 		(uuid "365d526a-aaa6-4a28-a495-bb05d0190bd6")
 	)
 	(label "AD5"
-		(at 241.3 40.64 0)
+		(at 241.3 45.72 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8570,7 +8582,7 @@
 		(uuid "4c535eb1-389b-4906-b689-7ea053dc9da2")
 	)
 	(label "AD1"
-		(at 241.3 50.8 0)
+		(at 241.3 58.42 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8600,7 +8612,7 @@
 		(uuid "55016034-bd76-48dc-9fb7-d080af77fd80")
 	)
 	(label "AD0"
-		(at 139.7 111.76 180)
+		(at 139.7 99.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8760,7 +8772,7 @@
 		(uuid "81bf1cfb-6b66-458b-bc2f-807eea84c96f")
 	)
 	(label "AD4"
-		(at 139.7 104.14 180)
+		(at 139.7 109.22 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8770,7 +8782,7 @@
 		(uuid "83582c3e-557c-4645-9d05-2886a45851ff")
 	)
 	(label "AD7"
-		(at 241.3 45.72 0)
+		(at 241.3 53.34 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8780,7 +8792,7 @@
 		(uuid "85ae06a3-530e-4811-ab08-f745be5bf510")
 	)
 	(label "AD4"
-		(at 241.3 43.18 0)
+		(at 241.3 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8790,7 +8802,7 @@
 		(uuid "8b4bbb4a-c722-49e7-9f49-21ce0f9631e8")
 	)
 	(label "AD2"
-		(at 139.7 99.06 180)
+		(at 139.7 104.14 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8820,7 +8832,7 @@
 		(uuid "90b4d90f-cc5b-4755-b343-3a660490aaf7")
 	)
 	(label "BUS_A10"
-		(at 139.7 91.44 180)
+		(at 139.7 93.98 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8900,7 +8912,7 @@
 		(uuid "9e551214-561e-4bf0-840b-dc5315238eb2")
 	)
 	(label "AD3"
-		(at 241.3 58.42 0)
+		(at 241.3 40.64 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8910,7 +8922,7 @@
 		(uuid "a3c2d2a2-8cea-4307-b79b-e34b5ae71779")
 	)
 	(label "{BUS_A[8..9],(A),~{Y0}}"
-		(at 45.72 69.85 0)
+		(at 45.72 72.39 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9020,7 +9032,7 @@
 		(uuid "bf4ae98c-679d-4812-a2b6-3c73d2016ad7")
 	)
 	(label "AD2"
-		(at 241.3 55.88 0)
+		(at 241.3 43.18 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9030,7 +9042,7 @@
 		(uuid "c06d36ed-274d-4dcd-b283-4a381abd6105")
 	)
 	(label "AD7"
-		(at 139.7 106.68 180)
+		(at 139.7 111.76 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9050,7 +9062,7 @@
 		(uuid "c5028e48-a775-4523-b985-17225bc8f20c")
 	)
 	(label "AD1"
-		(at 139.7 114.3 180)
+		(at 139.7 96.52 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9130,7 +9142,7 @@
 		(uuid "d64ba7e7-fe0a-402f-b725-fe086421ac41")
 	)
 	(label "AD6"
-		(at 241.3 48.26 0)
+		(at 241.3 50.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9180,7 +9192,7 @@
 		(uuid "f380affb-4b66-44e1-8b0c-7b22b0864d7d")
 	)
 	(label "AD3"
-		(at 139.7 96.52 180)
+		(at 139.7 101.6 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -10625,7 +10637,7 @@
 				)
 			)
 		)
-		(property "Value" "MiniNDP_Cover_M10"
+		(property "Value" "MiniNDP_Cover_THIN"
 			(at 26.67 149.352 0)
 			(effects
 				(font
@@ -10633,7 +10645,7 @@
 				)
 			)
 		)
-		(property "Footprint" "000_LOCAL:MiniNDP_Cover_M10"
+		(property "Footprint" "000_LOCAL:MiniNDP_Cover_THIN"
 			(at 27.94 153.67 0)
 			(effects
 				(font
@@ -10651,7 +10663,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Snap cover for MiniNDP (M10)"
+		(property "Description" "Snap cover for MiniNDP (thin)"
 			(at 26.67 154.94 0)
 			(effects
 				(font
@@ -10660,7 +10672,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "MiniNDP_Cover_M10.stl"
+		(property "MPN" "MiniNDP_Cover_THIN.stl"
 			(at 26.67 154.94 0)
 			(effects
 				(font
@@ -11722,7 +11734,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "000_LOCAL:PinSocket_2x20_P2.54mm_Vertical"
+		(property "Footprint" "000_LOCAL:Harting_09-19-540-x824"
 			(at 58.42 107.95 0)
 			(effects
 				(font
@@ -11731,7 +11743,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "datasheets/ssm_sm.pdf"
+		(property "Datasheet" "datasheets/Harting_09-19-540-x824.pdf"
 			(at 58.42 107.95 0)
 			(effects
 				(font
@@ -11749,7 +11761,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ESW-120-12-L-D"
+		(property "MPN" "09-19-540-7824"
 			(at 58.42 107.95 0)
 			(effects
 				(font
