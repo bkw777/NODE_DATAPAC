@@ -60,6 +60,10 @@
       ],
       "drc_exclusions": [
         [
+          "silk_overlap|125788000|116168000|226121cd-bdaa-4064-9422-b8e8a0da64e5|4fd6a79e-ec6e-4b4a-9ac8-8374374e8ceb",
+          ""
+        ],
+        [
           "starved_thermal|132950000|106175000|7264d97b-15d8-4a15-a143-ebe7adc45345|bed23973-05d7-4e4c-af06-857e4cbb7611|F.Cu",
           ""
         ]

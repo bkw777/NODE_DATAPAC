@@ -8,6 +8,11 @@ Customizer_Note = "";
 PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,T512,M10,M10c]
 loose_fit = false; // set true if FDM print is too tight
 
+DEBUG_X = false;
+debug_cut_x = 0;
+DEBUG_Y = false;
+debug_cut_y = 0;
+
 // ------------------------------------------------------------------------------
 
 low_profile =  // true for CR2016 , false for CR2032
@@ -31,15 +36,15 @@ pcb_stl =
 components_height = 0; // 0.1
 
 ch = components_height ? components_height :
-        low_profile ? 1.6 :
-        4.0;
+        low_profile ? 1.7 :
+        4.1;
 
 // PCB dimensions from KiCAD
 pcb_thickness = 1.6;
 pcb_corner_radius = 2;
 
 pcblw = 
-        PCB=="M10c" ? [31,58] :
+        PCB=="M10c" ? [31,56] :
         [34,60];
 
 pcb_length = pcblw[0];
@@ -53,12 +58,21 @@ wall_thickness = 0.8;
 
 // this is both the height of the wall above the pcb surface on the computer side,
 // and the diameter of the cylinders that form the pcb retainer bumps
-lip = 1.2;
+lip =
+  PCB=="M10c" ? 0.9 :
+  1.2;
 
 // width of pcb tray ledge
 ledge = 0.8;
 
-fc = loose_fit ? 0.2 : 0.1; // fitment clearance
+// -1 = auto
+fitment_clearance = -1 ; // 0.1
+fc =
+  fitment_clearance > -0.01 ? fitment_clearance :
+  PCB=="M10c" ? 0.05 :
+  loose_fit ? 0.2 :
+  0.1;
+
 o = 0.01; // overlap/overcut/overhang
 
 // secondary/smaller fillet radius
@@ -83,6 +97,13 @@ outer_length = wall_thickness + inner_length + wall_thickness;
 outer_height = inner_height + wall_thickness;
 outer_corner = pcb_corner_radius + fc;
 
+// 0 = auto
+outer_secondary_radius = 0 ; // 0.1
+osr =
+  outer_secondary_radius>0.01 ? outer_secondary_radius :
+  PCB=="M10c" ? sr+wall_thickness+ledge :
+  sr;
+
 include <lib/handy.scad>;
 
 module pcb_model () {
@@ -92,10 +113,7 @@ module pcb_model () {
 module main_shell() {
  difference() {
   // add the main outer surface
-  // not using the thickness param on purpose because
-  // we want different thickness for the walls vs the face
-  // and smaller exterior corner radius than would be possible with the full wall thickness
-  rounded_cube(w=outer_width,d=outer_length,h=outer_height*2,rh=pcb_corner_radius+fc+wall_thickness,rv=sr);
+  rounded_cube(w=outer_width,d=outer_length,h=outer_height*2,rh=pcb_corner_radius+fc+wall_thickness,rv=osr);
 
   union() {
    // cut outer shell in half to leave a (solid) bathtub
@@ -116,9 +134,13 @@ module main_shell() {
  // add the top & bottom PCB grabbers
   difference () {
    mirror_copy([0,1,0])
-    translate([0,inner_length/2,-lip/2])
+    translate([0,inner_length/2,-lip/2]) {
      rotate([0,90,0])
-      cylinder(h=long_retainer_len,d=lip,center=true);
+       cylinder(h=long_retainer_len,d=lip,center=true);
+     //translate([0,lip/2-ledge,0]) rotate([0,90,0])
+     //  cylinder(h=long_retainer_len,d=lip,center=true);
+     //translate([0,lip-ledge,0]) cube([long_retainer_len,lip,lip],center=true);
+     }
    if (PCB!="M10c") translate([0,-inner_length/2+1,-0.5])
     cylinder(h=2,r=1,center=true);
   }
@@ -136,20 +158,18 @@ module main_shell() {
   
  // add embossed graphic of the 2x20 IDC connector
  // to the inside face to show install orientation
+ et = 0.2; // emboss thickness
  if (PCB=="M10c") {
-  // Olivetti M-10 version
+  // Olivetti M-10 compact version
   w = 20*2.54;
   l = 2*2.54;
-  t = 0.2;
-  c = 0.75;
-  translate([-w/2+c,-pcb_length/2+0.5,inner_height-t+o])
-    cube([w,l,t]);
+  translate([-w/2,-pcb_length/2+0.5,inner_height-et+o])
+    cube([w,l,et]);
  } else {
   // normal version
    translate([0,-pcb_length/2+5,inner_height+o]) {
-    h = 0.2; // emboss height
     rotate([0,180,0]) {
-     linear_extrude(h) {
+     linear_extrude(et) {
       xy_array(xo=2.54,xc=20,yo=2.54,yc=2,center=true)
        square(0.64,true); // circle(0.32);
       difference() {
@@ -166,7 +186,7 @@ module main_shell() {
  }
 
  // add finger pulls
- translate([0,finger_pull_length/2-pcb_length/2+pcb_corner_radius,outer_height-finger_pull_height-sr])
+ translate([0,finger_pull_length/2-pcb_length/2+pcb_corner_radius,outer_height-finger_pull_height-osr])
   mirror_copy([1,0,0])
    translate([outer_width/2,0,0])
     hull() {
@@ -177,6 +197,16 @@ module main_shell() {
 
 }
 
-main_shell();
+difference() {
+  dcw = outer_width+2;
+  dcd = outer_length+2;
+  dch = outer_height*2+2;
+  main_shell();
+  if ($preview) {
+    if (DEBUG_X) translate([debug_cut_x,-dcd/2,-dch/2]) cube([dcw/2-debug_cut_x,dcd,dch]);
+    if (DEBUG_Y) translate([-dcw/2,debug_cut_y,-dch/2]) cube([dcw,dcd/2-debug_cut_y,dch]);
+  }
+}
+
 %pcb_model();
 

@@ -1,4 +1,4 @@
-(footprint "MiniNDP_Cover_M10c"
+(footprint "MiniNDP_Cover_M10compact"
 	(version 20241229)
 	(generator "pcbnew")
 	(generator_version "9.0")
@@ -15,7 +15,7 @@
 			)
 		)
 	)
-	(property "Value" "MiniNDP_Cover_M10c"
+	(property "Value" "MiniNDP_Cover_M10compact"
 		(at 0 1.6 0)
 		(unlocked yes)
 		(layer "F.Fab")
@@ -57,8 +57,8 @@
 		dnp
 	)
 	(fp_line
-		(start -28.2 -13.5)
-		(end -28.2 13.5)
+		(start -27.2 -13.5)
+		(end -27.2 13.5)
 		(stroke
 			(width 0.02)
 			(type default)
@@ -67,8 +67,8 @@
 		(uuid "1fc3dc55-4308-4e42-bb9b-54813f11f69a")
 	)
 	(fp_line
-		(start -27 -14.7)
-		(end 27 -14.7)
+		(start -26 -14.7)
+		(end 26 -14.7)
 		(stroke
 			(width 0.02)
 			(type default)
@@ -77,8 +77,8 @@
 		(uuid "16c833be-7fff-471d-b025-8c065cb7f71c")
 	)
 	(fp_line
-		(start -27 14.7)
-		(end 27 14.7)
+		(start -26 14.7)
+		(end 26 14.7)
 		(stroke
 			(width 0.02)
 			(type default)
@@ -107,8 +107,8 @@
 		(uuid "087ae575-f3c9-4b3b-943b-f4e1210e0ed4")
 	)
 	(fp_line
-		(start 28.2 -13.5)
-		(end 28.2 13.5)
+		(start 27.2 -13.5)
+		(end 27.2 13.5)
 		(stroke
 			(width 0.02)
 			(type default)
@@ -117,9 +117,9 @@
 		(uuid "0c809705-fab8-40ca-986b-b11ab82c4d53")
 	)
 	(fp_arc
-		(start -28.2 -13.5)
-		(mid -27.848528 -14.348528)
-		(end -27 -14.7)
+		(start -27.2 -13.5)
+		(mid -26.848528 -14.348528)
+		(end -26 -14.7)
 		(stroke
 			(width 0.02)
 			(type default)
@@ -128,9 +128,9 @@
 		(uuid "fa1f4133-f84a-433e-98dd-47c52216638f")
 	)
 	(fp_arc
-		(start -27 14.7)
-		(mid -27.848528 14.348528)
-		(end -28.2 13.5)
+		(start -26 14.7)
+		(mid -26.848528 14.348528)
+		(end -27.2 13.5)
 		(stroke
 			(width 0.02)
 			(type default)
@@ -139,9 +139,9 @@
 		(uuid "14d49eac-73a2-494d-9b97-adae7cafbb7e")
 	)
 	(fp_arc
-		(start 27 -14.7)
-		(mid 27.848528 -14.348528)
-		(end 28.2 -13.5)
+		(start 26 -14.7)
+		(mid 26.848528 -14.348528)
+		(end 27.2 -13.5)
 		(stroke
 			(width 0.02)
 			(type default)
@@ -150,9 +150,9 @@
 		(uuid "8613e592-337e-42f4-8972-8e41273e7c37")
 	)
 	(fp_arc
-		(start 28.2 13.5)
-		(mid 27.848528 14.348528)
-		(end 27 14.7)
+		(start 27.2 13.5)
+		(mid 26.848528 14.348528)
+		(end 26 14.7)
 		(stroke
 			(width 0.02)
 			(type default)
@@ -172,7 +172,7 @@
 		(uuid "9d5f9c93-2ac7-4e04-bfec-94139698df15")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/MiniNDP_Cover_M10c.step"
+	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/MiniNDP_Cover_M10compact.step"
 		(offset
 			(xyz 0 0 -1.6)
 		)

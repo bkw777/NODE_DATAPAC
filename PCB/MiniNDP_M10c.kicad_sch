@@ -5191,7 +5191,7 @@
 	)
 	(text "BUS Connector:\n2x20 2.54mm pitch female 11mm tall\n\nSamtec ESW-120-12-L-D\nOupiin 2047-2X20G00S1U\nSparkFun 14017 (remove one spacer)\nSparkFun 16764 (remove one spacer)\nBSSQ-120-D-02-FT-LF\n"
 		(exclude_from_sim no)
-		(at 40.132 146.304 0)
+		(at 15.748 145.288 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -10611,7 +10611,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:Housing")
-		(at 26.67 154.94 0)
+		(at 149.86 160.02 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -10619,23 +10619,23 @@
 		(dnp no)
 		(uuid "5e299068-849a-49c6-9762-03921bd52ae3")
 		(property "Reference" "N1"
-			(at 26.67 147.066 0)
+			(at 149.86 152.146 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "MiniNDP_Cover_M10c"
-			(at 26.67 149.352 0)
+		(property "Value" "MiniNDP_Cover_M10compact"
+			(at 149.86 154.432 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "000_LOCAL:MiniNDP_Cover_M10c"
-			(at 27.94 153.67 0)
+		(property "Footprint" "000_LOCAL:MiniNDP_Cover_M10compact"
+			(at 151.13 158.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10644,7 +10644,7 @@
 			)
 		)
 		(property "Datasheet" "../COVER/MiniNDP_Cover.scad"
-			(at 27.94 153.67 0)
+			(at 151.13 158.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10653,7 +10653,7 @@
 			)
 		)
 		(property "Description" "Snap cover for MiniNDP M10c compact version"
-			(at 26.67 154.94 0)
+			(at 149.86 160.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10661,8 +10661,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "MiniNDP_Cover_M10c.stl"
-			(at 26.67 154.94 0)
+		(property "MPN" "MiniNDP_Cover_M10compact.stl"
+			(at 149.86 160.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
