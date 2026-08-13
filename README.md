@@ -396,5 +396,5 @@ Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl)
 ## [Other Versions](MiniNDP_variants.md)  
 [SL1M](MiniNDP_variants.md#sl1m---slim-1-meg) - slim 1 meg, all thin chips to make a thin card  
 [EZ512](MiniNDP_variants.md#ez512---easy-build-512k) - easy build 512K - all larger components  
-[T512](MiniNDP_variants.md#t512---tsop-128k-256k-512k) - 128k/256k/512K TSOP
-["OG"](MiniNDP_variants.md#minindp-og) - "OG" original design, 128K-512K, thin or thick, more parts and more difficult, but the parts are more common  
+[T512](MiniNDP_variants.md#t512---tsop-128k-256k-512k) - 128k/256k/512K TSOP  
+["OG"](MiniNDP_variants.md#minindp-og) - "OG" original design, 128K-512K, thin or thick, more parts and more difficult, but the parts are more common
