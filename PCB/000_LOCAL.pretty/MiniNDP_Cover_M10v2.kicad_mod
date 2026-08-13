@@ -1,4 +1,4 @@
-(footprint "MiniNDP_Cover_M10compact"
+(footprint "MiniNDP_Cover_M10v2"
 	(version 20241229)
 	(generator "pcbnew")
 	(generator_version "9.0")
@@ -15,7 +15,7 @@
 			)
 		)
 	)
-	(property "Value" "MiniNDP_Cover_M10compact"
+	(property "Value" "MiniNDP_Cover_M10v2"
 		(at 0 1.6 0)
 		(unlocked yes)
 		(layer "F.Fab")
@@ -172,7 +172,7 @@
 		(uuid "9d5f9c93-2ac7-4e04-bfec-94139698df15")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/MiniNDP_Cover_M10compact.step"
+	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/MiniNDP_Cover_M10v2.step"
 		(offset
 			(xyz 0 0 -1.6)
 		)

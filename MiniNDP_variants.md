@@ -17,18 +17,6 @@ The battery holder is technically for CR2012, but you can stuff a CR2016 in it.
 ![](PCB/out/MiniNDP_SL1M.svg)  
 [MiniNDP_SL1M.bom.csv](PCB/out/MiniNDP_SL1M.bom.csv)
 
-<!-- 
-### M10 - slim 1 meg for Olivetti M-10
-
-![](PCB/out/MiniNDP_M10.jpg)  
-![](PCB/out/MiniNDP_M10.2.jpg)  
-![](PCB/out/MiniNDP_M10.top.jpg)  
-![](PCB/out/MiniNDP_M10.bottom.jpg)  
-![](PCB/out/MiniNDP_M10.svg)  
-[MiniNDP_M10.bom.csv](PCB/out/MiniNDP_M10.bom.csv)  
-Special cover just for Olivetti: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl)
--->
-
 ### EZ512 - easy-build 512K
 * All larger parts for easier hand-soldering.  
 * 1M SOIC/SOJ sram is getting uncommon and expensive.  
@@ -41,6 +29,15 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 ![](PCB/out/MiniNDP_EZ512.bottom.jpg)  
 ![](PCB/out/MiniNDP_EZ512.svg)  
 [MiniNDP_EZ512.bom.csv](PCB/out/MiniNDP_EZ512.bom.csv)
+
+## T512 - TSOP 128k/256k/512k 
+
+![](PCB/out/MiniNDP_T512.jpg)  
+![](PCB/out/MiniNDP_T512.2.jpg)  
+![](PCB/out/MiniNDP_T512.top.jpg)  
+![](PCB/out/MiniNDP_T512.bottom.jpg)  
+![](PCB/out/MiniNDP_T512.svg)  
+[MiniNDP_T512.bom.csv](PCB/out/MiniNDP_T512.bom.csv)
 
 ### MiniNDP "OG"
 * Circuit is more like the original NODE version.  

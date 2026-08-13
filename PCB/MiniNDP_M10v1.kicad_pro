@@ -58,7 +58,16 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "silk_overlap|166485713|89118422|092e0aa4-7629-447b-8d76-22a73bb54be5|be651e60-8b19-45be-b64f-d2386e33eaed",
+          ""
+        ],
+        [
+          "starved_thermal|130000000|106175000|7264d97b-15d8-4a15-a143-ebe7adc45345|bed23973-05d7-4e4c-af06-857e4cbb7611|F.Cu",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -654,7 +663,7 @@
   },
   "sheets": [
     [
-      "28a4b045-d480-4410-adb7-fa6b33984079",
+      "f15c2929-5cf4-4b4e-965d-148e1bec8a42",
       "Root"
     ]
   ],

@@ -488,7 +488,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "MiniNDP_M10.kicad_pro",
+    "filename": "MiniNDP_M10x2.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -527,7 +527,7 @@
       "plot": "GERBER_${TITLE}_${REVISION}",
       "pos_files": "GERBER_${TITLE}_${REVISION}",
       "specctra_dsn": "",
-      "step": "../COVER/lib/pcb_M10.stl",
+      "step": "../COVER/lib/pcb_M10c2.stl",
       "svg": "",
       "vrml": ""
     },

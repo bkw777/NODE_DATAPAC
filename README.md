@@ -368,7 +368,6 @@ Unlike the original DATAPAC, this actually fits into the bus port on the Model 2
 BOM [DigiKey](https://www.digikey.com/short/m4h7bmh0)  
 PCB & Cover [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html)
 
-
 ## MiniNDP u1M - For Model 100 or Kyotronic KC-85
 
 ![](ref/MiniNDP_u1M.a.jpg)  
@@ -385,9 +384,6 @@ BOM [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 
 ## MiniNDP M10 - For Olivetti M-10
 
-The Olivetti M-10 version looks similar to the SL1M version, but the bus connector pinout is flipped and positioned off-center.  
-But the board outline is the same so it uses the standard cover, thin version.  
-
 ![](PCB/out/MiniNDP_M10.jpg)  
 ![](PCB/out/MiniNDP_M10.2.jpg)  
 ![](PCB/out/MiniNDP_M10.top.jpg)  
@@ -395,11 +391,10 @@ But the board outline is the same so it uses the standard cover, thin version.
 ![](PCB/out/MiniNDP_M10.svg)  
 
 BOM: [MiniNDP_M10.bom.csv](PCB/out/MiniNDP_M10.bom.csv)  
-
-<!-- M10c is a more compact version for Olivetti. Since it has a different PCB outline, it has it's own cover. -->
-<!-- Special cover just for M10c: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl) -->
+Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl)
 
 ## [Other Versions](MiniNDP_variants.md)  
 [SL1M](MiniNDP_variants.md#sl1m---slim-1-meg) - slim 1 meg, all thin chips to make a thin card  
 [EZ512](MiniNDP_variants.md#ez512---easy-build-512k) - easy build 512K - all larger components  
+[T512](MiniNDP_variants.md#t512---tsop-128k-256k-512k) - 128k/256k/512K TSOP
 ["OG"](MiniNDP_variants.md#minindp-og) - "OG" original design, 128K-512K, thin or thick, more parts and more difficult, but the parts are more common  

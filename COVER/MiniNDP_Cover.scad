@@ -5,7 +5,7 @@
 // options
 
 Customizer_Note = "";
-PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,T512,M10,M10c]
+PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,T512,M10v1,M10v2,M10]
 loose_fit = false; // set true if FDM print is too tight
 
 DEBUG_X = false;
@@ -16,8 +16,9 @@ debug_cut_y = 0;
 // ------------------------------------------------------------------------------
 
 low_profile =  // true for CR2016 , false for CR2032
+        PCB=="M10v1" ? true :
+        PCB=="M10v2" ? true :
         PCB=="M10" ? true :
-        PCB=="M10c" ? true :
         PCB=="SL1M" ? true :
         PCB=="T512" ? true :
         PCB=="OG" ? true :
@@ -25,8 +26,9 @@ low_profile =  // true for CR2016 , false for CR2032
 
 pcb_stl =
         PCB=="EZ512" ? "lib/pcb_EZ512.stl" :
+        PCB=="M10v1" ? "lib/pcb_M10v1.stl" :
+        PCB=="M10v2" ? "lib/pcb_M10v2.stl" :
         PCB=="M10" ? "lib/pcb_M10.stl" :
-        PCB=="M10c" ? "lib/pcb_M10c.stl" :
         PCB=="T512" ? "lib/pcb_T512.stl" :
         PCB=="OG" ? "lib/pcb_OG.stl" :
         low_profile ? "lib/pcb_SL1M.stl" :
@@ -44,7 +46,8 @@ pcb_thickness = 1.6;
 pcb_corner_radius = 2;
 
 pcblw = 
-        PCB=="M10c" ? [31,56] :
+        PCB=="M10v2" ? [31,56] :
+        PCB=="M10" ? [26,72] :
         [34,60];
 
 pcb_length = pcblw[0];
@@ -59,7 +62,8 @@ wall_thickness = 0.8;
 // this is both the height of the wall above the pcb surface on the computer side,
 // and the diameter of the cylinders that form the pcb retainer bumps
 lip =
-  PCB=="M10c" ? 0.9 :
+  PCB=="M10v2" ? 0.9 :
+  PCB=="M10" ? 0.9 :
   1.2;
 
 // width of pcb tray ledge
@@ -69,7 +73,8 @@ ledge = 0.8;
 fitment_clearance = -1 ; // 0.1
 fc =
   fitment_clearance > -0.01 ? fitment_clearance :
-  PCB=="M10c" ? 0.05 :
+  PCB=="M10v2" ? 0.05 :
+  PCB=="M10" ? 0.05 :
   loose_fit ? 0.2 :
   0.1;
 
@@ -101,7 +106,8 @@ outer_corner = pcb_corner_radius + fc;
 outer_secondary_radius = 0 ; // 0.1
 osr =
   outer_secondary_radius>0.01 ? outer_secondary_radius :
-  PCB=="M10c" ? sr+wall_thickness+ledge :
+  PCB=="M10v2" ? sr+wall_thickness+ledge :
+  PCB=="M10" ? sr+wall_thickness+ledge :
   sr;
 
 include <lib/handy.scad>;
@@ -141,7 +147,7 @@ module main_shell() {
      //  cylinder(h=long_retainer_len,d=lip,center=true);
      //translate([0,lip-ledge,0]) cube([long_retainer_len,lip,lip],center=true);
      }
-   if (PCB!="M10c") translate([0,-inner_length/2+1,-0.5])
+   if (PCB!="M10v2"&&PCB!="M10") translate([0,-inner_length/2+1,-0.5])
     cylinder(h=2,r=1,center=true);
   }
 
@@ -159,11 +165,11 @@ module main_shell() {
  // add embossed graphic of the 2x20 IDC connector
  // to the inside face to show install orientation
  et = 0.2; // emboss thickness
- if (PCB=="M10c") {
+ if (PCB=="M10v2"||PCB=="M10") {
   // Olivetti M-10 compact version
   w = 20*2.54;
   l = 2*2.54;
-  translate([-w/2,-pcb_length/2+0.5,inner_height-et+o])
+  translate([-w+pcb_width/2-2.54,-pcb_length/2+0.5,inner_height-et+o])
     cube([w,l,et]);
  } else {
   // normal version
