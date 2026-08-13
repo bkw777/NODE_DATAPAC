@@ -10665,7 +10665,7 @@
 				)
 			)
 		)
-		(property "Value" "MiniNDP_Cover_M10compact2"
+		(property "Value" "MiniNDP_Cover_M10"
 			(at 138.43 183.642 0)
 			(effects
 				(font
@@ -10673,7 +10673,7 @@
 				)
 			)
 		)
-		(property "Footprint" "000_LOCAL:MiniNDP_Cover_M10compact2"
+		(property "Footprint" "000_LOCAL:MiniNDP_Cover_M10"
 			(at 139.7 187.96 0)
 			(effects
 				(font
@@ -10691,7 +10691,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Snap cover for MiniNDP M10c compact2 version"
+		(property "Description" "Snap cover for MiniNDP M10"
 			(at 138.43 189.23 0)
 			(effects
 				(font
@@ -10700,7 +10700,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "MiniNDP_Cover_M10compact2.stl"
+		(property "MPN" "MiniNDP_Cover_M10.stl"
 			(at 138.43 189.23 0)
 			(effects
 				(font
