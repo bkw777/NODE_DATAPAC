@@ -23,6 +23,29 @@
             "short_retainer_len": "10",
             "sr": "1",
             "wall_thickness": "0.80000000000000004"
+        },
+        "New set 2": {
+            "$fa": "1",
+            "$fs": "0.20000000000000001",
+            "Customizer_Note": "",
+            "DEBUG_X": "false",
+            "DEBUG_Y": "false",
+            "PCB": "M10",
+            "components_height": "0",
+            "debug_cut_x": "0",
+            "debug_cut_y": "0",
+            "finger_pull_height": "0.40000000000000002",
+            "finger_pull_length": "10",
+            "fitment_clearance": "-1",
+            "ledge": "0.80000000000000004",
+            "loose_fit": "false",
+            "o": "0.01",
+            "outer_secondary_radius": "0",
+            "pcb_corner_radius": "2",
+            "pcb_thickness": "1.6000000000000001",
+            "short_retainer_len": "10",
+            "sr": "1",
+            "wall_thickness": "0.80000000000000004"
         }
     }
 }

@@ -5,7 +5,8 @@
 // options
 
 Customizer_Note = "";
-PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,T512,M10v1,M10v2,M10]
+//PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,T512,M10v1,M10v2,M10]
+PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,T512,M10]
 loose_fit = false; // set true if FDM print is too tight
 
 DEBUG_X = false;
