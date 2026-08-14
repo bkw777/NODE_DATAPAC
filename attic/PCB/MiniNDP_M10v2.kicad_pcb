@@ -9,8 +9,8 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP")
-		(date "2026-08-12")
-		(rev "M10c_16")
+		(date "2026-08-14")
+		(rev "M10v2_18")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 	)
@@ -464,7 +464,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/71c90d7d-934e-4d7b-a971-ebd772ed161b")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -1.5 -1.1)
@@ -696,7 +696,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/a705bf1e-6e66-4469-ac28-448a42a80f08")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(attr smd)
 		(fp_poly
 			(pts
@@ -900,7 +900,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/ebb354fb-1940-401a-a512-b196522649b9")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.95 -0.85)
@@ -1131,7 +1131,7 @@
 		(property ki_fp_filters "DIP*24* *SO*24*")
 		(path "/dcccabb7-5010-4f9b-8585-ee74f79b9d35")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0 4.035)
@@ -2119,7 +2119,7 @@
 		(property ki_fp_filters "DIP*W7.62mm* SOIC*3.9x9.9mm*P1.27mm* TSSOP*4.4x5mm*P0.65mm*")
 		(path "/1a72ff34-04d3-4e35-b8e2-c9b7082e8eca")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -2.2 2.7)
@@ -2687,7 +2687,7 @@
 		(property ki_fp_filters "DIP?16* SO*16*")
 		(path "/9a0de3b5-3c6d-4c8f-9134-2e8c16b6aab5")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -2.2 2.7)
@@ -3283,7 +3283,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "000_LOCAL:MiniNDP_Cover_M10compact"
+	(footprint "000_LOCAL:MiniNDP_Cover_M10v2"
 		(layer "F.Cu")
 		(uuid "99f74b43-4962-44d0-9c52-a143c8e1e367")
 		(at 151.35 102.525)
@@ -3299,7 +3299,7 @@
 				)
 			)
 		)
-		(property "Value" "MiniNDP_Cover_M10compact"
+		(property "Value" "MiniNDP_Cover_M10v2"
 			(at 0 1.6 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -3324,7 +3324,7 @@
 				)
 			)
 		)
-		(property "Description" "Snap cover for MiniNDP M10c compact version"
+		(property "Description" "Snap cover for MiniNDP M10v2"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -3337,12 +3337,12 @@
 				)
 			)
 		)
-		(property "MPN" "MiniNDP_Cover_M10compact.stl"
+		(property "MPN" "MiniNDP_Cover_M10v2.stl"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "fc7be179-5589-4d58-bf04-89cdf3bee837")
+			(uuid "64737ae6-44c9-4e73-8157-87ba661bddfe")
 			(effects
 				(font
 					(size 1 1)
@@ -3353,7 +3353,7 @@
 		(property ki_fp_filters "Enclosure* Housing*")
 		(path "/5e299068-849a-49c6-9762-03921bd52ae3")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(attr board_only exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
 		(fp_line
 			(start -27.2 -13.5)
@@ -3363,7 +3363,7 @@
 				(type default)
 			)
 			(layer "Dwgs.User")
-			(uuid "27cf9886-065a-4383-9fb2-fe376372c70e")
+			(uuid "57ec2c13-66a9-4c48-8551-908fa95d3bfa")
 		)
 		(fp_line
 			(start -26 -14.7)
@@ -3373,7 +3373,7 @@
 				(type default)
 			)
 			(layer "Dwgs.User")
-			(uuid "42ed4088-8ede-4078-a879-f922e87b5f89")
+			(uuid "7bd21e1d-64ac-4542-a478-59e485dac3ed")
 		)
 		(fp_line
 			(start -26 14.7)
@@ -3383,7 +3383,7 @@
 				(type default)
 			)
 			(layer "Dwgs.User")
-			(uuid "d17073a9-5f98-42d6-a349-6448f8e32add")
+			(uuid "a8bd287d-a0e2-4863-a545-7193b835ccea")
 		)
 		(fp_line
 			(start -0.8 0)
@@ -3393,7 +3393,7 @@
 				(type solid)
 			)
 			(layer "Dwgs.User")
-			(uuid "af3b1c75-fa98-4a71-a6dd-be9437cda815")
+			(uuid "304a801b-a77a-4147-bcf6-d9f562417159")
 		)
 		(fp_line
 			(start 0 -0.8)
@@ -3403,7 +3403,7 @@
 				(type solid)
 			)
 			(layer "Dwgs.User")
-			(uuid "4617d3aa-1800-427a-93e9-a4c2779bc717")
+			(uuid "7613efde-e014-4fb8-a044-8ebfe468c826")
 		)
 		(fp_line
 			(start 27.2 -13.5)
@@ -3413,7 +3413,7 @@
 				(type default)
 			)
 			(layer "Dwgs.User")
-			(uuid "d7fe719c-51d4-4784-8b8f-390172df1659")
+			(uuid "3549680c-8fba-4f3d-b9dc-f105fcacc038")
 		)
 		(fp_arc
 			(start -27.2 -13.5)
@@ -3424,7 +3424,7 @@
 				(type default)
 			)
 			(layer "Dwgs.User")
-			(uuid "5e7cfd1d-0ebe-4e15-ab54-6a991d91f096")
+			(uuid "041f939a-d923-4b16-bbf9-7c8036c1b75f")
 		)
 		(fp_arc
 			(start -26 14.7)
@@ -3435,7 +3435,7 @@
 				(type default)
 			)
 			(layer "Dwgs.User")
-			(uuid "e6e2d5dc-cbee-43c7-83ad-d16f50b37dc0")
+			(uuid "095731c6-6e57-4d77-bcd9-7561f5c90767")
 		)
 		(fp_arc
 			(start 26 -14.7)
@@ -3446,7 +3446,7 @@
 				(type default)
 			)
 			(layer "Dwgs.User")
-			(uuid "96a64a17-af12-4c9d-b894-c8d84ed248ab")
+			(uuid "518e7483-ecd2-4846-85c1-9af3fd5fbdc4")
 		)
 		(fp_arc
 			(start 27.2 13.5)
@@ -3457,7 +3457,7 @@
 				(type default)
 			)
 			(layer "Dwgs.User")
-			(uuid "1ddd6c1f-42df-4331-9c60-6f0728ca8465")
+			(uuid "79bdf110-3531-4fc7-b734-5427f0234469")
 		)
 		(fp_circle
 			(center 0 0)
@@ -3468,10 +3468,10 @@
 			)
 			(fill no)
 			(layer "Dwgs.User")
-			(uuid "ff35dd63-0ca9-4bdc-b705-09c2ec8dbf1a")
+			(uuid "51c66d4d-7867-4349-96e1-ad5f32dec4e7")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/MiniNDP_Cover_M10compact.step"
+		(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/MiniNDP_Cover_M10v2.step"
 			(offset
 				(xyz 0 0 -1.6)
 			)
@@ -3556,7 +3556,7 @@
 		(property ki_fp_filters "SSOP*11.305x20.495mm*P1.27mm*")
 		(path "/0fe73c06-7c1d-49fc-9fdc-92b070664f04")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 5.19 9.315)
@@ -4775,7 +4775,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/b3925862-fddc-4b2c-8e43-fe7be3aa9af1")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -1.5 1.1)
@@ -5009,7 +5009,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/730fe11c-06ec-443c-a5b7-eba19921588e")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.95 -0.85)
@@ -5420,7 +5420,7 @@
 		)
 		(path "/2b15837a-e1b7-4b63-a342-ec3304fb2f02")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(zone_connect 2)
 		(attr smd)
 		(fp_line
@@ -6080,7 +6080,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/d335550e-9b48-48ca-afd7-76ee70ca3a8e")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.95 -0.85)
@@ -6312,7 +6312,7 @@
 		(property ki_fp_filters "SOT?23*")
 		(path "/5dd30177-1f73-44ff-8269-c6f33e2d70e5")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0.76 -1.58)
@@ -6604,7 +6604,7 @@
 		(property ki_fp_filters "Connector*:*_2x??_*")
 		(path "/d017d8ec-f264-422d-8520-ce3744dc4641")
 		(sheetname "/")
-		(sheetfile "MiniNDP_M10c.kicad_sch")
+		(sheetfile "MiniNDP_M10v2.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -3.87 1.33)
@@ -8369,7 +8369,7 @@
 		(uuid "15752096-3802-4aff-8237-906966a4c2fd")
 		(effects
 			(font
-				(size 1.5 1.5)
+				(size 1.5 1.4)
 				(thickness 0.15)
 			)
 			(justify mirror)

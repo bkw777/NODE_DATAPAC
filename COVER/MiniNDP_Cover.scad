@@ -63,18 +63,18 @@ wall_thickness = 0.8;
 // and the diameter of the cylinders that form the pcb retainer bumps
 lip =
   PCB=="M10v2" ? 0.9 :
-  PCB=="M10" ? 0.9 :
+//  PCB=="M10" ? 0.9 :
   1.2;
 
 // width of pcb tray ledge
 ledge = 0.8;
 
-// -1 = auto
+// -1 = auto (0.1)
 fitment_clearance = -1 ; // 0.1
 fc =
   fitment_clearance > -0.01 ? fitment_clearance :
   PCB=="M10v2" ? 0.05 :
-  PCB=="M10" ? 0.05 :
+//  PCB=="M10" ? 0.05 :
   loose_fit ? 0.2 :
   0.1;
 
@@ -166,7 +166,7 @@ module main_shell() {
  // to the inside face to show install orientation
  et = 0.2; // emboss thickness
  if (PCB=="M10v2"||PCB=="M10") {
-  // Olivetti M-10 compact version
+  // Olivetti M-10, bus connector is relative to the pin39/40 edge instead of center
   w = 20*2.54;
   l = 2*2.54;
   translate([-w+pcb_width/2-2.54,-pcb_length/2+0.5,inner_height-et+o])

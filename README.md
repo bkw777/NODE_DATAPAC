@@ -384,6 +384,10 @@ BOM [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 
 ## MiniNDP M10 - For Olivetti M-10
 
+The shape of this board with the battery moved off to the side does 2 things:  
+ - The short dimension allows the AA battery cover to be removed without removing the card.  
+ - The assymetric layout functions as a polarity key which the M-10 bus connector lacks.
+
 ![](PCB/out/MiniNDP_M10.jpg)  
 ![](PCB/out/MiniNDP_M10.2.jpg)  
 ![](PCB/out/MiniNDP_M10.top.jpg)  
