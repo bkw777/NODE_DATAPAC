@@ -56,7 +56,6 @@
 			)
 			(layer "F.Mask"
 				(type "Top Solder Mask")
-				(color "Blue")
 				(thickness 0.01)
 			)
 			(layer "F.Cu"
@@ -76,7 +75,6 @@
 			)
 			(layer "B.Mask"
 				(type "Bottom Solder Mask")
-				(color "Blue")
 				(thickness 0.01)
 			)
 			(layer "B.Paste"
@@ -90,6 +88,7 @@
 			(dielectric_constraints no)
 		)
 		(pad_to_mask_clearance 0)
+		(solder_mask_min_width 0.22)
 		(allow_soldermask_bridges_in_footprints no)
 		(tenting front back)
 		(aux_axis_origin 143.35 105.025)

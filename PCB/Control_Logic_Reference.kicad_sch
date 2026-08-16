@@ -1,7 +1,7 @@
 (kicad_sch
-	(version 20231120)
+	(version 20250114)
 	(generator "eeschema")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(uuid "f15c2929-5cf4-4b4e-965d-148e1bec8a42")
 	(paper "A4")
 	(title_block
@@ -78,9 +78,9 @@
 			)
 			(symbol "74xx00_1_1"
 				(arc
-					(start -0.635 -3.175)
+					(start -0.635 3.175)
 					(mid 2.54 0)
-					(end -0.635 3.175)
+					(end -0.635 -3.175)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -158,9 +158,9 @@
 			)
 			(symbol "74xx00_2_1"
 				(arc
-					(start -0.635 -3.175)
+					(start -0.635 3.175)
 					(mid 2.54 0)
-					(end -0.635 3.175)
+					(end -0.635 -3.175)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -238,9 +238,9 @@
 			)
 			(symbol "74xx00_3_1"
 				(arc
-					(start -0.635 -3.175)
+					(start -0.635 3.175)
 					(mid 2.54 0)
-					(end -0.635 3.175)
+					(end -0.635 -3.175)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -259,6 +259,24 @@
 					)
 					(fill
 						(type background)
+					)
+				)
+				(pin input line
+					(at -6.35 2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
 					)
 				)
 				(pin input line
@@ -297,30 +315,12 @@
 						)
 					)
 				)
-				(pin input line
-					(at -6.35 2.54 0)
-					(length 2.54)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
 			)
 			(symbol "74xx00_4_1"
 				(arc
-					(start -0.635 -3.175)
+					(start -0.635 3.175)
 					(mid 2.54 0)
-					(end -0.635 3.175)
+					(end -0.635 -3.175)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -339,24 +339,6 @@
 					)
 					(fill
 						(type background)
-					)
-				)
-				(pin output inverted
-					(at 6.35 0 180)
-					(length 3.81)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
 					)
 				)
 				(pin input line
@@ -388,6 +370,24 @@
 						)
 					)
 					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output inverted
+					(at 6.35 0 180)
+					(length 3.81)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -447,6 +447,7 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "000_LOCAL:74xx08"
 			(exclude_from_sim no)
@@ -515,9 +516,9 @@
 			)
 			(symbol "74xx08_1_1"
 				(arc
-					(start -0.635 -3.175)
+					(start -0.635 3.175)
 					(mid 2.54 0)
-					(end -0.635 3.175)
+					(end -0.635 -3.175)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -595,9 +596,9 @@
 			)
 			(symbol "74xx08_2_1"
 				(arc
-					(start -0.635 -3.175)
+					(start -0.635 3.175)
 					(mid 2.54 0)
-					(end -0.635 3.175)
+					(end -0.635 -3.175)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -675,9 +676,9 @@
 			)
 			(symbol "74xx08_3_1"
 				(arc
-					(start -0.635 -3.175)
+					(start -0.635 3.175)
 					(mid 2.54 0)
-					(end -0.635 3.175)
+					(end -0.635 -3.175)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -696,6 +697,24 @@
 					)
 					(fill
 						(type background)
+					)
+				)
+				(pin input line
+					(at -6.35 2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
 					)
 				)
 				(pin input line
@@ -734,30 +753,12 @@
 						)
 					)
 				)
-				(pin input line
-					(at -6.35 2.54 0)
-					(length 2.54)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
 			)
 			(symbol "74xx08_4_1"
 				(arc
-					(start -0.635 -3.175)
+					(start -0.635 3.175)
 					(mid 2.54 0)
-					(end -0.635 3.175)
+					(end -0.635 -3.175)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -776,24 +777,6 @@
 					)
 					(fill
 						(type background)
-					)
-				)
-				(pin output line
-					(at 6.35 0 180)
-					(length 3.81)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
 					)
 				)
 				(pin input line
@@ -825,6 +808,24 @@
 						)
 					)
 					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 6.35 0 180)
+					(length 3.81)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -884,7 +885,64 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
+	)
+	(text "Active-high BLOCK & BYTE\nReplaces HC238"
+		(exclude_from_sim no)
+		(at 203.2 63.5 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "1b1b744b-52cc-4a6b-a208-888828f32f07")
+	)
+	(text "Active-low ~{BLOCK} & ~{BYTE}\nReplaces HC138"
+		(exclude_from_sim no)
+		(at 88.9 63.5 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "9b0863f8-9391-4a0a-8f03-88facf48d0c1")
+	)
+	(text "         BUS BUS\n(A)	~{YO}  _A8  _A9  ->  ~{BLOCK} ~{BYTE}    Function\nL	X	X	X		X	  X\nX	H	X	X		X	  X\nX	X	L	X		X	  X\nH	L	H	L	->  L	  H  Select BLOCK\nH	L	H	H	->  H	  L  Read or Write BYTE\n\n~{BLOCK}\nL: sets A0-A9 to 0, updates A10-A17 from AD0-AD7\nH: latches A10-A17\n\n~{BYTE}\nL: enables SRAM for read or write\nH: disables SRAM, increments A0-A9 by 1\n"
+		(exclude_from_sim no)
+		(at 69.85 108.204 0)
+		(effects
+			(font
+				(face "KiCad Font")
+				(size 1 1)
+			)
+			(justify left top)
+		)
+		(uuid "d2d54b37-c8c2-4d1b-ab40-c17599d1e7f1")
+	)
+	(text "         BUS BUS\n(A)	~{YO}  _A8  _A9  ->  BLOCK BYTE    Function\nL	X	X	X		X	  X\nX	H	X	X		X	  X\nX	X	L	X		X	  X\nH	L	H	L	->  H	  L  Select BLOCK\nH	L	H	H	->  L	  H  Read or Write BYTE\n\nBLOCK\nH: sets A0-A9 to 0, updates A10-A17 from AD0-AD7\nL: latches A10-A17\n\nBYTE\nH: enables SRAM for read or write\nL: disables SRAM, increments A0-A9 by 1\n"
+		(exclude_from_sim no)
+		(at 184.15 107.95 0)
+		(effects
+			(font
+				(face "KiCad Font")
+				(size 1 1)
+			)
+			(justify left top)
+		)
+		(uuid "e2fc4626-87cb-403f-acf5-21accce15267")
+	)
+	(text "https://circuitverse.org/simulator/embed/node-rampac-control-circuit"
+		(exclude_from_sim no)
+		(at 139.7 44.704 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+				(thickness 0.508)
+				(bold yes)
+			)
+		)
+		(uuid "f980b623-a9ef-4fbd-b7a2-3df59dfff4d7")
 	)
 	(junction
 		(at 208.28 96.52)
@@ -1294,65 +1352,8 @@
 		)
 		(uuid "ffbed5e4-194a-4356-bb2a-5a3f5fd00c76")
 	)
-	(text "Active-high BLOCK & BYTE\nReplaces HC238"
-		(exclude_from_sim no)
-		(at 203.2 63.5 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "1b1b744b-52cc-4a6b-a208-888828f32f07")
-	)
-	(text "Active-low ~{BLOCK} & ~{BYTE}\nReplaces HC138"
-		(exclude_from_sim no)
-		(at 88.9 63.5 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "9b0863f8-9391-4a0a-8f03-88facf48d0c1")
-	)
-	(text "         BUS BUS\n(A)	~{YO}  _A8  _A9  ->  BLOCK BYTE    Function\nL	X	X	X		X	  X\nX	H	X	X		X	  X\nX	X	L	X		X	  X\nH	L	H	L	->  L	  H  Select BLOCK\nH	L	H	H	->  H	  L  Read or Write BYTE\n\n~{BLOCK}\nL: sets A0-A9 to 0, updates A10-A17 from AD0-AD7\nH: latches A10-A17\n\n~{BYTE}\nL: enables SRAM for read or write\nH: disables SRAM, increments A0-A9 by 1\n"
-		(exclude_from_sim no)
-		(at 69.85 108.204 0)
-		(effects
-			(font
-				(face "KiCad Font")
-				(size 1 1)
-			)
-			(justify left top)
-		)
-		(uuid "d2d54b37-c8c2-4d1b-ab40-c17599d1e7f1")
-	)
-	(text "         BUS BUS\n(A)	~{YO}  _A8  _A9  ->  BLOCK BYTE    Function\nL	X	X	X		X	  X\nX	H	X	X		X	  X\nX	X	L	X		X	  X\nH	L	H	L	->  H	  L  Select BLOCK\nH	L	H	H	->  L	  H  Read or Write BYTE\n\nBLOCK\nH: sets A0-A9 to 0, updates A10-A17 from AD0-AD7\nL: latches A10-A17\n\nBYTE\nH: enables SRAM for read or write\nL: disables SRAM, increments A0-A9 by 1\n"
-		(exclude_from_sim no)
-		(at 184.15 107.95 0)
-		(effects
-			(font
-				(face "KiCad Font")
-				(size 1 1)
-			)
-			(justify left top)
-		)
-		(uuid "e2fc4626-87cb-403f-acf5-21accce15267")
-	)
-	(text "https://circuitverse.org/simulator/embed/node-rampac-control-circuit"
-		(exclude_from_sim no)
-		(at 139.7 44.704 0)
-		(effects
-			(font
-				(size 2.54 2.54)
-				(thickness 0.508)
-				(bold yes)
-			)
-		)
-		(uuid "f980b623-a9ef-4fbd-b7a2-3df59dfff4d7")
-	)
 	(label "~{Y0}"
 		(at 55.88 76.2 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1363,7 +1364,6 @@
 	)
 	(label "(A)"
 		(at 170.18 86.36 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1374,7 +1374,6 @@
 	)
 	(label "BUS_A9"
 		(at 170.18 96.52 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1385,7 +1384,6 @@
 	)
 	(label "BYTE"
 		(at 240.03 81.28 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1396,7 +1394,6 @@
 	)
 	(label "(A)"
 		(at 55.88 86.36 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1407,7 +1404,6 @@
 	)
 	(label "BUS_A8"
 		(at 55.88 91.44 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1418,7 +1414,6 @@
 	)
 	(label "BUS_A9"
 		(at 55.88 96.52 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1427,9 +1422,8 @@
 		)
 		(uuid "9168f0d9-0c1d-49c5-a24a-6195b261c63c")
 	)
-	(label "BLOCK"
+	(label "~{BLOCK}"
 		(at 125.73 93.98 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1440,7 +1434,6 @@
 	)
 	(label "~{Y0}"
 		(at 170.18 76.2 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1449,9 +1442,8 @@
 		)
 		(uuid "b213052a-974f-4699-9bfe-2c609db9a494")
 	)
-	(label "BYTE"
+	(label "~{BYTE}"
 		(at 125.73 81.28 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1462,7 +1454,6 @@
 	)
 	(label "BLOCK"
 		(at 240.03 93.98 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1473,7 +1464,6 @@
 	)
 	(label "BUS_A8"
 		(at 170.18 91.44 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1589,7 +1579,7 @@
 			(uuid "5acd6ab9-4f75-4d95-acfb-1600e8e14b58")
 		)
 		(instances
-			(project ""
+			(project "Control_Logic_Reference"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U3")
 					(unit 2)
@@ -1703,7 +1693,7 @@
 			(uuid "5acd6ab9-4f75-4d95-acfb-1600e8e14b5b")
 		)
 		(instances
-			(project "replace_238"
+			(project "Control_Logic_Reference"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U2")
 					(unit 1)
@@ -1808,7 +1798,7 @@
 			(uuid "8b4c88f5-2ce3-4abf-ad54-ec0e096fc965")
 		)
 		(instances
-			(project "replace_238"
+			(project "Control_Logic_Reference"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U1")
 					(unit 4)
@@ -1914,7 +1904,7 @@
 			(uuid "8b4c88f5-2ce3-4abf-ad54-ec0e096fc962")
 		)
 		(instances
-			(project ""
+			(project "Control_Logic_Reference"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U4")
 					(unit 2)
@@ -2020,7 +2010,7 @@
 			(uuid "8b4c88f5-2ce3-4abf-ad54-ec0e096fc963")
 		)
 		(instances
-			(project "replace_238"
+			(project "Control_Logic_Reference"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U1")
 					(unit 1)
@@ -2134,7 +2124,7 @@
 			(uuid "5acd6ab9-4f75-4d95-acfb-1600e8e14b5a")
 		)
 		(instances
-			(project ""
+			(project "Control_Logic_Reference"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U3")
 					(unit 3)
@@ -2249,7 +2239,7 @@
 			(uuid "5acd6ab9-4f75-4d95-acfb-1600e8e14b59")
 		)
 		(instances
-			(project "replace_238"
+			(project "Control_Logic_Reference"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U2")
 					(unit 2)
@@ -2355,7 +2345,7 @@
 			(uuid "8b4c88f5-2ce3-4abf-ad54-ec0e096fc964")
 		)
 		(instances
-			(project "replace_238"
+			(project "Control_Logic_Reference"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U1")
 					(unit 3)
@@ -2460,7 +2450,7 @@
 			(uuid "8b4c88f5-2ce3-4abf-ad54-ec0e096fc966")
 		)
 		(instances
-			(project ""
+			(project "Control_Logic_Reference"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U4")
 					(unit 1)
@@ -2574,7 +2564,7 @@
 			(uuid "5acd6ab9-4f75-4d95-acfb-1600e8e14b5c")
 		)
 		(instances
-			(project ""
+			(project "Control_Logic_Reference"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U3")
 					(unit 1)
@@ -2688,7 +2678,7 @@
 			(uuid "5acd6ab9-4f75-4d95-acfb-1600e8e14b5d")
 		)
 		(instances
-			(project ""
+			(project "Control_Logic_Reference"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U3")
 					(unit 4)
@@ -2794,7 +2784,7 @@
 			(uuid "5df8ffd7-c343-4b47-adc9-936810d252ec")
 		)
 		(instances
-			(project "replace_238"
+			(project "Control_Logic_Reference"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "U1")
 					(unit 2)
@@ -2807,4 +2797,5 @@
 			(page "1")
 		)
 	)
+	(embedded_fonts no)
 )

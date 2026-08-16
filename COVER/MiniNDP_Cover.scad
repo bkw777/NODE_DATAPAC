@@ -6,6 +6,7 @@
 
 Customizer_Note = "";
 //PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,T512,M10v1,M10v2,M10]
+
 PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,T512,M10]
 loose_fit = false; // set true if FDM print is too tight
 
@@ -64,7 +65,7 @@ wall_thickness = 0.8;
 // and the diameter of the cylinders that form the pcb retainer bumps
 lip =
   PCB=="M10v2" ? 0.9 :
-//  PCB=="M10" ? 0.9 :
+  PCB=="M10" ? 0.8 :
   1.2;
 
 // width of pcb tray ledge
@@ -75,7 +76,7 @@ fitment_clearance = -1 ; // 0.1
 fc =
   fitment_clearance > -0.01 ? fitment_clearance :
   PCB=="M10v2" ? 0.05 :
-//  PCB=="M10" ? 0.05 :
+//  PCB=="M10" ? 0.08 :
   loose_fit ? 0.2 :
   0.1;
 
@@ -154,7 +155,12 @@ module main_shell() {
 
  // add the short PCB grabbers on the bottom left & right
  mirror_copy([1,0,0])
-  translate([inner_width/2,-inner_length/2-wall_thickness/2+short_retainer_len/2,-lip/2])
+  if (PCB=="M10"||PCB=="M10v2") translate([inner_width/2,0,-lip/2])
+   difference() {
+    rotate([90,0,0])
+     cylinder(h=short_retainer_len,d=lip,center=true);
+   }
+  else translate([inner_width/2,-inner_length/2-wall_thickness/2+short_retainer_len/2,-lip/2])
    difference() {
     rotate([90,0,0])
      cylinder(h=short_retainer_len,d=lip,center=true);
@@ -166,14 +172,7 @@ module main_shell() {
  // add embossed graphic of the 2x20 IDC connector
  // to the inside face to show install orientation
  et = 0.2; // emboss thickness
- if (PCB=="M10v2"||PCB=="M10") {
-  // Olivetti M-10, bus connector is relative to the pin39/40 edge instead of center
-  w = 20*2.54;
-  l = 2*2.54;
-  translate([-w+pcb_width/2-2.54,-pcb_length/2+0.5,inner_height-et+o])
-    cube([w,l,et]);
- } else {
-  // normal version
+ if (PCB!="M10"&&PCB!="M10v2") {
    translate([0,-pcb_length/2+5,inner_height+o]) {
     rotate([0,180,0]) {
      linear_extrude(et) {
@@ -193,7 +192,15 @@ module main_shell() {
  }
 
  // add finger pulls
- translate([0,finger_pull_length/2-pcb_length/2+pcb_corner_radius,outer_height-finger_pull_height-osr])
+ if (PCB=="M10"||PCB=="M10v2") translate([0,0,outer_height-finger_pull_height-osr])
+  mirror_copy([1,0,0])
+   translate([outer_width/2,0,0])
+    hull() {
+     mirror_copy([0,1,0])
+        translate([0,outer_length/2-pcb_corner_radius-fc-wall_thickness-finger_pull_height,0])
+       sphere(finger_pull_height);
+    }
+ else translate([0,finger_pull_length/2-pcb_length/2+pcb_corner_radius,outer_height-finger_pull_height-osr])
   mirror_copy([1,0,0])
    translate([outer_width/2,0,0])
     hull() {
