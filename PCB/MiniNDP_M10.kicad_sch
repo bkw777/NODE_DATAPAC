@@ -5056,7 +5056,7 @@
 	)
 	(text "		BUS  BUS  BUS  BUS\n(A)	~{YO}   _A8  _A9  _A10  _A11  ->  ~{BLOCK} ~{BYTE}\n L	 X	 X	  X	  X	   X		X	  X\n X	 H	 X	  X	  X	   X		X	  X\n X	 X	 L	  X	  X	   X		X	  X\n H	 L	 H	  L	  L	   L	->  H	  L  Select BLOCK N, BANK0: OUT129,N\n H	 L	 H	  L	  H	   L	->  H	  L  Select BLOCK N, BANK1: OUT133,N\n H	 L	 H	  L	  L	   H	->  H	  L  Select BLOCK N, BANK2: OUT137,N\n H	 L	 H	  L	  H	   H	->  H	  L  Select BLOCK N, BANK3: OUT141,N\n H	 L	 H	  H	  X	   X	->  L	  H  READ N: N=INP(131) or WRITE N: OUT131,N\n\nBLOCK\nH: sets A0-A9 to 0, updates A10-A19 from AD0-AD7 & BUS_A10-BUS_A11\nL: latches A10-A19\n\nBYTE\nH: enables SRAM for read or write\nL: disables SRAM, increments A0-A9 by 1\n"
 		(exclude_from_sim no)
-		(at 19.05 196.85 0)
+		(at 16.256 199.898 0)
 		(effects
 			(font
 				(face "KiCad Font")
@@ -5250,9 +5250,9 @@
 		)
 		(uuid "c79b0cbd-7368-431b-b516-2d4432bf581a")
 	)
-	(text "BUS Connector:\n2x20 2.54mm pitch female 11mm tall\n\nSamtec ESW-120-12-L-D\nOupiin 2047-2X20G00S1U\nSparkFun 14017 (remove one spacer)\nSparkFun 16764 (remove one spacer)\nBSSQ-120-D-02-FT-LF\n"
+	(text "BUS Connector: \"40 pin PC/104 header\" or \"elevated gpio socket\"\n2x20 2.54mm pitch female 11mm tall\n\nHarwin M20-6112045, M20-6162005\nept 962-402(02,06)-03\n3M 4P01-2A02-DA\nSamtec (ESW,ESQ)-120-12-(L,G)-D\nOupiin 2047-2X20G00S1U\nSparkFun 14017,16764 (remove one spacer)\nMajor League BSSQ-120-D-02"
 		(exclude_from_sim no)
-		(at 18.034 146.304 0)
+		(at 16.51 148.336 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9238,7 +9238,7 @@
 		(uuid "f59781a0-28b8-4607-a7da-19182f6b2847")
 	)
 	(label "BUS_A10"
-		(at 133.35 109.22 180)
+		(at 133.35 111.76 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9258,7 +9258,7 @@
 		(uuid "f7a60e7c-432a-43e3-9256-0e8065f978d1")
 	)
 	(label "BUS_A11"
-		(at 133.35 111.76 180)
+		(at 133.35 109.22 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -11856,7 +11856,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "datasheets/ssm_sm.pdf"
+		(property "Datasheet" "datasheets/M20-611.pdf"
 			(at 58.42 105.41 0)
 			(effects
 				(font
@@ -11874,7 +11874,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ESW-120-12-L-D"
+		(property "MPN" "M20-6112045"
 			(at 58.42 105.41 0)
 			(effects
 				(font

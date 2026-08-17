@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "PinSocket_2x20_P2.54mm_Vertical"
-		(at -1.27 51.03 0)
+		(at 3.175 24.13 90)
 		(layer "F.Fab")
 		(uuid "7f534dea-edfe-4fc5-ac5d-0e57df0e5508")
 		(effects
@@ -53,8 +53,8 @@
 	)
 	(attr through_hole)
 	(fp_line
-		(start -3.87 -1.33)
-		(end -3.87 49.59)
+		(start -3.81 -1.27)
+		(end -3.81 49.53)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -63,8 +63,8 @@
 		(uuid "555c4e21-9b7e-4c87-a024-d1940dde6ba2")
 	)
 	(fp_line
-		(start -3.87 -1.33)
-		(end -1.27 -1.33)
+		(start -3.81 -1.27)
+		(end 1.27 -1.27)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -73,8 +73,8 @@
 		(uuid "a71a0187-f669-4ed3-b946-85fa0f93691b")
 	)
 	(fp_line
-		(start -3.87 49.59)
-		(end 1.33 49.59)
+		(start -3.81 49.53)
+		(end 1.27 49.53)
 		(stroke
 			(width 0.12)
 			(type solid)
@@ -83,54 +83,34 @@
 		(uuid "08c341ad-9e22-4dd4-ad4c-07c12e6d6ab9")
 	)
 	(fp_line
-		(start -1.27 -1.33)
-		(end -1.27 1.27)
+		(start 0 -1.524)
+		(end 1.524 -1.524)
 		(stroke
-			(width 0.12)
+			(width 0.6)
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "78b3131a-3cd1-49c4-8235-fb4908a8d874")
+		(uuid "bea657ba-376c-4844-a957-e2d7d0195e84")
 	)
 	(fp_line
-		(start -1.27 1.27)
-		(end 1.33 1.27)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "79c9203d-2bef-4bc4-ad3e-c0f5e25dc519")
-	)
-	(fp_line
-		(start 0 -1.33)
-		(end 1.33 -1.33)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "30ccea1a-cee5-410f-afca-06d7a41c8f0d")
-	)
-	(fp_line
-		(start 1.33 -1.33)
-		(end 1.33 0)
-		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "cea0b012-ea5a-4fbe-b394-311738771ee6")
-	)
-	(fp_line
-		(start 1.33 1.27)
-		(end 1.33 49.59)
+		(start 1.27 -1.27)
+		(end 1.27 49.53)
 		(stroke
 			(width 0.12)
 			(type solid)
 		)
 		(layer "F.SilkS")
 		(uuid "ffd78785-7f0c-4ccc-a93f-37cdef318bd7")
+	)
+	(fp_line
+		(start 1.524 -1.524)
+		(end 1.524 0)
+		(stroke
+			(width 0.6)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "196af643-a298-4228-b47f-f0f7173523de")
 	)
 	(fp_line
 		(start -4.34 -1.8)
@@ -555,8 +535,7 @@
 		(uuid "25397a4d-0473-4791-8ace-fd87545958f2")
 	)
 	(embedded_fonts no)
-	(model "${KICAD9_3DMODEL_DIR}/Connector_PinSocket_2.54mm.3dshapes/PinSocket_2x20_P2.54mm_Vertical.step"
-		(hide yes)
+	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/M20-6112045.step"
 		(offset
 			(xyz 0 0 0)
 		)
@@ -564,18 +543,7 @@
 			(xyz 1 1 1)
 		)
 		(rotate
-			(xyz -0 -0 -0)
-		)
-	)
-	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/esq-120-12-t-d.stp"
-		(offset
-			(xyz 1.27 1.524 2.54)
-		)
-		(scale
-			(xyz 1 1 1)
-		)
-		(rotate
-			(xyz -90 -0 90)
+			(xyz 0 0 0)
 		)
 	)
 )
