@@ -13320,7 +13320,7 @@
 		(uuid "dff9f197-a943-4890-94f6-e84afc350e6b")
 	)
 	(via
-		(at 150.9 101.975)
+		(at 150.93 101.925)
 		(size 0.5)
 		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
