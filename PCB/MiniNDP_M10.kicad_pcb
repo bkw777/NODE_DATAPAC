@@ -7925,7 +7925,7 @@
 			)
 		)
 	)
-	(gr_text "39\n\n40"
+	(gr_text "40\n\n39"
 		(at 177.7 114.915 0)
 		(layer "F.SilkS")
 		(uuid "ed7fdc75-0413-40e5-9097-2250a0ed275a")
