@@ -400,5 +400,5 @@ Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl)
 ## [Other Versions](MiniNDP_variants.md)  
 [SL1M](MiniNDP_variants.md#sl1m---slim-1-meg) - slim 1 meg, all thin chips to make a thin card  
 [EZ512](MiniNDP_variants.md#ez512---easy-build-512k) - easy build 512K - all larger components  
-[T512](MiniNDP_variants.md#t512---tsop-128k256k512k) - TSOP 128k/256k/512k - basically a better version of OG
+[T512](MiniNDP_variants.md#t512---tsop-128k256k512k) - TSOP 128k/256k/512k - basically a better version of OG  
 ["OG"](MiniNDP_variants.md#minindp-og) - 128k-512k, most like the original DATAPAC schematic, more parts and more difficult, but the parts are more common.
