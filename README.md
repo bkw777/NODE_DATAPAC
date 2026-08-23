@@ -388,6 +388,9 @@ The shape of this board with the battery moved off to the side does 2 things:
  - The short dimension allows the AA battery cover to be removed without removing the card.  
  - The assymetric layout functions as a polarity key which the M-10 bus connector lacks.
 
+![](PICS/M10/M10_disassembled.jpg)  
+![](PICS/M10/M10_installed_uncovered.jpg)  
+![](PICS/M10/M10_installed_with_cover.jpg)  
 ![](PCB/out/MiniNDP_M10.jpg)  
 ![](PCB/out/MiniNDP_M10.2.jpg)  
 ![](PCB/out/MiniNDP_M10.top.jpg)  
