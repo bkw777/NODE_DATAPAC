@@ -15,7 +15,9 @@ The battery holder is technically for CR2012, but you can stuff a CR2016 in it.
 ![](PCB/out/MiniNDP_SL1M.top.jpg)  
 ![](PCB/out/MiniNDP_SL1M.bottom.jpg)  
 ![](PCB/out/MiniNDP_SL1M.svg)  
-[MiniNDP_SL1M.bom.csv](PCB/out/MiniNDP_SL1M.bom.csv)
+[MiniNDP_SL1M.bom.csv](PCB/out/MiniNDP_SL1M.bom.csv)  
+[MiniNDP SL1M_12 PCB @ OSHPark](https://oshpark.com/shared_projects/D0EqGMp2)  
+THIN Cover: [MiniNDP_Cover_THIN.stl](COVER/out/MiniNDP_Cover_THIN.stl)
 
 ### EZ512 - easy-build 512K
 * All larger parts for easier hand-soldering.  
@@ -28,7 +30,8 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 ![](PCB/out/MiniNDP_EZ512.top.jpg)  
 ![](PCB/out/MiniNDP_EZ512.bottom.jpg)  
 ![](PCB/out/MiniNDP_EZ512.svg)  
-[MiniNDP_EZ512.bom.csv](PCB/out/MiniNDP_EZ512.bom.csv)
+[MiniNDP_EZ512.bom.csv](PCB/out/MiniNDP_EZ512.bom.csv)  
+Cover: Use the standard EZ1M cover
 
 ## T512 - TSOP 128k/256k/512k 
 
@@ -37,7 +40,8 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 ![](PCB/out/MiniNDP_T512.top.jpg)  
 ![](PCB/out/MiniNDP_T512.bottom.jpg)  
 ![](PCB/out/MiniNDP_T512.svg)  
-[MiniNDP_T512.bom.csv](PCB/out/MiniNDP_T512.bom.csv)
+[MiniNDP_T512.bom.csv](PCB/out/MiniNDP_T512.bom.csv)  
+Cover: Use either the standard cover or the thin cover depending on if you install the CR2032 holder or the CR2012 holder
 
 ### MiniNDP "OG"
 * Circuit is more like the original NODE version.  
@@ -50,7 +54,8 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 ![](PCB/out/MiniNDP_OG.top.jpg)  
 ![](PCB/out/MiniNDP_OG.bottom.jpg)  
 ![](PCB/out/MiniNDP_OG.svg)  
-[MiniNDP_OG.bom.csv](PCB/out/MiniNDP_OG.bom.csv)
+[MiniNDP_OG.bom.csv](PCB/out/MiniNDP_OG.bom.csv)  
+Cover: Use either the standard cover or the thin cover depending on if you install the CR2032 holder or the CR2012 holder
 
 ## Battery Options
 Max battery vs thinnest card  
