@@ -395,7 +395,7 @@ BOM [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 
 PCB: [MiniNDP_M10_30 @ OSHPark](https://oshpark.com/shared_projects/qC7AqhGF)  
 BOM: [MiniNDP_M10.bom.csv](PCB/out/MiniNDP_M10.bom.csv)  
-Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl) [Order MJF print from JawsTec](https://shop.jawstec.com/3d-printed-minindpm10-cover_p657.php)
+Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl) - ( [Order MJF print from JawsTec](https://shop.jawstec.com/3d-printed-minindpm10-cover_p657.php) )
 
 ## [Other Versions](MiniNDP_variants.md)  
 [SL1M](MiniNDP_variants.md#sl1m---slim-1-meg) - slim 1 meg, all thin chips to make a thin card  
