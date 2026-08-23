@@ -366,7 +366,9 @@ Unlike the original DATAPAC, this actually fits into the bus port on the Model 2
 [MiniNDP.bom.csv](PCB/out/MiniNDP.bom.csv)
 
 BOM [DigiKey](https://www.digikey.com/short/m4h7bmh0)  
-PCB & Cover [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html)
+PCB & Cover [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html)  
+[MiniNDP EZ1M_14 PCB @ OSHPark](https://oshpark.com/shared_projects/pUS0y3tZ)  
+[Cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindp-cover_p658.php)
 
 ## MiniNDP u1M - For Model 100 or Kyotronic KC-85
 
@@ -393,9 +395,9 @@ BOM [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 ![](PCB/out/MiniNDP_M10.bottom.jpg)  
 ![](PCB/out/MiniNDP_M10.svg)  
 
-PCB: [MiniNDP_M10_30 @ OSHPark](https://oshpark.com/shared_projects/qC7AqhGF)  
+PCB: [MiniNDP M10_30 PCB @ OSHPark](https://oshpark.com/shared_projects/qC7AqhGF)  
 BOM: [MiniNDP_M10.bom.csv](PCB/out/MiniNDP_M10.bom.csv)  
-Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl) - ( [Order MJF print from JawsTec](https://shop.jawstec.com/3d-printed-minindpm10-cover_p657.php) )
+Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl) -- [M10 Cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindpm10-cover_p657.php)
 
 ## [Other Versions](MiniNDP_variants.md)  
 [SL1M](MiniNDP_variants.md#sl1m---slim-1-meg) - slim 1 meg, all thin chips to make a thin card  
