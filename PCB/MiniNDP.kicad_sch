@@ -5080,6 +5080,16 @@
 		)
 		(uuid "260b4a33-b7fb-4c45-ae80-7032982ccbe2")
 	)
+	(text "AS6C8008-xxZ\nCY62158ELL"
+		(exclude_from_sim no)
+		(at 228.6 22.86 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "3196a74e-f240-4290-86db-750a491855c7")
+	)
 	(text "S1"
 		(exclude_from_sim no)
 		(at 63.5 115.57 0)

@@ -4272,6 +4272,16 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "AS6C8008-xxZ\nCY62158ELL"
+		(exclude_from_sim no)
+		(at 222.25 22.86 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "0ca9da4b-77cf-471e-b9f4-7f51049e5516")
+	)
 	(text "		BUS  BUS  BUS  BUS\n(A)	~{YO}   _A8  _A9  _A10  _A11  ->  ~{BLOCK} ~{BYTE}\n L	 X	 X	  X	  X	   X		X	  X\n X	 H	 X	  X	  X	   X		X	  X\n X	 X	 L	  X	  X	   X		X	  X\n H	 L	 H	  L	  L	   L	->  H	  L  Select BLOCK N, BANK0: OUT129,N\n H	 L	 H	  L	  H	   L	->  H	  L  Select BLOCK N, BANK1: OUT133,N\n H	 L	 H	  L	  L	   H	->  H	  L  Select BLOCK N, BANK2: OUT137,N\n H	 L	 H	  L	  H	   H	->  H	  L  Select BLOCK N, BANK3: OUT141,N\n H	 L	 H	  H	  X	   X	->  L	  H  READ N: N=INP(131) or WRITE N: OUT131,N\n\nBLOCK\nH: sets A0-A9 to 0, updates A10-A19 from AD0-AD7 & BUS_A10-BUS_A11\nL: latches A10-A19\n\nBYTE\nH: enables SRAM for read or write\nL: disables SRAM, increments A0-A9 by 1\n"
 		(exclude_from_sim no)
 		(at 19.05 196.85 0)

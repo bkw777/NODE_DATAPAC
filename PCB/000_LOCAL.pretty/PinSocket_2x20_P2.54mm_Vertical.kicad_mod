@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "PinSocket_2x20_P2.54mm_Vertical"
-		(at 3.175 24.13 90)
+		(at 2.159 24.13 90)
 		(layer "F.Fab")
 		(uuid "7f534dea-edfe-4fc5-ac5d-0e57df0e5508")
 		(effects

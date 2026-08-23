@@ -5244,6 +5244,16 @@
 		)
 		(uuid "c80c48b4-56a6-4f00-bf0e-21cb9cdab72c")
 	)
+	(text "AS6C8008-xxZ\nCY62158ELL"
+		(exclude_from_sim no)
+		(at 228.6 25.4 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "c844e0e6-c76b-475b-aa3d-c4b7f657c21f")
+	)
 	(text "VDD"
 		(exclude_from_sim no)
 		(at 63.5 85.09 0)
