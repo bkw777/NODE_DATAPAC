@@ -384,10 +384,6 @@ BOM [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 
 ## MiniNDP M10 - For Olivetti M-10
 
-The shape of this board with the battery moved off to the side does 2 things:  
- - The short dimension allows the AA battery cover to be removed without removing the card.  
- - The assymetric layout functions as a polarity key which the M-10 bus connector lacks.
-
 ![](PICS/M10/M10_disassembled.jpg)  
 ![](PICS/M10/M10_installed_uncovered.jpg)  
 ![](PICS/M10/M10_installed_with_cover.jpg)  
@@ -397,8 +393,9 @@ The shape of this board with the battery moved off to the side does 2 things:
 ![](PCB/out/MiniNDP_M10.bottom.jpg)  
 ![](PCB/out/MiniNDP_M10.svg)  
 
+PCB: [MiniNDP_M10_30 @ OSHPark](https://oshpark.com/shared_projects/qC7AqhGF)  
 BOM: [MiniNDP_M10.bom.csv](PCB/out/MiniNDP_M10.bom.csv)  
-Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl)
+Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl) [Order MJF print from JawsTec](https://shop.jawstec.com/3d-printed-minindpm10-cover_p657.php)
 
 ## [Other Versions](MiniNDP_variants.md)  
 [SL1M](MiniNDP_variants.md#sl1m---slim-1-meg) - slim 1 meg, all thin chips to make a thin card  
