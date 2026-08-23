@@ -365,10 +365,10 @@ Unlike the original DATAPAC, this actually fits into the bus port on the Model 2
 ![](PCB/out/MiniNDP.svg)
 [MiniNDP.bom.csv](PCB/out/MiniNDP.bom.csv)
 
-BOM [DigiKey](https://www.digikey.com/short/m4h7bmh0)  
-PCB & Cover [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html)  
+BOM: [DigiKey](https://www.digikey.com/short/m4h7bmh0)  
 [MiniNDP EZ1M_14 PCB @ OSHPark](https://oshpark.com/shared_projects/pUS0y3tZ)  
-[Cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindp-cover_p658.php)
+Cover: [MiniNDP_Cover.stl](COVER/out/MiniNDP_Cover.stl) -- [Cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindp-cover_p658.php)  
+[Both PCB & Cover @ PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html)  
 
 ## MiniNDP u1M - For Model 100 or Kyotronic KC-85
 
@@ -382,7 +382,8 @@ PCB & Cover [PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_No
 ![](PCB/out/MiniNDP_u1M.bottom.jpg)  
 ![](PCB/out/MiniNDP_u1M.svg)  
 
-BOM [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
+BOM: [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)  
+[MiniNDP u1M_030 PCB @ OSHPark](https://oshpark.com/shared_projects/fK7yqT9X)
 
 ## MiniNDP M10 - For Olivetti M-10
 
@@ -395,8 +396,8 @@ BOM [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 ![](PCB/out/MiniNDP_M10.bottom.jpg)  
 ![](PCB/out/MiniNDP_M10.svg)  
 
-PCB: [MiniNDP M10_30 PCB @ OSHPark](https://oshpark.com/shared_projects/qC7AqhGF)  
 BOM: [MiniNDP_M10.bom.csv](PCB/out/MiniNDP_M10.bom.csv)  
+[MiniNDP M10_30 PCB @ OSHPark](https://oshpark.com/shared_projects/qC7AqhGF)  
 Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl) -- [M10 Cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindpm10-cover_p657.php)
 
 ## [Other Versions](MiniNDP_variants.md)  
