@@ -5,7 +5,6 @@
 // options
 
 Customizer_Note = "";
-//PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,T512,M10v1,M10v2,M10]
 
 PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,T512,M10]
 loose_fit = false; // set true if FDM print is too tight
@@ -18,8 +17,6 @@ debug_cut_y = 0;
 // ------------------------------------------------------------------------------
 
 low_profile =  // true for CR2016 , false for CR2032
-        PCB=="M10v1" ? true :
-        PCB=="M10v2" ? true :
         PCB=="M10" ? true :
         PCB=="SL1M" ? true :
         PCB=="T512" ? true :
@@ -28,8 +25,6 @@ low_profile =  // true for CR2016 , false for CR2032
 
 pcb_stl =
         PCB=="EZ512" ? "lib/pcb_EZ512.stl" :
-        PCB=="M10v1" ? "lib/pcb_M10v1.stl" :
-        PCB=="M10v2" ? "lib/pcb_M10v2.stl" :
         PCB=="M10" ? "lib/pcb_M10.stl" :
         PCB=="T512" ? "lib/pcb_T512.stl" :
         PCB=="OG" ? "lib/pcb_OG.stl" :
@@ -48,7 +43,6 @@ pcb_thickness = 1.6;
 pcb_corner_radius = 2;
 
 pcblw = 
-        PCB=="M10v2" ? [31,56] :
         PCB=="M10" ? [26,72] :
         [34,60];
 
@@ -64,7 +58,6 @@ wall_thickness = 0.8;
 // this is both the height of the wall above the pcb surface on the computer side,
 // and the diameter of the cylinders that form the pcb retainer bumps
 lip =
-  PCB=="M10v2" ? 0.9 :
   PCB=="M10" ? 0.8 :
   1.2;
 
@@ -75,7 +68,6 @@ ledge = 0.8;
 fitment_clearance = -1 ; // 0.1
 fc =
   fitment_clearance > -0.01 ? fitment_clearance :
-  PCB=="M10v2" ? 0.05 :
 //  PCB=="M10" ? 0.08 :
   loose_fit ? 0.2 :
   0.1;
@@ -85,7 +77,7 @@ o = 0.01; // overlap/overcut/overhang
 // secondary/smaller fillet radius
 sr = 1;   // 0.1
 
-short_retainer_len = 10;
+short_retainer_len = pcb_length/2;
 long_retainer_len = pcb_width/2;
 
 finger_pull_length = 10;
@@ -108,8 +100,7 @@ outer_corner = pcb_corner_radius + fc;
 outer_secondary_radius = 0 ; // 0.1
 osr =
   outer_secondary_radius>0.01 ? outer_secondary_radius :
-  PCB=="M10v2" ? sr+wall_thickness+ledge :
-  PCB=="M10" ? sr+wall_thickness+ledge :
+  //PCB=="M10" ? sr+wall_thickness+ledge :
   sr;
 
 include <lib/handy.scad>;
@@ -140,72 +131,30 @@ module main_shell() {
  }
  
  // add the top & bottom PCB grabbers
-  difference () {
-   mirror_copy([0,1,0])
-    translate([0,inner_length/2,-lip/2]) {
+  mirror_copy([0,1,0])
+   translate([0,inner_length/2,-lip/2])
+    difference () {
      rotate([0,90,0])
        cylinder(h=long_retainer_len,d=lip,center=true);
-     //translate([0,lip/2-ledge,0]) rotate([0,90,0])
-     //  cylinder(h=long_retainer_len,d=lip,center=true);
-     //translate([0,lip-ledge,0]) cube([long_retainer_len,lip,lip],center=true);
-     }
-   if (PCB!="M10v2"&&PCB!="M10") translate([0,-inner_length/2+1,-0.5])
-    cylinder(h=2,r=1,center=true);
-  }
-
- // add the short PCB grabbers on the bottom left & right
- mirror_copy([1,0,0])
-  if (PCB=="M10"||PCB=="M10v2") translate([inner_width/2,0,-lip/2])
-   difference() {
-    rotate([90,0,0])
-     cylinder(h=short_retainer_len,d=lip,center=true);
-   }
-  else translate([inner_width/2,-inner_length/2-wall_thickness/2+short_retainer_len/2,-lip/2])
-   difference() {
-    rotate([90,0,0])
-     cylinder(h=short_retainer_len,d=lip,center=true);
-    translate([lip/2+0.1,-short_retainer_len/2,0])
-     rotate([0,0,45])
-      cube(lip*2,center=true);
-   }
-  
- // add embossed graphic of the 2x20 IDC connector
- // to the inside face to show install orientation
- et = 0.2; // emboss thickness
- if (PCB!="M10"&&PCB!="M10v2") {
-   translate([0,-pcb_length/2+5,inner_height+o]) {
-    rotate([0,180,0]) {
-     linear_extrude(et) {
-      xy_array(xo=2.54,xc=20,yo=2.54,yc=2,center=true)
-       square(0.64,true); // circle(0.32);
-      difference() {
-       square([58.5,8.7],true);
-       group () {
-        translate([0,4,0])
-         square([4.5,8],true);
-        square([56.3,6.4],true);
-       }
-      }
-     }
+     if(PCB!="M10") translate([0,-1,-0.5])
+      cylinder(h=2,r=1,center=true);
     }
+
+ // add the side grabbers
+ mirror_copy([1,0,0])
+  translate([inner_width/2,0,-lip/2])
+   difference() {
+    rotate([90,0,0])
+     cylinder(h=short_retainer_len,d=lip,center=true);
    }
- }
 
  // add finger pulls
- if (PCB=="M10"||PCB=="M10v2") translate([0,0,outer_height-finger_pull_height-osr])
+ translate([0,0,outer_height-finger_pull_height-osr])
   mirror_copy([1,0,0])
    translate([outer_width/2,0,0])
     hull() {
      mirror_copy([0,1,0])
         translate([0,outer_length/2-pcb_corner_radius-fc-wall_thickness-finger_pull_height,0])
-       sphere(finger_pull_height);
-    }
- else translate([0,finger_pull_length/2-pcb_length/2+pcb_corner_radius,outer_height-finger_pull_height-osr])
-  mirror_copy([1,0,0])
-   translate([outer_width/2,0,0])
-    hull() {
-     mirror_copy([0,1,0])
-      translate([0,finger_pull_length/2-finger_pull_height,0])
        sphere(finger_pull_height);
     }
 

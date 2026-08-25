@@ -10527,7 +10527,7 @@
 				)
 			)
 		)
-		(property "Footprint" "000_LOCAL:Keystone_3028_3034"
+		(property "Footprint" "000_LOCAL:Keystone_3028_3034_bkw"
 			(at 102.87 183.896 90)
 			(effects
 				(font
@@ -11821,7 +11821,6 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "88fe0fb7-2471-4978-b3e1-37d5b123b040")
 		(property "Reference" "U6"
 			(at 234.315 138.43 0)

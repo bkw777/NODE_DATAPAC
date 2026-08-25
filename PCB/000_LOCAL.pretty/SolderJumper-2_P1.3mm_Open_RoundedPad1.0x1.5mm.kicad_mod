@@ -257,4 +257,16 @@
 		(uuid "37bcfcab-e649-4b60-823e-fae5254ddfe9")
 	)
 	(embedded_fonts no)
+	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/Solder_Bridge_1.5x2.3.step"
+		(hide yes)
+		(offset
+			(xyz -1.15 -0.75 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -0 -0 -0)
+		)
+	)
 )

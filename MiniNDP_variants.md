@@ -36,6 +36,7 @@ Cover: Use the standard EZ1M cover
 ## T512 - TSOP 128k/256k/512k 
 
 ![](PCB/out/MiniNDP_T512.jpg)  
+![](PCB/out/MiniNDP_T512.1bank.jpg)  
 ![](PCB/out/MiniNDP_T512.2.jpg)  
 ![](PCB/out/MiniNDP_T512.top.jpg)  
 ![](PCB/out/MiniNDP_T512.bottom.jpg)  
