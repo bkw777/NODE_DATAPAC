@@ -16,8 +16,9 @@ The battery holder is technically for CR2012, but you can stuff a CR2016 in it.
 ![](PCB/out/MiniNDP_SL1M.bottom.jpg)  
 ![](PCB/out/MiniNDP_SL1M.svg)  
 [MiniNDP_SL1M.bom.csv](PCB/out/MiniNDP_SL1M.bom.csv)  
-[MiniNDP SL1M_12 PCB @ OSHPark](https://oshpark.com/shared_projects/D0EqGMp2)  
-THIN Cover: [MiniNDP_Cover_THIN.stl](COVER/out/MiniNDP_Cover_THIN.stl)
+[MiniNDP SL1M_16 PCB @ OSHPark](https://oshpark.com/shared_projects/UxbSsLw0)  
+THIN Cover: [MiniNDP_Cover_THIN.stl](COVER/out/MiniNDP_Cover_THIN.stl)  
+[THIN cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindp-sl1mt512-cover_p659.php)
 
 ### EZ512 - easy-build 512K
 * All larger parts for easier hand-soldering.  
@@ -42,7 +43,8 @@ Cover: Use the standard EZ1M cover
 ![](PCB/out/MiniNDP_T512.bottom.jpg)  
 ![](PCB/out/MiniNDP_T512.svg)  
 [MiniNDP_T512.bom.csv](PCB/out/MiniNDP_T512.bom.csv)  
-Cover: Use either the standard cover or the thin cover depending on if you install the CR2032 holder or the CR2012 holder
+Cover: Use either the standard cover or the thin cover depending on if you install the CR2032 holder or the CR2012/CR2016 holder  
+[THIN cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindp-sl1mt512-cover_p659.php)
 
 ### MiniNDP "OG"
 * Circuit is more like the original NODE version.  

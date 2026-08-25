@@ -366,7 +366,7 @@ Unlike the original DATAPAC, this actually fits into the bus port on the Model 2
 [MiniNDP.bom.csv](PCB/out/MiniNDP.bom.csv)
 
 BOM: [DigiKey](https://www.digikey.com/short/m4h7bmh0)  
-[MiniNDP EZ1M_14 PCB @ OSHPark](https://oshpark.com/shared_projects/pUS0y3tZ)  
+[MiniNDP EZ1M_16 PCB @ OSHPark](https://oshpark.com/shared_projects/7Jpm6F6c)  
 Cover: [MiniNDP_Cover.stl](COVER/out/MiniNDP_Cover.stl) -- [Cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindp-cover_p658.php)  
 [Both PCB & Cover @ PCBWAY](https://www.pcbway.com/project/shareproject/MiniNDP_mini_Node_DataPac_d08018c4.html)  
 
@@ -383,7 +383,7 @@ Cover: [MiniNDP_Cover.stl](COVER/out/MiniNDP_Cover.stl) -- [Cover @ JawsTec](htt
 ![](PCB/out/MiniNDP_u1M.svg)  
 
 BOM: [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)  
-[MiniNDP u1M_030 PCB @ OSHPark](https://oshpark.com/shared_projects/fK7yqT9X)
+[MiniNDP u1M_032 PCB @ OSHPark](https://oshpark.com/shared_projects/ICZ4DXzf)
 
 ## MiniNDP M10 - For Olivetti M-10
 
@@ -397,7 +397,7 @@ BOM: [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 ![](PCB/out/MiniNDP_M10.svg)  
 
 BOM: [MiniNDP_M10.bom.csv](PCB/out/MiniNDP_M10.bom.csv)  
-[MiniNDP M10_30 PCB @ OSHPark](https://oshpark.com/shared_projects/qC7AqhGF)  
+[MiniNDP M10_32 PCB @ OSHPark](https://oshpark.com/shared_projects/vL1oz5dB)  
 Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl) -- [M10 Cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindpm10-cover_p657.php)
 
 ## [Other Versions](MiniNDP_variants.md)  
