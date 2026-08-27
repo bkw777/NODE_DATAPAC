@@ -10,7 +10,7 @@
 	(title_block
 		(title "MiniNDP")
 		(date "2026-08-27")
-		(rev "u1M_034")
+		(rev "u1M_036")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "1M RAM Disk for TRS-80 Model 100 and Kyotronic KC-85")
