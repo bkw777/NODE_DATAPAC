@@ -6,8 +6,8 @@
 	(paper "USLetter")
 	(title_block
 		(title "MiniNDP_M10")
-		(date "2026-08-14")
-		(rev "06")
+		(date "2026-08-28")
+		(rev "07")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "1M RAM Disk for TRS-80 Model 100")
@@ -7479,6 +7479,16 @@
 	)
 	(wire
 		(pts
+			(xy 234.95 55.88) (xy 245.11 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a1945e54-76ee-4fb0-a715-6b013c3d4d77")
+	)
+	(wire
+		(pts
 			(xy 27.94 97.79) (xy 50.8 97.79)
 		)
 		(stroke
@@ -7876,16 +7886,6 @@
 			(type default)
 		)
 		(uuid "c5e30cdf-a887-4093-9c41-2e3c76d6d5c8")
-	)
-	(wire
-		(pts
-			(xy 234.95 55.88) (xy 245.11 55.88)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c81bc0ce-750a-45b4-aec0-214702d93a33")
 	)
 	(bus
 		(pts
@@ -8428,7 +8428,7 @@
 		(uuid "10343739-1103-427a-b212-7afcec47da82")
 	)
 	(label "AD0"
-		(at 133.35 91.44 180)
+		(at 133.35 88.9 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8488,7 +8488,7 @@
 		(uuid "1864ba72-dbdf-427f-b2ff-afd4ec60f4cc")
 	)
 	(label "AD1"
-		(at 133.35 88.9 180)
+		(at 133.35 91.44 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8538,7 +8538,7 @@
 		(uuid "2a06611d-6059-4a3d-8abf-88a602f3438b")
 	)
 	(label "AD0"
-		(at 234.95 43.18 0)
+		(at 234.95 45.72 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8548,7 +8548,7 @@
 		(uuid "2f8d6248-74ff-494f-ada0-82143346aae3")
 	)
 	(label "AD3"
-		(at 133.35 93.98 180)
+		(at 133.35 96.52 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8558,7 +8558,7 @@
 		(uuid "3078b594-e005-47c5-941a-e6775a82dfb0")
 	)
 	(label "AD7"
-		(at 234.95 50.8 0)
+		(at 234.95 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8568,7 +8568,7 @@
 		(uuid "3f20ce72-93b3-42d0-aa29-7adfdb15c164")
 	)
 	(label "AD7"
-		(at 133.35 104.14 180)
+		(at 133.35 106.68 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8628,7 +8628,7 @@
 		(uuid "4f8baffe-92ec-4ab0-9b71-00b08f1ab957")
 	)
 	(label "AD2"
-		(at 234.95 38.1 0)
+		(at 234.95 40.64 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8648,7 +8648,7 @@
 		(uuid "518df17e-22de-4b86-8ba6-368c44d31dad")
 	)
 	(label "AD4"
-		(at 234.95 53.34 0)
+		(at 234.95 55.88 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8708,7 +8708,7 @@
 		(uuid "61a5c724-fc3c-4645-8632-5bf1725d747e")
 	)
 	(label "AD1"
-		(at 234.95 45.72 0)
+		(at 234.95 43.18 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8728,7 +8728,7 @@
 		(uuid "67f86ca7-bd40-426c-ab93-f7b1e3afdf66")
 	)
 	(label "AD5"
-		(at 234.95 55.88 0)
+		(at 234.95 53.34 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8798,7 +8798,7 @@
 		(uuid "7b42a4f7-924c-4f2f-aa6c-3416f6e8635d")
 	)
 	(label "AD3"
-		(at 234.95 40.64 0)
+		(at 234.95 38.1 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8848,7 +8848,7 @@
 		(uuid "9383e632-8ced-47e5-872d-8e23d8c5666e")
 	)
 	(label "AD5"
-		(at 133.35 99.06 180)
+		(at 133.35 101.6 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8908,7 +8908,7 @@
 		(uuid "aa6911a2-53e9-4a20-9974-1cb3e7bbd068")
 	)
 	(label "AD2"
-		(at 133.35 96.52 180)
+		(at 133.35 93.98 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8928,7 +8928,7 @@
 		(uuid "abc47532-c34b-46a4-9876-82dc46590a70")
 	)
 	(label "AD4"
-		(at 133.35 101.6 180)
+		(at 133.35 99.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9078,7 +9078,7 @@
 		(uuid "cd80e0e2-263d-4803-b5be-67f080411d1f")
 	)
 	(label "AD6"
-		(at 234.95 48.26 0)
+		(at 234.95 50.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9188,7 +9188,7 @@
 		(uuid "ec8aa71a-b946-4dab-a6d1-42957a80afbb")
 	)
 	(label "AD6"
-		(at 133.35 106.68 180)
+		(at 133.35 104.14 180)
 		(effects
 			(font
 				(size 1.27 1.27)
