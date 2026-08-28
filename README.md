@@ -383,7 +383,7 @@ Cover: [MiniNDP_Cover.stl](COVER/out/MiniNDP_Cover.stl) -- [Cover @ JawsTec](htt
 ![](PCB/out/MiniNDP_u1M.svg)  
 
 BOM: [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)  
-[MiniNDP u1M_032 PCB @ OSHPark](https://oshpark.com/shared_projects/ICZ4DXzf)
+[MiniNDP u1M_036 PCB @ OSHPark](https://oshpark.com/shared_projects/4BSWYwgw)
 
 ## MiniNDP M10 - For Olivetti M-10
 
@@ -397,7 +397,7 @@ BOM: [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 ![](PCB/out/MiniNDP_M10.svg)  
 
 BOM: [MiniNDP_M10.bom.csv](PCB/out/MiniNDP_M10.bom.csv)  
-[MiniNDP M10_32 PCB @ OSHPark](https://oshpark.com/shared_projects/vL1oz5dB)  
+[MiniNDP M10_34 PCB @ OSHPark](https://oshpark.com/shared_projects/NCJDXMDO)  
 Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl) -- [M10 Cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindpm10-cover_p657.php)
 
 ## [Other Versions](MiniNDP_variants.md)  
