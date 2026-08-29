@@ -383,7 +383,7 @@ Cover: [MiniNDP_Cover.stl](COVER/out/MiniNDP_Cover.stl) -- [Cover @ JawsTec](htt
 ![](PCB/out/MiniNDP_u1M.svg)  
 
 BOM: [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)  
-[MiniNDP u1M_036 PCB @ OSHPark](https://oshpark.com/shared_projects/4BSWYwgw)
+[MiniNDP u1M_038 PCB @ OSHPark](https://oshpark.com/shared_projects/XwUDgfQu)
 
 ## MiniNDP M10 - For Olivetti M-10
 
