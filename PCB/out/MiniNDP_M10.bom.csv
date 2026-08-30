@@ -1,5 +1,5 @@
 "Reference","Value","Datasheet","Footprint","Qty","DNP","MPN","Description"
-"BT1","Keystone_3028","datasheets/Keystone_3028.pdf","000_LOCAL:Keystone_3028_3034","1","","Keystone 3028","SMT 20mm x 1.6mm coin cell holder"
+"BT1","Keystone_3028","datasheets/Keystone_3028.pdf","000_LOCAL:Keystone_3028_3034_bkw","1","","Keystone 3028","SMT 20mm x 1.6mm coin cell holder"
 "C1,C2,C3","1u","datasheets/CL21B105KAFNNNE.pdf","000_LOCAL:C_0805","3","","CL21B105KAFNNNE","CAP CER 1UF 25V X7R 0805"
 "C4,C5","47u","datasheets/TDK_MLCC_Cxxxx.pdf","000_LOCAL:C_1206","2","","C3216X5R1E476M160DC","CAP CER 47UF 25V X5R 1206"
 "DA1","BAV70","datasheets/BAV70.pdf","000_LOCAL:SOT-23","1","","BAV70-7-F","DIODE ARRAY GP 75V 150MA SOT23-3"
