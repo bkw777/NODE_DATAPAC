@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP_T512")
-		(date "2026-09-01")
-		(rev "004")
+		(date "2026-09-02")
+		(rev "005")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAM100.CO or RAM200.CO")
@@ -5726,7 +5726,7 @@
 	)
 	(text "CR2016"
 		(exclude_from_sim no)
-		(at 101.346 192.278 0)
+		(at 96.266 192.278 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5781,7 +5781,7 @@
 	)
 	(text "3V"
 		(exclude_from_sim no)
-		(at 104.394 181.356 0)
+		(at 99.314 181.356 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5888,7 +5888,7 @@
 	)
 	(text "5V"
 		(exclude_from_sim no)
-		(at 83.82 181.356 0)
+		(at 78.74 181.356 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5953,6 +5953,12 @@
 		(uuid "13cfef66-9f63-45c7-8b75-4acf8ba6a60f")
 	)
 	(junction
+		(at 143.51 184.15)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "167888fe-1a65-43bb-97fe-4cba70715f13")
+	)
+	(junction
 		(at 45.72 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5971,7 +5977,7 @@
 		(uuid "31f36e00-3f1b-4e09-beff-9690790f4deb")
 	)
 	(junction
-		(at 125.73 184.15)
+		(at 120.65 184.15)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "3749691f-f86c-46cc-a718-eafffce5550c")
@@ -6007,7 +6013,7 @@
 		(uuid "50e51101-eb0d-4390-b0d8-0bed218b760b")
 	)
 	(junction
-		(at 95.25 175.26)
+		(at 90.17 175.26)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "722456d0-23d6-4882-8c45-4fe4a627c06d")
@@ -6043,13 +6049,13 @@
 		(uuid "959cf2ae-99c5-404b-a78e-49109f3a8933")
 	)
 	(junction
-		(at 125.73 179.07)
+		(at 120.65 179.07)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9a49d911-4489-408d-bb04-1e226b340f18")
 	)
 	(junction
-		(at 132.08 184.15)
+		(at 127 184.15)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9c8ae3c2-3cdb-41a9-a153-222906fbebe2")
@@ -6067,16 +6073,22 @@
 		(uuid "a268fdc6-c637-452d-bff4-ec0dc6b7f7a3")
 	)
 	(junction
-		(at 132.08 179.07)
+		(at 127 179.07)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a4cbfacf-f5a9-43df-a267-93c811d66f20")
 	)
 	(junction
-		(at 102.87 180.34)
+		(at 97.79 180.34)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bbfe2c15-a9f6-47e8-a539-da75f2e0f3c3")
+	)
+	(junction
+		(at 143.51 179.07)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e8d6ce33-f052-42a5-be03-6e740abcab08")
 	)
 	(no_connect
 		(at 67.31 34.29)
@@ -6864,7 +6876,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 184.15) (xy 132.08 184.15)
+			(xy 120.65 184.15) (xy 127 184.15)
 		)
 		(stroke
 			(width 0)
@@ -6884,7 +6896,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 175.26) (xy 95.25 175.26)
+			(xy 105.41 175.26) (xy 90.17 175.26)
 		)
 		(stroke
 			(width 0)
@@ -7024,13 +7036,23 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 184.15) (xy 138.43 184.15)
+			(xy 127 184.15) (xy 133.35 184.15)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "17ceb840-b9f9-4900-95cc-756f3000dc36")
+	)
+	(wire
+		(pts
+			(xy 143.51 184.15) (xy 149.86 184.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "182b7de7-6d33-4056-a32e-fda0edcdcce0")
 	)
 	(wire
 		(pts
@@ -7384,7 +7406,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 179.07) (xy 132.08 179.07)
+			(xy 120.65 179.07) (xy 127 179.07)
 		)
 		(stroke
 			(width 0)
@@ -7504,7 +7526,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 177.8) (xy 110.49 175.26)
+			(xy 105.41 177.8) (xy 105.41 175.26)
 		)
 		(stroke
 			(width 0)
@@ -7632,6 +7654,16 @@
 		)
 		(uuid "5f5f2d77-f964-45ae-9041-b538a8938e46")
 	)
+	(wire
+		(pts
+			(xy 143.51 179.07) (xy 149.86 179.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5f9aab8b-19b9-458d-bc0e-960b2461e9c6")
+	)
 	(bus
 		(pts
 			(xy 186.69 91.44) (xy 186.69 93.98)
@@ -7734,7 +7766,7 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 179.07) (xy 138.43 179.07)
+			(xy 127 179.07) (xy 133.35 179.07)
 		)
 		(stroke
 			(width 0)
@@ -9754,7 +9786,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C_Polarized")
-		(at 110.49 185.42 0)
+		(at 105.41 185.42 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -9762,7 +9794,7 @@
 		(dnp yes)
 		(uuid "0023e5d0-379e-4a71-8642-c48927b0c6c1")
 		(property "Reference" "C1"
-			(at 114.3 184.15 0)
+			(at 109.22 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9771,7 +9803,7 @@
 			)
 		)
 		(property "Value" "150u"
-			(at 114.3 186.69 0)
+			(at 109.22 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9780,7 +9812,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:CP_6032"
-			(at 110.49 185.42 0)
+			(at 105.41 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9789,7 +9821,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/TAJ.pdf"
-			(at 110.49 185.42 0)
+			(at 105.41 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9798,7 +9830,7 @@
 			)
 		)
 		(property "Description" "CAP TANT 150UF 10% 10V 6032-15"
-			(at 110.49 185.42 0)
+			(at 105.41 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9807,7 +9839,7 @@
 			)
 		)
 		(property "MPN" "TLJW157M010R0200"
-			(at 110.49 185.42 0)
+			(at 105.41 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10076,7 +10108,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C")
-		(at 148.59 181.61 0)
+		(at 143.51 181.61 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10084,7 +10116,7 @@
 		(dnp no)
 		(uuid "112948b7-b866-4d74-9014-b658056d972a")
 		(property "Reference" "C5"
-			(at 149.86 180.34 0)
+			(at 144.78 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10093,7 +10125,7 @@
 			)
 		)
 		(property "Value" "1u"
-			(at 149.86 182.88 0)
+			(at 144.78 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10102,7 +10134,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:C_0805"
-			(at 149.5552 185.42 0)
+			(at 144.4752 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10111,7 +10143,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/CL21B105KAFNNNE.pdf"
-			(at 148.59 181.61 0)
+			(at 143.51 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10120,7 +10152,7 @@
 			)
 		)
 		(property "Description" "CAP CER 1UF 25V X7R 0805"
-			(at 148.59 181.61 0)
+			(at 143.51 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10129,7 +10161,7 @@
 			)
 		)
 		(property "MPN" "CL21B105KAFNNNE"
-			(at 148.59 181.61 0)
+			(at 143.51 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10220,7 +10252,7 @@
 	)
 	(symbol
 		(lib_id "power:VMEM")
-		(at 95.25 175.26 0)
+		(at 90.17 175.26 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10228,7 +10260,7 @@
 		(dnp no)
 		(uuid "1ef52839-1e6e-4f7b-9ddf-7a54f8fb9834")
 		(property "Reference" "#PWR010"
-			(at 95.25 179.07 0)
+			(at 90.17 179.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10237,7 +10269,7 @@
 			)
 		)
 		(property "Value" "VMEM"
-			(at 95.25 170.942 0)
+			(at 90.17 170.942 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10245,7 +10277,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 95.25 175.26 0)
+			(at 90.17 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10254,7 +10286,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 95.25 175.26 0)
+			(at 90.17 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10263,7 +10295,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 95.25 175.26 0)
+			(at 90.17 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10504,7 +10536,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:Battery_Cell")
-		(at 102.87 185.42 0)
+		(at 97.79 185.42 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10512,7 +10544,7 @@
 		(dnp no)
 		(uuid "2b15837a-e1b7-4b63-a342-ec3304fb2f02")
 		(property "Reference" "BT1"
-			(at 99.314 187.96 0)
+			(at 94.234 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10520,7 +10552,7 @@
 			)
 		)
 		(property "Value" "Keystone_3028"
-			(at 93.98 189.992 0)
+			(at 88.9 189.992 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10528,7 +10560,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:Keystone_3028_3034_bkw"
-			(at 102.87 183.896 90)
+			(at 97.79 183.896 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10537,7 +10569,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/Keystone_3034.pdf"
-			(at 102.87 183.896 90)
+			(at 97.79 183.896 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10546,7 +10578,7 @@
 			)
 		)
 		(property "Description" "BATTERY RETAINER COIN 20MM x 1.6MM SMT"
-			(at 102.87 185.42 0)
+			(at 97.79 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10555,7 +10587,7 @@
 			)
 		)
 		(property "MPN" "Keystone_3028"
-			(at 102.87 185.42 0)
+			(at 97.79 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10915,7 +10947,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:BAV70")
-		(at 95.25 180.34 180)
+		(at 90.17 180.34 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10923,7 +10955,7 @@
 		(dnp no)
 		(uuid "41050163-4ce3-4eff-943e-c10d8d4a524d")
 		(property "Reference" "DA1"
-			(at 97.79 183.896 0)
+			(at 92.71 183.896 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10931,7 +10963,7 @@
 			)
 		)
 		(property "Value" "BAV70"
-			(at 97.79 186.436 0)
+			(at 92.71 186.436 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10939,7 +10971,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:SOT-23"
-			(at 95.25 180.34 0)
+			(at 90.17 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10948,7 +10980,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/BAV70.pdf"
-			(at 95.25 180.34 0)
+			(at 90.17 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10957,7 +10989,7 @@
 			)
 		)
 		(property "Description" "DIODE ARRAY GP 75V 150MA SOT23-3"
-			(at 95.25 180.34 0)
+			(at 90.17 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10966,7 +10998,7 @@
 			)
 		)
 		(property "MPN" "BAV70-7-F"
-			(at 95.25 180.34 0)
+			(at 90.17 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10994,7 +11026,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 102.87 187.96 0)
+		(at 97.79 187.96 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11003,7 +11035,7 @@
 		(fields_autoplaced yes)
 		(uuid "41c3d83b-a2dc-405a-94a6-6e259d914b5a")
 		(property "Reference" "#PWR058"
-			(at 102.87 194.31 0)
+			(at 97.79 194.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11012,7 +11044,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 102.87 193.04 0)
+			(at 97.79 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11021,7 +11053,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 102.87 187.96 0)
+			(at 97.79 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11030,7 +11062,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 102.87 187.96 0)
+			(at 97.79 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11039,7 +11071,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 102.87 187.96 0)
+			(at 97.79 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11529,7 +11561,7 @@
 	)
 	(symbol
 		(lib_id "power:VMEM")
-		(at 148.59 179.07 0)
+		(at 143.51 179.07 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11537,7 +11569,7 @@
 		(dnp no)
 		(uuid "5bb219cd-c7ca-4135-a521-7b5d23fbb0bf")
 		(property "Reference" "#PWR055"
-			(at 148.59 182.88 0)
+			(at 143.51 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11546,7 +11578,7 @@
 			)
 		)
 		(property "Value" "VMEM"
-			(at 148.59 174.752 0)
+			(at 143.51 174.752 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11554,7 +11586,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 148.59 179.07 0)
+			(at 143.51 179.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11563,7 +11595,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 148.59 179.07 0)
+			(at 143.51 179.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11572,7 +11604,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 148.59 179.07 0)
+			(at 143.51 179.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11748,7 +11780,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 125.73 184.15 0)
+		(at 120.65 184.15 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11756,7 +11788,7 @@
 		(dnp no)
 		(uuid "7db3b346-66f2-4474-8970-b668d1d42290")
 		(property "Reference" "#PWR023"
-			(at 125.73 190.5 0)
+			(at 120.65 190.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11765,7 +11797,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 125.73 187.96 0)
+			(at 120.65 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11774,7 +11806,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 125.73 184.15 0)
+			(at 120.65 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11783,7 +11815,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 125.73 184.15 0)
+			(at 120.65 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11792,7 +11824,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 125.73 184.15 0)
+			(at 120.65 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12050,7 +12082,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C")
-		(at 125.73 181.61 0)
+		(at 120.65 181.61 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12058,7 +12090,7 @@
 		(dnp no)
 		(uuid "9622e0ea-a8ee-4846-98c2-7a1e8db4687c")
 		(property "Reference" "C2"
-			(at 127 180.34 0)
+			(at 121.92 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12067,7 +12099,7 @@
 			)
 		)
 		(property "Value" "1u"
-			(at 127 182.88 0)
+			(at 121.92 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12076,7 +12108,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:C_0805"
-			(at 126.6952 185.42 0)
+			(at 121.6152 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12085,7 +12117,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/CL21B105KAFNNNE.pdf"
-			(at 125.73 181.61 0)
+			(at 120.65 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12094,7 +12126,7 @@
 			)
 		)
 		(property "Description" "CAP CER 1UF 25V X7R 0805"
-			(at 125.73 181.61 0)
+			(at 120.65 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12103,7 +12135,7 @@
 			)
 		)
 		(property "MPN" "CL21B105KAFNNNE"
-			(at 125.73 181.61 0)
+			(at 120.65 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12134,10 +12166,9 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "9a0de3b5-3c6d-4c8f-9134-2e8c16b6aab5")
 		(property "Reference" "U2"
-			(at 148.2441 25.4 0)
+			(at 148.082 23.876 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12146,7 +12177,7 @@
 			)
 		)
 		(property "Value" "HC4040"
-			(at 148.2441 27.94 0)
+			(at 148.082 26.416 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12313,6 +12344,84 @@
 		)
 	)
 	(symbol
+		(lib_id "000_LOCAL:C")
+		(at 149.86 181.61 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a5fd324b-7013-4f5e-a85c-83f60e64deff")
+		(property "Reference" "C6"
+			(at 151.13 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1u"
+			(at 151.13 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "000_LOCAL:C_0805"
+			(at 150.8252 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/CL21B105KAFNNNE.pdf"
+			(at 149.86 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "CAP CER 1UF 25V X7R 0805"
+			(at 149.86 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "CL21B105KAFNNNE"
+			(at 149.86 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1ab10e21-26af-472b-9fe7-857f65e417c5")
+		)
+		(pin "2"
+			(uuid "f577ae29-8434-486b-80e5-bfc1879dc6ec")
+		)
+		(instances
+			(project "MiniNDP_T512"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "C6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "000_LOCAL:R")
 		(at 220.98 124.46 0)
 		(unit 1)
@@ -12458,7 +12567,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 95.25 175.26 90)
+		(at 90.17 175.26 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12466,7 +12575,7 @@
 		(dnp no)
 		(uuid "b1c6021c-c795-4126-99c5-10c85f0b5087")
 		(property "Reference" "#FLG02"
-			(at 93.345 175.26 0)
+			(at 88.265 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12475,7 +12584,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 87.63 175.26 90)
+			(at 82.55 175.26 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12484,7 +12593,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 95.25 175.26 0)
+			(at 90.17 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12493,7 +12602,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 95.25 175.26 0)
+			(at 90.17 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12502,7 +12611,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 95.25 175.26 0)
+			(at 90.17 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12524,7 +12633,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 87.63 180.34 0)
+		(at 82.55 180.34 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12532,7 +12641,7 @@
 		(dnp no)
 		(uuid "b28c2f45-adb6-4792-9a19-44e557adb970")
 		(property "Reference" "#PWR09"
-			(at 87.63 184.15 0)
+			(at 82.55 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12541,7 +12650,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 87.63 176.022 0)
+			(at 82.55 176.022 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12549,7 +12658,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 87.63 180.34 0)
+			(at 82.55 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12558,7 +12667,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 87.63 180.34 0)
+			(at 82.55 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12567,7 +12676,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 87.63 180.34 0)
+			(at 82.55 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12719,7 +12828,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 125.73 179.07 0)
+		(at 120.65 179.07 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12727,7 +12836,7 @@
 		(dnp no)
 		(uuid "cd9c301f-61ae-4e5a-815b-ff67e8f76840")
 		(property "Reference" "#PWR025"
-			(at 125.73 182.88 0)
+			(at 120.65 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12736,7 +12845,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 125.73 174.752 0)
+			(at 120.65 174.752 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12744,7 +12853,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 125.73 179.07 0)
+			(at 120.65 179.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12753,7 +12862,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 125.73 179.07 0)
+			(at 120.65 179.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12762,7 +12871,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 125.73 179.07 0)
+			(at 120.65 179.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12784,7 +12893,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:R")
-		(at 110.49 180.34 0)
+		(at 105.41 180.34 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -12792,7 +12901,7 @@
 		(dnp yes)
 		(uuid "cf008510-7074-4c85-818c-c1df30b497ba")
 		(property "Reference" "R1"
-			(at 111.76 179.324 0)
+			(at 106.68 179.324 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12801,7 +12910,7 @@
 			)
 		)
 		(property "Value" "1k"
-			(at 111.76 181.356 0)
+			(at 106.68 181.356 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12810,7 +12919,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:R_0805"
-			(at 110.49 180.34 0)
+			(at 105.41 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12819,7 +12928,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/RK73.pdf"
-			(at 110.49 180.34 0)
+			(at 105.41 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12828,7 +12937,7 @@
 			)
 		)
 		(property "Description" "RES 1K OHM 5% 1/4W 0805"
-			(at 110.49 180.34 0)
+			(at 105.41 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12837,7 +12946,7 @@
 			)
 		)
 		(property "MPN" "RK73B2ATTD102J"
-			(at 110.49 180.34 0)
+			(at 105.41 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13054,7 +13163,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 148.59 184.15 0)
+		(at 143.51 184.15 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13062,7 +13171,7 @@
 		(dnp no)
 		(uuid "d04e6a90-6a68-4e49-b78f-98550ad6fd84")
 		(property "Reference" "#PWR041"
-			(at 148.59 190.5 0)
+			(at 143.51 190.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13071,7 +13180,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 148.59 187.96 0)
+			(at 143.51 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13080,7 +13189,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 148.59 184.15 0)
+			(at 143.51 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13089,7 +13198,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 148.59 184.15 0)
+			(at 143.51 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13098,7 +13207,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 148.59 184.15 0)
+			(at 143.51 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13185,7 +13294,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C")
-		(at 138.43 181.61 0)
+		(at 133.35 181.61 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13193,7 +13302,7 @@
 		(dnp no)
 		(uuid "d8882537-ebea-413e-a1a3-b8c10ef0159c")
 		(property "Reference" "C4"
-			(at 139.7 180.34 0)
+			(at 134.62 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13202,7 +13311,7 @@
 			)
 		)
 		(property "Value" "1u"
-			(at 139.7 182.88 0)
+			(at 134.62 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13211,7 +13320,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:C_0805"
-			(at 139.3952 185.42 0)
+			(at 134.3152 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13220,7 +13329,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/CL21B105KAFNNNE.pdf"
-			(at 138.43 181.61 0)
+			(at 133.35 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13229,7 +13338,7 @@
 			)
 		)
 		(property "Description" "CAP CER 1UF 25V X7R 0805"
-			(at 138.43 181.61 0)
+			(at 133.35 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13238,7 +13347,7 @@
 			)
 		)
 		(property "MPN" "CL21B105KAFNNNE"
-			(at 138.43 181.61 0)
+			(at 133.35 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13263,7 +13372,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 110.49 187.96 0)
+		(at 105.41 187.96 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13271,7 +13380,7 @@
 		(dnp no)
 		(uuid "db302501-4b8f-405d-8527-25704e861c49")
 		(property "Reference" "#PWR028"
-			(at 110.49 194.31 0)
+			(at 105.41 194.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13280,7 +13389,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 110.49 193.04 0)
+			(at 105.41 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13289,7 +13398,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 110.49 187.96 0)
+			(at 105.41 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13298,7 +13407,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 110.49 187.96 0)
+			(at 105.41 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13307,7 +13416,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 110.49 187.96 0)
+			(at 105.41 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13329,7 +13438,7 @@
 	)
 	(symbol
 		(lib_id "power:+BATT")
-		(at 102.87 180.34 0)
+		(at 97.79 180.34 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13337,7 +13446,7 @@
 		(dnp no)
 		(uuid "dc1f5545-ce5c-40b8-89d2-54cf64d75d61")
 		(property "Reference" "#PWR027"
-			(at 102.87 184.15 0)
+			(at 97.79 184.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13346,7 +13455,7 @@
 			)
 		)
 		(property "Value" "+BATT"
-			(at 102.87 176.53 0)
+			(at 97.79 176.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13354,7 +13463,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 102.87 180.34 0)
+			(at 97.79 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13363,7 +13472,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 102.87 180.34 0)
+			(at 97.79 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13372,7 +13481,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+BATT\""
-			(at 102.87 180.34 0)
+			(at 97.79 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13459,7 +13568,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:C")
-		(at 132.08 181.61 0)
+		(at 127 181.61 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13467,7 +13576,7 @@
 		(dnp no)
 		(uuid "e1b00c29-c0ca-492e-bef2-de06c7779da7")
 		(property "Reference" "C3"
-			(at 133.35 180.34 0)
+			(at 128.27 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13476,7 +13585,7 @@
 			)
 		)
 		(property "Value" "1u"
-			(at 133.35 182.88 0)
+			(at 128.27 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13485,7 +13594,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:C_0805"
-			(at 133.0452 185.42 0)
+			(at 127.9652 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13494,7 +13603,7 @@
 			)
 		)
 		(property "Datasheet" "datasheets/CL21B105KAFNNNE.pdf"
-			(at 132.08 181.61 0)
+			(at 127 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13503,7 +13612,7 @@
 			)
 		)
 		(property "Description" "CAP CER 1UF 25V X7R 0805"
-			(at 132.08 181.61 0)
+			(at 127 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13512,7 +13621,7 @@
 			)
 		)
 		(property "MPN" "CL21B105KAFNNNE"
-			(at 132.08 181.61 0)
+			(at 127 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
