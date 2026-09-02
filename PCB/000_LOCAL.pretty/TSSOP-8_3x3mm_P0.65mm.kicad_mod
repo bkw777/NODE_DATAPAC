@@ -298,19 +298,7 @@
 		(uuid "f8b7c0d8-fab7-4bfa-8252-ca3647238395")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/TSSOP-8_3x3mm_P0.65mm.step"
-		(hide yes)
-		(offset
-			(xyz 0 0 0)
-		)
-		(scale
-			(xyz 1 1 1)
-		)
-		(rotate
-			(xyz 0 0 0)
-		)
-	)
-	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/MSOP-8_3x3mm_P0.65mm.step"
+	(model "${KIPRJMOD}/000_LOCAL.pretty/3dshapes/TSSOP-8.step"
 		(offset
 			(xyz 0 0 0)
 		)
