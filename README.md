@@ -337,10 +337,6 @@ This means:
 
 New design that functions the same as DATAPAC/rampac.
 
-[For Model 102 & Model 200](#minindp-ez1m---for-model-102-and-200) (Also M10 with a ribbon cable)
-
-[For Model 100 & Kyotronic KC-85](#minindp-u1m---for-model-100-or-kyotronic-kc-85)
-
 1 megabyte in 4 banks of 256k.
 
 How to access all 4 banks:  
@@ -403,5 +399,5 @@ Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl) -- [M10 
 ## [Other Versions](MiniNDP_variants.md)  
 [SL1M](MiniNDP_variants.md#sl1m---slim-1-meg) - slim 1 meg, all thin chips to make a thin card  
 [T512](MiniNDP_variants.md#t512---tsop-128k256k512k) - TSOP 128k/256k/512k  
+[EZ512](MiniNDP_variants.md#ez512---easy-build-512k) - SOIC 512k  
 <!-- ["OG"](MiniNDP_variants.md#minindp-og) - 128k-512k, most like the original DATAPAC schematic, more parts and more difficult, but the parts are more common  -->
-[EZ512](MiniNDP_variants.md#ez512---easy-build-512k) - SOIC 512k
