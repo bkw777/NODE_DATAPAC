@@ -1,12 +1,12 @@
 /* 3d-printable enclosure for MiniNDP - github.com/bkw777/NODE_DATAPAC */
-// version: 002
+// version: 003
 
 // ------------------------------------------------------------------------------
 // options
 
 Customizer_Note = "";
 
-PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,OG,T512,M10]
+PCB = "EZ1M"; // [EZ1M,EZ512,SL1M,T512,M10]
 loose_fit = false; // set true if FDM print is too tight
 
 DEBUG_X = false;
@@ -20,14 +20,12 @@ low_profile =  // true for CR2016 , false for CR2032
         PCB=="M10" ? true :
         PCB=="SL1M" ? true :
         PCB=="T512" ? true :
-        PCB=="OG" ? true :
         false;
 
 pcb_stl =
         PCB=="EZ512" ? "lib/pcb_EZ512.stl" :
         PCB=="M10" ? "lib/pcb_M10.stl" :
         PCB=="T512" ? "lib/pcb_T512.stl" :
-        PCB=="OG" ? "lib/pcb_OG.stl" :
         low_profile ? "lib/pcb_SL1M.stl" :
         "lib/pcb_EZ1M.stl";
 

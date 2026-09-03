@@ -20,6 +20,19 @@ The battery holder is technically for CR2012, but you can stuff a CR2016 in it.
 THIN Cover: [MiniNDP_Cover_THIN.stl](COVER/out/MiniNDP_Cover_THIN.stl)  
 [THIN cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindp-sl1mt512-cover_p659.php)
 
+## T512 - TSOP 128k/256k/512k 
+
+![](PCB/out/MiniNDP_T512.jpg)  
+![](PCB/out/MiniNDP_T512.1bank.jpg)  
+![](PCB/out/MiniNDP_T512.2.jpg)  
+![](PCB/out/MiniNDP_T512.top.jpg)  
+![](PCB/out/MiniNDP_T512.bottom.jpg)  
+![](PCB/out/MiniNDP_T512.svg)  
+[MiniNDP_T512.bom.csv](PCB/out/MiniNDP_T512.bom.csv)  
+[MiniNDP T512_10 @OSHPark](https://oshpark.com/shared_projects/0HOxI6zt)  
+Cover: Use either the standard cover or the thin cover depending on if you install the CR2032 holder or the CR2012/CR2016 holder  
+[THIN cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindp-sl1mt512-cover_p659.php)
+
 ### EZ512 - easy-build 512K
 * All larger parts for easier hand-soldering.  
 * 1M SOIC/SOJ sram is getting uncommon and expensive.  
@@ -34,19 +47,7 @@ It requires an additional chip vs the 1M because the 512K sram doesn't have a CE
 [MiniNDP_EZ512.bom.csv](PCB/out/MiniNDP_EZ512.bom.csv)  
 Cover: Use the standard EZ1M cover
 
-## T512 - TSOP 128k/256k/512k 
-
-![](PCB/out/MiniNDP_T512.jpg)  
-![](PCB/out/MiniNDP_T512.1bank.jpg)  
-![](PCB/out/MiniNDP_T512.2.jpg)  
-![](PCB/out/MiniNDP_T512.top.jpg)  
-![](PCB/out/MiniNDP_T512.bottom.jpg)  
-![](PCB/out/MiniNDP_T512.svg)  
-[MiniNDP_T512.bom.csv](PCB/out/MiniNDP_T512.bom.csv)  
-[MiniNDP T512_10 @OSHPark](https://oshpark.com/shared_projects/0HOxI6zt)  
-Cover: Use either the standard cover or the thin cover depending on if you install the CR2032 holder or the CR2012/CR2016 holder  
-[THIN cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindp-sl1mt512-cover_p659.php)
-
+<!-- 
 ### MiniNDP "OG"
 * Circuit is more like the original NODE version.  
 * Components are more common & available.  
@@ -82,4 +83,4 @@ CR2032 height
 
 CR2016 height (nominally a CR2012 holder, but can take a CR2016)  
 ![](PCB/out/MiniNDP_256_CR2016.jpg)
-
+-->
