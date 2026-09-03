@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "MiniNDP_T512")
-		(date "2026-09-02")
-		(rev "005")
+		(date "2026-09-03")
+		(rev "006")
 		(company "Brian K. White - b.kenyon.w@gmail.com")
 		(comment 1 "github.com/bkw777/NODE_DATAPAC")
 		(comment 2 "Use with RAM100.CO or RAM200.CO")
@@ -5716,7 +5716,7 @@
 	)
 	(text "Only for 512k"
 		(exclude_from_sim no)
-		(at 171.958 120.65 0)
+		(at 171.958 119.634 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5908,9 +5908,19 @@
 		)
 		(uuid "e1f02ea4-e45e-4330-8248-afcfb8e9e797")
 	)
+	(text "double duty as\nbattery-change\ngrace period"
+		(exclude_from_sim no)
+		(at 146.05 170.434 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "eacc691f-4408-4296-8f42-3b3ce678186b")
+	)
 	(text "128k close\n256k close\n512k open"
 		(exclude_from_sim no)
-		(at 204.47 146.05 0)
+		(at 204.47 139.7 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5953,12 +5963,6 @@
 		(uuid "13cfef66-9f63-45c7-8b75-4acf8ba6a60f")
 	)
 	(junction
-		(at 143.51 184.15)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "167888fe-1a65-43bb-97fe-4cba70715f13")
-	)
-	(junction
 		(at 45.72 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5975,6 +5979,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "31f36e00-3f1b-4e09-beff-9690790f4deb")
+	)
+	(junction
+		(at 143.51 184.15)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "341bbe0b-ce69-4352-863b-2751df528e6a")
 	)
 	(junction
 		(at 120.65 184.15)
@@ -6043,6 +6053,12 @@
 		(uuid "8fe2b03e-21e5-49ea-b869-a18679e0f46a")
 	)
 	(junction
+		(at 143.51 179.07)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "90dce6aa-dc2c-400e-a4bf-8073cffb76bb")
+	)
+	(junction
 		(at 228.6 146.05)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6083,12 +6099,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bbfe2c15-a9f6-47e8-a539-da75f2e0f3c3")
-	)
-	(junction
-		(at 143.51 179.07)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e8d6ce33-f052-42a5-be03-6e740abcab08")
 	)
 	(no_connect
 		(at 67.31 34.29)
@@ -7936,7 +7946,7 @@
 	)
 	(wire
 		(pts
-			(xy 212.09 151.13) (xy 212.09 149.86)
+			(xy 212.09 151.13) (xy 212.09 143.51)
 		)
 		(stroke
 			(width 0)
@@ -8456,7 +8466,7 @@
 	)
 	(wire
 		(pts
-			(xy 212.09 97.79) (xy 212.09 142.24)
+			(xy 212.09 97.79) (xy 212.09 135.89)
 		)
 		(stroke
 			(width 0)
@@ -10101,84 +10111,6 @@
 			(project "TANDY_600_RAM_DUAL"
 				(path "/fe5b516f-55dc-44bb-a7ae-e479a38db771"
 					(reference "U1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "000_LOCAL:C")
-		(at 143.51 181.61 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "112948b7-b866-4d74-9014-b658056d972a")
-		(property "Reference" "C5"
-			(at 144.78 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1u"
-			(at 144.78 182.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "000_LOCAL:C_0805"
-			(at 144.4752 185.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/CL21B105KAFNNNE.pdf"
-			(at 143.51 181.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "CAP CER 1UF 25V X7R 0805"
-			(at 143.51 181.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CL21B105KAFNNNE"
-			(at 143.51 181.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "52951fed-6ef0-4474-9518-c91c88a495c0")
-		)
-		(pin "2"
-			(uuid "2769b0d4-5e29-47ad-800a-34ce2bbbdf7b")
-		)
-		(instances
-			(project "MiniNDP_T512"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "C5")
 					(unit 1)
 				)
 			)
@@ -11939,7 +11871,7 @@
 		(dnp no)
 		(uuid "8a6eedc4-5125-433e-ba84-796f911edfb1")
 		(property "Reference" "U5"
-			(at 166.624 122.936 0)
+			(at 166.624 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11947,7 +11879,7 @@
 			)
 		)
 		(property "Value" "1G79"
-			(at 167.64 125.222 0)
+			(at 167.64 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12344,84 +12276,6 @@
 		)
 	)
 	(symbol
-		(lib_id "000_LOCAL:C")
-		(at 149.86 181.61 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "a5fd324b-7013-4f5e-a85c-83f60e64deff")
-		(property "Reference" "C6"
-			(at 151.13 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1u"
-			(at 151.13 182.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "000_LOCAL:C_0805"
-			(at 150.8252 185.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "datasheets/CL21B105KAFNNNE.pdf"
-			(at 149.86 181.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "CAP CER 1UF 25V X7R 0805"
-			(at 149.86 181.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "CL21B105KAFNNNE"
-			(at 149.86 181.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "1ab10e21-26af-472b-9fe7-857f65e417c5")
-		)
-		(pin "2"
-			(uuid "f577ae29-8434-486b-80e5-bfc1879dc6ec")
-		)
-		(instances
-			(project "MiniNDP_T512"
-				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
-					(reference "C6")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "000_LOCAL:R")
 		(at 220.98 124.46 0)
 		(unit 1)
@@ -12560,6 +12414,82 @@
 			(project "MiniNDP_T512"
 				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
 					(reference "#PWR04")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "000_LOCAL:C")
+		(at 143.51 181.61 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "af55c317-e25d-45e3-9a61-824fd852fc41")
+		(property "Reference" "C5"
+			(at 146.05 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "47u"
+			(at 146.558 183.134 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:C_1206"
+			(at 143.51 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/TDK_MLCC_Cxxxx.pdf"
+			(at 143.51 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "CAP CER 47UF 25V X5R 1206"
+			(at 143.51 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C3216X5R1E476M160DC"
+			(at 143.51 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "81fa80b5-aaf6-4b96-888e-61cb32727d44")
+		)
+		(pin "1"
+			(uuid "827d1e8a-1e80-4b41-9b39-3325b82fc06a")
+		)
+		(instances
+			(project "MiniNDP_T512"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "C5")
 					(unit 1)
 				)
 			)
@@ -13777,6 +13707,82 @@
 		)
 	)
 	(symbol
+		(lib_id "000_LOCAL:C")
+		(at 149.86 181.61 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f5eb8da7-15f4-4f66-bcb7-3e2b8e1db3f6")
+		(property "Reference" "C6"
+			(at 152.4 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "47u"
+			(at 152.908 183.134 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "000_LOCAL:C_1206"
+			(at 149.86 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "datasheets/TDK_MLCC_Cxxxx.pdf"
+			(at 149.86 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "CAP CER 47UF 25V X5R 1206"
+			(at 149.86 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "C3216X5R1E476M160DC"
+			(at 149.86 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "856fcb7c-77dd-4473-92b5-49810553adb4")
+		)
+		(pin "1"
+			(uuid "743ffbe4-c378-46dc-b9a8-2eb8e9a93ab9")
+		)
+		(instances
+			(project "MiniNDP_T512"
+				(path "/f15c2929-5cf4-4b4e-965d-148e1bec8a42"
+					(reference "C6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:VBUS")
 		(at 146.05 24.13 0)
 		(unit 1)
@@ -13963,7 +13969,7 @@
 	)
 	(symbol
 		(lib_id "000_LOCAL:SolderJumper_2_Open")
-		(at 212.09 146.05 90)
+		(at 212.09 139.7 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -13971,7 +13977,7 @@
 		(dnp yes)
 		(uuid "fe29405a-8c7e-45a2-bbd8-354790dc7992")
 		(property "Reference" "JP2"
-			(at 209.55 144.78 90)
+			(at 209.55 138.43 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13980,7 +13986,7 @@
 			)
 		)
 		(property "Value" "CE2"
-			(at 209.55 147.32 90)
+			(at 209.55 140.97 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13989,7 +13995,7 @@
 			)
 		)
 		(property "Footprint" "000_LOCAL:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm"
-			(at 212.09 146.05 0)
+			(at 212.09 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13998,7 +14004,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 212.09 146.05 0)
+			(at 212.09 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14007,7 +14013,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 212.09 146.05 0)
+			(at 212.09 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)

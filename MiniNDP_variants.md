@@ -29,7 +29,7 @@ THIN Cover: [MiniNDP_Cover_THIN.stl](COVER/out/MiniNDP_Cover_THIN.stl)
 ![](PCB/out/MiniNDP_T512.bottom.jpg)  
 ![](PCB/out/MiniNDP_T512.svg)  
 [MiniNDP_T512.bom.csv](PCB/out/MiniNDP_T512.bom.csv)  
-[MiniNDP T512_10 @OSHPark](https://oshpark.com/shared_projects/0HOxI6zt)  
+[MiniNDP T512_12 @OSHPark](https://oshpark.com/shared_projects/wBvbKqwD)  
 Cover: Use either the standard cover or the thin cover depending on if you install the CR2032 holder or the CR2012/CR2016 holder  
 [THIN cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindp-sl1mt512-cover_p659.php)
 
