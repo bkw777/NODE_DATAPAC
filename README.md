@@ -393,7 +393,7 @@ BOM: [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 ![](PCB/out/MiniNDP_M10.svg)  
 
 BOM: [MiniNDP_M10.bom.csv](PCB/out/MiniNDP_M10.bom.csv)  
-[MiniNDP M10_34 PCB @ OSHPark](https://oshpark.com/shared_projects/NCJDXMDO)  
+[MiniNDP M10_36 PCB @ OSHPark](https://oshpark.com/shared_projects/cUKKxHAa)  
 Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl) -- [M10 Cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindpm10-cover_p657.php)
 
 ## [Other Versions](MiniNDP_variants.md)  
