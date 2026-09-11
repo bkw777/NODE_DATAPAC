@@ -158,16 +158,18 @@ module main_shell() {
 
 }
 
-difference() {
-  dcw = outer_width+2;
-  dcd = outer_length+2;
-  dch = outer_height*2+2;
-  main_shell();
-  if ($preview) {
-    if (DEBUG_X) translate([debug_cut_x,-dcd/2,-dch/2]) cube([dcw/2-debug_cut_x,dcd,dch]);
-    if (DEBUG_Y) translate([-dcw/2,debug_cut_y,-dch/2]) cube([dcw,dcd/2-debug_cut_y,dch]);
+module Cover () {
+  difference() {
+    dcw = outer_width+2;
+    dcd = outer_length+2;
+    dch = outer_height*2+2;
+    main_shell();
+    if ($preview) {
+      if (DEBUG_X) translate([debug_cut_x,-dcd/2,-dch/2]) cube([dcw/2-debug_cut_x,dcd,dch]);
+      if (DEBUG_Y) translate([-dcw/2,debug_cut_y,-dch/2]) cube([dcw,dcd/2-debug_cut_y,dch]);
+    }
   }
 }
 
 %pcb_model();
-
+Cover();
