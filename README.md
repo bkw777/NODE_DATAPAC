@@ -385,6 +385,7 @@ BOM: [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 
 ![](PICS/M10/M10_disassembled.jpg)  
 ![](PICS/M10/M10_installed_uncovered.jpg)  
+![](PICS/M10/M10_filler_installed.jpg)  
 ![](PICS/M10/M10_installed_with_cover.jpg)  
 ![](PCB/out/MiniNDP_M10.jpg)  
 ![](PCB/out/MiniNDP_M10.2.jpg)  
