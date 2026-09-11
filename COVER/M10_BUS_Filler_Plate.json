@@ -1,10 +1,6 @@
 {
     "fileFormatVersion": "1",
     "parameterSets": {
-        "New set 1": {
-            "$fa": "1",
-            "$fs": "0.20000000000000001",
-            "Customizer_Note": ""
-        }
+        "New set 1": ""
     }
 }
