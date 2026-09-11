@@ -1,12 +1,11 @@
-/* 3d-printable enclosure for MiniNDP - github.com/bkw777/NODE_DATAPAC */
-// version: 003
+/* Filler plate & connector guide for bus connector on Olivetti M-10
+   https://github.com/bkw777/NODE_DATAPAC
 
-// ------------------------------------------------------------------------------
-// options
+   This has 2 purposes:
+   * prevent off-by-one pin misalingment when installing MiniNDP
+   * fill the opening to take the place of the open door
 
-Customizer_Note = "";
-
-// ------------------------------------------------------------------------------
+ */
 
 plate_width = 61.3;              // 0.1
 plate_depth = 30;                // 0.1
@@ -35,11 +34,17 @@ bd = bus_depth + bc*2;
 bh = bus_height;
 bch = bt + bus_base_chamfer;
 
-//bx = bus_x;
 bx = pw/2-bw/2-bus_x+bc;
 by = bus_y;
 
 finger_pull_width = 19;         // 0.1
+finger_pull_x = 7;              // 0.1
+finger_pull_angle = 30;
+finger_pull_height = 1.5;       // 0.1
+
+inboard_retainer_x_adj = -0.4;  // 0.1
+
+th = bh + ph; // total height
 
 // arc smoothness - comment both out before importing into FreeCAD
 $fs = 0.2;
@@ -50,8 +55,8 @@ e = 0.01; // epsilon
 // ---------------------------------------------------------------
 
 module mirror_copy(v) {
- children();
- mirror(v) children();
+  children();
+  mirror(v) children();
 }
 
 module c4 (w,d,h,r,r1,r2) {
@@ -67,11 +72,12 @@ module c4 (w,d,h,r,r1,r2) {
 
 module M10_bus_filler_plate () {
 
-  th = bh + ph;
-
   difference() {
     group() {
-      
+
+      // the main plate is rounded on the outboard edge
+      // to snap under the lip on that side of the opening
+
       // plate
       hull() {
         // main plate
@@ -84,7 +90,7 @@ module M10_bus_filler_plate () {
       }
       
       // inboard retainer
-      translate([-0.4,0,0])
+      translate([inboard_retainer_x_adj,0,0]) // nudge the whole thing in so the angled wall intersects the vertical at the bottm edge
       hull() {
         l = pd-5;
         translate([pw/2,0,-ph/2])
@@ -123,18 +129,19 @@ module M10_bus_filler_plate () {
         c4(w=bw,d=bd,h=bt,r1=bt+e,r2=0);
 
       // finger pull
-      translate([finger_pull_width/2-pw/2+7,-pd/2,-ph/2])
-        rotate([60,0,0])
+      translate([finger_pull_width/2-pw/2+finger_pull_x,-pd/2,finger_pull_height])
+        rotate([90-finger_pull_angle,0,0])
+        translate([0,-ph,-3])
           hull()
             mirror_copy([1,0,0])
               translate([finger_pull_width/2,0,0])
-                cylinder(h=10,r=ph,center=true);
+                cylinder(h=8,r=ph,center=true);
     }
   }
     
 }
 
+// reorient for printing
 ry = $preview ? 0 : 180 ;
 tz = $preview ? 0 : ph ;
 translate([0,0,tz]) rotate([0,ry,0]) M10_bus_filler_plate();
-
