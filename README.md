@@ -394,9 +394,9 @@ BOM: [MiniNDP_u1M.bom.csv](PCB/out/MiniNDP_u1M.bom.csv)
 ![](PCB/out/MiniNDP_M10.svg)  
 
 BOM: [MiniNDP_M10.bom.csv](PCB/out/MiniNDP_M10.bom.csv)  
-[MiniNDP M10_38 PCB @ OSHPark](https://oshpark.com/shared_projects/Vj3JMWoq)  
+[MiniNDP M10_40 PCB @ OSHPark](https://oshpark.com/shared_projects/pgmxRV8e)  
 Cover for M10: [MiniNDP_Cover_M10.stl](COVER/out/MiniNDP_Cover_M10.stl) -- [M10 Cover @ JawsTec](https://shop.jawstec.com/3d-printed-minindpm10-cover_p657.php)  
-BUS compartment filler plate for M10 [M10_BUS_Filler_Plate.stl](COVER/out/M10_BUS_Filler_Plate.stl)
+Bus connector guide & filler plate for M10 [M10_BUS_Filler_Plate.stl](COVER/out/M10_BUS_Filler_Plate.stl)
 
 ## [Other Versions](MiniNDP_variants.md)  
 [SL1M](MiniNDP_variants.md#sl1m---slim-1-meg) - slim 1 meg, all thin chips to make a thin card  

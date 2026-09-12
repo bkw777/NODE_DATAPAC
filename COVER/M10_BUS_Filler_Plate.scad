@@ -20,12 +20,14 @@ ph = plate_thickness;
 bus_width = 51;                  // 0.1
 bus_depth = 5.1;                 // 0.1
 bus_height = 12;                 // 0.1
-bus_wall_thickness = 2;          // 0.1
+bus_wall_thickness = 1.2;        // 0.1
 bus_fitment_clearance = 1.2;     // 0.1
+// bus connector to door hinge
 bus_x = 3.8;                     // 0.1
+// bus connector offset from center, short direction
 bus_y = 0;                       // 0.1
 bus_base_chamfer = 1.5;          // 0.1
-bus_funnel = 1.5;                // 0.1
+bus_funnel = 1;                  // 0.1
 
 bc = bus_fitment_clearance;
 bt = bus_wall_thickness;
@@ -92,13 +94,12 @@ module M10_bus_filler_plate () {
       // inboard retainer
       translate([inboard_retainer_x_adj,0,0]) // nudge the whole thing in so the angled wall intersects the vertical at the bottm edge
       hull() {
-        l = pd-5;
         translate([pw/2,0,-ph/2])
           rotate([90,0,0])
-            cylinder(h=l,d=ph,center=true);
+            cylinder(h=pd,d=ph,center=true);
         translate([pw/2-ph,0,ph/2])
           rotate([90,0,0])
-            cylinder(h=l,d=ph,center=true);
+            cylinder(h=pd,d=ph,center=true);
       }
 
       // tunnel
@@ -112,7 +113,7 @@ module M10_bus_filler_plate () {
           translate([0,0,-bch+e])
             c4(w=bw,d=bd,h=bch,r1=0,r2=bch);
           // cut the edge off that pokes out the end
-          translate([bch/2+1+bw/2+bt-e,0,0])
+          translate([bch/2+1+pw/2-bx-e,0,0])
             cube([bch+2,bd+bch*2+2,bch+2],center=true);
        }
       }
