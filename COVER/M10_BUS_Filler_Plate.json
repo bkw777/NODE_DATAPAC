@@ -1,6 +1,24 @@
 {
     "fileFormatVersion": "1",
     "parameterSets": {
-        "New set 1": ""
+        "New set 1": {
+            "$fa": "1",
+            "$fs": "0.20000000000000001",
+            "bus_base_chamfer": "1.5",
+            "bus_depth": "5.0999999999999996",
+            "bus_fitment_clearance": "1.2",
+            "bus_height": "12",
+            "bus_width": "51",
+            "bus_x": "3.7999999999999998",
+            "e": "0.01",
+            "finger_pull_angle": "30",
+            "finger_pull_width": "19",
+            "finger_pull_x": "7",
+            "fitment_clearance": "0.20000000000000001",
+            "include_finger_pull": "true",
+            "plate_depth": "30",
+            "plate_thickness": "2",
+            "plate_width": "61.200000000000003"
+        }
     }
 }

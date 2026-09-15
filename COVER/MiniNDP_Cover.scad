@@ -101,7 +101,7 @@ osr =
   //PCB=="M10" ? sr+wall_thickness+ledge :
   sr;
 
-include <lib/handy.scad>;
+use <lib/handy.scad>;
 
 module pcb_model () {
   import(pcb_stl);
@@ -110,7 +110,7 @@ module pcb_model () {
 module main_shell() {
  difference() {
   // add the main outer surface
-  rounded_cube(w=outer_width,d=outer_length,h=outer_height*2,rh=pcb_corner_radius+fc+wall_thickness,rv=osr);
+  rcube([outer_width,outer_length,outer_height*2],rh=pcb_corner_radius+fc+wall_thickness,rv=osr);
 
   union() {
    // cut outer shell in half to leave a (solid) bathtub
@@ -119,12 +119,12 @@ module main_shell() {
 
    // cut the main cavity
    rh = (pcb_corner_radius-ledge<sr) ? sr : pcb_corner_radius-ledge ;
-   rounded_cube(w=pcb_width-ledge*2,d=pcb_length-ledge*2,h=inner_height*2,rh=rh,rv=sr);
+   rcube([pcb_width-ledge*2,pcb_length-ledge*2,inner_height*2],rh=rh,rv=sr);
 
    // cut the pcb tray
    cz = inner_height + lip;
    translate([0,0,-cz/2+pcb_thickness+fc])
-    rounded_cube(w=inner_width,d=inner_length,h=cz,rh=pcb_corner_radius+fc,rv=fc);
+    rcube([inner_width,inner_length,cz],rh=pcb_corner_radius+fc,rv=fc);
   }
  }
  
